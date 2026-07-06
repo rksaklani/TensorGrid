@@ -7,21 +7,21 @@ Labelbox Integration
 
 `Labelbox <https://labelbox.com/>`_ is one of the most popular cloud-based
 image and video annotation tools available, and we've made it easy to upload
-your data directly from FiftyOne to Labelbox for labeling.
+your data directly from TensorGrid to Labelbox for labeling.
 
 You can create a `free Labelbox account <https://app.labelbox.com/signin>`_ to
-upload and annotate raw data in the user-friendly Labelbox editor. FiftyOne
+upload and annotate raw data in the user-friendly Labelbox editor. TensorGrid
 provides :ref:`simple setup instructions <labelbox-setup>` that you can use to
 specify the necessary API key and server endpoint to use.
 
 .. note::
 
     Did you know? You can request, manage, and import annotations from within
-    the FiftyOne App by installing the
-    `@voxel51/annotation <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/annotation>`_
+    the TensorGrid App by installing the
+    `@voxel51/annotation <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/annotation>`_
     plugin!
 
-FiftyOne provides an API to create projects, upload data, define label schemas,
+TensorGrid provides an API to create projects, upload data, define label schemas,
 and download annotations using Labelbox, all programmatically in Python. All of
 the following label types are supported, for both image and video datasets:
 
@@ -42,28 +42,28 @@ the following label types are supported, for both image and video datasets:
 Basic recipe
 ____________
 
-The basic workflow to use Labelbox to add or edit labels on your FiftyOne
+The basic workflow to use Labelbox to add or edit labels on your TensorGrid
 datasets is as follows:
 
-1) :ref:`Load a dataset <importing-datasets>` into FiftyOne
+1) :ref:`Load a dataset <importing-datasets>` into TensorGrid
 
 2) Explore the dataset using the :ref:`App <fiftyone-app>` or
    :ref:`dataset views <using-views>` to locate either unlabeled samples that
    you wish to annotate or labeled samples whose annotations you want to edit
 
 3) Use the
-   :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+   :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
    method on your dataset or view to upload the samples and optionally their
    existing labels to Labelbox by setting the parameter `backend="labelbox"`
 
 4) In Labelbox, perform the necessary annotation work
 
-5) Back in FiftyOne, load your dataset and use the
-   :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
-   method to merge the annotations back into your FiftyOne dataset
+5) Back in TensorGrid, load your dataset and use the
+   :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
+   method to merge the annotations back into your TensorGrid dataset
 
 6) If desired, delete the Labelbox tasks and the record of the annotation run
-   from your FiftyOne dataset
+   from your TensorGrid dataset
 
 |br|
 The example below demonstrates this workflow.
@@ -89,11 +89,11 @@ First, we create the annotation tasks in Labelbox:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
-    # Step 1: Load your data into FiftyOne
+    # Step 1: Load your data into TensorGrid
 
     dataset = foz.load_zoo_dataset(
         "quickstart", dataset_name="lb-annotation-example"
@@ -147,16 +147,16 @@ First, we create the annotation tasks in Labelbox:
     # Step 4: Perform annotation in Labelbox and save the tasks
 
 Then, once the annotation work is complete, we merge the annotations back into
-FiftyOne:
+TensorGrid:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     anno_key = "labelbox_basic_recipe"
 
-    # Step 5: Merge annotations back into FiftyOne dataset
+    # Step 5: Merge annotations back into TensorGrid dataset
 
     dataset = fo.load_dataset("lb-annotation-example")
     dataset.load_annotations(anno_key)
@@ -171,7 +171,7 @@ FiftyOne:
     results = dataset.load_annotation_results(anno_key)
     results.cleanup()
 
-    # Delete run record (not the labels) from FiftyOne
+    # Delete run record (not the labels) from TensorGrid
     dataset.delete_annotation_run(anno_key)
 
 .. note::
@@ -184,7 +184,7 @@ FiftyOne:
 Setup
 _____
 
-FiftyOne supports both
+TensorGrid supports both
 `standard Labelbox cloud accounts <https://app.labelbox.com/signin>`_  and
 `on-premise Labelbox deployments <https://docs.labelbox.com/docs/labelbox-on-premises>`_.
 
@@ -206,11 +206,11 @@ Using the Labelbox backend
 --------------------------
 
 By default, calling
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` will
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` will
 use the :ref:`CVAT backend <cvat-integration>`.
 
 To use the Labelbox backend, simply set the optional `backend` parameter of
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` to
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` to
 `"labelbox"`:
 
 .. code:: python
@@ -218,7 +218,7 @@ To use the Labelbox backend, simply set the optional `backend` parameter of
 
     view.annotate(anno_key, backend="labelbox", ...)
 
-Alternatively, you can permanently configure FiftyOne to use the Labelbox
+Alternatively, you can permanently configure TensorGrid to use the Labelbox
 backend by setting the `FIFTYONE_ANNOTATION_DEFAULT_BACKEND` environment
 variable:
 
@@ -246,13 +246,13 @@ can be done in a variety of ways.
 
 The recommended way to configure your Labelbox API key is to store it in the
 `FIFTYONE_LABELBOX_API_KEY` environment variable. This is automatically
-accessed by FiftyOne whenever a connection to Labelbox is made.
+accessed by TensorGrid whenever a connection to Labelbox is made.
 
 .. code-block:: shell
 
     export FIFTYONE_LABELBOX_API_KEY=...
 
-**FiftyOne annotation config**
+**TensorGrid annotation config**
 
 You can also store your credentials in your
 :ref:`annotation config <annotation-config>` located at
@@ -274,8 +274,8 @@ Note that this file will not exist until you create it.
 
 You can manually provide your API key as a keyword argument each time you call
 methods like
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` and
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` and
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
 that require connections to Labelbox:
 
 .. code:: python
@@ -340,7 +340,7 @@ you can configure the URL of your server in any of the following ways:
     }
 
 -   Pass the `url` parameter manually each time you call
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`:
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`:
 
 .. code:: python
     :linenos:
@@ -359,7 +359,7 @@ Requesting annotations
 ______________________
 
 Use the
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` method
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` method
 to send the samples and optionally existing labels in a |Dataset| or
 |DatasetView| to Labelbox for annotation.
 
@@ -373,21 +373,21 @@ The basic syntax is:
 
 The `anno_key` argument defines a unique identifier for the annotation run, and
 you will provide it to methods like
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`,
-:meth:`get_annotation_info() <fiftyone.core.collections.SampleCollection.load_annotations>`,
-:meth:`load_annotation_results() <fiftyone.core.collections.SampleCollection.load_annotation_results>`,
-:meth:`rename_annotation_run() <fiftyone.core.collections.SampleCollection.rename_annotation_run>`, and
-:meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
+:meth:`get_annotation_info() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
+:meth:`load_annotation_results() <tensorgrid.core.collections.SampleCollection.load_annotation_results>`,
+:meth:`rename_annotation_run() <tensorgrid.core.collections.SampleCollection.rename_annotation_run>`, and
+:meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
 to manage the run in the future.
 
 .. note::
 
     Calling
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
     will upload the source media files to the Labelbox server.
 
 In addition,
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
 provides various parameters that you can use to customize the annotation tasks
 that you wish to be performed.
 
@@ -395,8 +395,8 @@ The following parameters are supported by all annotation backends:
 
 -   **backend** (*None*): the annotation backend to use. Use `"labelbox"` for
     the Labelbox backend. The supported values are
-    `fiftyone.annotation_config.backends.keys()` and the default is
-    `fiftyone.annotation_config.default_backend`
+    `tensorgrid.annotation_config.backends.keys()` and the default is
+    `tensorgrid.annotation_config.default_backend`
 -   **media_field** (*"filepath"*): the sample field containing the path to the
     source media to upload
 -   **launch_editor** (*False*): whether to launch the annotation backend's
@@ -420,13 +420,13 @@ details:
         |Classifications| fields
     -   ``"detections"``: object detections stored in |Detections| fields
     -   ``"instances"``: instance segmentations stored in |Detections| fields
-        with their :attr:`mask <fiftyone.core.labels.Detection.mask>`
+        with their :attr:`mask <tensorgrid.core.labels.Detection.mask>`
         attributes populated
     -   ``"polylines"``: polylines stored in |Polylines| fields with their
-        :attr:`filled <fiftyone.core.labels.Polyline.filled>` attributes set to
+        :attr:`filled <tensorgrid.core.labels.Polyline.filled>` attributes set to
         `False`
     -   ``"polygons"``: polygons stored in |Polylines| fields with their
-        :attr:`filled <fiftyone.core.labels.Polyline.filled>` attributes set to
+        :attr:`filled <tensorgrid.core.labels.Polyline.filled>` attributes set to
         `True`
     -   ``"keypoints"``: keypoints stored in |Keypoints| fields
     -   ``"segmentation"``: semantic segmentations stored in |Segmentation|
@@ -478,11 +478,11 @@ details:
 
 |br|
 In addition, the following Labelbox-specific parameters from
-:class:`LabelboxBackendConfig <fiftyone.utils.labelbox.LabelboxBackendConfig>`
+:class:`LabelboxBackendConfig <tensorgrid.utils.labelbox.LabelboxBackendConfig>`
 can also be provided:
 
 -   **project_name** (*None*): a name for the Labelbox project that will be
-    created. The default is `"FiftyOne_<dataset_name>"`
+    created. The default is `"TensorGrid_<dataset_name>"`
 -   **members** (None): an optional list of `(email, role)` tuples specifying
     the email addresses and roles of users to add to the project. If a user is
     not a member of the project's organization, an email invitation will be
@@ -507,12 +507,12 @@ Label schema
 
 The `label_schema`, `label_field`, `label_type`, `classes`, `attributes`, and
 `mask_targets` parameters to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` allow
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` allow
 you to define the annotation schema that you wish to be used.
 
 The label schema may define new label field(s) that you wish to populate, and
 it may also include existing label field(s), in which case you can add, delete,
-or edit the existing labels on your FiftyOne dataset.
+or edit the existing labels on your TensorGrid dataset.
 
 The `label_schema` argument is the most flexible way to define how to construct
 tasks in Labelbox. In its most verbose form, it is a dictionary that defines
@@ -625,8 +625,8 @@ individually:
 
 When you are annotating existing label fields, you can omit some of these
 parameters from
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`, as
-FiftyOne can infer the appropriate values to use:
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`, as
+TensorGrid can infer the appropriate values to use:
 
 -   **label_type**: if omitted, the |Label| type of the field will be used to
     infer the appropriate value for this parameter
@@ -634,8 +634,8 @@ FiftyOne can infer the appropriate values to use:
     to construct a classes list
 -   **mask_targets**: if omitted for a semantic segmentation field, the mask
     targets from the
-    :meth:`mask_targets <fiftyone.core.dataset.Dataset.mask_targets>` or
-    :meth:`default_mask_targets <fiftyone.core.dataset.Dataset.default_mask_targets>`
+    :meth:`mask_targets <tensorgrid.core.dataset.Dataset.mask_targets>` or
+    :meth:`default_mask_targets <tensorgrid.core.dataset.Dataset.default_mask_targets>`
     properties of your dataset will be used, if available
 
 .. note::
@@ -762,8 +762,8 @@ ___________________
 
 After your annotations tasks in the annotation backend are complete, you can
 use the
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
-method to download them and merge them back into your FiftyOne dataset.
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
+method to download them and merge them back into your TensorGrid dataset.
 
 .. code:: python
     :linenos:
@@ -772,15 +772,15 @@ method to download them and merge them back into your FiftyOne dataset.
 
 The `anno_key` parameter is the unique identifier for the annotation run that
 you provided when calling
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`. You
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`. You
 can use
-:meth:`list_annotation_runs() <fiftyone.core.collections.SampleCollection.list_annotation_runs>`
+:meth:`list_annotation_runs() <tensorgrid.core.collections.SampleCollection.list_annotation_runs>`
 to see the available keys on a dataset.
 
 .. note::
 
     By default, calling
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
     will not delete any information for the run from the annotation backend.
 
     However, you can pass `cleanup=True` to delete all information associated
@@ -801,11 +801,11 @@ dictionary mapping label schema field names to destination field names.
 Managing annotation runs
 ________________________
 
-FiftyOne provides a variety of methods that you can use to manage in-progress
+TensorGrid provides a variety of methods that you can use to manage in-progress
 or completed annotation runs.
 
 For example, you can call
-:meth:`list_annotation_runs() <fiftyone.core.collections.SampleCollection.list_annotation_runs>`
+:meth:`list_annotation_runs() <tensorgrid.core.collections.SampleCollection.list_annotation_runs>`
 to see the available annotation keys on a dataset:
 
 .. code:: python
@@ -814,7 +814,7 @@ to see the available annotation keys on a dataset:
     dataset.list_annotation_runs()
 
 Or, you can use
-:meth:`get_annotation_info() <fiftyone.core.collections.SampleCollection.get_annotation_info>`
+:meth:`get_annotation_info() <tensorgrid.core.collections.SampleCollection.get_annotation_info>`
 to retrieve information about the configuration of an annotation run:
 
 .. code:: python
@@ -823,11 +823,11 @@ to retrieve information about the configuration of an annotation run:
     info = dataset.get_annotation_info(anno_key)
     print(info)
 
-Use :meth:`load_annotation_results() <fiftyone.core.collections.SampleCollection.load_annotation_results>`
-to load the :class:`AnnotationResults <fiftyone.utils.annotations.AnnotationResults>`
+Use :meth:`load_annotation_results() <tensorgrid.core.collections.SampleCollection.load_annotation_results>`
+to load the :class:`AnnotationResults <tensorgrid.utils.annotations.AnnotationResults>`
 instance for an annotation run.
 
-All results objects provide a :class:`cleanup() <fiftyone.utils.annotations.AnnotationResults.cleanup>`
+All results objects provide a :class:`cleanup() <tensorgrid.utils.annotations.AnnotationResults.cleanup>`
 method that you can use to delete all information associated with a run from
 the annotation backend.
 
@@ -838,12 +838,12 @@ the annotation backend.
     results.cleanup()
 
 In addition, the
-:class:`AnnotationResults <fiftyone.utils.annotations.AnnotationResults>`
+:class:`AnnotationResults <tensorgrid.utils.annotations.AnnotationResults>`
 subclasses for each backend may provide additional utilities such as support
 for programmatically monitoring the status of the annotation tasks in the run.
 
 You can use
-:meth:`rename_annotation_run() <fiftyone.core.collections.SampleCollection.rename_annotation_run>`
+:meth:`rename_annotation_run() <tensorgrid.core.collections.SampleCollection.rename_annotation_run>`
 to rename the annotation key associated with an existing annotation run:
 
 .. code:: python
@@ -852,8 +852,8 @@ to rename the annotation key associated with an existing annotation run:
     dataset.rename_annotation_run(anno_key, new_anno_key)
 
 Finally, you can use
-:meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
-to delete the record of an annotation run from your FiftyOne dataset:
+:meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
+to delete the record of an annotation run from your TensorGrid dataset:
 
 .. code:: python
     :linenos:
@@ -863,10 +863,10 @@ to delete the record of an annotation run from your FiftyOne dataset:
 .. note::
 
     Calling
-    :meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
-    only deletes the **record** of the annotation run from your FiftyOne
+    :meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
+    only deletes the **record** of the annotation run from your TensorGrid
     dataset; it will not delete any annotations loaded onto your dataset via
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`,
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
     nor will it delete any associated information from the annotation backend.
 
 .. _labelbox-examples:
@@ -875,7 +875,7 @@ Examples
 ________
 
 This section demonstrates how to perform some common annotation workflows on a
-FiftyOne dataset using the Labelbox backend.
+TensorGrid dataset using the Labelbox backend.
 
 .. note::
 
@@ -889,14 +889,14 @@ Adding new label fields
 
 In order to annotate a new label field, you can provide the `label_field`,
 `label_type`, and `classes` parameters to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` to
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` to
 define the annotation schema for the field:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -924,8 +924,8 @@ labeling task:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -962,7 +962,7 @@ Editing labels with a free Labelbox account
 -------------------------------------------
 
 A common use case is to fix annotation mistakes that you discovered in your
-datasets through FiftyOne.
+datasets through TensorGrid.
 
 If you have a paid Labelbox account with access to Labelbox's
 `Model Assisted Labeling <https://docs.labelbox.com/docs/model-assisted-labeling>`_
@@ -972,15 +972,15 @@ recommended workflow for editing existing labels.
 For free Labelbox users, one possible workflow for editing existing labels is
 the following:
 
--   :ref:`Tag the labels <app-tagging>` that need editing in FiftyOne
--   Use FiftyOne to construct the label schema for the existing label field
+-   :ref:`Tag the labels <app-tagging>` that need editing in TensorGrid
+-   Use TensorGrid to construct the label schema for the existing label field
 -   Upload the samples containing the tagged labels to Labelbox using
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
     using a new (temporary) label field to hold the edited labels
 -   Perform the annotation work in Labelbox, and download the results
--   Use the FiftyOne App to compare the newly loaded labels with the previously
+-   Use the TensorGrid App to compare the newly loaded labels with the previously
     tagged labels to make sure you're happy with the edits
--   Use :meth:`merge_labels() <fiftyone.core.collections.SampleCollection.merge_labels>`
+-   Use :meth:`merge_labels() <tensorgrid.core.collections.SampleCollection.merge_labels>`
     to merge edits into the original label field and then delete the tagged
     labels that you edited
 
@@ -989,8 +989,8 @@ The example snippet below demonstrates this workflow:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1076,8 +1076,8 @@ fields at once:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1125,7 +1125,7 @@ Configuring Labelbox projects
 
 When using the Labelbox backend, you can provide the optional `project_name`
 and `members` parameters to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` to
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` to
 configure the Labelbox project that is created.
 
 The `members` parameter can contain a list of `(email, role)` tuples defining
@@ -1143,8 +1143,8 @@ an email invitation will be sent to them.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(5)
@@ -1181,7 +1181,7 @@ Scalar labels
 -------------
 
 |Label| fields are the preferred way to store information for common tasks such
-as classification and detection in your FiftyOne datasets. However, you can
+as classification and detection in your TensorGrid datasets. However, you can
 also store Labelbox annotations in scalar fields of type `float`, `int`, `str`,
 or  `bool`.
 
@@ -1196,8 +1196,8 @@ must enter the appropriate scalar in the `value` attribute of the tag.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1243,9 +1243,9 @@ may have a dataset with personal information like faces or license plates that
 must be anonymized before uploading for annotation.
 
 The recommended approach in this case is to store the alternative media files
-for each sample on disk and record these paths in a new field of your FiftyOne
+for each sample on disk and record these paths in a new field of your TensorGrid
 dataset. You can then specify this field via the `media_field` parameter of
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`.
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`.
 
 For example, let's upload some blurred images to Labelbox for annotation:
 
@@ -1255,8 +1255,8 @@ For example, let's upload some blurred images to Labelbox for annotation:
     import os
     import cv2
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1321,8 +1321,8 @@ be set to `False` to provide this functionality.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1355,14 +1355,14 @@ Annotating videos
 _________________
 
 You can annotate for video datasets using the Labelbox backend through the
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
 method.
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video")
     view = dataset.take(1)
@@ -1396,7 +1396,7 @@ method.
 .. note::
 
     Prepend `"frames."` to reference frame-level fields when calling
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`.
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`.
 
 .. image:: /images/integrations/labelbox_video.png
    :alt: labelbox-video
@@ -1409,9 +1409,9 @@ ____________________
 
 You can perform additional Labelbox-specific operations to monitor the progress
 of an annotation project initiated by
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` via
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` via
 the returned
-:class:`LabelboxAnnotationResults <fiftyone.utils.labelbox.LabelboxAnnotationResults>`
+:class:`LabelboxAnnotationResults <tensorgrid.utils.labelbox.LabelboxAnnotationResults>`
 instance.
 
 The sections below highlight some common actions that you may want to perform.
@@ -1422,17 +1422,17 @@ Viewing project status
 ----------------------
 
 You can use the
-:meth:`get_status() <fiftyone.utils.labelbox.LabelboxAnnotationResults.get_status>`
+:meth:`get_status() <tensorgrid.utils.labelbox.LabelboxAnnotationResults.get_status>`
 and
-:meth:`print_status() <fiftyone.utils.labelbox.LabelboxAnnotationResults.print_status>`
+:meth:`print_status() <tensorgrid.utils.labelbox.LabelboxAnnotationResults.print_status>`
 methods to get information about the current status of the project for that
 annotation run:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(3)
@@ -1456,7 +1456,7 @@ annotation run:
 
 .. code-block:: text
 
-    Project: FiftyOne_quickstart
+    Project: TensorGrid_quickstart
     ID: cktixtv70e8zm0yba501v0ltz
     Created at: 2021-09-13 17:46:21+00:00
     Updated at: 2021-09-13 17:46:24+00:00
@@ -1485,17 +1485,17 @@ Deleting projects
 -----------------
 
 You can use
-:meth:`delete_project() <fiftyone.utils.labelbox.LabelboxAnnotationAPI.delete_project>`
+:meth:`delete_project() <tensorgrid.utils.labelbox.LabelboxAnnotationAPI.delete_project>`
 or
-:meth:`delete_projects() <fiftyone.utils.labelbox.LabelboxAnnotationAPI.delete_projects>`
+:meth:`delete_projects() <tensorgrid.utils.labelbox.LabelboxAnnotationAPI.delete_projects>`
 methods to delete specific Labelbox project(s) associated with an annotation
 run.
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)

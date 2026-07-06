@@ -1,11 +1,11 @@
 .. _environments:
 
-FiftyOne Environments
+TensorGrid Environments
 =====================
 
 .. default-role:: code
 
-This guide describes best practices for using FiftyOne with data stored in
+This guide describes best practices for using TensorGrid with data stored in
 various environments, including local machines, remote servers, and cloud
 storage.
 
@@ -42,7 +42,7 @@ can directly :ref:`load a dataset <importing-datasets>` and then
     :linenos:
 
     # On local machine
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset("my-dataset")
 
@@ -50,7 +50,7 @@ can directly :ref:`load a dataset <importing-datasets>` and then
 
 From here, you can explore the dataset interactively from the App and from your
 Python shell by manipulating the
-:class:`session object <fiftyone.core.session.Session>`.
+:class:`session object <tensorgrid.core.session.Session>`.
 
 .. note::
 
@@ -62,14 +62,14 @@ Python shell by manipulating the
 Remote data
 ___________
 
-FiftyOne supports working with data that is stored on a remote machine that you
+TensorGrid supports working with data that is stored on a remote machine that you
 have `ssh` access to. The basic workflow is to load a dataset on the remote
-machine via the FiftyOne Python library, launch a
+machine via the TensorGrid Python library, launch a
 :ref:`remote session <remote-session>`, and connect to the session on your
 local machine where you can then interact with the App.
 
 First, `ssh` into your remote machine and
-:ref:`install FiftyOne <installing-fiftyone>` if necessary.
+:ref:`install TensorGrid <installing-fiftyone>` if necessary.
 
 Then :ref:`load a dataset <importing-datasets>` using Python on the remote
 machine and launch a remote session:
@@ -78,7 +78,7 @@ machine and launch a remote session:
     :linenos:
 
     # On remote machine
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset(...)
 
@@ -110,14 +110,14 @@ to, `XXXX` refers to the port that you chose when you launched the session on
 your remote machine (the default is 5151), and `5151` specifies the local port
 to use to connect to the App (and can be customized).
 
-Alternatively, if you have FiftyOne installed on your local machine, you can
+Alternatively, if you have TensorGrid installed on your local machine, you can
 :ref:`use the CLI <cli-fiftyone-app-connect>` to automatically configure port
 forwarding and open the App in your browser as follows:
 
 .. code-block:: shell
 
     # On local machine
-    fiftyone app connect --destination [<username>@]<hostname>
+    tensorgrid app connect --destination [<username>@]<hostname>
 
 If you choose a custom port `XXXX` on the remote machine, add a ``--port XXXX``
 flag to the above command.
@@ -135,7 +135,7 @@ to the above command.
 
     If you use ssh keys to connect to your remote machine, you can use the
     optional `--ssh-key` argument of the
-    :ref:`fiftyone app connect <cli-fiftyone-app-connect>` command.
+    :ref:`tensorgrid app connect <cli-fiftyone-app-connect>` command.
 
     However, if you are using this key regularly,
     `it is recommended <https://unix.stackexchange.com/a/494485>`_ to add it
@@ -148,7 +148,7 @@ Restricting the App address
 
 By default, the App will listen on `localhost`. However, you can provide the
 optional `address` parameter to
-:meth:`launch_app() <fiftyone.core.session.launch_app>` to specify a particular
+:meth:`launch_app() <tensorgrid.core.session.launch_app>` to specify a particular
 IP address or hostname for the App to listen on.
 
 Using the default of `localhost` means the App can only be accessed from the
@@ -163,7 +163,7 @@ from any remote resource with access to your network.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset(...)
 
@@ -171,7 +171,7 @@ from any remote resource with access to your network.
     session = fo.launch_app(dataset, remote=True, address="0.0.0.0")
 
 If desired, you can permanently configure an App address by setting the
-`default_app_address` of your :ref:`FiftyOne config <configuring-fiftyone>`.
+`default_app_address` of your :ref:`TensorGrid config <configuring-fiftyone>`.
 You can achieve this by adding the following entry to your
 `~/.fiftyone/config.json` file:
 
@@ -219,7 +219,7 @@ you control and trust.
 Notebooks
 _________
 
-FiftyOne officially supports `Jupyter Notebooks <https://jupyter.org>`_,
+TensorGrid officially supports `Jupyter Notebooks <https://jupyter.org>`_,
 `Google Colab Notebooks <https://colab.research.google.com>`_,
 `Databricks Notebooks <https://docs.databricks.com/en/notebooks/index.html>`_.
 App support is also available in
@@ -227,20 +227,20 @@ App support is also available in
 cloud notebook that has an accessible network proxy via configured
 :ref:`proxy_url <configuring-proxy-url>`.
 
-To use FiftyOne in a notebook, simply install `fiftyone` via `pip`:
+To use TensorGrid in a notebook, simply install `tensorgrid` via `pip`:
 
 .. code-block:: text
 
-    !pip install fiftyone
+    !pip install tensorgrid-platform
 
 and load datasets as usual. When you run
-:meth:`launch_app() <fiftyone.core.session.launch_app>` in a notebook, an App
+:meth:`launch_app() <tensorgrid.core.session.launch_app>` in a notebook, an App
 window will be opened in the output of your current cell.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset("my-dataset")
 
@@ -248,8 +248,8 @@ window will be opened in the output of your current cell.
     session = fo.launch_app(dataset)
 
 Any time you update the state of your ``session`` object; e.g., by setting
-:meth:`session.dataset <fiftyone.core.session.Session.dataset>` or
-:meth:`session.view <fiftyone.core.session.Session.view>`, a new App window
+:meth:`session.dataset <tensorgrid.core.session.Session.dataset>` or
+:meth:`session.view <tensorgrid.core.session.Session.view>`, a new App window
 will be automatically opened in the output of the current cell. The previously
 active App will be "frozen", i.e., replaced with a screenshot of its current
 state.
@@ -273,7 +273,7 @@ To reactivate an App instance from a previous session, e.g., when running a
 notebook downloaded from the web for the first time, you must (re)run the cell.
 
 You can manually replace the active App instance with a screenshot by calling
-:meth:`session.freeze() <fiftyone.core.session.Session.freeze>`. This is
+:meth:`session.freeze() <tensorgrid.core.session.Session.freeze>`. This is
 useful when you are finished with your notebook and ready to share it with
 others, as an active App instance itself cannot be viewed outside of the
 current notebook session.
@@ -289,7 +289,7 @@ Manually controlling App instances
 
 If you would like to manually control when new App instances are created in a
 notebook, you can pass the ``auto=False`` flag to
-:meth:`launch_app() <fiftyone.core.session.launch_app>`:
+:meth:`launch_app() <tensorgrid.core.session.launch_app>`:
 
 .. code-block:: python
     :linenos:
@@ -298,7 +298,7 @@ notebook, you can pass the ``auto=False`` flag to
     session = fo.launch_app(dataset, auto=False)
 
 When ``auto=False`` is provided, a new App window is created only when you call
-:meth:`session.show() <fiftyone.core.session.Session.show>`:
+:meth:`session.show() <tensorgrid.core.session.Session.show>`:
 
 .. code-block:: python
     :linenos:
@@ -316,7 +316,7 @@ it will stay in-sync with your session whenever it is active.
 
 .. note::
 
-    If you run :meth:`session.show() <fiftyone.core.session.Session.show>` in
+    If you run :meth:`session.show() <tensorgrid.core.session.Session.show>` in
     multiple cells, only the most recently created App window will be active,
     i.e., synced with the ``session`` object.
 
@@ -333,9 +333,9 @@ If you are working from a Jupyter notebook, you can open the App in a separate
 browser tab rather than working with it in cell output(s).
 
 To do this, pass the ``auto=False`` flag to
-:meth:`launch_app() <fiftyone.core.session.launch_app>` when you launch the
+:meth:`launch_app() <tensorgrid.core.session.launch_app>` when you launch the
 App (so that additional App instances will not be created as you work) and then
-call :meth:`session.open_tab() <fiftyone.core.session.Session.open_tab>`:
+call :meth:`session.open_tab() <tensorgrid.core.session.Session.open_tab>`:
 
 .. code-block:: python
     :linenos:
@@ -374,7 +374,7 @@ a local port (we'll also use `XXXX` here, for consistency):
 
 Now open ``localhost:XXXX`` in your browser and you should find your notebook!
 
-If your notebook launches the :ref:`FiftyOne App <fiftyone-app>`, you will also
+If your notebook launches the :ref:`TensorGrid App <fiftyone-app>`, you will also
 need to forward the port used by the App to your local machine. By default,
 the App uses port `5151`, but you can :ref:`specify any port <remote-data>`,
 say `YYYY`, not currently in use on your remote machine:
@@ -386,7 +386,7 @@ say `YYYY`, not currently in use on your remote machine:
 
 **In your Jupyter notebook:**
 
-When you launch the :ref:`FiftyOne App <fiftyone-app>` in your notebook, you
+When you launch the :ref:`TensorGrid App <fiftyone-app>` in your notebook, you
 should now see the App as expected!
 
 .. code:: python
@@ -411,10 +411,10 @@ Note that you can also open the App
 Docker
 ______
 
-The FiftyOne repository contains a
-`Dockerfile <https://github.com/voxel51/fiftyone/blob/develop/Dockerfile>`_
+The TensorGrid repository contains a
+`Dockerfile <https://github.com/rksaklani/TensorGrid/blob/develop/Dockerfile>`_
 that you can use/customize to build and run Docker images containing source
-or release builds of FiftyOne.
+or release builds of TensorGrid.
 
 Building an image
 ~~~~~~~~~~~~~~~~~
@@ -423,24 +423,24 @@ First, clone the repository:
 
 .. code:: shell
 
-    git clone https://github.com/voxel51/fiftyone
-    cd fiftyone
+    git clone https://github.com/rksaklani/TensorGrid
+    cd tensorgrid
 
-If you want a source install of FiftyOne, then build a wheel:
+If you want a source install of TensorGrid, then build a wheel:
 
 .. code:: shell
 
     make python
 
-If you want to install a FiftyOne release, then make the suggested modification
+If you want to install a TensorGrid release, then make the suggested modification
 in the
-`Dockerfile <https://github.com/voxel51/fiftyone/blob/develop/Dockerfile>`_.
+`Dockerfile <https://github.com/rksaklani/TensorGrid/blob/develop/Dockerfile>`_.
 
 Next, build the image:
 
 .. code:: shell
 
-    docker build -t voxel51/fiftyone .
+    docker build -t voxel51/tensorgrid .
 
 The default image uses Python 3.11, but you can customize these
 via optional build arguments:
@@ -449,16 +449,16 @@ via optional build arguments:
 
     docker build \
         --build-arg PYTHON_VERSION=3.10 \
-        -t voxel51/fiftyone .
+        -t voxel51/tensorgrid .
 
 Refer to the
-`Dockerfile <https://github.com/voxel51/fiftyone/blob/develop/Dockerfile>`_ for
+`Dockerfile <https://github.com/rksaklani/TensorGrid/blob/develop/Dockerfile>`_ for
 additional Python packages that you may wish to include in your build.
 
 Running an image
 ~~~~~~~~~~~~~~~~
 
-The image is designed to persist all data in a single `/fiftyone` directory
+The image is designed to persist all data in a single `/tensorgrid` directory
 with the following organization:
 
 .. code:: text
@@ -470,29 +470,29 @@ with the following organization:
             datasets/   # FIFTYONE_DATASET_ZOO_DIR
             models/     # FIFTYONE_MODEL_ZOO_DIR
 
-Therefore, to run a container, you should mount `/fiftyone` as a local volume
+Therefore, to run a container, you should mount `/tensorgrid` as a local volume
 via `--mount` or `-v`, as shown below:
 
 .. code:: shell
 
     SHARED_DIR=/path/to/shared/dir
 
-    docker run -v ${SHARED_DIR}:/fiftyone -p 5151:5151 -it voxel51/fiftyone
+    docker run -v ${SHARED_DIR}:/tensorgrid -p 5151:5151 -it voxel51/tensorgrid
 
 The `-p 5151:5151` option is required so that when you
 :ref:`launch the App <creating-an-app-session>` from within the container you
 can connect to it at http://localhost:5151 in your browser.
 
 You can also include the `-e` or `--env-file` options if you need to further
-:ref:`configure FiftyOne <configuring-fiftyone>`.
+:ref:`configure TensorGrid <configuring-fiftyone>`.
 
 By default, running the image launches an IPython shell, which you can use as
 normal:
 
 .. code:: python
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     session = fo.launch_app(dataset)
@@ -505,7 +505,7 @@ normal:
 
 .. note::
 
-    FiftyOne should automatically detect that it is running inside a Docker
+    TensorGrid should automatically detect that it is running inside a Docker
     container. However, if you are unable to load the App in your browser, you
     may need to manually :ref:`set the App address <restricting-app-address>`
     to `0.0.0.0`:
@@ -534,7 +534,7 @@ Cloud storage
 _____________
 
 For prototyping, it is *possible* to work with data in cloud storage buckets in
-FiftyOne by mounting the buckets as local drives.
+TensorGrid by mounting the buckets as local drives.
 
 The following sections describe how to do this in the :ref:`AWS <aws>`,
 :ref:`Google Cloud <google-cloud>`, and :ref:`Microsoft Azure <azure>`
@@ -546,8 +546,8 @@ environments.
     not recommended or officially supported. It is useful only for prototyping.
 
     Our recommended, scalable approach to work with cloud-backed data is
-    :ref:`FiftyOne Enterprise <fiftyone-enterprise>`, an enterprise deployment of
-    FiftyOne with multiuser collaboration features, native cloud dataset
+    :ref:`TensorGrid Enterprise <fiftyone-enterprise>`, an enterprise deployment of
+    TensorGrid with multiuser collaboration features, native cloud dataset
     support, and much more!
 
 .. _aws:
@@ -568,17 +568,17 @@ The steps below outline the process.
 **Step 2**
 
 Now `ssh into the instance <https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html>`_
-and :ref:`install FiftyOne <installing-fiftyone>` if necessary.
+and :ref:`install TensorGrid <installing-fiftyone>` if necessary.
 
 .. code-block:: shell
 
     # On remote machine
-    pip install fiftyone
+    pip install tensorgrid-platform
 
 .. note::
 
     You may need to :ref:`install some system packages <compute-instance-setup>`
-    on your compute instance instance in order to run FiftyOne.
+    on your compute instance instance in order to run TensorGrid.
 
 **Step 3**
 
@@ -598,7 +598,7 @@ as outlined in the `s3fs-fuse README <https://github.com/s3fs-fuse/s3fs-fuse>`_.
 **Step 4**
 
 Now that you can access your data from the compute instance, start up Python
-and :ref:`create a FiftyOne dataset <importing-datasets>` whose filepaths are in
+and :ref:`create a TensorGrid dataset <importing-datasets>` whose filepaths are in
 the mount point you specified above. Then you can launch the App and work with
 it locally in your browser using :ref:`remote sessions <remote-data>`.
 
@@ -620,17 +620,17 @@ The steps below outline the process.
 **Step 2**
 
 Now `ssh into the instance <https://cloud.google.com/compute/docs/quickstart-linux#connect_to_your_instance>`_
-and :ref:`install FiftyOne <installing-fiftyone>` if necessary.
+and :ref:`install TensorGrid <installing-fiftyone>` if necessary.
 
 .. code-block:: shell
 
     # On remote machine
-    pip install fiftyone
+    pip install tensorgrid-platform
 
 .. note::
 
     You may need to :ref:`install some system packages <compute-instance-setup>`
-    on your compute instance instance in order to run FiftyOne.
+    on your compute instance instance in order to run TensorGrid.
 
 **Step 3**
 
@@ -647,7 +647,7 @@ this:
 **Step 4**
 
 Now that you can access your data from the compute instance, start up Python
-and :ref:`create a FiftyOne dataset <importing-datasets>` whose filepaths are in
+and :ref:`create a TensorGrid dataset <importing-datasets>` whose filepaths are in
 the mount point you specified above. Then you can launch the App and work with
 it locally in your browser using :ref:`remote sessions <remote-data>`.
 
@@ -670,17 +670,17 @@ The steps below outline the process.
 
 Now
 `ssh into the instance <https://docs.microsoft.com/en-us/azure/virtual-machines/linux/quick-create-portal#connect-to-virtual-machine>`_
-and :ref:`install FiftyOne <installing-fiftyone>` if necessary.
+and :ref:`install TensorGrid <installing-fiftyone>` if necessary.
 
 .. code-block:: shell
 
     # On remote machine
-    pip install fiftyone
+    pip install tensorgrid-platform
 
 .. note::
 
     You may need to :ref:`install some system packages <compute-instance-setup>`
-    on your compute instance instance in order to run FiftyOne.
+    on your compute instance instance in order to run TensorGrid.
 
 **Step 3**
 
@@ -692,7 +692,7 @@ You can use `blobfuse <https://github.com/Azure/azure-storage-fuse>`_ for this.
 **Step 4**
 
 Now that you can access your data from the compute instance, start up Python
-and :ref:`create a FiftyOne dataset <importing-datasets>` whose filepaths are in
+and :ref:`create a TensorGrid dataset <importing-datasets>` whose filepaths are in
 the mount point you specified above. Then you can launch the App and work with
 it locally in your browser using :ref:`remote sessions <remote-data>`.
 
@@ -702,11 +702,11 @@ Setting up a cloud instance
 ___________________________
 
 When you create a fresh cloud compute instance, you may need to install some
-system packages in order to install and use FiftyOne.
+system packages in order to install and use TensorGrid.
 
 For example, the script below shows a set of commands that may be used to
 configure a Debian-like Linux instance, after which you should be able to
-successfully :ref:`install FiftyOne <installing-fiftyone>`.
+successfully :ref:`install TensorGrid <installing-fiftyone>`.
 
 .. code-block:: shell
 

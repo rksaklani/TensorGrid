@@ -1,18 +1,18 @@
 .. _configuring-fiftyone:
 
-Configuring FiftyOne
+Configuring TensorGrid
 ====================
 
 .. default-role:: code
 
-FiftyOne can be configured in various ways. This guide covers the various
+TensorGrid can be configured in various ways. This guide covers the various
 options that exist, how to view your current config, and how to customize your
 config as desired.
 
 Configuration options
 ---------------------
 
-FiftyOne supports the configuration options described below:
+TensorGrid supports the configuration options described below:
 
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | Config field                             | Environment variable                            | Default value                 | Description                                                                            |
@@ -23,10 +23,10 @@ FiftyOne supports the configuration options described below:
 | `database_compressor`                    | `FIFTYONE_DATABASE_COMPRESSOR`                  | `None`                        | Optional :ref:`MongoDB network compression <mongodb-network-compression>` to use. The  |
 |                                          |                                                 |                               | supported values are `None`, `zstd`, `zlib`, or `snappy`.                              |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `database_dir`                           | `FIFTYONE_DATABASE_DIR`                         | `~/.fiftyone/var/lib/mongo`   | The directory in which to store FiftyOne's backing database. Only applicable if        |
+| `database_dir`                           | `FIFTYONE_DATABASE_DIR`                         | `~/.fiftyone/var/lib/mongo`   | The directory in which to store TensorGrid's backing database. Only applicable if        |
 |                                          |                                                 |                               | `database_uri` is not defined.                                                         |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `database_name`                          | `FIFTYONE_DATABASE_NAME`                        | `fiftyone`                    | A name to use for FiftyOne's backing database in your MongoDB instance. The database   |
+| `database_name`                          | `FIFTYONE_DATABASE_NAME`                        | `tensorgrid`                    | A name to use for TensorGrid's backing database in your MongoDB instance. The database   |
 |                                          |                                                 |                               | is automatically created if necessary.                                                 |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | `database_uri`                           | `FIFTYONE_DATABASE_URI`                         | `None`                        | A `MongoDB URI <https://docs.mongodb.com/manual/reference/connection-string/>`_ to     |
@@ -36,18 +36,18 @@ FiftyOne supports the configuration options described below:
 | `database_validation`                    | `FIFTYONE_DATABASE_VALIDATION`                  | `True`                        | Whether to validate the compatibility of database before connecting to it. See         |
 |                                          |                                                 |                               | :ref:`this section <configuring-mongodb-connection>` for more information.             |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `dataset_zoo_dir`                        | `FIFTYONE_DATASET_ZOO_DIR`                      | `~/fiftyone`                  | The default directory in which to store datasets that are downloaded from the          |
-|                                          |                                                 |                               | :ref:`FiftyOne Dataset Zoo <dataset-zoo>`.                                             |
+| `dataset_zoo_dir`                        | `FIFTYONE_DATASET_ZOO_DIR`                      | `~/tensorgrid`                  | The default directory in which to store datasets that are downloaded from the          |
+|                                          |                                                 |                               | :ref:`TensorGrid Dataset Zoo <dataset-zoo>`.                                             |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | `dataset_zoo_manifest_paths`             | `FIFTYONE_DATASET_ZOO_MANIFEST_PATHS`           | `None`                        | A list of manifest JSON files specifying additional zoo datasets. See                  |
 |                                          |                                                 |                               | :ref:`adding datasets to the zoo <dataset-zoo-add>` for more information.              |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `default_dataset_dir`                    | `FIFTYONE_DEFAULT_DATASET_DIR`                  | `~/fiftyone`                  | The default directory to use when performing FiftyOne operations that                  |
+| `default_dataset_dir`                    | `FIFTYONE_DEFAULT_DATASET_DIR`                  | `~/tensorgrid`                  | The default directory to use when performing TensorGrid operations that                  |
 |                                          |                                                 |                               | require writing dataset contents to disk, such as ingesting datasets via               |
-|                                          |                                                 |                               | :meth:`ingest_labeled_images() <fiftyone.core.dataset.Dataset.ingest_labeled_images>`. |
+|                                          |                                                 |                               | :meth:`ingest_labeled_images() <tensorgrid.core.dataset.Dataset.ingest_labeled_images>`. |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | `default_ml_backend`                     | `FIFTYONE_DEFAULT_ML_BACKEND`                   | `torch`                       | The default ML backend to use when performing operations such as                       |
-|                                          |                                                 |                               | downloading datasets from the FiftyOne Dataset Zoo that support multiple ML            |
+|                                          |                                                 |                               | downloading datasets from the TensorGrid Dataset Zoo that support multiple ML            |
 |                                          |                                                 |                               | backends. Supported values are `torch` and `tensorflow`. By default,                   |
 |                                          |                                                 |                               | `torch` is used if `PyTorch <https://pytorch.org>`_ is installed in your               |
 |                                          |                                                 |                               | Python environment, and `tensorflow` is used if                                        |
@@ -59,14 +59,14 @@ FiftyOne supports the configuration options described below:
 | `default_batch_size`                     | `FIFTYONE_DEFAULT_BATCH_SIZE`                   | `None`                        | A default batch size to use when :ref:`applying models to datasets <model-zoo-apply>`. |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | `default_batcher`                        | `FIFTYONE_DEFAULT_BATCHER`                      | `latency`                     | Batching implementation to use in some batched database operations such as             |
-|                                          |                                                 |                               | :meth:`add_samples() <fiftyone.core.dataset.Dataset.add_samples>`,                     |
-|                                          |                                                 |                               | :meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`, and      |
-|                                          |                                                 |                               | :meth:`save_context() <fiftyone.core.collections.SampleCollection.save_context>`.      |
+|                                          |                                                 |                               | :meth:`add_samples() <tensorgrid.core.dataset.Dataset.add_samples>`,                     |
+|                                          |                                                 |                               | :meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`, and      |
+|                                          |                                                 |                               | :meth:`save_context() <tensorgrid.core.collections.SampleCollection.save_context>`.      |
 |                                          |                                                 |                               | Supported values are `latency`, `size`, and `static`.                                  |
 |                                          |                                                 |                               |                                                                                        |
 |                                          |                                                 |                               | `latency` is the default, which uses a dynamic batch size to achieve a target latency  |
 |                                          |                                                 |                               | of `batcher_target_latency` between calls. The default changes to `size` for the       |
-|                                          |                                                 |                               | FiftyOne Enterprise SDK in :ref:`API connection mode <enterprise-api-connection>`,     |
+|                                          |                                                 |                               | TensorGrid Enterprise SDK in :ref:`API connection mode <enterprise-api-connection>`,     |
 |                                          |                                                 |                               | which targets a size of `batcher_target_size_bytes` for each call. `static` uses a     |
 |                                          |                                                 |                               | fixed batch size of `batcher_static_size`.                                             |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
@@ -84,9 +84,9 @@ FiftyOne supports the configuration options described below:
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | `default_video_ext`                      | `FIFTYONE_DEFAULT_VIDEO_EXT`                    | `.mp4`                        | The default video format to use when writing videos to disk.                           |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `default_app_port`                       | `FIFTYONE_DEFAULT_APP_PORT`                     | `5151`                        | The default port to use to serve the :ref:`FiftyOne App <fiftyone-app>`.               |
+| `default_app_port`                       | `FIFTYONE_DEFAULT_APP_PORT`                     | `5151`                        | The default port to use to serve the :ref:`TensorGrid App <fiftyone-app>`.               |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `default_app_address`                    | `FIFTYONE_DEFAULT_APP_ADDRESS`                  | `localhost`                   | The default address to use to serve the :ref:`FiftyOne App <fiftyone-app>`. This may   |
+| `default_app_address`                    | `FIFTYONE_DEFAULT_APP_ADDRESS`                  | `localhost`                   | The default address to use to serve the :ref:`TensorGrid App <fiftyone-app>`. This may   |
 |                                          |                                                 |                               | be either an IP address or hostname. If it's a hostname, the App will listen to all    |
 |                                          |                                                 |                               | IP addresses associated with the name. The default is `localhost`, which means the App |
 |                                          |                                                 |                               | will only listen on the local interface. See :ref:`this page <restricting-app-address>`|
@@ -105,13 +105,13 @@ FiftyOne supports the configuration options described below:
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | `do_not_track`                           | `FIFTYONE_DO_NOT_TRACK`                         | `False`                       | Controls whether UUID based import and App usage events are tracked.                   |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `logging_destination`                    | `FIFTYONE_LOGGING_DESTINATION`                  | `stdout`                      | Controls FiftyOne's package-wide logging destination. Can be either ``stdout`` to send |
+| `logging_destination`                    | `FIFTYONE_LOGGING_DESTINATION`                  | `stdout`                      | Controls TensorGrid's package-wide logging destination. Can be either ``stdout`` to send |
 |                                          |                                                 |                               | all logs to stdout, or ``stdout,stderr`` to log errors to stderr and everything below  |
 |                                          |                                                 |                               | an error to stdout.                                                                    |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `logging_format`                         | `FIFTYONE_LOGGING_FORMAT`                       | `text`                        | Controls FiftyOne's package-wide logging format. Can be either ``text`` or ``json``.   |
+| `logging_format`                         | `FIFTYONE_LOGGING_FORMAT`                       | `text`                        | Controls TensorGrid's package-wide logging format. Can be either ``text`` or ``json``.   |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `logging_level`                          | `FIFTYONE_LOGGING_LEVEL`                        | `INFO`                        | Controls FiftyOne's package-wide logging level. Can be any valid ``logging`` level as  |
+| `logging_level`                          | `FIFTYONE_LOGGING_LEVEL`                        | `INFO`                        | Controls TensorGrid's package-wide logging level. Can be any valid ``logging`` level as  |
 |                                          |                                                 |                               | a string: ``DEBUG, INFO, WARNING, ERROR, CRITICAL``.                                   |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | `default_parallelization_method`         | `FIFTYONE_DEFAULT_PARALLELIZATION_METHOD`       | `None`                        | The default parallelization method to use when methods that support parallelism are    |
@@ -129,12 +129,12 @@ FiftyOne supports the configuration options described below:
 | `max_process_pool_workers`               | `FIFTYONE_MAX_PROCESS_POOL_WORKERS`             | `None`                        | A maximum number of workers to allow when creating process pools.                      |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | `model_zoo_dir`                          | `FIFTYONE_MODEL_ZOO_DIR`                        | `~/fiftyone/__models__`       | The default directory in which to store models that are downloaded from the            |
-|                                          |                                                 |                               | :ref:`FiftyOne Model Zoo <model-zoo>`.                                                 |
+|                                          |                                                 |                               | :ref:`TensorGrid Model Zoo <model-zoo>`.                                                 |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | `model_zoo_manifest_paths`               | `FIFTYONE_MODEL_ZOO_MANIFEST_PATHS`             | `None`                        | A list of manifest JSON files specifying additional zoo models. See                    |
 |                                          |                                                 |                               | :ref:`adding models to the zoo <model-zoo-add>` for more information.                  |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `module_path`                            | `FIFTYONE_MODULE_PATH`                          | `None`                        | A list of modules that should be automatically imported whenever FiftyOne is imported. |
+| `module_path`                            | `FIFTYONE_MODULE_PATH`                          | `None`                        | A list of modules that should be automatically imported whenever TensorGrid is imported. |
 |                                          |                                                 |                               | See :ref:`this page <custom-embedded-documents>` for an example usage.                 |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | `operator_timeout`                       | `FIFTYONE_OPERATOR_TIMEOUT`                     | `600`                         | The timeout for execution of an operator. See :ref:`this page <fiftyone-plugins>` for  |
@@ -150,14 +150,14 @@ FiftyOne supports the configuration options described below:
 |                                          |                                                 |                               | This is intended to be used in production.                                             |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
 | `show_progress_bars`                     | `FIFTYONE_SHOW_PROGRESS_BARS`                   | `True`                        | Controls whether progress bars are printed to the terminal when performing             |
-|                                          |                                                 |                               | operations such reading/writing large datasets or activating FiftyOne                  |
+|                                          |                                                 |                               | operations such reading/writing large datasets or activating TensorGrid                  |
 |                                          |                                                 |                               | Brain methods on datasets.                                                             |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `singleton_cache`                        | `FIFTYONE_SINGLETON_CACHE`                      | `True`                        | Whether to treat :class:`Dataset <fiftyone.core.dataset.Dataset>`,                     |
-|                                          |                                                 |                               | :class:`Sample <fiftyone.core.sample.Sample>`, and                                     |
-|                                          |                                                 |                               | :class:`Frame <fiftyone.core.frame.Frame>` instances as singletons.                    |
+| `singleton_cache`                        | `FIFTYONE_SINGLETON_CACHE`                      | `True`                        | Whether to treat :class:`Dataset <tensorgrid.core.dataset.Dataset>`,                     |
+|                                          |                                                 |                               | :class:`Sample <tensorgrid.core.sample.Sample>`, and                                     |
+|                                          |                                                 |                               | :class:`Frame <tensorgrid.core.frame.Frame>` instances as singletons.                    |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
-| `timezone`                               | `FIFTYONE_TIMEZONE`                             | `None`                        | An optional timezone string. If provided, all datetimes read from FiftyOne datasets    |
+| `timezone`                               | `FIFTYONE_TIMEZONE`                             | `None`                        | An optional timezone string. If provided, all datetimes read from TensorGrid datasets    |
 |                                          |                                                 |                               | will be expressed in this timezone. See :ref:`this section <configuring-timezone>` for |
 |                                          |                                                 |                               | more information.                                                                      |
 +------------------------------------------+-------------------------------------------------+-------------------------------+----------------------------------------------------------------------------------------+
@@ -165,7 +165,7 @@ FiftyOne supports the configuration options described below:
 Viewing your config
 -------------------
 
-You can print your current FiftyOne config at any time via the Python library
+You can print your current TensorGrid config at any time via the Python library
 and the CLI:
 
 .. tabs::
@@ -174,7 +174,7 @@ and the CLI:
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # Print your current config
         print(fo.config)
@@ -190,17 +190,17 @@ and the CLI:
             "batcher_target_size_bytes": 1048576,
             "database_admin": true,
             "database_dir": "~/.fiftyone/var/lib/mongo",
-            "database_name": "fiftyone",
+            "database_name": "tensorgrid",
             "database_uri": null,
             "database_validation": true,
-            "dataset_zoo_dir": "~/fiftyone",
+            "dataset_zoo_dir": "~/tensorgrid",
             "dataset_zoo_manifest_paths": null,
             "allowed_origins": null,
             "default_app_address": null,
             "default_app_port": 5151,
             "default_batch_size": null,
             "default_batcher": "latency",
-            "default_dataset_dir": "~/fiftyone",
+            "default_dataset_dir": "~/tensorgrid",
             "default_image_ext": ".jpg",
             "default_ml_backend": "torch",
             "default_parallelization_method": null,
@@ -232,10 +232,10 @@ and the CLI:
     .. code-block:: shell
 
         # Print your current config
-        fiftyone config
+        tensorgrid config
 
         # Print a specific config field
-        fiftyone config default_ml_backend
+        tensorgrid config default_ml_backend
 
     .. code-block:: text
 
@@ -245,17 +245,17 @@ and the CLI:
             "batcher_target_size_bytes": 1048576,
             "database_admin": true,
             "database_dir": "~/.fiftyone/var/lib/mongo",
-            "database_name": "fiftyone",
+            "database_name": "tensorgrid",
             "database_uri": null,
             "database_validation": true,
-            "dataset_zoo_dir": "~/fiftyone",
+            "dataset_zoo_dir": "~/tensorgrid",
             "dataset_zoo_manifest_paths": null,
             "allowed_origins": null,
             "default_app_address": null,
             "default_app_port": 5151,
             "default_batch_size": null,
             "default_batcher": "latency",
-            "default_dataset_dir": "~/fiftyone",
+            "default_dataset_dir": "~/tensorgrid",
             "default_image_ext": ".jpg",
             "default_ml_backend": "torch",
             "default_parallelization_method": null,
@@ -284,23 +284,23 @@ and the CLI:
 
 .. note::
 
-    If you have customized your FiftyOne config via any of the methods
+    If you have customized your TensorGrid config via any of the methods
     described below, printing your config is a convenient way to ensure that
     the changes you made have taken effect as you expected.
 
 Modifying your config
 ---------------------
 
-You can modify your FiftyOne config in a variety of ways. The following
+You can modify your TensorGrid config in a variety of ways. The following
 sections describe these options in detail.
 
 Order of precedence
 ~~~~~~~~~~~~~~~~~~~
 
-The following order of precedence is used to assign values to your FiftyOne
+The following order of precedence is used to assign values to your TensorGrid
 config settings at runtime:
 
-1. Config changes applied at runtime by directly editing `fiftyone.config`
+1. Config changes applied at runtime by directly editing `tensorgrid.config`
 2. `FIFTYONE_XXX` environment variables
 3. Settings in your JSON config (`~/.fiftyone/config.json`)
 4. The default config values
@@ -308,7 +308,7 @@ config settings at runtime:
 Editing your JSON config
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can permanently customize your FiftyOne config by creating a
+You can permanently customize your TensorGrid config by creating a
 `~/.fiftyone/config.json` file on your machine. The JSON file may contain any
 desired subset of config fields that you wish to customize.
 
@@ -321,7 +321,7 @@ For example, a valid config JSON file is:
         "show_progress_bars": true
     }
 
-When `fiftyone` is imported, any options from your JSON config are applied,
+When `tensorgrid` is imported, any options from your JSON config are applied,
 as per the order of precedence described above.
 
 .. note::
@@ -332,13 +332,13 @@ as per the order of precedence described above.
 Setting environment variables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-FiftyOne config settings may be customized on a per-session basis by setting
+TensorGrid config settings may be customized on a per-session basis by setting
 the `FIFTYONE_XXX` environment variable(s) for the desired config settings.
 
-When `fiftyone` is imported, all config environment variables are applied, as
+When `tensorgrid` is imported, all config environment variables are applied, as
 per the order of precedence described above.
 
-For example, you can customize your FiftyOne config in a Terminal session by
+For example, you can customize your TensorGrid config in a Terminal session by
 issuing the following commands prior to launching your Python interpreter:
 
 .. code-block:: shell
@@ -349,17 +349,17 @@ issuing the following commands prior to launching your Python interpreter:
 Modifying your config in code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can dynamically modify your FiftyOne config at runtime by editing the
-`fiftyone.config` object.
+You can dynamically modify your TensorGrid config at runtime by editing the
+`tensorgrid.config` object.
 
-Any changes to your FiftyOne config applied via this manner will immediately
-take effect for all subsequent calls to `fiftyone.config` during your current
+Any changes to your TensorGrid config applied via this manner will immediately
+take effect for all subsequent calls to `tensorgrid.config` during your current
 session.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     fo.config.default_ml_backend = "tensorflow"
     fo.config.show_progress_bars = True
@@ -369,13 +369,13 @@ session.
 Configuring a MongoDB connection
 --------------------------------
 
-By default, FiftyOne is installed with its own MongoDB database distribution.
-This database is managed by FiftyOne automatically as a service that runs
-whenever at least one FiftyOne Python client is alive.
+By default, TensorGrid is installed with its own MongoDB database distribution.
+This database is managed by TensorGrid automatically as a service that runs
+whenever at least one TensorGrid Python client is alive.
 
-Alternatively, you can configure FiftyOne to connect to your own self-managed
+Alternatively, you can configure TensorGrid to connect to your own self-managed
 MongoDB instance. To do so, simply set the `database_uri` property of your
-FiftyOne config to any valid
+TensorGrid config to any valid
 `MongoDB connection string URI <https://docs.mongodb.com/manual/reference/connection-string/>`_.
 
 You can achieve this by adding the following entry to your
@@ -394,7 +394,7 @@ or you can set the following environment variable:
     export FIFTYONE_DATABASE_URI=mongodb://[username:password@]host[:port]
 
 If you are running MongoDB with authentication enabled (the `--auth` flag),
-FiftyOne must connect as a root user.
+TensorGrid must connect as a root user.
 
 You can create a root user with the Mongo shell as follows:
 
@@ -449,11 +449,11 @@ python package.
 Using a different MongoDB version
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-FiftyOne is designed for **MongoDB v6.0 or later**.
+TensorGrid is designed for **MongoDB v6.0 or later**.
 
-If you wish to connect FiftyOne to a MongoDB database whose version is not
+If you wish to connect TensorGrid to a MongoDB database whose version is not
 explicitly supported, you will also need to set the `database_validation`
-property of your FiftyOne config to `False` to suppress a runtime error that
+property of your TensorGrid config to `False` to suppress a runtime error that
 will otherwise occur.
 
 You can achieve this by adding the following entry to your
@@ -481,8 +481,8 @@ are allowed to migrate the shared database.
 Example custom database usage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In order to use a custom MongoDB database with FiftyOne, you must manually
-start the database before importing FiftyOne. MongoDB provides
+In order to use a custom MongoDB database with TensorGrid, you must manually
+start the database before importing TensorGrid. MongoDB provides
 `a variety of options <https://docs.mongodb.com/manual/tutorial/manage-mongodb-processes>`_
 for this, including running the database as a daemon automatically.
 
@@ -493,7 +493,7 @@ In the simplest case, you can just run `mongod` in one shell:
     mkdir -p /path/for/db
     mongod --dbpath /path/for/db
 
-Then, in another shell, configure the database URI and launch FiftyOne:
+Then, in another shell, configure the database URI and launch TensorGrid:
 
 .. code-block:: shell
 
@@ -501,8 +501,8 @@ Then, in another shell, configure the database URI and launch FiftyOne:
 
 .. code-block:: python
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     session = fo.launch_app(dataset)
@@ -512,29 +512,29 @@ Then, in another shell, configure the database URI and launch FiftyOne:
 Database migrations
 -------------------
 
-New FiftyOne versions occasionally introduce data model changes that require
+New TensorGrid versions occasionally introduce data model changes that require
 database migrations when you :ref:`upgrade <upgrading-fiftyone>` or
 :ref:`downgrade <downgrading-fiftyone>`.
 
 By default, database upgrades happen automatically in two steps:
 
--   **Database**: when you import FiftyOne for the first time using a newer
+-   **Database**: when you import TensorGrid for the first time using a newer
     version of the Python package, the database's version is automatically
     updated to match your client version
 -   **Datasets** are lazily migrated to the current database version on a
     per-dataset basis whenever you load the dataset for the first time using a
-    newer version of the FiftyOne package
+    newer version of the TensorGrid package
 
 Database downgrades must be manually performed. See
 :ref:`this page <downgrading-fiftyone>` for instructions.
 
-You can use the :ref:`fiftyone migrate <cli-fiftyone-migrate>` command to view
+You can use the :ref:`tensorgrid migrate <cli-fiftyone-migrate>` command to view
 the current versions of your client, database, and datasets:
 
 .. code-block:: shell
 
     # View your client, database, and dataset versions
-    fiftyone migrate --info
+    tensorgrid migrate --info
 
 .. code-block:: text
 
@@ -553,7 +553,7 @@ Restricting migrations
 ~~~~~~~~~~~~~~~~~~~~~~
 
 You can use the `database_admin` config setting to control whether a client is
-allowed to upgrade/downgrade your FiftyOne database. The default is `True`,
+allowed to upgrade/downgrade your TensorGrid database. The default is `True`,
 which means that upgrades are automatically performed when you connect to your
 database with newer Python client versions.
 
@@ -562,7 +562,7 @@ database to be migrated to a new version. Instead, you'll see the following
 behavior:
 
 -   If your client is compatible with the current database version, you will be
-    allowed to connect to the database and use FiftyOne
+    allowed to connect to the database and use TensorGrid
 -   If your client is not compatible with the current database version, you
     will see an informative error message when you import the library
 
@@ -612,14 +612,14 @@ deployment:
 .. code-block:: shell
 
     # In a test environment
-    pip install --upgrade fiftyone
+    pip install --upgrade tensorgrid
 
     # View client's compatibility info
-    fiftyone migrate --info
+    tensorgrid migrate --info
 
 .. code-block:: python
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Convince yourself that the new client can load a dataset
     dataset = fo.load_dataset(...)
@@ -629,7 +629,7 @@ deployment:
 .. code-block:: shell
 
     # In all client environments
-    pip install --upgrade fiftyone
+    pip install --upgrade tensorgrid
 
 4.  Once all services are running the new client version, upgrade the database
     with admin privileges:
@@ -638,13 +638,13 @@ deployment:
 
     export FIFTYONE_DATABASE_ADMIN=true
 
-    pip install --upgrade fiftyone
-    fiftyone migrate --all
+    pip install --upgrade tensorgrid
+    tensorgrid migrate --all
 
 .. note::
 
     Newly created datasets will always bear the
-    :meth:`version <fiftyone.core.dataset.Dataset.version>` of the Python
+    :meth:`version <tensorgrid.core.dataset.Dataset.version>` of the Python
     client that created them, which may differ from your database's version
     if you are undergoing a migration.
 
@@ -659,11 +659,11 @@ deployment:
 Configuring a timezone
 ----------------------
 
-By default, FiftyOne loads all datetimes in FiftyOne datasets as naive
+By default, TensorGrid loads all datetimes in TensorGrid datasets as naive
 `datetime` objects expressed in UTC time.
 
-However, you can configure FiftyOne to express datetimes in a specific timezone
-by setting the `timezone` property of your FiftyOne config.
+However, you can configure TensorGrid to express datetimes in a specific timezone
+by setting the `timezone` property of your TensorGrid config.
 
 The `timezone` property can be set to any timezone string supported by
 `pytz.timezone()`, or `"local"` to use your current local timezone.
@@ -684,7 +684,7 @@ Or, you can even dynamically change the timezone while you work in Python:
     :linenos:
 
     from datetime import datetime
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="image.png", created_at=datetime.utcnow())
 
@@ -710,17 +710,17 @@ Or, you can even dynamically change the timezone while you work in Python:
 Configuring the App
 -------------------
 
-The :ref:`FiftyOne App <fiftyone-app>` can also be configured in various ways.
+The :ref:`TensorGrid App <fiftyone-app>` can also be configured in various ways.
 A new copy of your App config is applied to each |Session| object that is
 created when you launch the App. A session's config can be inspected and
-modified via the :meth:`session.config <fiftyone.core.session.Session.config>`
+modified via the :meth:`session.config <tensorgrid.core.session.Session.config>`
 property.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     print(fo.app_config)
@@ -731,10 +731,10 @@ property.
 .. note::
 
     For changes to a live session's config to take effect in the App, you must
-    call :meth:`session.refresh() <fiftyone.core.session.Session.refresh>` or
+    call :meth:`session.refresh() <tensorgrid.core.session.Session.refresh>` or
     invoke another state-updating action such as ``session.view = my_view``.
 
-The FiftyOne App can be configured in the ways described below:
+The TensorGrid App can be configured in the ways described below:
 
 +----------------------------+-----------------------------------------+---------------+--------------------------------------------------------------------------------------------+
 | Config field               | Environment variable                    | Default value | Description                                                                                |
@@ -807,7 +807,7 @@ You can print your App config at any time via the Python library and the CLI:
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # Print your current App config
         print(fo.app_config)
@@ -863,10 +863,10 @@ You can print your App config at any time via the Python library and the CLI:
     .. code-block:: shell
 
         # Print your current App config
-        fiftyone app config
+        tensorgrid app config
 
         # Print a specific App config field
-        fiftyone app config show_label
+        tensorgrid app config show_label
 
     .. code-block:: text
 
@@ -936,9 +936,9 @@ The following order of precedence is used to assign values to your App config
 settings at runtime:
 
 1. Config settings of a
-   :class:`Session <fiftyone.core.session.Session>` instance in question
+   :class:`Session <tensorgrid.core.session.Session>` instance in question
 2. App config settings applied at runtime by directly editing
-   `fiftyone.app_config`
+   `tensorgrid.app_config`
 3. `FIFTYONE_APP_XXX` environment variables
 4. Settings in your JSON App config (`~/.fiftyone/app_config.json`)
 5. The default App config values
@@ -946,14 +946,14 @@ settings at runtime:
 Launching the App with a custom config
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can launch the FiftyOne App with a customized App config on a one-off basis
+You can launch the TensorGrid App with a customized App config on a one-off basis
 via the following pattern:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -965,8 +965,8 @@ via the following pattern:
     session = fo.launch_app(dataset, config=app_config)
 
 You can also configure a live |Session| by editing its
-:meth:`session.config <fiftyone.core.session.Session.config>` property and
-calling :meth:`session.refresh() <fiftyone.core.session.Session.refresh>` to
+:meth:`session.config <tensorgrid.core.session.Session.config>` property and
+calling :meth:`session.refresh() <tensorgrid.core.session.Session.refresh>` to
 apply the changes:
 
 .. code-block:: python
@@ -993,7 +993,7 @@ For example, a valid App config JSON file is:
         "show_label": false
     }
 
-When `fiftyone` is imported, any options from your JSON App config are applied,
+When `tensorgrid` is imported, any options from your JSON App config are applied,
 as per the order of precedence described above.
 
 .. note::
@@ -1007,7 +1007,7 @@ Setting App environment variables
 App config settings may be customized on a per-session basis by setting the
 `FIFTYONE_APP_XXX` environment variable(s) for the desired App config settings.
 
-When `fiftyone` is imported, all App config environment variables are applied,
+When `tensorgrid` is imported, all App config environment variables are applied,
 as per the order of precedence described above.
 
 For example, you can customize your App config in a Terminal session by
@@ -1022,16 +1022,16 @@ Modifying your App config in code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can dynamically modify your App config at runtime by editing the
-`fiftyone.app_config` object.
+`tensorgrid.app_config` object.
 
 Any changes to your App config applied via this manner will immediately
-take effect for all subsequent calls to `fiftyone.app_config` during your
+take effect for all subsequent calls to `tensorgrid.app_config` during your
 current session.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     fo.app_config.show_confidence = False
     fo.app_config.show_label = False
@@ -1074,17 +1074,17 @@ system:
 Configuring a proxy URL
 -----------------------
 
-When running FiftyOne in a cloud machine, such as a
+When running TensorGrid in a cloud machine, such as a
 `SageMaker Notebook <https://aws.amazon.com/sagemaker/notebooks/>`_, a
 `proxy_url` should be set in your
-:ref:`FiftyOne App config <configuring-fiftyone-app>` before launching the App
+:ref:`TensorGrid App config <configuring-fiftyone-app>` before launching the App
 in order for browser windows or notebook cells to point to a correct App URL.
 For `SageMaker Notebooks <https://aws.amazon.com/sagemaker/notebooks/>`_, the
 below code snippet shows how to configure the proxy based on your instance.
 
 .. code-block:: python
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # before launching the App, configure a proxy_url
     fo.app_config.proxy_url = "https://<myinstance>.notebook.<region>.sagemaker.aws/proxy/<port>/"

@@ -5,12 +5,12 @@ Model Zoo
 
 .. default-role:: code
 
-Welcome to the FiftyOne Model Zoo! 🚀
+Welcome to the TensorGrid Model Zoo! 🚀
 
 Here you'll discover state-of-the-art computer vision models, pre-trained on
-various datasets and ready to use with your FiftyOne datasets.
+various datasets and ready to use with your TensorGrid datasets.
 
-The FiftyOne Model Zoo provides access to a curated collection of models
+The TensorGrid Model Zoo provides access to a curated collection of models
 from popular frameworks like PyTorch and TensorFlow, enabling you to quickly
 apply cutting-edge computer vision techniques to your data.
 

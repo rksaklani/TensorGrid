@@ -22,7 +22,7 @@ Viola-Jones face detector.
 -   Tags: ``image, classification, facial-recognition``
 -   Supported splits: ``test, train``
 -   ZooDataset class:
-    :class:`LabeledFacesInTheWildDataset <fiftyone.zoo.datasets.base.LabeledFacesInTheWildDataset>`
+    :class:`LabeledFacesInTheWildDataset <tensorgrid.zoo.datasets.base.LabeledFacesInTheWildDataset>`
 
 **Example usage**
 
@@ -33,8 +33,8 @@ Viola-Jones face detector.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("lfw", split="test")
 
@@ -44,9 +44,9 @@ Viola-Jones face detector.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load lfw --split test
+        tensorgrid zoo datasets load lfw --split test
 
-        fiftyone app launch lfw-test
+        tensorgrid app launch lfw-test
 
 .. image:: /images/dataset_zoo/lfw-test.png
    :alt: lfw-test

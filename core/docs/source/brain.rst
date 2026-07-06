@@ -1,32 +1,32 @@
 .. _fiftyone-brain:
 
-FiftyOne Brain
+TensorGrid Brain
 ==============
 
 .. default-role:: code
 
-The `FiftyOne Brain <https://github.com/voxel51/fiftyone-brain>`_ provides
+The `TensorGrid Brain <https://github.com/voxel51/fiftyone-brain>`_ provides
 powerful machine learning techniques that are designed to transform how you
 curate your data from an art into a measurable science.
 
 .. note::
 
-    Did you know? You can execute Brain methods from the FiftyOne App by
+    Did you know? You can execute Brain methods from the TensorGrid App by
     installing the
-    `@voxel51/brain <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/brain>`_
+    `@voxel51/brain <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/brain>`_
     plugin!
 
 .. customanimatedcta::
-    :button_text: Try experimental Brain features in FiftyOne Labs
+    :button_text: Try experimental Brain features in TensorGrid Labs
     :button_link: labs/index.html
 
-The FiftyOne Brain methods are useful across the stages of the machine learning
+The TensorGrid Brain methods are useful across the stages of the machine learning
 workflow:
 
 * :ref:`Visualizing embeddings <brain-embeddings-visualization>`:
   Tired of combing through individual images/videos
   and staring at aggregate performance metrics trying to figure out how to
-  improve the performance of your model? Using FiftyOne to visualize your
+  improve the performance of your model? Using TensorGrid to visualize your
   dataset in a *low-dimensional embedding space* can reveal patterns and
   clusters in your data that can help you answer many important questions about
   your data, from identifying the most critical failure modes of your model, to
@@ -38,13 +38,13 @@ workflow:
   of interest? For example, you may have found a failure case of your model and
   now want to search for similar scenarios in your evaluation set to diagnose
   the issue, or you want to mine your data lake to augment your training set to
-  fix the issue. Use the FiftyOne Brain to index your data by *similarity* and
+  fix the issue. Use the TensorGrid Brain to index your data by *similarity* and
   you can easily query and sort your datasets to find similar examples, both
   programmatically and via point-and-click in the App.
 
 * :ref:`Leaky splits <brain-leaky-splits>`:
   Often when sourcing data en masse, duplicates and near duplicates can slip
-  through the cracks. The FiftyOne Brain offers a *leaky splits analysis* that
+  through the cracks. The TensorGrid Brain offers a *leaky splits analysis* that
   can be used to find potential leaks between dataset splits. Such leaks can
   be misleading when evaluating a model, giving an overly optimistic measure
   for the quality of training.
@@ -52,19 +52,19 @@ workflow:
 * :ref:`Near duplicates <brain-near-duplicates>`:
   When curating massive datasets, you may inadvertently add near duplicate data
   to your datasets, which can bias or otherwise confuse your models. The
-  FiftyOne Brain offers a *near duplicate detection* algorithm that
+  TensorGrid Brain offers a *near duplicate detection* algorithm that
   automatically surfaces such data quality issues and prompts you to take
   action to resolve them.
 
 * :ref:`Exact duplicates <brain-exact-duplicates>`:
   Despite your best efforts, you may accidentally add duplicate data to a
-  dataset. The FiftyOne Brain provides an *exact duplicate detection* method
+  dataset. The TensorGrid Brain provides an *exact duplicate detection* method
   that scans your data and alerts you if a dataset contains duplicate samples,
   either under the same or different filenames.
 
 * :ref:`Uniqueness <brain-image-uniqueness>`:
   During the training loop for a model, the best results will
-  be seen when training on unique data. The FiftyOne Brain provides a
+  be seen when training on unique data. The TensorGrid Brain provides a
   *uniqueness measure* for images that compare the content of every image in a
   dataset with all other images. Uniqueness operates on raw images and does not
   require any prior annotation on the data. It is hence very useful in the
@@ -74,7 +74,7 @@ workflow:
 * :ref:`Mistakenness <brain-label-mistakes>`:
   Annotations mistakes create an artificial ceiling on the performance of your
   models. However, finding these mistakes by hand is at least as arduous as the
-  original annotation was, especially in cases of larger datasets. The FiftyOne
+  original annotation was, especially in cases of larger datasets. The TensorGrid
   Brain provides a quantitative *mistakenness measure* to identify possible
   label mistakes. Mistakenness operates on labeled images and requires the
   logit-output of your model predictions in order to provide maximum efficacy.
@@ -83,7 +83,7 @@ workflow:
 
 * :ref:`Hardness <brain-sample-hardness>`:
   While a model is training, it will learn to understand attributes of certain
-  samples faster than others. The FiftyOne Brain provides a *hardness measure*
+  samples faster than others. The TensorGrid Brain provides a *hardness measure*
   that calculates how easy or difficult it is for your model to understand any
   given sample. Mining hard samples is a tried and true measure of mature
   machine learning processes. Use your current model instance to compute
@@ -92,7 +92,7 @@ workflow:
 
 * :ref:`Representativeness <brain-image-representativeness>`:
   When working with large datasets, it can be hard to determine what samples 
-  within it are outliers and which are more typical. The FiftyOne Brain offers
+  within it are outliers and which are more typical. The TensorGrid Brain offers
   a *representativeness measure* that can be used to find the most common
   types of images in your dataset. This is especially helpful to find easy
   examples to train on in your data and for visualizing common modes of the
@@ -108,8 +108,8 @@ workflow:
 Visualizing embeddings
 ______________________
 
-The FiftyOne Brain provides a powerful
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>` method
+The TensorGrid Brain provides a powerful
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>` method
 that you can use to generate low-dimensional representations of the samples
 and/or individual objects in your datasets.
 
@@ -130,7 +130,7 @@ Embedding methods
 -----------------
 
 The `embeddings` and `model` parameters of
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>`
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>`
 support a variety of ways to generate embeddings for your data:
 
 -   Provide nothing, in which case a default general purpose model is used to
@@ -145,7 +145,7 @@ Dimensionality reduction methods
 --------------------------------
 
 The `method` parameter of
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>` allows
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>` allows
 you to specify the dimensionality reduction method to use. The supported
 methods are:
 
@@ -160,7 +160,7 @@ methods are:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.brain as fob
+    import tensorgrid.brain as fob
 
     results = fob.compute_visualization(
         dataset,
@@ -211,7 +211,7 @@ Image embeddings example
 ------------------------
 
 The following example gives a taste of the powers of visual embeddings in
-FiftyOne using the :ref:`BDD100K dataset <dataset-zoo-bdd100k>` from the
+TensorGrid using the :ref:`BDD100K dataset <dataset-zoo-bdd100k>` from the
 dataset zoo, embeddings generated by a
 :ref:`mobilenet model <model-zoo-mobilenet-v2-imagenet-torch>` from the model
 zoo, and the default `UMAP <https://github.com/lmcinnes/umap>`_ dimensionality
@@ -226,9 +226,9 @@ automatically selected in the :ref:`Samples panel <app-samples-panel>`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     # The BDD dataset must be manually downloaded. See the zoo docs for details
     source_dir = "/path/to/dir-with-bdd100k-files"
@@ -277,7 +277,7 @@ Object embeddings example
 The following example demonstrates how embeddings can be used to visualize the
 ground truth objects in the :ref:`quickstart dataset <dataset-zoo-quickstart>`
 using the
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>` method's
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>` method's
 default embeddings model and dimensionality method.
 
 In this setup, we generate a visualization for all ground truth objects, but
@@ -291,10 +291,10 @@ object patches are automatically selected in the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -336,7 +336,7 @@ Changing your visualization method
 
 You can use a specific dimensionality reduction method for a particular
 visualization run by passing the `method` parameter to
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>`:
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>`:
 
 .. code:: python
     :linenos:
@@ -374,15 +374,15 @@ method's associated |VisualizationConfig| class.
 
 The relevant classes for the builtin dimensionality reduction methods are:
 
--   **umap**: :class:`fiftyone.brain.visualization.UMAPVisualizationConfig`
--   **tsne**: :class:`fiftyone.brain.visualization.TSNEVisualizationConfig`
--   **pca**: :class:`fiftyone.brain.visualization.PCAVisualizationConfig`
--   **manual**: :class:`fiftyone.brain.visualization.ManualVisualizationConfig`
+-   **umap**: :class:`tensorgrid.brain.visualization.UMAPVisualizationConfig`
+-   **tsne**: :class:`tensorgrid.brain.visualization.TSNEVisualizationConfig`
+-   **pca**: :class:`tensorgrid.brain.visualization.PCAVisualizationConfig`
+-   **manual**: :class:`tensorgrid.brain.visualization.ManualVisualizationConfig`
 
 You can configure a dimensionality reduction method's parameters for a specific
 run by simply passing supported config parameters as keyword arguments each
 time you call
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>`:
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>`:
 
 .. code:: python
     :linenos:
@@ -402,7 +402,7 @@ Optimizing lassoing performance
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can pass ``create_index=True`` to
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>` to store
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>` to store
 a spatial index of the computed points in a field of your dataset's samples.
 
 This is highly recommended for large datasets as it enables efficient querying
@@ -415,9 +415,9 @@ when lassoing points in the :ref:`Embeddings panel <app-embeddings-panel>`.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.brain as fob
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.brain as fob
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("quickstart")
 
@@ -433,9 +433,9 @@ when lassoing points in the :ref:`Embeddings panel <app-embeddings-panel>`.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.brain as fob
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.brain as fob
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("quickstart")
 
@@ -452,14 +452,14 @@ when lassoing points in the :ref:`Embeddings panel <app-embeddings-panel>`.
     By default, spatial indexes are created in a field/attribute with name
     ``brain_key``, but you can customize this by passing the ``points_field``
     parameter to
-    :meth:`compute_visualization() <fiftyone.brain.compute_visualization>`.
+    :meth:`compute_visualization() <tensorgrid.brain.compute_visualization>`.
 
 You can check whether an existing visualization result has a spatial index
 via
-:meth:`has_spatial_index <fiftyone.brain.visualization.VisualizationResults.has_spatial_index>`,
+:meth:`has_spatial_index <tensorgrid.brain.visualization.VisualizationResults.has_spatial_index>`,
 and you can add or remove spatial indexes via
-:meth:`index_points() <fiftyone.brain.visualization.VisualizationResults.index_points>` and
-:meth:`remove_index() <fiftyone.brain.visualization.VisualizationResults.remove_index>`:
+:meth:`index_points() <tensorgrid.brain.visualization.VisualizationResults.index_points>` and
+:meth:`remove_index() <tensorgrid.brain.visualization.VisualizationResults.remove_index>`:
 
 .. code-block:: python
     :linenos:
@@ -478,12 +478,12 @@ and you can add or remove spatial indexes via
 Similarity
 __________
 
-The FiftyOne Brain provides a
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` method that
+The TensorGrid Brain provides a
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` method that
 you can use to index the images or object patches in a dataset by similarity.
 
 Once you've indexed a dataset by similarity, you can use the
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 view stage to programmatically sort your dataset by similarity to any image(s)
 or object patch(es) of your choice in your dataset. In addition, the App
 provides a convenient :ref:`point-and-click interface <app-similarity>` for
@@ -502,7 +502,7 @@ Like :ref:`embeddings visualization <brain-embeddings-visualization>`,
 similarity leverages deep embeddings to generate an index for a dataset.
 
 The `embeddings` and `model` parameters of
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` support a
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` support a
 variety of ways to generate embeddings for your data:
 
 -   Provide nothing, in which case a default general purpose model is used to
@@ -521,7 +521,7 @@ Similarity backends
 By default, all similarity indexes are served using a builtin
 `scikit-learn <https://scikit-learn.org>`_ backend, but you can pass the
 optional `backend` parameter to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` to switch to
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` to switch to
 another supported backend:
 
 -   **sklearn** (*default*): a `scikit-learn <https://scikit-learn.org>`_ backend
@@ -538,7 +538,7 @@ another supported backend:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.brain as fob
+    import tensorgrid.brain as fob
 
     results = fob.compute_similarity(
         dataset,
@@ -563,11 +563,11 @@ This section demonstrates the basic workflow of:
 -   Using the App's :ref:`image similarity <app-image-similarity>` UI to query
     by visual similarity
 -   Using the SDK's
-    :meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+    :meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
     view stage to programmatically query the index
 
 To index a dataset by image similarity, pass the |Dataset| or |DatasetView| of
-interest to :meth:`compute_similarity() <fiftyone.brain.compute_similarity>`
+interest to :meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`
 along with a name for the index via the `brain_key` argument.
 
 Next load the dataset in the App and select some image(s). Whenever there is
@@ -581,9 +581,9 @@ advanced search options, run management, and search history.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -607,7 +607,7 @@ advanced search options, run management, and search history.
    :align: center
 
 Alternatively, you can use the
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 view stage to programmatically :ref:`construct a view <using-views>` that
 contains the sorted results:
 
@@ -650,7 +650,7 @@ This section demonstrates the basic workflow of:
 -   Using the App's :ref:`object similarity <app-object-similarity>` UI to
     query by visual similarity
 -   Using the SDK's
-    :meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+    :meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
     view stage to programmatically query the index
 
 You can index any objects stored on datasets in |Detection|, |Detections|,
@@ -658,7 +658,7 @@ You can index any objects stored on datasets in |Detection|, |Detections|,
 more information about adding labels to your datasets.
 
 To index by object patches, simply pass the |Dataset| or |DatasetView| of
-interest to :meth:`compute_similarity() <fiftyone.brain.compute_similarity>`
+interest to :meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`
 along with the name of the patches field and a name for the index via the
 `brain_key` argument.
 
@@ -676,9 +676,9 @@ advanced search options, run management, and search history.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -703,7 +703,7 @@ advanced search options, run management, and search history.
    :align: center
 
 Alternatively, you can directly use the
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 view stage to programmatically :ref:`construct a view <using-views>` that
 contains the sorted results:
 
@@ -756,9 +756,9 @@ arbitrary natural language queries
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.brain as fob
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.brain as fob
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("quickstart")
 
@@ -789,9 +789,9 @@ arbitrary natural language queries
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.brain as fob
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.brain as fob
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("quickstart")
 
@@ -823,7 +823,7 @@ arbitrary natural language queries
    :align: center
 
 You can also perform text queries via the SDK by passing a prompt directly to
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 along with the `brain_key` of a compatible similarity index:
 
 .. tabs::
@@ -857,7 +857,7 @@ along with the `brain_key` of a compatible similarity index:
 
     In general, any custom model that is made available via the
     :ref:`model zoo interface <model-zoo-add>` that implements the
-    :class:`PromptMixin <fiftyone.core.models.PromptMixin>` interface can
+    :class:`PromptMixin <tensorgrid.core.models.PromptMixin>` interface can
     support text similarity queries!
 
 .. _brain-similarity-api:
@@ -873,7 +873,7 @@ Changing your similarity backend
 
 You can use a specific backend for a particular similarity index by passing the
 `backend` parameter to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`:
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`:
 
 .. code:: python
     :linenos:
@@ -911,20 +911,20 @@ which you can see by inspecting the parameters of a backend's associated
 
 The relevant classes for the builtin similarity backends are:
 
--   **sklearn**: :class:`fiftyone.brain.internal.core.sklearn.SklearnSimilarityConfig`
--   **qdrant**: :class:`fiftyone.brain.internal.core.qdrant.QdrantSimilarityConfig`
--   **redis**: :class:`fiftyone.brain.internal.core.redis.RedisSimilarityConfig`
--   **pinecone**: :class:`fiftyone.brain.internal.core.pinecone.PineconeSimilarityConfig`
--   **mongodb**: :class:`fiftyone.brain.internal.core.mongodb.MongoDBSimilarityConfig`
--   **elasticsearch**: a :ref:`fiftyone.brain.internal.core.elasticsearch.ElasticsearchSimilarityConfig`
--   **pgvector**: a :ref:`fiftyone.brain.internal.core.pgvector.PgVectorSimilarityConfig`
--   **mosaic**: :class:`fiftyone.brain.internal.core.mosaic.MosaicSimilarityConfig`
--   **milvus**: :class:`fiftyone.brain.internal.core.milvus.MilvusSimilarityConfig`
--   **lancedb**: :class:`fiftyone.brain.internal.core.lancedb.LanceDBSimilarityConfig`
+-   **sklearn**: :class:`tensorgrid.brain.internal.core.sklearn.SklearnSimilarityConfig`
+-   **qdrant**: :class:`tensorgrid.brain.internal.core.qdrant.QdrantSimilarityConfig`
+-   **redis**: :class:`tensorgrid.brain.internal.core.redis.RedisSimilarityConfig`
+-   **pinecone**: :class:`tensorgrid.brain.internal.core.pinecone.PineconeSimilarityConfig`
+-   **mongodb**: :class:`tensorgrid.brain.internal.core.mongodb.MongoDBSimilarityConfig`
+-   **elasticsearch**: a :ref:`tensorgrid.brain.internal.core.elasticsearch.ElasticsearchSimilarityConfig`
+-   **pgvector**: a :ref:`tensorgrid.brain.internal.core.pgvector.PgVectorSimilarityConfig`
+-   **mosaic**: :class:`tensorgrid.brain.internal.core.mosaic.MosaicSimilarityConfig`
+-   **milvus**: :class:`tensorgrid.brain.internal.core.milvus.MilvusSimilarityConfig`
+-   **lancedb**: :class:`tensorgrid.brain.internal.core.lancedb.LanceDBSimilarityConfig`
 
 You can configure a similarity backend's parameters for a specific index by
 simply passing supported config parameters as keyword arguments each time you
-call :meth:`compute_similarity() <fiftyone.brain.compute_similarity>`:
+call :meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`:
 
 .. code:: python
     :linenos:
@@ -941,16 +941,16 @@ Alternatively, you can more permanently configure your backend(s) via your
 Creating an index
 ~~~~~~~~~~~~~~~~~
 
-The :meth:`compute_similarity() <fiftyone.brain.compute_similarity>` method
+The :meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` method
 provides a number of different syntaxes for initializing a similarity index.
 Let's see some common patterns on the quickstart dataset:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1038,7 +1038,7 @@ Precomputed embeddings
 ^^^^^^^^^^^^^^^^^^^^^^
 
 You can pass precomputed image or object embeddings to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` via the
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` via the
 `embeddings` argument:
 
 .. tabs::
@@ -1086,7 +1086,7 @@ Adding embeddings to an index
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use
-:meth:`add_to_index() <fiftyone.brain.similarity.SimilarityIndex.add_to_index>`
+:meth:`add_to_index() <tensorgrid.brain.similarity.SimilarityIndex.add_to_index>`
 to add new embeddings or overwrite existing embeddings in an index at any time:
 
 .. tabs::
@@ -1185,7 +1185,7 @@ to add new embeddings or overwrite existing embeddings in an index at any time:
 .. note::
 
     When using the default ``sklearn`` backend, you must manually call
-    :meth:`save() <fiftyone.brain.similarity.SimilarityIndex.save>` after
+    :meth:`save() <tensorgrid.brain.similarity.SimilarityIndex.save>` after
     adding or removing embeddings from an index in order to save the index to
     the database. This is not required when using external vector databases
     like :ref:`Qdrant <qdrant-integration>`.
@@ -1194,9 +1194,9 @@ to add new embeddings or overwrite existing embeddings in an index at any time:
 
     Did you know? If you provided the name of a :ref:`zoo model <model-zoo>`
     when creating the similarity index, you can use
-    :meth:`get_model() <fiftyone.brain.similarity.SimilarityIndex.get_model>`
+    :meth:`get_model() <tensorgrid.brain.similarity.SimilarityIndex.get_model>`
     to load the model later. Or, you can use
-    :meth:`compute_embeddings() <fiftyone.brain.similarity.SimilarityIndex.compute_embeddings>`
+    :meth:`compute_embeddings() <tensorgrid.brain.similarity.SimilarityIndex.compute_embeddings>`
     to conveniently generate embeddings for new samples/objects using the
     index's model.
 
@@ -1204,7 +1204,7 @@ Retrieving embeddings in an index
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use
-:meth:`get_embeddings() <fiftyone.brain.similarity.SimilarityIndex.get_embeddings>`
+:meth:`get_embeddings() <tensorgrid.brain.similarity.SimilarityIndex.get_embeddings>`
 to retrieve the embeddings for any or all IDs of interest from an existing
 index:
 
@@ -1229,7 +1229,7 @@ index:
     .. code:: python
         :linenos:
 
-        from fiftyone import ViewField as F
+        from tensorgrid import ViewField as F
 
         ids = (
             dataset
@@ -1247,7 +1247,7 @@ Removing embeddings from an index
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can use
-:meth:`remove_from_index() <fiftyone.brain.similarity.SimilarityIndex.remove_from_index>`
+:meth:`remove_from_index() <tensorgrid.brain.similarity.SimilarityIndex.remove_from_index>`
 to delete embeddings from an index by their ID:
 
 .. tabs::
@@ -1273,7 +1273,7 @@ to delete embeddings from an index by their ID:
     .. code:: python
         :linenos:
 
-        from fiftyone import ViewField as F
+        from tensorgrid import ViewField as F
 
         ids = (
             dataset
@@ -1290,7 +1290,7 @@ to delete embeddings from an index by their ID:
 .. note::
 
     When using the default ``sklearn`` backend, you must manually call
-    :meth:`save() <fiftyone.brain.similarity.SimilarityIndex.save>` after
+    :meth:`save() <tensorgrid.brain.similarity.SimilarityIndex.save>` after
     adding or removing embeddings from an index in order to save the index to
     the database.
 
@@ -1302,7 +1302,7 @@ Deleting an index
 
 When working with backends like :ref:`Qdrant <qdrant-integration>` that
 leverage external vector databases, you can call
-:meth:`cleanup() <fiftyone.brain.similarity.SimilarityIndex.cleanup>` to delete
+:meth:`cleanup() <tensorgrid.brain.similarity.SimilarityIndex.cleanup>` to delete
 the external index/collection:
 
 .. tabs::
@@ -1332,10 +1332,10 @@ the external index/collection:
 .. note::
 
     Calling
-    :meth:`cleanup() <fiftyone.brain.similarity.SimilarityIndex.cleanup>` has
+    :meth:`cleanup() <tensorgrid.brain.similarity.SimilarityIndex.cleanup>` has
     no effect when working with the default sklearn backend. The index is
     deleted only when you call
-    :meth:`delete_brain_run() <fiftyone.core.collections.SampleCollection.delete_brain_run>`.
+    :meth:`delete_brain_run() <tensorgrid.core.collections.SampleCollection.delete_brain_run>`.
 
 .. _brain-similarity-applications:
 
@@ -1365,18 +1365,18 @@ ____________
 Despite our best efforts, duplicates and other forms of non-IID samples
 show up in our data. When these samples end up in different splits, this
 can have consequences when evaluating a model. It can often be easy to
-overestimate model capability due to this issue. The FiftyOne Brain offers a
+overestimate model capability due to this issue. The TensorGrid Brain offers a
 way to identify such cases in dataset splits.
 
 The leaks of a dataset can be computed directly without the need for the
 predictions of a pre-trained model via the
-:meth:`compute_leaky_splits() <fiftyone.brain.compute_leaky_splits>` method:
+:meth:`compute_leaky_splits() <tensorgrid.brain.compute_leaky_splits>` method:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
 
     dataset = fo.load_dataset(...)
 
@@ -1403,12 +1403,12 @@ the field, or by directly providing views that define the splits.
 of tags, a field, or views.
 
 **Output**: An index that will allow you to look through your leaks with
-:meth:`leaks_view() <fiftyone.brain.internal.core.leaky_splits.LeakySplitsIndex.leaks_view>`
+:meth:`leaks_view() <tensorgrid.brain.internal.core.leaky_splits.LeakySplitsIndex.leaks_view>`
 and also provides some useful actions once they are discovered such as
 automatically cleaning the dataset with
-:meth:`no_leaks_view() <fiftyone.brain.internal.core.leaky_splits.LeakySplitsIndex.no_leaks_view>`
+:meth:`no_leaks_view() <tensorgrid.brain.internal.core.leaky_splits.LeakySplitsIndex.no_leaks_view>`
 or tagging the leaks for the future action with
-:meth:`tag_leaks() <fiftyone.brain.internal.core.leaky_splits.LeakySplitsIndex.tag_leaks>`.
+:meth:`tag_leaks() <tensorgrid.brain.internal.core.leaky_splits.LeakySplitsIndex.tag_leaks>`.
 
 **What to expect**: Leaky splits works by embedding samples with a powerful
 model and finding very close samples in different splits in this space. Large,
@@ -1417,24 +1417,24 @@ visual and semantic similarity between images, without creating further leaks
 in the process.
 
 **Similarity index**: Under the hood, leaky splits leverages the brain's
-:class:`SimilarityIndex <fiftyone.brain.similarity.SimilarityIndex>` to detect
+:class:`SimilarityIndex <tensorgrid.brain.similarity.SimilarityIndex>` to detect
 leaks. Any :ref:`similarity backend <brain-similarity-backends>` that
 implements the
-:class:`DuplicatesMixin <fiftyone.brain.similarity.DuplicatesMixin>` can be
+:class:`DuplicatesMixin <tensorgrid.brain.similarity.DuplicatesMixin>` can be
 used to compute leaky splits. You can either pass an existing similarity index
 by passing its brain key to the argument `similarity_index`, or have the
 method create one on the fly for you.
 
 **Embeddings**: You can customize the model used to compute embeddings via the
 `model` argument of
-:meth:`compute_leaky_splits() <fiftyone.brain.compute_leaky_splits>`. You can
+:meth:`compute_leaky_splits() <tensorgrid.brain.compute_leaky_splits>`. You can
 also precompute embeddings and tell leaky splits to use them by passing them
 via the `embeddings` argument.
 
 **Thresholds**: Leaky splits uses a threshold to decide what samples are
 too close and thus mark them as potential leaks. This threshold can be
 customized either by passing a value to the `threshold` argument of
-:meth:`compute_leaky_splits() <fiftyone.brain.compute_leaky_splits>`. The best
+:meth:`compute_leaky_splits() <tensorgrid.brain.compute_leaky_splits>`. The best
 value for your use case may vary depending on your dataset, as well as the
 embeddings used. A threshold that's too big may have a lot of false positives,
 while a threshold that's too small may have a lot of false negatives.
@@ -1446,10 +1446,10 @@ what you find!
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
-    import fiftyone.utils.random as four
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.random as four
 
     # Load some COCO data
     dataset = foz.load_zoo_dataset("coco-2017", split="test")
@@ -1463,7 +1463,7 @@ what you find!
     leaks = index.leaks_view()
 
 The
-:meth:`leaks_view() <fiftyone.brain.internal.core.leaky_splits.LeakySplitsIndex.leaks_view>`
+:meth:`leaks_view() <tensorgrid.brain.internal.core.leaky_splits.LeakySplitsIndex.leaks_view>`
 method returns a view that contains only the leaks in the input splits. Once
 you have these leaks, it is wise to look through them. You may gain some
 insight into the source of the leaks:
@@ -1475,7 +1475,7 @@ insight into the source of the leaks:
 
 Before evaluating your model on your test set, consider getting a version of it
 with the leaks removed. This can be easily done via
-:meth:`no_leaks_view() <fiftyone.brain.internal.core.leaky_splits.LeakySplitsIndex.no_leaks_view>`:
+:meth:`no_leaks_view() <tensorgrid.brain.internal.core.leaky_splits.LeakySplitsIndex.no_leaks_view>`:
 
 .. code-block:: python
     :linenos:
@@ -1504,15 +1504,15 @@ _______________
 When curating massive datasets, you may inadvertently add near duplicate data
 to your datasets, which can bias or otherwise confuse your models.
 
-The :meth:`compute_near_duplicates() <fiftyone.brain.compute_near_duplicates>`
+The :meth:`compute_near_duplicates() <tensorgrid.brain.compute_near_duplicates>`
 method leverages embeddings to automatically surface near-duplicate samples in
 your dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
 
     dataset = fo.load_dataset(...)
 
@@ -1528,10 +1528,10 @@ formats, ranging from a simple directory of images to complicated dataset
 structures like `COCO <https://cocodataset.org/#home>`_.
 
 **Output**: A |SimilarityIndex| object that provides powerful methods such as
-:meth:`duplicate_ids <fiftyone.brain.similarity.DuplicatesMixin.duplicate_ids>`,
-:meth:`neighbors_map <fiftyone.brain.similarity.DuplicatesMixin.neighbors_map>`
+:meth:`duplicate_ids <tensorgrid.brain.similarity.DuplicatesMixin.duplicate_ids>`,
+:meth:`neighbors_map <tensorgrid.brain.similarity.DuplicatesMixin.neighbors_map>`
 and
-:meth:`duplicates_view() <fiftyone.brain.similarity.DuplicatesMixin.duplicates_view>`
+:meth:`duplicates_view() <tensorgrid.brain.similarity.DuplicatesMixin.duplicates_view>`
 to analyze potential near duplicates as demonstrated below
 
 **What to expect**: Near duplicates analysis leverages embeddings to identify
@@ -1543,39 +1543,39 @@ default model to generate embeddings.
 **Thresholds**: When using custom embeddings/models, you may need to adjust the
 distance threshold used to detect potential duplicates. You can do this by
 passing a value to the `threshold` argument of
-:meth:`compute_near_duplicates() <fiftyone.brain.compute_near_duplicates>`. The
+:meth:`compute_near_duplicates() <tensorgrid.brain.compute_near_duplicates>`. The
 best value for your use case may vary depending on your dataset, as well as the
 embeddings used. A threshold that's too big may have a lot of false positives,
 while a threshold that's too small may have a lot of false negatives.
 
 The following example demonstrates how to use
-:meth:`compute_near_duplicates() <fiftyone.brain.compute_near_duplicates>` to
+:meth:`compute_near_duplicates() <tensorgrid.brain.compute_near_duplicates>` to
 detect near duplicate images on the
 :ref:`CIFAR-10 dataset <dataset-zoo-cifar10>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("cifar10", split="test")
 
 To proceed, we first need some suitable image embeddings for the dataset.
-Although the :meth:`compute_near_duplicates() <fiftyone.brain.compute_near_duplicates>`
+Although the :meth:`compute_near_duplicates() <tensorgrid.brain.compute_near_duplicates>`
 method is equipped with a default general-purpose model to generate embeddings
 if none are provided, you'll typically find higher-quality insights when a
 domain-specific model is used to generate embeddings.
 
 In this case, we'll use a classifier that has been fine-tuned on CIFAR-10 to
 pre-compute embeddings and them feed them to
-:meth:`compute_near_duplicates() <fiftyone.brain.compute_near_duplicates>`:
+:meth:`compute_near_duplicates() <tensorgrid.brain.compute_near_duplicates>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.brain as fob
-    import fiftyone.brain.internal.models as fbm
+    import tensorgrid.brain as fob
+    import tensorgrid.brain.internal.models as fbm
 
     # Compute embeddings via a pre-trained CIFAR-10 classifier
     model = fbm.load_model("simple-resnet-cifar10")
@@ -1592,7 +1592,7 @@ Finding near-duplicate samples
 ------------------------------
 
 The
-:meth:`neighbors_map <fiftyone.brain.similarity.DuplicatesMixin.neighbors_map>`
+:meth:`neighbors_map <tensorgrid.brain.similarity.DuplicatesMixin.neighbors_map>`
 property of the index provides a data structure that summarizes the findings.
 The keys of the dictionary are the sample IDs of each non-duplicate sample, and
 the values are lists of `(id, distance)` tuples listing the sample IDs of the
@@ -1624,7 +1624,7 @@ distance between the two samples:
     }
 
 We can conveniently visualize this information in the App via the
-:meth:`duplicates_view() <fiftyone.brain.similarity.DuplicatesMixin.duplicates_view>`
+:meth:`duplicates_view() <tensorgrid.brain.similarity.DuplicatesMixin.duplicates_view>`
 method of the index, which constructs a view with the duplicate samples
 arranged directly after their corresponding reference sample, with optional
 additional fields recording the type and nearest reference sample ID/distance:
@@ -1647,17 +1647,17 @@ additional fields recording the type and nearest reference sample ID/distance:
 .. note::
 
     You can also use the
-    :meth:`find_duplicates() <fiftyone.brain.similarity.DuplicatesMixin.find_duplicates>`
+    :meth:`find_duplicates() <tensorgrid.brain.similarity.DuplicatesMixin.find_duplicates>`
     method of the index to rerun the duplicate detection with a different
     `threshold` without calling
-    :meth:`compute_near_duplicates() <fiftyone.brain.compute_near_duplicates>`
+    :meth:`compute_near_duplicates() <tensorgrid.brain.compute_near_duplicates>`
     again.
 
 Finding maximally unique samples
 --------------------------------
 
 You can also use the
-:meth:`find_unique() <fiftyone.brain.similarity.DuplicatesMixin.find_unique>`
+:meth:`find_unique() <tensorgrid.brain.similarity.DuplicatesMixin.find_unique>`
 method of the index to identify a set of samples of any desired size that are
 maximally unique with respect to each other:
 
@@ -1669,7 +1669,7 @@ maximally unique with respect to each other:
     print(index.unique_ids[:5])
 
 We can also conveniently visualize the results of this operation via the
-:meth:`visualize_unique() <fiftyone.brain.similarity.DuplicatesMixin.visualize_unique>`
+:meth:`visualize_unique() <tensorgrid.brain.similarity.DuplicatesMixin.visualize_unique>`
 method of the index, which generates a scatterplot with the unique samples
 colored separately:
 
@@ -1710,15 +1710,15 @@ Despite your best efforts, you may accidentally add duplicate data to a
 dataset. Left unmitigated, such quality issues can bias your models and
 confound your analysis.
 
-The :meth:`compute_exact_duplicates() <fiftyone.brain.compute_exact_duplicates>`
+The :meth:`compute_exact_duplicates() <tensorgrid.brain.compute_exact_duplicates>`
 method scans your dataset and determines if you have duplicate data either
 under the same or different filenames:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
 
     dataset = fo.load_dataset(...)
 
@@ -1742,7 +1742,7 @@ different filepaths in your dataset.
 Image uniqueness
 ________________
 
-The FiftyOne Brain allows for the computation of the uniqueness of an image,
+The TensorGrid Brain allows for the computation of the uniqueness of an image,
 in comparison with other images in a dataset; it does so without requiring
 any model from you. One good use of uniqueness is in the early stages of the
 machine learning workflow when you are deciding what subset of data with which
@@ -1751,13 +1751,13 @@ batches that help your model learn as efficiently and effectively as possible.
 
 The uniqueness of a |Dataset| can be computed directly without need the
 predictions of a pre-trained model via the
-:meth:`compute_uniqueness() <fiftyone.brain.compute_uniqueness>` method:
+:meth:`compute_uniqueness() <tensorgrid.brain.compute_uniqueness>` method:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
 
     dataset = fo.load_dataset(...)
 
@@ -1770,11 +1770,11 @@ structures like `COCO <https://cocodataset.org/#home>`_.
 
 .. note::
 
-    Did you know? Instead of using FiftyOne's default model to generate
+    Did you know? Instead of using TensorGrid's default model to generate
     embeddings, you can provide your own embeddings or specify a model from the
     :ref:`Model Zoo <model-zoo>` to use to generate embeddings via the optional
     `embeddings` and `model` argument to
-    :meth:`compute_uniqueness() <fiftyone.brain.compute_uniqueness>`.
+    :meth:`compute_uniqueness() <tensorgrid.brain.compute_uniqueness>`.
 
 **Output**: A scalar-valued `uniqueness` field is populated on each sample
 that ranks the uniqueness of that sample (higher value means more unique).
@@ -1783,7 +1783,7 @@ unique sample in the collection having a uniqueness value of `1`.
 
 You can customize the name of this field by passing the optional
 `uniqueness_field` argument to
-:meth:`compute_uniqueness() <fiftyone.brain.compute_uniqueness>`.
+:meth:`compute_uniqueness() <tensorgrid.brain.compute_uniqueness>`.
 
 **What to expect**: Uniqueness uses a tuned algorithm that measures the
 distribution of each |Sample| in the |Dataset|. Using this distribution, it
@@ -1795,7 +1795,7 @@ most other samples are more unique.
 
     Did you know? You can specify a region of interest within each image to use
     to compute uniqueness by providing the optional `roi_field` argument to
-    :meth:`compute_uniqueness() <fiftyone.brain.compute_uniqueness>`, which
+    :meth:`compute_uniqueness() <tensorgrid.brain.compute_uniqueness>`, which
     contains |Detections| or |Polylines| that define the ROI for each sample.
 
 .. note::
@@ -1821,17 +1821,17 @@ datasets.
     .. tab:: Classification
 
         Correct annotations are crucial in developing high performing models.
-        Using the FiftyOne Brain and the predictions of a pre-trained model,
+        Using the TensorGrid Brain and the predictions of a pre-trained model,
         you can identify possible labels mistakes in |Classification| fields
         of your dataset via the
-        :meth:`compute_mistakenness() <fiftyone.brain.compute_mistakenness>`
+        :meth:`compute_mistakenness() <tensorgrid.brain.compute_mistakenness>`
         method:
 
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.brain as fob
+            import tensorgrid as tg
+            import tensorgrid.brain as fob
 
             dataset = fo.load_dataset(...)
 
@@ -1847,11 +1847,11 @@ datasets.
         that ranks the chance that the human annotation is mistaken. You can
         customize the name of this field by passing the optional
         `mistakenness_field` argument to
-        :meth:`compute_mistakenness() <fiftyone.brain.compute_mistakenness>`.
+        :meth:`compute_mistakenness() <tensorgrid.brain.compute_mistakenness>`.
 
         **What to expect**: Finding mistakes in human annotations is
         non-trivial (if it could be done perfectly then the approach would
-        sufficiently replace your prediction model!) The FiftyOne Brain uses a
+        sufficiently replace your prediction model!) The TensorGrid Brain uses a
         proprietary scoring model that ranks samples for which your prediction
         model is highly confident but wrong (according to the human annotation
         label) as a high chance of being a mistake.
@@ -1866,17 +1866,17 @@ datasets.
     .. tab:: Detection
 
         Correct annotations are crucial in developing high performing models.
-        Using the FiftyOne Brain and the predictions of a pre-trained model,
+        Using the TensorGrid Brain and the predictions of a pre-trained model,
         you can identify possible labels mistakes in |Detections| fields of
         your dataset via the
-        :meth:`compute_mistakenness() <fiftyone.brain.compute_mistakenness>`
+        :meth:`compute_mistakenness() <tensorgrid.brain.compute_mistakenness>`
         method:
 
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.brain as fob
+            import tensorgrid as tg
+            import tensorgrid.brain as fob
 
             dataset = fo.load_dataset(...)
 
@@ -1907,7 +1907,7 @@ datasets.
           annotations, these objects will have their `possible_missing`
           attribute set to True. In addition, if you pass the optional
           `copy_missing=True` flag to
-          :meth:`compute_mistakenness() <fiftyone.brain.compute_mistakenness>`,
+          :meth:`compute_mistakenness() <tensorgrid.brain.compute_mistakenness>`,
           then these objects will be copied into `label_field`.
 
         * `possible_spurious` (bool): Objects in `label_field` that were not
@@ -1928,11 +1928,11 @@ datasets.
 
         You can customize the names of these fields by passing optional
         arguments to
-        :meth:`compute_mistakenness() <fiftyone.brain.compute_mistakenness>`.
+        :meth:`compute_mistakenness() <tensorgrid.brain.compute_mistakenness>`.
 
         **What to expect**: Finding mistakes in human annotations is
         non-trivial (if it could be done perfectly then the approach would
-        sufficiently replace your prediction model!) The FiftyOne Brain uses a
+        sufficiently replace your prediction model!) The TensorGrid Brain uses a
         proprietary scoring model that ranks detections for which your
         prediction model is highly confident but wrong (according to the human
         annotation label) as a high chance of being a mistake.
@@ -1959,14 +1959,14 @@ These hard samples are also useful as seeds when considering what other new
 samples to add to a training dataset.
 
 In order to compute hardness, all you need to do is add your model predictions
-and their logits to your FiftyOne |Dataset| and then run the
-:meth:`compute_hardness() <fiftyone.brain.compute_hardness>` method:
+and their logits to your TensorGrid |Dataset| and then run the
+:meth:`compute_hardness() <tensorgrid.brain.compute_hardness>` method:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
 
     dataset = fo.load_dataset(...)
 
@@ -1979,10 +1979,10 @@ annotations are not required for hardness.
 **Output**: A scalar-valued `hardness` field is populated on each sample that
 ranks the hardness of the sample. You can customize the name of this field via
 the `hardness_field` argument of
-:meth:`compute_hardness() <fiftyone.brain.compute_hardness>`.
+:meth:`compute_hardness() <tensorgrid.brain.compute_hardness>`.
 
 **What to expect**: Hardness is computed in the context of a prediction model.
-The FiftyOne Brain hardness measure defines hard samples as those for which the
+The TensorGrid Brain hardness measure defines hard samples as those for which the
 prediction model is unsure about what label to assign. This measure
 incorporates prediction confidence and logits in a tuned model that has
 demonstrated empirical value in many model training exercises.
@@ -2005,21 +2005,21 @@ ________________________
 
 During the early stages of the ML workflow it can be useful to find
 prototypical samples in your data that accurately describe all the different
-aspects of your data. FiftyOne Brain provides a representativeness method that
+aspects of your data. TensorGrid Brain provides a representativeness method that
 finds samples which are very similar to large clusters of your data. Highly
 representative samples are great for finding modes or easy examples in your
 dataset.
 
 The representativeness of a |Dataset| can be computed directly without the need
 for the predictions of a pre-trained model via the
-:meth:`compute_representativeness() <fiftyone.brain.compute_representativeness>`
+:meth:`compute_representativeness() <tensorgrid.brain.compute_representativeness>`
 method:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
 
     dataset = fo.load_dataset(...)
 
@@ -2038,7 +2038,7 @@ having a representativeness value of `1`.
 
 You can customize the name of this field by passing the optional
 `representativeness_field` argument to
-:meth:`compute_representativeness() <fiftyone.brain.compute_representativeness>`
+:meth:`compute_representativeness() <tensorgrid.brain.compute_representativeness>`
 .
 
 **What to expect**: Representativeness uses a clustering algorithm to find
@@ -2051,7 +2051,7 @@ samples being less representative and closer samples being more representative.
     Did you know? You can specify a region of interest within each image to use
     to compute representativeness by providing the optional `roi_field`
     argument to
-    :meth:`compute_representativeness() <fiftyone.brain.compute_representativeness>`,
+    :meth:`compute_representativeness() <tensorgrid.brain.compute_representativeness>`,
     which contains |Detections| or |Polylines| that define the ROI for each
     sample.
 
@@ -2070,26 +2070,26 @@ delete it (along with any modifications to your dataset that were performed by
 it), and even retrieve the view that you computed on using the following
 methods on your dataset:
 
--   :meth:`list_brain_runs() <fiftyone.core.collections.SampleCollection.list_brain_runs>`
--   :meth:`get_brain_info() <fiftyone.core.collections.SampleCollection.get_brain_info>`
--   :meth:`load_brain_results() <fiftyone.core.collections.SampleCollection.load_brain_results>`
--   :meth:`load_brain_view() <fiftyone.core.collections.SampleCollection.load_brain_view>`
--   :meth:`rename_brain_run() <fiftyone.core.collections.SampleCollection.rename_brain_run>`
--   :meth:`delete_brain_run() <fiftyone.core.collections.SampleCollection.delete_brain_run>`
+-   :meth:`list_brain_runs() <tensorgrid.core.collections.SampleCollection.list_brain_runs>`
+-   :meth:`get_brain_info() <tensorgrid.core.collections.SampleCollection.get_brain_info>`
+-   :meth:`load_brain_results() <tensorgrid.core.collections.SampleCollection.load_brain_results>`
+-   :meth:`load_brain_view() <tensorgrid.core.collections.SampleCollection.load_brain_view>`
+-   :meth:`rename_brain_run() <tensorgrid.core.collections.SampleCollection.rename_brain_run>`
+-   :meth:`delete_brain_run() <tensorgrid.core.collections.SampleCollection.delete_brain_run>`
 
 .. tabs::
 
     .. tab:: Visualizations
 
         The
-        :meth:`compute_visualization() <fiftyone.brain.compute_visualization>`
+        :meth:`compute_visualization() <tensorgrid.brain.compute_visualization>`
         method accepts an optional `brain_key` parameter that specifies the
         brain key under which to store the results of the visualization.
 
     .. tab:: Similarity
 
         The
-        :meth:`compute_similarity() <fiftyone.brain.compute_similarity>`
+        :meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`
         method accepts an optional `brain_key` parameter that specifies the
         brain key under which to store the similarity index.
 
@@ -2097,33 +2097,33 @@ methods on your dataset:
 
         The brain key of uniqueness runs is the value of the
         `uniqueness_field` passed to
-        :meth:`compute_uniqueness() <fiftyone.brain.compute_uniqueness>`.
+        :meth:`compute_uniqueness() <tensorgrid.brain.compute_uniqueness>`.
 
     .. tab:: Mistakenness
 
         The brain key of mistakenness runs is the value of the
         `mistakenness_field` passed to
-        :meth:`compute_mistakenness() <fiftyone.brain.compute_mistakenness>`.
+        :meth:`compute_mistakenness() <tensorgrid.brain.compute_mistakenness>`.
 
     .. tab:: Hardness
 
         The brain key of hardness runs is the value of the `hardness_field`
-        passed to :meth:`compute_hardness() <fiftyone.brain.compute_hardness>`.
+        passed to :meth:`compute_hardness() <tensorgrid.brain.compute_hardness>`.
     
     .. tab:: Representativeness
 
         The brain key of representativeness runs is the value of the 
         `representativeness_field` passed to
-        :meth:`compute_representativeness() <fiftyone.brain.compute_representativeness>`.
+        :meth:`compute_representativeness() <tensorgrid.brain.compute_representativeness>`.
 
 The example below demonstrates the basic interface:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2161,7 +2161,7 @@ The example below demonstrates the basic interface:
 Brain config
 ____________
 
-FiftyOne provides a brain config that you can use to either temporarily
+TensorGrid provides a brain config that you can use to either temporarily
 or permanently configure the behavior of brain methods.
 
 Viewing your config
@@ -2176,7 +2176,7 @@ and the CLI:
 
     .. code-block:: python
 
-        import fiftyone.brain as fob
+        import tensorgrid.brain as fob
 
         # Print your current brain config
         print(fob.brain_config)
@@ -2187,49 +2187,49 @@ and the CLI:
             "default_similarity_backend": "sklearn",
             "similarity_backends": {
                 "milvus": {
-                    "config_cls": "fiftyone.brain.internal.core.milvus.MilvusSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.milvus.MilvusSimilarityConfig"
                 },
                 "pinecone": {
-                    "config_cls": "fiftyone.brain.internal.core.pinecone.PineconeSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.pinecone.PineconeSimilarityConfig"
                 },
                 "qdrant": {
-                    "config_cls": "fiftyone.brain.internal.core.qdrant.QdrantSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.qdrant.QdrantSimilarityConfig"
                 },
                 "redis": {
-                    "config_cls": "fiftyone.brain.internal.core.redis.RedisSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.redis.RedisSimilarityConfig"
                 },
                 "sklearn": {
-                    "config_cls": "fiftyone.brain.internal.core.sklearn.SklearnSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.sklearn.SklearnSimilarityConfig"
                 },
                 "mongodb": {
-                    "config_cls": "fiftyone.brain.internal.core.mongodb.MongoDBSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.mongodb.MongoDBSimilarityConfig"
                 },
                 "elasticsearch": {
-                    "config_cls": "fiftyone.brain.internal.core.elasticsearch.ElasticsearchSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.elasticsearch.ElasticsearchSimilarityConfig"
                 },
                 "pgvector": {
-                    "config_cls": "fiftyone.brain.internal.core.pgvector.PgVectorSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.pgvector.PgVectorSimilarityConfig"
                 },
                 "mosaic": {
-                    "config_cls": "fiftyone.brain.internal.core.mosaic.MosaicSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.mosaic.MosaicSimilarityConfig"
                 },
                 "lancedb": {
-                    "config_cls": "fiftyone.brain.internal.core.lancedb.LanceDBSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.lancedb.LanceDBSimilarityConfig"
                 }
             },
             "default_visualization_method": "umap",
             "visualization_methods": {
                 "umap": {
-                    "config_cls": "fiftyone.brain.visualization.UMAPVisualizationConfig"
+                    "config_cls": "tensorgrid.brain.visualization.UMAPVisualizationConfig"
                 },
                 "tsne": {
-                    "config_cls": "fiftyone.brain.visualization.TSNEVisualizationConfig"
+                    "config_cls": "tensorgrid.brain.visualization.TSNEVisualizationConfig"
                 },
                 "pca": {
-                    "config_cls": "fiftyone.brain.visualization.PCAVisualizationConfig"
+                    "config_cls": "tensorgrid.brain.visualization.PCAVisualizationConfig"
                 },
                 "manual": {
-                    "config_cls": "fiftyone.brain.visualization.ManualVisualizationConfig"
+                    "config_cls": "tensorgrid.brain.visualization.ManualVisualizationConfig"
                 }
             }
         }
@@ -2239,7 +2239,7 @@ and the CLI:
     .. code-block:: shell
 
         # Print your current brain config
-        fiftyone brain config
+        tensorgrid brain config
 
     .. code-block:: text
 
@@ -2247,43 +2247,43 @@ and the CLI:
             "default_similarity_backend": "sklearn",
             "similarity_backends": {
                 "milvus": {
-                    "config_cls": "fiftyone.brain.internal.core.milvus.MilvusSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.milvus.MilvusSimilarityConfig"
                 },
                 "pinecone": {
-                    "config_cls": "fiftyone.brain.internal.core.pinecone.PineconeSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.pinecone.PineconeSimilarityConfig"
                 },
                 "qdrant": {
-                    "config_cls": "fiftyone.brain.internal.core.qdrant.QdrantSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.qdrant.QdrantSimilarityConfig"
                 },
                 "redis": {
-                    "config_cls": "fiftyone.brain.internal.core.redis.RedisSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.redis.RedisSimilarityConfig"
                 },
                 "sklearn": {
-                    "config_cls": "fiftyone.brain.internal.core.sklearn.SklearnSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.sklearn.SklearnSimilarityConfig"
                 },
                 "mongodb": {
-                    "config_cls": "fiftyone.brain.internal.core.mongodb.MongoDBSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.mongodb.MongoDBSimilarityConfig"
                 },
                 "elasticsearch": {
-                    "config_cls": "fiftyone.brain.internal.core.elasticsearch.ElasticsearchSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.elasticsearch.ElasticsearchSimilarityConfig"
                 },
                 "lancedb": {
-                    "config_cls": "fiftyone.brain.internal.core.lancedb.LanceDBSimilarityConfig"
+                    "config_cls": "tensorgrid.brain.internal.core.lancedb.LanceDBSimilarityConfig"
                 }
             },
             "default_visualization_method": "umap",
             "visualization_methods": {
                 "umap": {
-                    "config_cls": "fiftyone.brain.visualization.UMAPVisualizationConfig"
+                    "config_cls": "tensorgrid.brain.visualization.UMAPVisualizationConfig"
                 },
                 "tsne": {
-                    "config_cls": "fiftyone.brain.visualization.TSNEVisualizationConfig"
+                    "config_cls": "tensorgrid.brain.visualization.TSNEVisualizationConfig"
                 },
                 "pca": {
-                    "config_cls": "fiftyone.brain.visualization.PCAVisualizationConfig"
+                    "config_cls": "tensorgrid.brain.visualization.PCAVisualizationConfig"
                 },
                 "manual": {
-                    "config_cls": "fiftyone.brain.visualization.ManualVisualizationConfig"
+                    "config_cls": "tensorgrid.brain.visualization.ManualVisualizationConfig"
                 }
             }
         }
@@ -2307,7 +2307,7 @@ The following order of precedence is used to assign values to your brain
 config settings as runtime:
 
 1. Config settings applied at runtime by directly editing
-   `fiftyone.brain.brain_config`
+   `tensorgrid.brain.brain_config`
 2. `FIFTYONE_BRAIN_XXX` environment variables
 3. Settings in your JSON config (`~/.fiftyone/brain_config.json`)
 4. The default config values
@@ -2333,7 +2333,7 @@ config settings:
         }
     }
 
-When `fiftyone.brain` is imported, any options from your JSON config are merged
+When `tensorgrid.brain` is imported, any options from your JSON config are merged
 into the default config, as per the order of precedence described above.
 
 .. note::
@@ -2360,7 +2360,7 @@ You can declare parameters for specific similarity backends by setting
 environment variables of the form
 `FIFTYONE_BRAIN_SIMILARITY_<BACKEND>_<PARAMETER>`. Any settings that you
 declare in this way will be passed as keyword arguments to methods like
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` whenever the
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` whenever the
 corresponding backend is in use. For example, you can configure the URL of your
 :ref:`Qdrant server <qdrant-integration>` as follows:
 
@@ -2392,7 +2392,7 @@ You can declare parameters for specific visualization methods by setting
 environment variables of the form
 `FIFTYONE_BRAIN_VISUALIZATION_<METHOD>_<PARAMETER>`. Any settings that you
 declare in this way will be passed as keyword arguments to methods like
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>` whenever
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>` whenever
 the corresponding method is in use. For example, you can suppress logging
 messages for the UMAP method as follows:
 
@@ -2422,16 +2422,16 @@ Modifying your config in code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can dynamically modify your brain config at runtime by directly
-editing the `fiftyone.brain.brain_config` object.
+editing the `tensorgrid.brain.brain_config` object.
 
 Any changes to your brain config applied via this manner will immediately
-take effect in all subsequent calls to `fiftyone.brain.brain_config` during
+take effect in all subsequent calls to `tensorgrid.brain.brain_config` during
 your current session.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.brain as fob
+    import tensorgrid.brain as fob
 
     fob.brain_config.default_similarity_backend = "qdrant"
     fob.brain_config.default_visualization_method = "tsne"

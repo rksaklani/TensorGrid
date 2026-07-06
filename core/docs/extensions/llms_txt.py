@@ -171,20 +171,16 @@ class LLMSTxtGenerator:
 
 
 def setup(app: Sphinx):
-    app.add_config_value("llms_txt_title", "FiftyOne documentation", "env")
+    app.add_config_value("llms_txt_title", "TensorGrid documentation", "env")
     app.add_config_value(
         "llms_txt_description",
-        "> FiftyOne is an open-source tool for building high-quality datasets and computer vision models.\n"
+        "> TensorGrid is an open-source multimodal data platform for building high-quality datasets and computer vision models.\n"
         "It supercharges machine learning workflows by enabling you to visualize datasets, interpret models, evaluate performance, and identify data quality issues faster and more effectively.\n"
         "The platform provides powerful capabilities for dataset curation, model evaluation, annotation mistake detection, and integrates seamlessly with popular ML tools like PyTorch, TensorFlow, Hugging Face, and more.",
         "env",
     )
-    app.add_config_value(
-        "llms_txt_base_url", "https://docs.voxel51.com/", "env"
-    )
-    app.add_config_value(
-        "llms_txt_optional", "- [All docs](https://docs.voxel51.com/)", "env"
-    )
+    app.add_config_value("llms_txt_base_url", "/docs/", "env")
+    app.add_config_value("llms_txt_optional", "- [All docs](/docs/)", "env")
 
     generator = LLMSTxtGenerator(app)
     app.connect("env-updated", generator.collect_toctree_entries)

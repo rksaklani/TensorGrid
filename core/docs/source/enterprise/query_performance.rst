@@ -6,7 +6,7 @@ Query Performance
 .. default-role:: code
 
 Query Performance is a builtin feature of the
-:ref:`FiftyOne Enterprise App <enterprise-app>` that leverages database indexes
+:ref:`TensorGrid Enterprise App <enterprise-app>` that leverages database indexes
 to optimize your queries on large-scale datasets.
 
 Optimizing Query Performance

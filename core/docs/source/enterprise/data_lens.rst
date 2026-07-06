@@ -6,13 +6,13 @@ Data Lens
 .. default-role:: code
 
 Data Lens is a feature built into the
-:ref:`FiftyOne Enterprise App <enterprise-app>` that allows you to use FiftyOne
+:ref:`TensorGrid Enterprise App <enterprise-app>` that allows you to use TensorGrid
 to explore and import samples from external data sources.
 
 Whether your data resides in a database like PostgreSQL or a data lake like
 :ref:`Databricks <data-lens-databricks>` or
 :ref:`BigQuery <data-lens-bigquery>`, Data Lens provides a way to search your
-data sources, visualize sample data, and import into FiftyOne for further
+data sources, visualize sample data, and import into TensorGrid for further
 analysis.
 
 .. image:: /images/enterprise/data_lens_home.png
@@ -33,14 +33,14 @@ ____________
 
 2. **Connect your data source**
     Provide configuration to Data Lens to connect to your data source. Once
-    connected, you can start searching for samples directly from FiftyOne.
+    connected, you can start searching for samples directly from TensorGrid.
     See :ref:`Connecting a data source <data-lens-connecting-a-data-source>`
     to learn more.
 
 3. **Interact with your data**
     View your samples using Data Lens' rich preview capabilities. Refine your
     search criteria to find samples of interest, then import your samples
-    into a FiftyOne dataset for further analysis. See
+    into a TensorGrid dataset for further analysis. See
     :ref:`Exploring samples <data-lens-querying-data>` to learn more.
 
 .. _data-lens-connecting-a-data-source:
@@ -48,10 +48,10 @@ ____________
 Connecting a data source
 ------------------------
 
-A data source represents anywhere that you store your data outside of FiftyOne.
+A data source represents anywhere that you store your data outside of TensorGrid.
 This could be a local SQL database, a hosted data lake, or an internal data
 platform. To connect to your data source, you'll first implement a simple
-operator which FiftyOne can use to communicate with your data source.
+operator which TensorGrid can use to communicate with your data source.
 
 Once your operator is defined, you can navigate to the "Data sources" tab by
 clicking on the tab header or by clicking on "Connect to a data source" from
@@ -126,12 +126,12 @@ If you want to change your search, simply reopen the query parameters panel
 and modify your inputs. Clicking "Preview data" will fetch new samples matching
 the current query parameters.
 
-If you want to import your samples into FiftyOne for further analysis, you can
+If you want to import your samples into TensorGrid for further analysis, you can
 import your samples to a dataset.
 
 .. _data-lens-importing-to-fiftyone:
 
-Importing samples to FiftyOne
+Importing samples to TensorGrid
 -----------------------------
 
 After generating a preview in Data Lens, you can click on the "Import data"
@@ -203,7 +203,7 @@ From the Runs page, you can track the status of your import.
     :align: center
 
 Once your samples are imported, you will be able to leverage the full
-capabilities of FiftyOne to analyze and curate your data, and you can continue
+capabilities of TensorGrid to analyze and curate your data, and you can continue
 to use Data Lens to augment your datasets.
 
 .. image:: /images/enterprise/data_lens_imported_samples.png
@@ -215,12 +215,12 @@ to use Data Lens to augment your datasets.
 Integrating with Data Lens
 __________________________
 
-Data Lens makes use of FiftyOne's powerful
+Data Lens makes use of TensorGrid's powerful
 :ref:`plugins framework <fiftyone-plugins>` to allow you to tailor your
 experience to meet the needs of your data. As part of the plugin framework,
 you are able to create custom :ref:`operators <plugins-design-operators>`,
 which are self-contained Python classes that provide custom functionality to
-FiftyOne.
+TensorGrid.
 
 Data Lens defines an operator interface which makes it easy to connect to your
 data sources. We'll walk through an example of creating your first Data Lens
@@ -232,7 +232,7 @@ Setting up your operator
 ------------------------
 
 To assist with Data Lens integration, we can use the
-:class:`DataLensOperator <fiftyone.operators.data_lens.operator.DataLensOperator>`
+:class:`DataLensOperator <tensorgrid.operators.data_lens.operator.DataLensOperator>`
 base class provided with the Enterprise SDK. This base class handles the
 implementation for the operator's `execute()` method, and defines a single
 abstract method that we'll implement.
@@ -243,8 +243,8 @@ abstract method that we'll implement.
     # my_plugin/__init__.py
     from typing import Generator
 
-    import fiftyone.operators as foo
-    from fiftyone.operators.data_lens import (
+    import tensorgrid.operators as foo
+    from tensorgrid.operators.data_lens import (
         DataLensOperator,
         DataLensSearchRequest,
         DataLensSearchResponse
@@ -279,9 +279,9 @@ Let's take a look at what we have so far.
     class MyCustomDataLensOperator(DataLensOperator):
 
 Our operator extends the
-:class:`DataLensOperator <fiftyone.operators.data_lens.operator.DataLensOperator>`
+:class:`DataLensOperator <tensorgrid.operators.data_lens.operator.DataLensOperator>`
 provided by the Enterprise SDK. This base class defines the abstract
-:meth:`handle_lens_search_request() <fiftyone.operators.data_lens.operator.DataLensOperator.handle_lens_search_request>`
+:meth:`handle_lens_search_request() <tensorgrid.operators.data_lens.operator.DataLensOperator.handle_lens_search_request>`
 method, which we will need to implement.
 
 .. code-block:: python
@@ -290,7 +290,7 @@ method, which we will need to implement.
     @property
     def config(self) -> foo.OperatorConfig:
         return foo.OperatorConfig(
-            # This is the name of your operator. FiftyOne will canonically
+            # This is the name of your operator. TensorGrid will canonically
             # refer to your operator as <your-plugin>/<your-operator>.
             name="my_custom_data_lens_operator",
 
@@ -303,11 +303,11 @@ method, which we will need to implement.
             unlisted=True,
 
             # For compatibility with the DataLensOperator base class, we
-            # instruct FiftyOne to execute our operator as a generator.
+            # instruct TensorGrid to execute our operator as a generator.
             execute_as_generator=True,
         )
 
-The :meth:`config <fiftyone.operators.operator.Operator.config>` property
+The :meth:`config <tensorgrid.operators.operator.Operator.config>` property
 is part of the standard :ref:`operator interface <operator-interface>` and
 provides configuration options for your operator.
 
@@ -322,13 +322,13 @@ provides configuration options for your operator.
         pass
 
 The
-:meth:`handle_lens_search_request() <fiftyone.operators.data_lens.operator.DataLensOperator.handle_lens_search_request>`
+:meth:`handle_lens_search_request() <tensorgrid.operators.data_lens.operator.DataLensOperator.handle_lens_search_request>`
 method provides us with two arguments: a
-:class:`DataLensSearchRequest <fiftyone.operators.data_lens.models.DataLensSearchRequest>`
+:class:`DataLensSearchRequest <tensorgrid.operators.data_lens.models.DataLensSearchRequest>`
 instance, and the current operator execution context.
 
 The
-:class:`DataLensSearchRequest <fiftyone.operators.data_lens.models.DataLensSearchRequest>`
+:class:`DataLensSearchRequest <tensorgrid.operators.data_lens.models.DataLensSearchRequest>`
 is generated by the Data Lens framework and provides information about the
 Data Lens user's query. The request object has
 the following properties:
@@ -352,7 +352,7 @@ leverage in your operator, including things like
 :ref:`providing secrets to your operator <enterprise-secrets>`.
 
 Using these inputs, we are expected to return a generator which yields
-:class:`DataLensSearchResponse <fiftyone.operators.data_lens.models.DataLensSearchResponse>`
+:class:`DataLensSearchResponse <tensorgrid.operators.data_lens.models.DataLensSearchResponse>`
 objects. To start, we'll create some synthetic data to better understand the
 interaction between Data Lens and our operator. We'll look at a
 :ref:`more realistic example <data-lens-databricks>` later on.
@@ -370,22 +370,22 @@ Generating search responses
 ---------------------------
 
 To adhere to the Data Lens interface, we need to yield
-:class:`DataLensSearchResponse <fiftyone.operators.data_lens.models.DataLensSearchResponse>`
+:class:`DataLensSearchResponse <tensorgrid.operators.data_lens.models.DataLensSearchResponse>`
 objects from our operator. A
-:class:`DataLensSearchResponse <fiftyone.operators.data_lens.models.DataLensSearchResponse>`
+:class:`DataLensSearchResponse <tensorgrid.operators.data_lens.models.DataLensSearchResponse>`
 is comprised of the following fields:
 
 -   `response.result_count`: a number indicating the number of samples being
     returned in this response.
 -   `response.query_result`: a list of dicts containing serialized
-    :class:`Sample <fiftyone.core.sample.Sample>` data, e.g. obtained via
-    :meth:`to_dict() <fiftyone.core.sample.Sample.to_dict>`.
+    :class:`Sample <tensorgrid.core.sample.Sample>` data, e.g. obtained via
+    :meth:`to_dict() <tensorgrid.core.sample.Sample.to_dict>`.
 
 .. note::
 
     Data Lens expects sample data to adhere to the
-    :class:`Sample <fiftyone.core.sample.Sample>` format, which is easy to
-    achieve by using the FiftyOne SDK to create your sample data, as shown
+    :class:`Sample <tensorgrid.core.sample.Sample>` format, which is easy to
+    achieve by using the TensorGrid SDK to create your sample data, as shown
     below.
 
 To see how Data Lens works, let's yield a response with a single synthetic
@@ -476,7 +476,7 @@ operator.
 
 To achieve this, we simply need to define the possible inputs to our operator
 in the
-:meth:`resolve_input() <fiftyone.operators.operator.Operator.resolve_input>`
+:meth:`resolve_input() <tensorgrid.operators.operator.Operator.resolve_input>`
 method.
 
 .. code-block:: python
@@ -609,14 +609,14 @@ a schema consistent with the Berkeley DeepDrive dataset format.
     import time
     from typing import Generator
 
-    import fiftyone as fo
+    import tensorgrid as tg
     from databricks.sdk import WorkspaceClient
     from databricks.sdk.service.sql import (
         StatementResponse, StatementState, StatementParameterListItem
     )
-    from fiftyone import operators as foo
-    from fiftyone.operators import types
-    from fiftyone.operators.data_lens import (
+    from tensorgrid import operators as foo
+    from tensorgrid.operators import types
+    from tensorgrid.operators.data_lens import (
         DataLensOperator, DataLensSearchRequest, DataLensSearchResponse
     )
 
@@ -846,7 +846,7 @@ a schema consistent with the Berkeley DeepDrive dataset format.
                     yield element
 
         def _transform_sample(self, sample: dict) -> dict:
-            """Transform a dict of raw Databricks data into a FiftyOne Sample dict."""
+            """Transform a dict of raw Databricks data into a TensorGrid Sample dict."""
 
             return fo.Sample(
                 filepath=f"cloud://bucket/{sample.get('name')}",
@@ -871,7 +871,7 @@ a schema consistent with the Berkeley DeepDrive dataset format.
                 detections=[
                     fo.Detection(
                         label=label_data["category"],
-                        # FiftyOne expects bounding boxes to be of the form
+                        # TensorGrid expects bounding boxes to be of the form
                         #   [x, y, width, height]
                         # where values are normalized to the image's dimensions.
                         #
@@ -942,9 +942,9 @@ Below is an example of a Data Lens connector for BigQuery:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.operators as foo
-    import fiftyone.operators.types as types
-    from fiftyone.operators.data_lens import (
+    import tensorgrid.operators as foo
+    import tensorgrid.operators.types as types
+    from tensorgrid.operators.data_lens import (
         DataLensOperator,
         DataLensSearchRequest,
         DataLensSearchResponse
@@ -1036,7 +1036,7 @@ Below is an example of a Data Lens connector for BigQuery:
                 # Iterate over data from BigQuery
                 for row in rows:
 
-                    # Transform sample data from BigQuery format to FiftyOne
+                    # Transform sample data from BigQuery format to TensorGrid
                     samples.append(self.convert_to_sample(row))
 
                     # Yield next batch when we have enough samples
@@ -1113,11 +1113,11 @@ improving both query performance and operational cost.
 .. code-block:: python
     :linenos:
 
-    # Transform sample data from BigQuery format to FiftyOne
+    # Transform sample data from BigQuery format to TensorGrid
     samples.append(self.convert_to_sample(row))
 
-Here we are converting our sample data from its storage format to a FiftyOne
-:class:`Sample <fiftyone.core.sample.Sample>`. This is where we'll add features
+Here we are converting our sample data from its storage format to a TensorGrid
+:class:`Sample <tensorgrid.core.sample.Sample>`. This is where we'll add features
 to our samples, such as :ref:`labels <using-labels>`.
 
 As we can see from this example, we can make our Data Lens search experience

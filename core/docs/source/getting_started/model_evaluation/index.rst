@@ -5,14 +5,14 @@ Model Evaluation Guide
 
 .. default-role:: code
 
-**Complete Model Evaluation Workflow with FiftyOne's Evaluation API and Interactive Analysis**
+**Complete Model Evaluation Workflow with TensorGrid's Evaluation API and Interactive Analysis**
 
 **Level:** Beginner | **Estimated Time:** 15-30 minutes | **Tags:** Model Evaluation, Classification, Detection, Performance Analysis, Metrics
 
-This step-by-step guide will walk you through a complete model evaluation workflow using FiftyOne. You'll learn how to:
+This step-by-step guide will walk you through a complete model evaluation workflow using TensorGrid. You'll learn how to:
 
 - Load datasets with predictions and ground truth labels
-- Perform comprehensive model evaluation using FiftyOne's evaluation API
+- Perform comprehensive model evaluation using TensorGrid's evaluation API
 - Analyze model performance with interactive visualization tools
 - Identify model weaknesses and failure modes
 - Generate detailed evaluation reports and metrics
@@ -24,8 +24,8 @@ Guide Overview
 
 This guide is broken down into the following sequential steps:
 
-1. **Basic Model Evaluation** - Learn how to evaluate model predictions against ground truth using FiftyOne's evaluation APIs, computing precision, recall, and other metrics
-2. **Advanced Evaluation Analysis** - Use FiftyOne's Model Evaluation Panel to visualize model confidence, sort by false positives/negatives, and filter samples by performance
+1. **Basic Model Evaluation** - Learn how to evaluate model predictions against ground truth using TensorGrid's evaluation APIs, computing precision, recall, and other metrics
+2. **Advanced Evaluation Analysis** - Use TensorGrid's Model Evaluation Panel to visualize model confidence, sort by false positives/negatives, and filter samples by performance
 
 .. _evaluation-prerequisites:
 
@@ -34,13 +34,13 @@ Prerequisites
 
 **Who Is This Guide For**
 
-This tutorial is designed for computer vision practitioners and data scientists who want to master model evaluation workflows using FiftyOne. Whether you're evaluating classification models, detection models, or custom computer vision models, you'll learn how to leverage FiftyOne's powerful evaluation capabilities to gain deep insights into model performance.
+This tutorial is designed for computer vision practitioners and data scientists who want to master model evaluation workflows using TensorGrid. Whether you're evaluating classification models, detection models, or custom computer vision models, you'll learn how to leverage TensorGrid's powerful evaluation capabilities to gain deep insights into model performance.
 
 **Packages Used**
 
 The notebooks will automatically install the required packages when you run them. The main packages we'll be using include:
 
-- **fiftyone** - Core FiftyOne library for dataset management and evaluation
+- **fiftyone** - Core TensorGrid library for dataset management and evaluation
 - **torch & torchvision** - PyTorch framework for deep learning operations
 - **ultralytics** - YOLOv8 implementation for object detection
 - **numpy & scikit-learn** - Numerical operations and evaluation metrics
@@ -104,9 +104,9 @@ This tutorial demonstrates a complete evaluation workflow that combines:
 
 1. **Data Preparation** - Loading datasets with predictions and ground truth, ensuring proper format and structure
 
-2. **Basic Evaluation** - Computing standard metrics using FiftyOne's evaluation API, understanding what each metric tells us about model performance
+2. **Basic Evaluation** - Computing standard metrics using TensorGrid's evaluation API, understanding what each metric tells us about model performance
 
-3. **Interactive Analysis** - Using FiftyOne's Model Evaluation Panel to visualize results, filter samples, and gain deeper insights
+3. **Interactive Analysis** - Using TensorGrid's Model Evaluation Panel to visualize results, filter samples, and gain deeper insights
 
 This integrated approach gives you the tools to not just evaluate models, but to understand their behavior, identify improvement opportunities, and make data-driven decisions about model deployment.
 
@@ -115,7 +115,7 @@ This integrated approach gives you the tools to not just evaluate models, but to
 Ready to Begin?
 ---------------
 
-Click **Next** to start with the first step: Basic Model Evaluation with FiftyOne.
+Click **Next** to start with the first step: Basic Model Evaluation with TensorGrid.
 
 .. toctree::
    :maxdepth: 1

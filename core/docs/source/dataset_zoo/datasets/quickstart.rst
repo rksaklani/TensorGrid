@@ -20,7 +20,7 @@ from
 -   Tags: ``image, quickstart``
 -   Supported splits: ``N/A``
 -   ZooDataset class:
-    :class:`QuickstartDataset <fiftyone.zoo.datasets.base.QuickstartDataset>`
+    :class:`QuickstartDataset <tensorgrid.zoo.datasets.base.QuickstartDataset>`
 
 **Example usage**
 
@@ -31,8 +31,8 @@ from
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("quickstart")
 
@@ -42,9 +42,9 @@ from
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load quickstart
+        tensorgrid zoo datasets load quickstart
 
-        fiftyone app launch quickstart
+        tensorgrid app launch quickstart
 
 .. image:: /images/dataset_zoo/quickstart.png
    :alt: quickstart

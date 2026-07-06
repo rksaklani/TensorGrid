@@ -7,7 +7,7 @@ Annotation Guide
 
 **Multimodal 2D/3D Annotation for Detection Datasets**
 
-FiftyOne's in-app annotation lets you create and edit labels directly in the App—including 2D bounding boxes on images and 3D cuboids on point clouds. This guide offers two tracks depending on your goals.
+TensorGrid's in-app annotation lets you create and edit labels directly in the App—including 2D bounding boxes on images and 3D cuboids on point clouds. This guide offers two tracks depending on your goals.
 
 .. _annotation-tracks:
 
@@ -107,8 +107,8 @@ When to Use In-App Annotation
 - Multimodal data with synchronized 2D/3D views
 - Tight feedback loops between labeling and evaluation
 
-**For large-scale annotation projects**, FiftyOne's :ref:`annotation API <fiftyone-annotation>`
-lets you orchestrate external annotation services while keeping FiftyOne as your
+**For large-scale annotation projects**, TensorGrid's :ref:`annotation API <fiftyone-annotation>`
+lets you orchestrate external annotation services while keeping TensorGrid as your
 central data hub for curation, QA, and model evaluation.
 
 .. _annotation-dataset:
@@ -126,8 +126,8 @@ The dataset downloads automatically when you run the notebooks.
 
 .. code-block:: python
 
-   import fiftyone as fo
-   import fiftyone.zoo as foz
+   import tensorgrid as tg
+   import tensorgrid.zoo as foz
 
    dataset = foz.load_zoo_dataset("quickstart-groups")
    session = fo.launch_app(dataset)

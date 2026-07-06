@@ -1,22 +1,22 @@
 .. _enterprise-installation:
 
-FiftyOne Enterprise Installation
+TensorGrid Enterprise Installation
 ================================
 
 .. default-role:: code
 
-FiftyOne Enterprise deployments come with a centralized FiftyOne Enterprise App
+TensorGrid Enterprise deployments come with a centralized TensorGrid Enterprise App
 and database that allows your entire team to collaborate securely on the same
-datasets. FiftyOne Enterprise is deployed entirely into your environment, either
+datasets. TensorGrid Enterprise is deployed entirely into your environment, either
 on-premises or in a private cloud. Your data never leaves your environment.
 
-FiftyOne Enterprise can be deployed on a wide variety of infrastructure
+TensorGrid Enterprise can be deployed on a wide variety of infrastructure
 solutions, including Kubernetes and Docker.
 
 .. note::
 
-    Detailed instructions for the initial FiftyOne Enterprise deployment, along
-    with all necessary components, are made available by your Voxel51 support
+    Detailed instructions for the initial TensorGrid Enterprise deployment, along
+    with all necessary components, are made available by your TensorGrid support
     team during the onboarding process.
 
 .. _enterprise-python-sdk:
@@ -24,29 +24,29 @@ solutions, including Kubernetes and Docker.
 Python SDK
 ----------
 
-While the :ref:`FiftyOne Enterprise App <enterprise-app>` allows for countless new
+While the :ref:`TensorGrid Enterprise App <enterprise-app>` allows for countless new
 App-centric workflows, any existing Python-based workflows that you've fallen
-in love with in the open-source version of FiftyOne are still directly
+in love with in the open-source version of TensorGrid are still directly
 applicable!
 
-FiftyOne Enterprise requires an updated Python SDK, which is a wrapper around the
-open-source FiftyOne package that adds new functionality like support for
+TensorGrid Enterprise requires an updated Python SDK, which is a wrapper around the
+open-source TensorGrid package that adds new functionality like support for
 cloud-backed media.
 
-You can find the installation instructions under the "Install FiftyOne" section
+You can find the installation instructions under the "Install TensorGrid" section
 of the Enterprise App by clicking on your user icon in the upper right corner:
 
-.. image:: /images/enterprise/install_fiftyone.png
+.. image:: /images/enterprise/install_tensorgrid.png
    :alt: install-enterprise
    :align: center
    :width: 300
 
-There you'll see instructions for installing a ``fiftyone`` package from the
+There you'll see instructions for installing a ``tensorgrid`` package from the
 private PyPI server as shown below:
 
 .. code-block:: shell
 
-    pip install --index-url https://${TOKEN}@pypi.fiftyone.ai fiftyone
+    pip install --index-url https://${TOKEN}@pypi.tensorgrid.ai tensorgrid
 
 .. note::
 
@@ -55,8 +55,8 @@ private PyPI server as shown below:
 
 .. note::
 
-   The Enterprise Python package is named ``fiftyone`` and has the same module
-   structure as :doc:`fiftyone <../api/fiftyone>`, so any existing scripts you
+   The Enterprise Python package is named ``tensorgrid`` and has the same module
+   structure as :doc:`tensorgrid <../api/tensorgrid>`, so any existing scripts you
    built using open source will continue to run after you upgrade!
 
 Next Steps
@@ -84,7 +84,7 @@ If you  are using `poetry <https://python-poetry.org/>`_ to install your
 dependencies rather than ``pip``, you will need to follow instructions in
 `the docs for installing from a private repository. <https://python-poetry.org/docs/repositories/#installing-from-private-package-sources>`_
 The two key points are specifying the additional private source and declaring
-that the ``fiftyone`` module should be found there and not the default PyPI
+that the ``tensorgrid`` module should be found there and not the default PyPI
 location.
 
 Add source
@@ -95,14 +95,14 @@ In poetry v1.5, it is recommended to use an
 
 .. code-block:: shell
 
-    poetry source add --priority=explicit fiftyone-enterprise https://pypi.fiftyone.ai/simple/
+    poetry source add --priority=explicit fiftyone-enterprise https://pypi.tensorgrid.ai/simple/
 
 Prior to v1.5, you should use the deprecated
 `secondary package source. <https://python-poetry.org/docs/1.4/repositories/#secondary-package-sources>`_
 
 .. code-block:: shell
 
-    poetry source add --secondary fiftyone-enterprise https://pypi.fiftyone.ai/simple/
+    poetry source add --secondary fiftyone-enterprise https://pypi.tensorgrid.ai/simple/
 
 Configure credentials
 ~~~~~~~~~~~~~~~~~~~~~
@@ -121,7 +121,7 @@ Alternatively, you can specify the credentials in environment variables.
 If you have trouble configuring the credentials, see
 `more in the poetry docs here. <https://python-poetry.org/docs/repositories/#configuring-credentials>`_
 
-Add fiftyone dependency
+Add tensorgrid dependency
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 Replace ``X.Y.Z`` with the proper version
@@ -137,20 +137,20 @@ You should then see snippets in the ``pyproject.toml`` file like the following
 
     [[tool.poetry.source]]
     name = "fiftyone-enterprise"
-    url = "https://pypi.fiftyone.ai"
+    url = "https://pypi.tensorgrid.ai"
     priority = "explicit"
 
 .. code-block:: toml
 
     [tool.poetry.dependencies]
-    fiftyone = {version = "X.Y.Z", source = "fiftyone-enterprise"}
+    tensorgrid = {version = "X.Y.Z", source = "fiftyone-enterprise"}
 
 .. _enterprise-cloud-credentials:
 
 Cloud credentials
 -----------------
 
-In order to utilize cloud-backed media functionality of FiftyOne Enterprise, at
+In order to utilize cloud-backed media functionality of TensorGrid Enterprise, at
 least one cloud source must be configured with proper credentials. Below are
 instructions for configuring each supported cloud provider for local SDK use
 or directly to the Enterprise containers. An admin can also :ref:`configure
@@ -180,7 +180,7 @@ Details are provided below for each cloud platform.
 Amazon S3
 _________
 
-To work with FiftyOne datasets whose media are stored in Amazon S3, you simply
+To work with TensorGrid datasets whose media are stored in Amazon S3, you simply
 need to provide
 `AWS credentials <https://boto3.amazonaws.com/v1/documentation/api/latest/guide/configuration.html#using-a-configuration-file>`_
 to your Enterprise client with read access to the relevant objects and buckets.
@@ -230,7 +230,7 @@ and the shared credentials file should use
 
 .. note::
 
-    FiftyOne Enterprise requires either the `s3:ListBucket` or
+    TensorGrid Enterprise requires either the `s3:ListBucket` or
     `s3:GetBucketLocation` permission in order to access objects in S3 buckets.
 
     If you wish to use multi-account credentials, your credentials must have
@@ -272,7 +272,7 @@ heuristics engine to determine how long to cache the object.
 Google Cloud Storage
 ____________________
 
-To work with FiftyOne datasets whose media are stored in Google Cloud Storage,
+To work with TensorGrid datasets whose media are stored in Google Cloud Storage,
 you simply need to provide `credentials <https://cloud.google.com/docs/authentication>`_
 to your Enterprise client with read access to the relevant objects and buckets.
 
@@ -329,7 +329,7 @@ By default GCP sets the max-age=0 seconds meaning no caching will occur.
 Microsoft Azure
 _______________
 
-To work with FiftyOne datasets whose media are stored in Azure Storage, you
+To work with TensorGrid datasets whose media are stored in Azure Storage, you
 simply need to provide
 `Azure credentials <https://learn.microsoft.com/en-us/azure/storage/blobs/authorize-data-operations-cli>`_
 to your Enterprise client with read access to the relevant objects and containers.
@@ -459,7 +459,7 @@ heuristics engine to determine how long to cache the object.
 MinIO
 _____
 
-To work with FiftyOne datasets whose media are stored in
+To work with TensorGrid datasets whose media are stored in
 `MinIO <https://min.io/>`_, you simply need to provide the credentials to your
 Enterprise client with read access to the relevant objects and buckets.
 
@@ -536,7 +536,7 @@ Extra client arguments
 ______________________
 
 Configuring credentials following the instructions above is almost always
-sufficient for FiftyOne Enterprise to properly utilize them. In rare cases where the
+sufficient for TensorGrid Enterprise to properly utilize them. In rare cases where the
 cloud provider client needs non-default configuration, you can add extra client
 kwargs via the :ref:`media cache config <enterprise-media-cache-config>`:
 
@@ -646,7 +646,7 @@ to store the (encrypted) credential.
 
 
 Alternatively, credentials can be updated programmatically with the
-:meth:`add_cloud_credentials() <fiftyone.management.cloud_credentials.add_cloud_credentials>`
+:meth:`add_cloud_credentials() <tensorgrid.management.cloud_credentials.add_cloud_credentials>`
 method in the Management SDK.
 
 Any cloud credentials uploaded via this method will automatically be used by
@@ -706,8 +706,8 @@ downloading of credentials to machines, set the environment variable
 AI Model Weights
 ________________
 
-The FiftyOne Enterprise App ships with AI-assisted mask segmentation for annotation
-workflows. By default, the required model weights are served from Voxel51's
+The TensorGrid Enterprise App ships with AI-assisted mask segmentation for annotation
+workflows. By default, the required model weights are served from TensorGrid's
 CDN and no configuration is required.
 
 Deployments that prefer to serve the weights from their own infrastructure
@@ -722,7 +722,7 @@ The base location must host the two files that the App fetches:
 * `decoder.onnx`
 
 The SAM2 tiny variant is recommended for optimal user experience. The
-simplest way to populate your own location is to mirror the files Voxel51
+simplest way to populate your own location is to mirror the files TensorGrid
 serves from its CDN, which are the canonical artifacts that the App is
 built against:
 

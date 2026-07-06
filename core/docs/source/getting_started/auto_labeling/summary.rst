@@ -14,7 +14,7 @@ Step-by-Step Recap
 
 **Step 1: Prepare Your Dataset and Delegated Operators**
 
-You learned how to set up the foundation for Auto Labeling by preparing your dataset in FiftyOne Enterprise and configuring GPU-enabled delegated operators. This included understanding the infrastructure requirements and ensuring your environment is ready for auto labeling workflows.
+You learned how to set up the foundation for Auto Labeling by preparing your dataset in TensorGrid Enterprise and configuring GPU-enabled delegated operators. This included understanding the infrastructure requirements and ensuring your environment is ready for auto labeling workflows.
 
 **Step 2: Configure Your Auto Labeling Run**
 
@@ -22,11 +22,11 @@ You mastered the configuration process for an auto label run, including sample s
 
 **Step 3: Analyze and Approve Predictions**
 
-You explored FiftyOne's review interface for systematically assessing auto-generated labels. This included using the Review and Approval tabs to batch select correct predictions and mark them for approval.
+You explored TensorGrid's review interface for systematically assessing auto-generated labels. This included using the Review and Approval tabs to batch select correct predictions and mark them for approval.
 
 **Step 4: Assess Labels with Embeddings**
 
-You used FiftyOne's patch embeddings visualization to identify outliers, false positives, and false negatives that are difficult to spot through manual review. You then tagged problematic predictions for relabeling or removal.
+You used TensorGrid's patch embeddings visualization to identify outliers, false positives, and false negatives that are difficult to spot through manual review. You then tagged problematic predictions for relabeling or removal.
 
 **Step 5: Finalize Your Auto Labeling Workflow**
 
@@ -50,22 +50,22 @@ Suggested Exercises
 Resources and Further Reading
 ----------------------------
 
-* `FiftyOne Enterprise Documentation <https://docs.voxel51.com/enterprise/index.html#>`_
+* `TensorGrid Enterprise Documentation </docs/enterprise/index.html#>`_
 
-* `Delegated Operations Guide <https://docs.voxel51.com/enterprise/plugins.html#enterprise-delegated-operations>`_
+* `Delegated Operations Guide </docs/enterprise/plugins.html#enterprise-delegated-operations>`_
 
-* `FiftyOne Embeddings Tutorial <../../tutorials/image_embeddings.html>`_
+* `TensorGrid Embeddings Tutorial <../../tutorials/image_embeddings.html>`_
 
 * `Model Evaluation Guide <../model_evaluation/index.html>`_
 
-* `FiftyOne Dataset Zoo <../../user_guide/dataset_zoo/index.html>`_
+* `TensorGrid Dataset Zoo <../../user_guide/dataset_zoo/index.html>`_
 
 .. _summary-next-steps:
 
 What to Do Next
 ---------------
 
-Now that you've mastered Auto Labeling with FiftyOne, here are some suggested next steps:
+Now that you've mastered Auto Labeling with TensorGrid, here are some suggested next steps:
 
 * **Explore Segmentation with Auto Labeling** - Apply auto label workflows to instance and semantic segmentation tasks
 
@@ -73,7 +73,7 @@ Now that you've mastered Auto Labeling with FiftyOne, here are some suggested ne
 
 * **Scale Your Annotation** - Use Auto Labeilng to accelerate annotation on large-scale datasets with thousands of images
 
-* **Join the Community** - Connect with other FiftyOne Enterprise users to share Auto Labeling best practices and advanced techniques
+* **Join the Community** - Connect with other TensorGrid Enterprise users to share Auto Labeling best practices and advanced techniques
 
 * **Apply to Production** - Implement Auto Labeling in your production annotation pipelines to reduce manual labeling costs and improve data quality
 
@@ -83,13 +83,13 @@ Now that you've mastered Auto Labeling with FiftyOne, here are some suggested ne
 We'd Love Your Feedback
 -----------------------
 
-Your feedback helps us improve FiftyOne and create better learning experiences. Please let us know:
+Your feedback helps us improve TensorGrid and create better learning experiences. Please let us know:
 
 * What aspects of this Auto Labeling guide were most helpful?
 * What could be improved or clarified?
 * What auto labeling-specific topics would you like to see covered in future guides?
 * Any issues or bugs you encountered?
 
-You can reach us at `support@voxel51.com` or join our `Discord community <https://community.voxel51.com>`_.
+You can reach us at `support@voxel51.com` or join our `Discord community <https://github.com/rksaklani/TensorGrid/discussions>`_.
 
 Thank you for completing the Auto Labeling Guide! We hope you're excited to apply these skills to accelerate your annotation workflows and improve your dataset quality.

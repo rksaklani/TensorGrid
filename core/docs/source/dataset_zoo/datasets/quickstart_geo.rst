@@ -17,7 +17,7 @@ dataset in the New York City area with object detections and GPS timestamps.
 -   Tags: ``image, location, quickstart``
 -   Supported splits: ``N/A``
 -   ZooDataset class:
-    :class:`QuickstartGeoDataset <fiftyone.zoo.datasets.base.QuickstartGeoDataset>`
+    :class:`QuickstartGeoDataset <tensorgrid.zoo.datasets.base.QuickstartGeoDataset>`
 
 **Example usage**
 
@@ -28,8 +28,8 @@ dataset in the New York City area with object detections and GPS timestamps.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("quickstart-geo")
 
@@ -39,9 +39,9 @@ dataset in the New York City area with object detections and GPS timestamps.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load quickstart-geo
+        tensorgrid zoo datasets load quickstart-geo
 
-        fiftyone app launch quickstart-geo
+        tensorgrid app launch quickstart-geo
 
 .. image:: /images/dataset_zoo/quickstart-geo.png
    :alt: quickstart-geo

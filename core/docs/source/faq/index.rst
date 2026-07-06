@@ -7,23 +7,23 @@ Frequently Asked Questions
 
 .. _faq-browser-support:
 
-Can I open the FiftyOne App in a browser?
+Can I open the TensorGrid App in a browser?
 -----------------------------------------
 
 Yes! In fact, this is the default behavior. Unless you're working
 :ref:`in a notebook <faq-notebook-support>`, the App will open in your default
 web browser whenever you call
-:func:`launch_app() <fiftyone.core.session.launch_app>` .
+:func:`launch_app() <tensorgrid.core.session.launch_app>` .
 
 Check out the :ref:`environments guide <environments>` to see how to use
-FiftyOne in all common local, remote, cloud, and notebook environments.
+TensorGrid in all common local, remote, cloud, and notebook environments.
 
 .. _faq-supported-browsers:
 
-Which web browsers does the FiftyOne App support?
+Which web browsers does the TensorGrid App support?
 -------------------------------------------------
 
-The :ref:`FiftyOne App <fiftyone-app>` fully supports Chrome, Firefox, and
+The :ref:`TensorGrid App <fiftyone-app>` fully supports Chrome, Firefox, and
 Safari.
 
 You may find success using browsers like Edge, Opera, or Chromium, but your
@@ -34,13 +34,13 @@ mileage will vary. Internet Explorer is explicitly unsupported at this time.
 Why isn't the App opening? Not connected to a session?
 ------------------------------------------------------
 
-When you call :func:`fo.launch_app() <fiftyone.core.session.launch_app>` to
-launch the :ref:`FiftyOne App <fiftyone-app>`, the App will launch
+When you call :func:`fo.launch_app() <tensorgrid.core.session.launch_app>` to
+launch the :ref:`TensorGrid App <fiftyone-app>`, the App will launch
 asynchronously and return control to your Python process. The App will then
 remain connected until the process exits.
 
 If you are using the App in a script, you should use
-:meth:`session.wait() <fiftyone.core.session.Session.wait>` to block execution
+:meth:`session.wait() <tensorgrid.core.session.Session.wait>` to block execution
 until you close it manually:
 
 .. code-block:: python
@@ -54,7 +54,7 @@ until you close it manually:
     session.wait()
 
 If you launch the App in a script without including
-:meth:`session.wait() <fiftyone.core.session.Session.wait>`, the App's
+:meth:`session.wait() <tensorgrid.core.session.Session.wait>`, the App's
 connection will close when the script exits, and you will see a message like
 "It looks like you are not connected to a session" in the browser tab that was
 opened.
@@ -64,14 +64,14 @@ opened.
 Why can't I open the App from a script on Windows?
 --------------------------------------------------
 
-If you are a Windows user launching the :ref:`FiftyOne App <fiftyone-app>` from
+If you are a Windows user launching the :ref:`TensorGrid App <fiftyone-app>` from
 a script, you should use the pattern below to avoid
 `multiprocessing issues <https://stackoverflow.com/q/20360686>`_, since the App
 is served via a separate process:
 
 .. code-block:: python
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset(...)
 
@@ -84,19 +84,19 @@ See :ref:`this section <creating-an-app-session>` for more details.
 
 .. _faq-notebook-support:
 
-Can I use FiftyOne in a notebook?
+Can I use TensorGrid in a notebook?
 ---------------------------------
 
-Yes! FiftyOne supports `Jupyter Notebooks <https://jupyter.org>`_,
+Yes! TensorGrid supports `Jupyter Notebooks <https://jupyter.org>`_,
 `Google Colab Notebooks <https://colab.research.google.com>`_,
 `Databricks Notebooks <https://docs.databricks.com/en/notebooks/index.html>`_,
 and `SageMaker Notebooks <https://aws.amazon.com/sagemaker/notebooks/>`_.
 
-All the usual FiftyOne commands can be run in notebook environments, and the
+All the usual TensorGrid commands can be run in notebook environments, and the
 App will launch/update in the output of your notebook cells!
 
 Check out the :ref:`notebook environment guide <notebooks>` for more
-information about running FiftyOne in notebooks.
+information about running TensorGrid in notebooks.
 
 .. _faq-cloud-notebook-support:
 
@@ -107,11 +107,11 @@ Except for `Google Colab <https://colab.research.google.com>`_ and
 `Databricks <https://docs.databricks.com/en/notebooks/index.html>`_ which have
 built-in App configuration, when working in a cloud notebook a
 :ref:`proxy_url <configuring-proxy-url>` should be set in your
-:ref:`FiftyOne App config <configuring-fiftyone-app>`.
+:ref:`TensorGrid App config <configuring-fiftyone-app>`.
 
 .. _faq-remote-notebook-support:
 
-Can I use FiftyOne in a remote notebook?
+Can I use TensorGrid in a remote notebook?
 ----------------------------------------
 
 Yes! It is possible to work with a Jupyter notebook in your local browser that
@@ -154,7 +154,7 @@ including the following commands in your notebook before creating any plots:
 Can I access data stored on a remote server?
 --------------------------------------------
 
-Yes! If you install FiftyOne on both your remote server and local machine, then
+Yes! If you install TensorGrid on both your remote server and local machine, then
 you can :ref:`load a dataset remotely <remote-data>` and then explore it via an
 :ref:`App session on your local machine <creating-an-app-session>`.
 
@@ -163,14 +163,14 @@ you can :ref:`load a dataset remotely <remote-data>` and then explore it via an
 Can I access data stored in the cloud?
 --------------------------------------
 
-Yes! Check out :ref:`FiftyOne Enterprise <fiftyone-enterprise>`.
+Yes! Check out :ref:`TensorGrid Enterprise <fiftyone-enterprise>`.
 
 .. _faq-supported-os:
 
-What operating systems does FiftyOne support?
+What operating systems does TensorGrid support?
 ---------------------------------------------
 
-FiftyOne officially supports the latest versions of MacOS and Windows, as well
+TensorGrid officially supports the latest versions of MacOS and Windows, as well
 as Amazon Linux 2 and 2023, Debian 9+ (x86_64 only), Ubuntu 18.04+, and
 RHEL/CentOS 7+.
 
@@ -181,20 +181,20 @@ RHEL/CentOS 7+.
 
     .. code-block:: shell
 
-        pip install fiftyone-db==0.4.3 fiftyone
+        pip install fiftyone-db==0.4.3 tensorgrid
 
 .. _faq-image-types:
 
 What image file types are supported?
 ------------------------------------
 
-In general, FiftyOne supports all image types
+In general, TensorGrid supports all image types
 `supported by your browser <https://en.wikipedia.org/wiki/Comparison_of_web_browsers#Image_format_support>`_,
 which includes standard image types like JPEG, PNG, and BMP.
 
 Some browsers like Safari natively support other image types such as TIFF,
 while others do not. You may be able to install a browser extension to work
-with additional image types, but Voxel51 does not currently recommend any
+with additional image types, but TensorGrid does not currently recommend any
 such extensions in particular.
 
 .. _faq-video-types:
@@ -209,13 +209,13 @@ The App can play any video codec that is supported by
 `HTML5 video on your browser <https://en.wikipedia.org/wiki/HTML5_video#Browser_support>`_,
 including MP4 (H.264), WebM, and Ogg. If you try to view a video with an
 unsupported codec in the App, you will be prompted to use the
-:func:`reencode_videos() <fiftyone.utils.video.reencode_videos>` utility method
+:func:`reencode_videos() <tensorgrid.utils.video.reencode_videos>` utility method
 to re-encode the source video so it is viewable in the App.
 
 .. note::
 
     You must install `FFmpeg <https://ffmpeg.org>`_ in order to work with video
-    datasets in FiftyOne. See :ref:`this page <troubleshooting-video>` for
+    datasets in TensorGrid. See :ref:`this page <troubleshooting-video>` for
     installation instructions.
 
 .. _faq-supported-labels:
@@ -223,7 +223,7 @@ to re-encode the source video so it is viewable in the App.
 What label types are supported?
 -------------------------------
 
-FiftyOne provides support for all of the following label types for both image
+TensorGrid provides support for all of the following label types for both image
 and video datasets:
 
 - :ref:`Classifications <classification>`
@@ -245,16 +245,16 @@ What happened to my datasets from previous sessions?
 
 By default, datasets are non-persistent, which means they are deleted from the
 database whenever you exit (all) Python sessions in which you've imported
-FiftyOne.
+TensorGrid.
 
 To make a dataset persistent, set its
-:meth:`persistent <fiftyone.core.dataset.Dataset.persistent>` property to
+:meth:`persistent <tensorgrid.core.dataset.Dataset.persistent>` property to
 `True`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # This dataset will be deleted when you exit Python
     dataset = fo.Dataset("test")
@@ -267,7 +267,7 @@ persistence.
 
 .. note::
 
-    FiftyOne does not store the raw data in datasets directly (only the
+    TensorGrid does not store the raw data in datasets directly (only the
     labels), so your source files on disk are never deleted!
 
 .. _faq-saving-changes:
@@ -279,13 +279,13 @@ Although **adding** samples to datasets immediately writes them to the
 database, remember that any **edits** that you make to a
 :ref:`sample <adding-sample-fields>` or its
 :ref:`frame labels <video-datasets>` will not be written to the database until
-you call :meth:`sample.save() <fiftyone.core.sample.Sample.save>`.
+you call :meth:`sample.save() <tensorgrid.core.sample.Sample.save>`.
 
 Similarly, **setting** the properties of a |Dataset| object will be immediately
 saved, but you must call
-:meth:`dataset.save() <fiftyone.core.dataset.Dataset.save>` whenever you
-**edit** fields such as :meth:`info <fiftyone.core.dataset.Dataset.info>` or
-:meth:`classes <fiftyone.core.dataset.Dataset.classes>` in-place.
+:meth:`dataset.save() <tensorgrid.core.dataset.Dataset.save>` whenever you
+**edit** fields such as :meth:`info <tensorgrid.core.dataset.Dataset.info>` or
+:meth:`classes <tensorgrid.core.dataset.Dataset.classes>` in-place.
 
 Refer to :ref:`this section <adding-sample-fields>` for more details about
 modifying samples and :ref:`this section <storing-info>` for more details about
@@ -294,7 +294,7 @@ storing dataset-level information.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset(...)
     new_samples = [...]
@@ -333,7 +333,7 @@ connect to it from their local machines.
 
 .. _faq-multiple-shells:
 
-Can I use FiftyOne in multiple shells?
+Can I use TensorGrid in multiple shells?
 --------------------------------------
 
 Yes! Any changes you make to a dataset or its samples in one shell will be
@@ -353,7 +353,7 @@ in-memory, they will not be automatically updated by re-accessing them, since
 the existing instances will be returned back to you.
 
 If a dataset may have been changed by another process, you can always manually
-call :meth:`Dataset.reload() <fiftyone.core.dataset.Dataset.reload>` to reload
+call :meth:`Dataset.reload() <tensorgrid.core.dataset.Dataset.reload>` to reload
 the |Dataset| object and all in-memory |Sample| instances that belong to it.
 
 .. _faq-multiple-apps:
@@ -370,19 +370,19 @@ Yes! Simply specify a different `port` for each App instance that you create.
     .. code-block:: shell
 
         # Launch first App instance
-        fiftyone app launch <dataset1> --port XXXX
+        tensorgrid app launch <dataset1> --port XXXX
 
     .. code-block:: shell
 
         # Launch second App instance
-        fiftyone app launch <dataset2> --port YYYY
+        tensorgrid app launch <dataset2> --port YYYY
 
   .. group-tab:: Python
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # Launch first App instance
         dataset1 = fo.load_dataset(...)
@@ -430,7 +430,7 @@ houses the |Dataset| using either the CLI or Python:
     .. code-block:: shell
 
         # On remote machine
-        fiftyone app launch <dataset> --remote  # (optional) --port XXXX
+        tensorgrid app launch <dataset> --remote  # (optional) --port XXXX
 
   .. group-tab:: Python
 
@@ -438,7 +438,7 @@ houses the |Dataset| using either the CLI or Python:
         :linenos:
 
         # On remote machine
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.load_dataset(...)
 
@@ -476,7 +476,7 @@ that you own), using commands similar to:
     .. code-block:: shell
 
         # On each remote machine
-        fiftyone app launch <dataset> --remote --port RRRR
+        tensorgrid app launch <dataset> --remote --port RRRR
 
   .. group-tab:: Python
 
@@ -484,7 +484,7 @@ that you own), using commands similar to:
         :linenos:
 
         # On each remote machine
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.load_dataset(...)
 
@@ -494,7 +494,7 @@ On your local machine, you can
 :ref:`connect to these remote sessions <remote-app-local-machine>` using a
 different local port `XXXX` and `YYYY` for each.
 
-If you do not have FiftyOne installed on your local machine, open a new
+If you do not have TensorGrid installed on your local machine, open a new
 terminal window on your local machine and execute the following command to
 setup port forwarding to connect to your remote sessions:
 
@@ -511,14 +511,14 @@ setup port forwarding to connect to your remote sessions:
 In the above, `[<username#>@]<hostname#>` refers to a remote machine and
 `RRRR#` is the remote port that you used for the remote session.
 
-Alternatively, if you have FiftyOne installed on your local machine, you can
+Alternatively, if you have TensorGrid installed on your local machine, you can
 :ref:`use the CLI <cli-fiftyone-app-connect>` to automatically configure port
 forwarding and open the App in your browser as follows:
 
 .. code-block:: shell
 
     # Connect to first remote session
-    fiftyone app connect \
+    tensorgrid app connect \
         --destination [<username1>@]<hostname1> \
         --port RRRR1
         --local-port XXXX
@@ -526,7 +526,7 @@ forwarding and open the App in your browser as follows:
 .. code-block:: shell
 
     # Connect to second remote session
-    fiftyone app connect \
+    tensorgrid app connect \
         --destination [<username2>@]<hostname2> \
         --port RRRR2
         --local-port YYYY
@@ -553,14 +553,14 @@ specifying different ports for each |Session| that you create:
         # On remote machine
 
         # Create first remote session
-        fiftyone app launch <dataset1> --remote --port XXXX
+        tensorgrid app launch <dataset1> --remote --port XXXX
 
     .. code-block:: shell
 
         # On remote machine
 
         # Create second remote session
-        fiftyone app launch <dataset2> --remote --port YYYY
+        tensorgrid app launch <dataset2> --remote --port YYYY
 
   .. group-tab:: Python
 
@@ -568,7 +568,7 @@ specifying different ports for each |Session| that you create:
         :linenos:
 
         # On remote machine
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # Create first remote session
         dataset1 = fo.load_dataset(...)
@@ -596,7 +596,7 @@ can be set up using port forwarding in the following way:
 In the above, `[<username>@]<hostname>` refers to your remote machine, and
 `WWWW` and `ZZZZ` are any 4 digit ports on your local machine(s).
 
-Alternatively, if you have FiftyOne installed on your local machine, you can
+Alternatively, if you have TensorGrid installed on your local machine, you can
 :ref:`use the CLI <cli-fiftyone-app-connect>` to automatically configure port
 forwarding and open the App in your browser as follows:
 
@@ -605,7 +605,7 @@ forwarding and open the App in your browser as follows:
     # On a local machine
 
     # Connect to first remote session
-    fiftyone app connect \
+    tensorgrid app connect \
         --destination [<username>@]<hostname> \
         --port XXXX \
         --local-port WWWW
@@ -615,7 +615,7 @@ forwarding and open the App in your browser as follows:
     # On a local machine
 
     # Connect to second remote session
-    fiftyone app connect \
+    tensorgrid app connect \
         --destination [<username>@]<hostname> \
         --port YYYY \
         --local-port ZZZZ
@@ -625,9 +625,9 @@ forwarding and open the App in your browser as follows:
 Can I use my own MongoDB database?
 ----------------------------------
 
-Yes, you can configure FiftyOne to connect to your own MongoDB instance by
+Yes, you can configure TensorGrid to connect to your own MongoDB instance by
 setting the `database_uri` property of your
-:ref:`FiftyOne config <configuring-fiftyone>`. Refer to
+:ref:`TensorGrid config <configuring-fiftyone>`. Refer to
 :ref:`this page <configuring-mongodb-connection>` for more information.
 
 .. _faq-too-many-files-open:
@@ -636,7 +636,7 @@ Too many open files in system?
 ------------------------------
 
 If you are a MacOS user and see a "too many open files in system" error when
-performing import/export operations with FiftyOne, then you likely need to
+performing import/export operations with TensorGrid, then you likely need to
 increase the open files limit for your OS.
 
 Following the instructions in `this post <https://superuser.com/a/443168>`_
@@ -644,7 +644,7 @@ should resolve the issue for you.
 
 .. _faq-downgrade:
 
-Can I downgrade to an older version of FiftyOne?
+Can I downgrade to an older version of TensorGrid?
 ------------------------------------------------
 
 Certainly, refer to :ref:`these instructions <downgrading-fiftyone>`.
@@ -654,7 +654,7 @@ Certainly, refer to :ref:`these instructions <downgrading-fiftyone>`.
 Are the Brain methods open source?
 ----------------------------------
 
-Yes, the `FiftyOne Brain <https://github.com/voxel51/fiftyone-brain>`_ methods are open
+Yes, the `TensorGrid Brain <https://github.com/voxel51/fiftyone-brain>`_ methods are open
 source.
 
 Check out the :ref:`Brain documentation <fiftyone-brain>` for detailed
@@ -662,10 +662,10 @@ instructions on using the various Brain methods.
 
 .. _faq-do-we-track:
 
-Does FiftyOne track me?
+Does TensorGrid track me?
 -----------------------
 
-FiftyOne tracks anonymous UUID-based usage of the App by default. We are a
+TensorGrid tracks anonymous UUID-based usage of the App by default. We are a
 small team building an open source project, and basic knowledge of how users
 are engaging with the project is critical to informing the roadmap of the
 project.
@@ -673,4 +673,4 @@ project.
 .. note::
 
     You can disable tracking by setting the ``do_not_track`` flag of your
-    :ref:`FiftyOne config <configuring-fiftyone>`.
+    :ref:`TensorGrid config <configuring-fiftyone>`.

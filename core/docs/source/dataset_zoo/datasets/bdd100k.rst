@@ -52,7 +52,7 @@ detection, and segmentation labels.
 -   Tags: ``image, multilabel, automotive, manual``
 -   Supported splits: ``train, validation, test``
 -   ZooDataset class:
-    :class:`BDD100KDataset <fiftyone.zoo.datasets.base.BDD100KDataset>`
+    :class:`BDD100KDataset <tensorgrid.zoo.datasets.base.BDD100KDataset>`
 
 **Example usage**
 
@@ -63,8 +63,8 @@ detection, and segmentation labels.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         # The path to the source files that you manually downloaded
         source_dir = "/path/to/dir-with-bdd100k-files"
@@ -84,10 +84,10 @@ detection, and segmentation labels.
         # The path to the source files that you manually downloaded
         SOURCE_DIR="/path/to/dir-with-bdd100k-files"
 
-        fiftyone zoo datasets load bdd100k --split validation \
+        tensorgrid zoo datasets load bdd100k --split validation \
             --kwargs "source_dir=${SOURCE_DIR}"
 
-        fiftyone app launch bdd100k-validation
+        tensorgrid app launch bdd100k-validation
 
 .. image:: /images/dataset_zoo/bdd100k-validation.png
    :alt: bdd100k-validation

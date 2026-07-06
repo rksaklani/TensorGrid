@@ -20,8 +20,8 @@ There are 60,000 training images and 10,000 test images.
 -   Supported splits: ``train, test``
 -   ZooDataset classes:
 
-    -   :class:`MNISTDataset <fiftyone.zoo.datasets.tf.MNISTDataset>` (TF backend)
-    -   :class:`MNISTDataset <fiftyone.zoo.datasets.torch.MNISTDataset>` (Torch backend)
+    -   :class:`MNISTDataset <tensorgrid.zoo.datasets.tf.MNISTDataset>` (TF backend)
+    -   :class:`MNISTDataset <tensorgrid.zoo.datasets.torch.MNISTDataset>` (Torch backend)
 
 .. note::
 
@@ -38,8 +38,8 @@ There are 60,000 training images and 10,000 test images.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("mnist", split="test")
 
@@ -49,9 +49,9 @@ There are 60,000 training images and 10,000 test images.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load mnist --split test
+        tensorgrid zoo datasets load mnist --split test
 
-        fiftyone app launch mnist-test
+        tensorgrid app launch mnist-test
 
 .. image:: /images/dataset_zoo/mnist-test.png
    :alt: mnist-test

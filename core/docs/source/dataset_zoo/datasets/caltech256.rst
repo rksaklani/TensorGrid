@@ -23,7 +23,7 @@ Images are of variable sizes, with typical edge lengths of 80-800 pixels.
 -   Tags: ``image, classification``
 -   Supported splits: ``N/A``
 -   ZooDataset class:
-    :class:`Caltech256Dataset <fiftyone.zoo.datasets.base.Caltech256Dataset>`
+    :class:`Caltech256Dataset <tensorgrid.zoo.datasets.base.Caltech256Dataset>`
 
 **Example usage**
 
@@ -34,8 +34,8 @@ Images are of variable sizes, with typical edge lengths of 80-800 pixels.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("caltech256")
 
@@ -45,9 +45,9 @@ Images are of variable sizes, with typical edge lengths of 80-800 pixels.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load caltech256
+        tensorgrid zoo datasets load caltech256
 
-        fiftyone app launch caltech256
+        tensorgrid app launch caltech256
 
 .. image:: /images/dataset_zoo/caltech256.png
    :alt: caltech256

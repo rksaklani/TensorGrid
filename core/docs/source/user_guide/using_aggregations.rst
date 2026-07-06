@@ -5,7 +5,7 @@ Using Aggregations
 
 .. default-role:: code
 
-:ref:`Datasets <using-datasets>` are the core data structure in FiftyOne,
+:ref:`Datasets <using-datasets>` are the core data structure in TensorGrid,
 allowing you to represent your raw data, labels, and associated metadata. When
 you query and manipulate a |Dataset| object using
 :ref:`dataset views <using-views>`, a |DatasetView| object is returned, which
@@ -16,7 +16,7 @@ aggregate statistics about datasets, such as label counts, distributions, and
 ranges, where each |Sample| is reduced to a single quantity in the aggregate
 results.
 
-The :mod:`fiftyone.core.aggregations` module offers a declarative and
+The :mod:`tensorgrid.core.aggregations` module offers a declarative and
 highly-efficient approach to computing summary statistics about your datasets
 and views.
 
@@ -32,7 +32,7 @@ Aggregations are conveniently exposed as methods on all |Dataset| and
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -64,7 +64,7 @@ transform the data in arbitrarily complex ways:
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     # Expression that computes the number of predicted objects
     num_objects = F("predictions.detections").length()
@@ -76,7 +76,7 @@ transform the data in arbitrarily complex ways:
     print(dataset.mean(num_objects))
 
 The sections below discuss the available aggregations in more detail. You can
-also refer to the :mod:`fiftyone.core.aggregations` module documentation for
+also refer to the :mod:`tensorgrid.core.aggregations` module documentation for
 detailed examples of using each aggregation.
 
 .. note::
@@ -95,14 +95,14 @@ Compute bounds
 ______________
 
 You can use the
-:meth:`bounds() <fiftyone.core.collections.SampleCollection.bounds>`
+:meth:`bounds() <tensorgrid.core.collections.SampleCollection.bounds>`
 aggregation to compute the ``[min, max]`` range of a numeric field of a
 dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -122,13 +122,13 @@ Count items
 ___________
 
 You can use the
-:meth:`count() <fiftyone.core.collections.SampleCollection.count>` aggregation
+:meth:`count() <tensorgrid.core.collections.SampleCollection.count>` aggregation
 to compute the number of non-``None`` field values in a collection:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -153,13 +153,13 @@ Count values
 ____________
 
 You can use the
-:meth:`count_values() <fiftyone.core.collections.SampleCollection.count_values>`
+:meth:`count_values() <tensorgrid.core.collections.SampleCollection.count_values>`
 aggregation to compute the occurrences of field values in a collection:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -179,13 +179,13 @@ Distinct values
 _______________
 
 You can use the
-:meth:`distinct() <fiftyone.core.collections.SampleCollection.distinct>`
+:meth:`distinct() <tensorgrid.core.collections.SampleCollection.distinct>`
 aggregation to compute the distinct values of a field in a collection:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -205,7 +205,7 @@ Histogram values
 ________________
 
 You can use the
-:meth:`histogram_values() <fiftyone.core.collections.SampleCollection.histogram_values>`
+:meth:`histogram_values() <tensorgrid.core.collections.SampleCollection.histogram_values>`
 aggregation to compute the histograms of numeric fields of a collection:
 
 .. code-block:: python
@@ -214,7 +214,7 @@ aggregation to compute the histograms of numeric fields of a collection:
     import numpy as np
     import matplotlib.pyplot as plt
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     def plot_hist(counts, edges):
         counts = np.asarray(counts)
@@ -244,7 +244,7 @@ Schema
 ______
 
 You can use the
-:meth:`schema() <fiftyone.core.collections.SampleCollection.schema>`
+:meth:`schema() <tensorgrid.core.collections.SampleCollection.schema>`
 aggregation to extract the names and types of the attributes of a specified
 embedded document field across all samples in a collection.
 
@@ -255,7 +255,7 @@ collection.
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -266,12 +266,12 @@ collection.
 .. code-block:: text
 
     {
-        'area': <fiftyone.core.fields.FloatField object at 0x7fc94015fb50>,
-        'iscrowd': <fiftyone.core.fields.FloatField object at 0x7fc964869fd0>,
+        'area': <tensorgrid.core.fields.FloatField object at 0x7fc94015fb50>,
+        'iscrowd': <tensorgrid.core.fields.FloatField object at 0x7fc964869fd0>,
     }
 
 You can also use the
-:meth:`list_schema() <fiftyone.core.collections.SampleCollection.list_schema>`
+:meth:`list_schema() <tensorgrid.core.collections.SampleCollection.list_schema>`
 aggregation to extract the value type(s) in a list field across all samples in
 a collection:
 
@@ -279,7 +279,7 @@ a collection:
     :linenos:
 
     from datetime import datetime
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -349,7 +349,7 @@ a collection:
 .. note::
 
     Schema aggregations are used internally by
-    :meth:`get_dynamic_field_schema() <fiftyone.core.dataset.Dataset.get_dynamic_field_schema>`
+    :meth:`get_dynamic_field_schema() <tensorgrid.core.dataset.Dataset.get_dynamic_field_schema>`
     to impute the types of undeclared lists and embedded documents in a
     dataset.
 
@@ -359,13 +359,13 @@ Sum values
 __________
 
 You can use the
-:meth:`sum() <fiftyone.core.collections.SampleCollection.sum>` aggregation to
+:meth:`sum() <tensorgrid.core.collections.SampleCollection.sum>` aggregation to
 compute the sum of the (non-``None``) values of a field in a collection:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -382,13 +382,13 @@ Min values
 __________
 
 You can use the
-:meth:`min() <fiftyone.core.collections.SampleCollection.min>` aggregation to
+:meth:`min() <tensorgrid.core.collections.SampleCollection.min>` aggregation to
 compute the minimum of the (non-``None``) values of a field in a collection:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -402,13 +402,13 @@ Max values
 __________
 
 You can use the
-:meth:`max() <fiftyone.core.collections.SampleCollection.max>` aggregation to
+:meth:`max() <tensorgrid.core.collections.SampleCollection.max>` aggregation to
 compute the maximum of the (non-``None``) values of a field in a collection:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -422,14 +422,14 @@ Mean values
 ___________
 
 You can use the
-:meth:`mean() <fiftyone.core.collections.SampleCollection.mean>` aggregation to
+:meth:`mean() <tensorgrid.core.collections.SampleCollection.mean>` aggregation to
 compute the arithmetic mean of the (non-``None``) values of a field in a
 collection:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -443,14 +443,14 @@ Quantiles
 _________
 
 You can use the
-:meth:`quantiles() <fiftyone.core.collections.SampleCollection.quantiles>`
+:meth:`quantiles() <tensorgrid.core.collections.SampleCollection.quantiles>`
 aggregation to compute the quantile(s) of the (non-``None``) values of a field
 in a collection:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -472,14 +472,14 @@ Standard deviation
 __________________
 
 You can use the
-:meth:`std() <fiftyone.core.collections.SampleCollection.std>` aggregation to
+:meth:`std() <tensorgrid.core.collections.SampleCollection.std>` aggregation to
 compute the standard deviation of the (non-``None``) values of a field in a
 collection:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -494,14 +494,14 @@ Values
 ______
 
 You can use the
-:meth:`values() <fiftyone.core.collections.SampleCollection.values>`
+:meth:`values() <tensorgrid.core.collections.SampleCollection.values>`
 aggregation to extract a list containing the values of a field across all
 samples in a collection:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -517,7 +517,7 @@ samples in a collection:
 .. note::
 
     Unlike other aggregations,
-    :meth:`values() <fiftyone.core.collections.SampleCollection.values>` does
+    :meth:`values() <tensorgrid.core.collections.SampleCollection.values>` does
     not automatically unwind list fields, which ensures that the returned
     values match the potentially-nested structure of the documents.
 
@@ -544,7 +544,7 @@ The example below demonstrates this capability:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
     dataset.add_samples(
@@ -588,7 +588,7 @@ The example below demonstrates this capability:
 
 .. note::
 
-    FiftyOne will automatically unwind all array fields that are defined in the
+    TensorGrid will automatically unwind all array fields that are defined in the
     dataset's schema without requiring you to explicitly specify this via the
     ``[]`` syntax. This includes the following cases:
 
@@ -604,9 +604,9 @@ The example below demonstrates this capability:
     **Embedded list fields:** When you write an aggregation that refers to a
     list attribute that is declared on a |Sample|, |Frame|, or |Label| class,
     such as the
-    :attr:`Classification.tags <fiftyone.core.labels.Classification.tags>`,
-    :attr:`Detections.detections <fiftyone.core.labels.Detections.detections>`,
-    or :attr:`Keypoint.points <fiftyone.core.labels.Keypoint.points>`
+    :attr:`Classification.tags <tensorgrid.core.labels.Classification.tags>`,
+    :attr:`Detections.detections <tensorgrid.core.labels.Detections.detections>`,
+    or :attr:`Keypoint.points <tensorgrid.core.labels.Keypoint.points>`
     attributes; i.e., ``ground_truth.detections.label`` is automatically
     coerced to ``ground_truth.detections[].label``, if necessary.
 
@@ -616,7 +616,7 @@ Aggregating expressions
 -----------------------
 
 Aggregations also support performing more complex computations on fields via
-the optional :class:`expr <fiftyone.core.aggregations.Aggregation>` argument,
+the optional :class:`expr <tensorgrid.core.aggregations.Aggregation>` argument,
 which is supported by all aggregations and allows you to specify a
 |ViewExpression| defining an arbitrary transformation of the field you're
 operating on prior to aggregating.
@@ -633,9 +633,9 @@ The following examples demonstrate the power of aggregating with expressions:
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.zoo as foz
-            from fiftyone import ViewField as F
+            import tensorgrid as tg
+            import tensorgrid.zoo as foz
+            from tensorgrid import ViewField as F
 
             dataset = foz.load_zoo_dataset("quickstart")
 
@@ -660,9 +660,9 @@ The following examples demonstrate the power of aggregating with expressions:
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.zoo as foz
-            from fiftyone import ViewField as F
+            import tensorgrid as tg
+            import tensorgrid.zoo as foz
+            from tensorgrid import ViewField as F
 
             dataset = foz.load_zoo_dataset("quickstart")
 
@@ -688,9 +688,9 @@ The following examples demonstrate the power of aggregating with expressions:
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.zoo as foz
-            from fiftyone import ViewField as F
+            import tensorgrid as tg
+            import tensorgrid.zoo as foz
+            from tensorgrid import ViewField as F
 
             dataset = foz.load_zoo_dataset("quickstart")
             dataset.compute_metadata()
@@ -723,9 +723,9 @@ The following examples demonstrate the power of aggregating with expressions:
 
     .. code-block:: python
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
-        from fiftyone import ViewField as F
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
+        from tensorgrid import ViewField as F
 
         dataset = foz.load_zoo_dataset("quickstart")
 
@@ -757,7 +757,7 @@ only to the parameters such as field name that define it.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # will count the number of samples in a dataset
     sample_count = fo.Count()
@@ -770,12 +770,12 @@ only to the parameters such as field name that define it.
 
 Instantiating aggregations in this way allows you to execute multiple
 aggregations on a dataset or view efficiently in a batch via
-:meth:`aggregate() <fiftyone.core.collections.SampleCollection.aggregate>`:
+:meth:`aggregate() <tensorgrid.core.collections.SampleCollection.aggregate>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -799,23 +799,23 @@ Transforming data before aggregating
 ------------------------------------
 
 You can use view stages like
-:meth:`map_values() <fiftyone.core.collections.SampleCollection.map_values>`
+:meth:`map_values() <tensorgrid.core.collections.SampleCollection.map_values>`
 and
-:meth:`map_labels() <fiftyone.core.collections.SampleCollection.map_labels>`
+:meth:`map_labels() <tensorgrid.core.collections.SampleCollection.map_labels>`
 in concert with aggregations to efficiently compute statistics on your
 datasets.
 
 For example, suppose you would like to compute the histogram of the labels in
 a dataset with certain labels grouped into a single category. You can use
-:meth:`map_values() <fiftyone.core.collections.SampleCollection.map_values>` +
-:meth:`count_values() <fiftyone.core.collections.SampleCollection.count_values>`
+:meth:`map_values() <tensorgrid.core.collections.SampleCollection.map_values>` +
+:meth:`count_values() <tensorgrid.core.collections.SampleCollection.count_values>`
 to succinctly express this:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -833,17 +833,17 @@ to succinctly express this:
 
 Or, suppose you would like to compute the average confidence of a model's
 predictions, ignoring any values less than 0.5. You can use
-:meth:`filter_labels() <fiftyone.core.collections.SampleCollection.filter_labels>` +
-:meth:`sum() <fiftyone.core.collections.SampleCollection.sum>` +
-:meth:`count() <fiftyone.core.collections.SampleCollection.count>`
+:meth:`filter_labels() <tensorgrid.core.collections.SampleCollection.filter_labels>` +
+:meth:`sum() <tensorgrid.core.collections.SampleCollection.sum>` +
+:meth:`count() <tensorgrid.core.collections.SampleCollection.count>`
 to succinctly express this:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -867,8 +867,8 @@ the ``frames`` prefix to the relevant frame field name:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 

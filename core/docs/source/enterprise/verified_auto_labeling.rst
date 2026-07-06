@@ -6,7 +6,7 @@ Auto-Labeling
 .. default-role:: code
 
 Auto-Labeling is a feature built into the
-:ref:`FiftyOne Enterprise App <enterprise-app>`
+:ref:`TensorGrid Enterprise App <enterprise-app>`
 which allows you to automatically generate
 :ref:`classification <classification>`,
 :ref:`detection, and instance segmentation <object-detection>`
@@ -286,7 +286,7 @@ be set as recommended by the model provider.
 
 **Mask output location** - (required for segmentation tasks) the file system
 location where segmentation masks should be written. This will allow you to
-browse all of FiftyOne's configured filesystems, including any cloud storage.
+browse all of TensorGrid's configured filesystems, including any cloud storage.
 Segmentation masks will be written to this location, and a reference to the
 mask will be stored in the `mask_path` label attribute.
 
@@ -658,8 +658,8 @@ Storage
 -------
 
 In order for models to run, the model must first be downloaded to an accessible
-filesystem. Auto-Labeling makes use of the FiftyOne model zoo
-directory for model storage. See FiftyOne's
+filesystem. Auto-Labeling makes use of the TensorGrid model zoo
+directory for model storage. See TensorGrid's
 :ref:`configuration options <configuring-fiftyone>` for more information.
 
 Models will be downloaded as needed, and will be reused if already present in
@@ -669,8 +669,8 @@ storage is sufficient to store all of the models available for Auto-Labeling.
 
 .. note::
 
-    The model zoo directory is shared across FiftyOne. If you are already using
-    models from the FiftyOne model zoo in other workflows, this may increase
+    The model zoo directory is shared across TensorGrid. If you are already using
+    models from the TensorGrid model zoo in other workflows, this may increase
     the storage requirements for the model zoo directory. Consult with your
     system administrator to determine whether there is sufficient storage.
 
@@ -704,7 +704,7 @@ Model reference
 _______________
 
 Auto-Labeling supports a subset of models sourced from the
-:ref:`FiftyOne model zoo <model-zoo>`. These models have been selected for
+:ref:`TensorGrid model zoo <model-zoo>`. These models have been selected for
 their strong performance in Auto-Labeling.
 
 .. _verified-auto-labeling-classification-models:
@@ -712,84 +712,84 @@ their strong performance in Auto-Labeling.
 Classification models
 ---------------------
 
-  - `clip-vit-base32-torch <https://docs.voxel51.com/model_zoo/models/clip_vit_base32_torch.html>`_
-  - `open-clip-torch <https://docs.voxel51.com/model_zoo/models/open_clip_torch.html>`_
-  - `resnet101-imagenet-torch <https://docs.voxel51.com/model_zoo/models/resnet101_imagenet_torch.html>`_
-  - `resnet152-imagenet-torch <https://docs.voxel51.com/model_zoo/models/resnet152_imagenet_torch.html>`_
-  - `resnet18-imagenet-torch <https://docs.voxel51.com/model_zoo/models/resnet18_imagenet_torch.html>`_
-  - `resnet34-imagenet-torch <https://docs.voxel51.com/model_zoo/models/resnet34_imagenet_torch.html>`_
-  - `resnet50-imagenet-torch <https://docs.voxel51.com/model_zoo/models/resnet50_imagenet_torch.html>`_
-  - `siglip-base-patch16-224-torch <https://docs.voxel51.com/model_zoo/models/siglip_base_patch16_224_torch.html>`_
-  - `vit-base-patch16-224-imagenet-torch <https://docs.voxel51.com/model_zoo/models/vit_base_patch16_224_imagenet_torch.html>`_
+  - `clip-vit-base32-torch </docs/model_zoo/models/clip_vit_base32_torch.html>`_
+  - `open-clip-torch </docs/model_zoo/models/open_clip_torch.html>`_
+  - `resnet101-imagenet-torch </docs/model_zoo/models/resnet101_imagenet_torch.html>`_
+  - `resnet152-imagenet-torch </docs/model_zoo/models/resnet152_imagenet_torch.html>`_
+  - `resnet18-imagenet-torch </docs/model_zoo/models/resnet18_imagenet_torch.html>`_
+  - `resnet34-imagenet-torch </docs/model_zoo/models/resnet34_imagenet_torch.html>`_
+  - `resnet50-imagenet-torch </docs/model_zoo/models/resnet50_imagenet_torch.html>`_
+  - `siglip-base-patch16-224-torch </docs/model_zoo/models/siglip_base_patch16_224_torch.html>`_
+  - `vit-base-patch16-224-imagenet-torch </docs/model_zoo/models/vit_base_patch16_224_imagenet_torch.html>`_
 
 .. _verified-auto-labeling-detection-models:
 
 Detection models
 ----------------
 
-  - `faster-rcnn-resnet50-fpn-coco-torch <https://docs.voxel51.com/model_zoo/models/faster_rcnn_resnet50_fpn_coco_torch.html>`_
-  - `omdet-turbo-swin-tiny-torch <https://docs.voxel51.com/model_zoo/models/omdet_turbo_swin_tiny_torch.html>`_
-  - `owlvit-base-patch16-torch <https://docs.voxel51.com/model_zoo/models/owlvit_base_patch16_torch.html>`_
-  - `yolo11l-coco-torch <https://docs.voxel51.com/model_zoo/models/yolo11l_coco_torch.html>`_
-  - `yolo11m-coco-torch <https://docs.voxel51.com/model_zoo/models/yolo11m_coco_torch.html>`_
-  - `yolo11n-coco-torch <https://docs.voxel51.com/model_zoo/models/yolo11n_coco_torch.html>`_
-  - `yolo11s-coco-torch <https://docs.voxel51.com/model_zoo/models/yolo11s_coco_torch.html>`_
-  - `yolo11x-coco-torch <https://docs.voxel51.com/model_zoo/models/yolo11x_coco_torch.html>`_
-  - `yolov10l-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov10l_coco_torch.html>`_
-  - `yolov10m-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov10m_coco_torch.html>`_
-  - `yolov10n-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov10n_coco_torch.html>`_
-  - `yolov10s-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov10s_coco_torch.html>`_
-  - `yolov10x-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov10x_coco_torch.html>`_
-  - `yolov8l-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov8l_coco_torch.html>`_
-  - `yolov8l-oiv7-torch <https://docs.voxel51.com/model_zoo/models/yolov8l_oiv7_torch.html>`_
-  - `yolov8l-world-torch <https://docs.voxel51.com/model_zoo/models/yolov8l_world_torch.html>`_
-  - `yolov8m-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov8m_coco_torch.html>`_
-  - `yolov8m-oiv7-torch <https://docs.voxel51.com/model_zoo/models/yolov8m_oiv7_torch.html>`_
-  - `yolov8m-world-torch <https://docs.voxel51.com/model_zoo/models/yolov8m_world_torch.html>`_
-  - `yolov8n-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov8n_coco_torch.html>`_
-  - `yolov8n-oiv7-torch <https://docs.voxel51.com/model_zoo/models/yolov8n_oiv7_torch.html>`_
-  - `yolov8s-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov8s_coco_torch.html>`_
-  - `yolov8s-oiv7-torch <https://docs.voxel51.com/model_zoo/models/yolov8s_oiv7_torch.html>`_
-  - `yolov8s-world-torch <https://docs.voxel51.com/model_zoo/models/yolov8s_world_torch.html>`_
-  - `yolov8x-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov8x_coco_torch.html>`_
-  - `yolov8x-oiv7-torch <https://docs.voxel51.com/model_zoo/models/yolov8x_oiv7_torch.html>`_
-  - `yolov8x-world-torch <https://docs.voxel51.com/model_zoo/models/yolov8x_world_torch.html>`_
-  - `yolov9c-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov9c_coco_torch.html>`_
-  - `yolov9e-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov9e_coco_torch.html>`_
+  - `faster-rcnn-resnet50-fpn-coco-torch </docs/model_zoo/models/faster_rcnn_resnet50_fpn_coco_torch.html>`_
+  - `omdet-turbo-swin-tiny-torch </docs/model_zoo/models/omdet_turbo_swin_tiny_torch.html>`_
+  - `owlvit-base-patch16-torch </docs/model_zoo/models/owlvit_base_patch16_torch.html>`_
+  - `yolo11l-coco-torch </docs/model_zoo/models/yolo11l_coco_torch.html>`_
+  - `yolo11m-coco-torch </docs/model_zoo/models/yolo11m_coco_torch.html>`_
+  - `yolo11n-coco-torch </docs/model_zoo/models/yolo11n_coco_torch.html>`_
+  - `yolo11s-coco-torch </docs/model_zoo/models/yolo11s_coco_torch.html>`_
+  - `yolo11x-coco-torch </docs/model_zoo/models/yolo11x_coco_torch.html>`_
+  - `yolov10l-coco-torch </docs/model_zoo/models/yolov10l_coco_torch.html>`_
+  - `yolov10m-coco-torch </docs/model_zoo/models/yolov10m_coco_torch.html>`_
+  - `yolov10n-coco-torch </docs/model_zoo/models/yolov10n_coco_torch.html>`_
+  - `yolov10s-coco-torch </docs/model_zoo/models/yolov10s_coco_torch.html>`_
+  - `yolov10x-coco-torch </docs/model_zoo/models/yolov10x_coco_torch.html>`_
+  - `yolov8l-coco-torch </docs/model_zoo/models/yolov8l_coco_torch.html>`_
+  - `yolov8l-oiv7-torch </docs/model_zoo/models/yolov8l_oiv7_torch.html>`_
+  - `yolov8l-world-torch </docs/model_zoo/models/yolov8l_world_torch.html>`_
+  - `yolov8m-coco-torch </docs/model_zoo/models/yolov8m_coco_torch.html>`_
+  - `yolov8m-oiv7-torch </docs/model_zoo/models/yolov8m_oiv7_torch.html>`_
+  - `yolov8m-world-torch </docs/model_zoo/models/yolov8m_world_torch.html>`_
+  - `yolov8n-coco-torch </docs/model_zoo/models/yolov8n_coco_torch.html>`_
+  - `yolov8n-oiv7-torch </docs/model_zoo/models/yolov8n_oiv7_torch.html>`_
+  - `yolov8s-coco-torch </docs/model_zoo/models/yolov8s_coco_torch.html>`_
+  - `yolov8s-oiv7-torch </docs/model_zoo/models/yolov8s_oiv7_torch.html>`_
+  - `yolov8s-world-torch </docs/model_zoo/models/yolov8s_world_torch.html>`_
+  - `yolov8x-coco-torch </docs/model_zoo/models/yolov8x_coco_torch.html>`_
+  - `yolov8x-oiv7-torch </docs/model_zoo/models/yolov8x_oiv7_torch.html>`_
+  - `yolov8x-world-torch </docs/model_zoo/models/yolov8x_world_torch.html>`_
+  - `yolov9c-coco-torch </docs/model_zoo/models/yolov9c_coco_torch.html>`_
+  - `yolov9e-coco-torch </docs/model_zoo/models/yolov9e_coco_torch.html>`_
 
 .. _verified-auto-labeling-segmentation-models:
 
 Segmentation models
 -------------------
 
-  - `deeplabv3-resnet101-coco-torch <https://docs.voxel51.com/model_zoo/models/deeplabv3_resnet101_coco_torch.html>`_
-  - `deeplabv3-resnet50-coco-torch <https://docs.voxel51.com/model_zoo/models/deeplabv3_resnet50_coco_torch.html>`_
-  - `fcn-resnet101-coco-torch <https://docs.voxel51.com/model_zoo/models/fcn_resnet101_coco_torch.html>`_
-  - `fcn-resnet50-coco-torch <https://docs.voxel51.com/model_zoo/models/fcn_resnet50_coco_torch.html>`_
-  - `group-vit-segmentation-transformer-torch <https://docs.voxel51.com/model_zoo/models/group_vit_segmentation_transformer_torch.html>`_
-  - `segment-anything-2-hiera-base-plus-image-torch <https://docs.voxel51.com/model_zoo/models/segment_anything_2_hiera_base_plus_image_torch.html>`_
-  - `segment-anything-2-hiera-large-image-torch <https://docs.voxel51.com/model_zoo/models/segment_anything_2_hiera_large_image_torch.html>`_
-  - `segment-anything-2-hiera-small-image-torch <https://docs.voxel51.com/model_zoo/models/segment_anything_2_hiera_small_image_torch.html>`_
-  - `segment-anything-2-hiera-tiny-image-torch <https://docs.voxel51.com/model_zoo/models/segment_anything_2_hiera_tiny_image_torch.html>`_
-  - `segment-anything-2.1-hiera-base-plus-image-torch <https://docs.voxel51.com/model_zoo/models/segment_anything_2.1_hiera_base_plus_image_torch.html>`_
-  - `segment-anything-2.1-hiera-large-image-torch <https://docs.voxel51.com/model_zoo/models/segment_anything_2.1_hiera_large_image_torch.html>`_
-  - `segment-anything-2.1-hiera-small-image-torch <https://docs.voxel51.com/model_zoo/models/segment_anything_2.1_hiera_small_image_torch.html>`_
-  - `segment-anything-2.1-hiera-tiny-image-torch <https://docs.voxel51.com/model_zoo/models/segment_anything_2.1_hiera_tiny_image_torch.html>`_
-  - `yolo11l-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolo11l_seg_coco_torch.html>`_
-  - `yolo11m-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolo11m_seg_coco_torch.html>`_
-  - `yolo11n-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolo11n_seg_coco_torch.html>`_
-  - `yolo11s-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolo11s_seg_coco_torch.html>`_
-  - `yolo11x-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolo11x_seg_coco_torch.html>`_
-  - `yoloe11l-seg-torch <https://docs.voxel51.com/model_zoo/models/yoloe11l_seg_torch.html>`_
-  - `yoloe11m-seg-torch <https://docs.voxel51.com/model_zoo/models/yoloe11m_seg_torch.html>`_
-  - `yoloe11s-seg-torch <https://docs.voxel51.com/model_zoo/models/yoloe11s_seg_torch.html>`_
-  - `yoloev8l-seg-torch <https://docs.voxel51.com/model_zoo/models/yoloev8l_seg_torch.html>`_
-  - `yoloev8m-seg-torch <https://docs.voxel51.com/model_zoo/models/yoloev8m_seg_torch.html>`_
-  - `yoloev8s-seg-torch <https://docs.voxel51.com/model_zoo/models/yoloev8s_seg_torch.html>`_
-  - `yolov8l-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov8l_seg_coco_torch.html>`_
-  - `yolov8m-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov8m_seg_coco_torch.html>`_
-  - `yolov8n-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov8n_seg_coco_torch.html>`_
-  - `yolov8s-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov8s_seg_coco_torch.html>`_
-  - `yolov8x-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov8x_seg_coco_torch.html>`_
-  - `yolov9c-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov9c_seg_coco_torch.html>`_
-  - `yolov9e-seg-coco-torch <https://docs.voxel51.com/model_zoo/models/yolov9e_seg_coco_torch.html>`_
+  - `deeplabv3-resnet101-coco-torch </docs/model_zoo/models/deeplabv3_resnet101_coco_torch.html>`_
+  - `deeplabv3-resnet50-coco-torch </docs/model_zoo/models/deeplabv3_resnet50_coco_torch.html>`_
+  - `fcn-resnet101-coco-torch </docs/model_zoo/models/fcn_resnet101_coco_torch.html>`_
+  - `fcn-resnet50-coco-torch </docs/model_zoo/models/fcn_resnet50_coco_torch.html>`_
+  - `group-vit-segmentation-transformer-torch </docs/model_zoo/models/group_vit_segmentation_transformer_torch.html>`_
+  - `segment-anything-2-hiera-base-plus-image-torch </docs/model_zoo/models/segment_anything_2_hiera_base_plus_image_torch.html>`_
+  - `segment-anything-2-hiera-large-image-torch </docs/model_zoo/models/segment_anything_2_hiera_large_image_torch.html>`_
+  - `segment-anything-2-hiera-small-image-torch </docs/model_zoo/models/segment_anything_2_hiera_small_image_torch.html>`_
+  - `segment-anything-2-hiera-tiny-image-torch </docs/model_zoo/models/segment_anything_2_hiera_tiny_image_torch.html>`_
+  - `segment-anything-2.1-hiera-base-plus-image-torch </docs/model_zoo/models/segment_anything_2.1_hiera_base_plus_image_torch.html>`_
+  - `segment-anything-2.1-hiera-large-image-torch </docs/model_zoo/models/segment_anything_2.1_hiera_large_image_torch.html>`_
+  - `segment-anything-2.1-hiera-small-image-torch </docs/model_zoo/models/segment_anything_2.1_hiera_small_image_torch.html>`_
+  - `segment-anything-2.1-hiera-tiny-image-torch </docs/model_zoo/models/segment_anything_2.1_hiera_tiny_image_torch.html>`_
+  - `yolo11l-seg-coco-torch </docs/model_zoo/models/yolo11l_seg_coco_torch.html>`_
+  - `yolo11m-seg-coco-torch </docs/model_zoo/models/yolo11m_seg_coco_torch.html>`_
+  - `yolo11n-seg-coco-torch </docs/model_zoo/models/yolo11n_seg_coco_torch.html>`_
+  - `yolo11s-seg-coco-torch </docs/model_zoo/models/yolo11s_seg_coco_torch.html>`_
+  - `yolo11x-seg-coco-torch </docs/model_zoo/models/yolo11x_seg_coco_torch.html>`_
+  - `yoloe11l-seg-torch </docs/model_zoo/models/yoloe11l_seg_torch.html>`_
+  - `yoloe11m-seg-torch </docs/model_zoo/models/yoloe11m_seg_torch.html>`_
+  - `yoloe11s-seg-torch </docs/model_zoo/models/yoloe11s_seg_torch.html>`_
+  - `yoloev8l-seg-torch </docs/model_zoo/models/yoloev8l_seg_torch.html>`_
+  - `yoloev8m-seg-torch </docs/model_zoo/models/yoloev8m_seg_torch.html>`_
+  - `yoloev8s-seg-torch </docs/model_zoo/models/yoloev8s_seg_torch.html>`_
+  - `yolov8l-seg-coco-torch </docs/model_zoo/models/yolov8l_seg_coco_torch.html>`_
+  - `yolov8m-seg-coco-torch </docs/model_zoo/models/yolov8m_seg_coco_torch.html>`_
+  - `yolov8n-seg-coco-torch </docs/model_zoo/models/yolov8n_seg_coco_torch.html>`_
+  - `yolov8s-seg-coco-torch </docs/model_zoo/models/yolov8s_seg_coco_torch.html>`_
+  - `yolov8x-seg-coco-torch </docs/model_zoo/models/yolov8x_seg_coco_torch.html>`_
+  - `yolov9c-seg-coco-torch </docs/model_zoo/models/yolov9c_seg_coco_torch.html>`_
+  - `yolov9e-seg-coco-torch </docs/model_zoo/models/yolov9e_seg_coco_torch.html>`_

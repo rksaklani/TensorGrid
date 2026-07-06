@@ -5,7 +5,7 @@ Grouped datasets
 
 .. default-role:: code
 
-FiftyOne supports the creation of **grouped datasets**, which contain multiple
+TensorGrid supports the creation of **grouped datasets**, which contain multiple
 slices of samples of possibly different modalities (e.g.,
 :ref:`image <dataset-media-type>`, :ref:`video <video-datasets>`, or
 :ref:`3D scenes <3d-datasets>`) that are organized into groups.
@@ -37,9 +37,9 @@ construct some mocked triples of left/center/right images:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.random as four
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.utils.random as four
+    import tensorgrid.zoo as foz
 
     groups = ["left", "center", "right"]
 
@@ -71,7 +71,7 @@ Creating grouped datasets
 -------------------------
 
 To create a grouped dataset, simply use
-:meth:`add_group_field() <fiftyone.core.dataset.Dataset.add_group_field>` to
+:meth:`add_group_field() <tensorgrid.core.dataset.Dataset.add_group_field>` to
 declare a |Group| field on your dataset before you add samples to it:
 
 .. code-block:: python
@@ -96,7 +96,7 @@ Adding samples
 
 To populate a grouped dataset with samples, create a single |Group| instance
 for each group of samples and use
-:meth:`Group.element() <fiftyone.core.groups.Group.element>` to generate values
+:meth:`Group.element() <tensorgrid.core.groups.Group.element>` to generate values
 for the group field of each |Sample| object in the group based on their slice's
 `name`. The |Sample| objects can then simply be added to the dataset as usual:
 
@@ -123,13 +123,13 @@ for the group field of each |Sample| object in the group based on their slice's
     Persistent:  False
     Tags:        []
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.Metadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        group:            fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.groups.Group)
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.Metadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        group:            tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.groups.Group)
 
 .. note::
 
@@ -149,7 +149,7 @@ Grouped datasets have a `media_type` of `"group"`:
     print(dataset.media_type)
     # group
 
-The :meth:`group_field <fiftyone.core.dataset.Dataset.group_field>` property
+The :meth:`group_field <tensorgrid.core.dataset.Dataset.group_field>` property
 contains the name of the |Group| field storing the dataset's group membership
 information:
 
@@ -159,7 +159,7 @@ information:
     print(dataset.group_field)
     # group
 
-The :meth:`group_slices <fiftyone.core.dataset.Dataset.group_slices>` property
+The :meth:`group_slices <tensorgrid.core.dataset.Dataset.group_slices>` property
 contains the names of all group slices in the dataset:
 
 .. code-block:: python
@@ -168,7 +168,7 @@ contains the names of all group slices in the dataset:
     print(dataset.group_slices)
     # ['left', 'center', 'right']
 
-The :meth:`group_media_types <fiftyone.core.dataset.Dataset.group_media_types>`
+The :meth:`group_media_types <tensorgrid.core.dataset.Dataset.group_media_types>`
 property is a dict mapping each slice name to its corresponding media type:
 
 .. code-block:: python
@@ -183,13 +183,13 @@ expanded as you add samples to a grouped dataset.
 .. note::
 
     Grouped datasets may contain a mix of different modalities (e.g., images,
-    videos, and 3D scenes), but FiftyOne strictly enforces that each **slice**
+    videos, and 3D scenes), but TensorGrid strictly enforces that each **slice**
     of a grouped dataset must have a homogeneous media type.
 
     For example, you would see an error if you tried to add a video sample to
     the `left` slice of the above dataset, since it contains images.
 
-The :meth:`default_group_slice <fiftyone.core.dataset.Dataset.default_group_slice>`
+The :meth:`default_group_slice <tensorgrid.core.dataset.Dataset.default_group_slice>`
 property stores the name of the default group slice:
 
 .. code-block:: python
@@ -221,7 +221,7 @@ visualized in the App's grid view by default:
     }>
 
 You can change the *active group slice* in your current session by setting the
-:meth:`group_slice <fiftyone.core.dataset.Dataset.group_slice>` property:
+:meth:`group_slice <tensorgrid.core.dataset.Dataset.group_slice>` property:
 
 .. code-block:: python
     :linenos:
@@ -244,7 +244,7 @@ You can change the *active group slice* in your current session by setting the
     }>
 
 You can reset the active group slice to the default value by setting
-:meth:`group_slice <fiftyone.core.dataset.Dataset.group_slice>` to `None`:
+:meth:`group_slice <tensorgrid.core.dataset.Dataset.group_slice>` to `None`:
 
 .. code-block:: python
     :linenos:
@@ -253,7 +253,7 @@ You can reset the active group slice to the default value by setting
     dataset.group_slice = None
 
 You can also change the default group slice at any time by setting the
-:meth:`default_group_slice <fiftyone.core.dataset.Dataset.default_group_slice>`
+:meth:`default_group_slice <tensorgrid.core.dataset.Dataset.default_group_slice>`
 property.
 
 .. _groups-adding-fields:
@@ -275,8 +275,8 @@ datasets just as you would with ungrouped datasets:
     sample.save()
 
 You can also use methods like
-:meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`
-and :meth:`save() <fiftyone.core.view.DatasetView.save>` to perform bulk
+:meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`
+and :meth:`save() <tensorgrid.core.view.DatasetView.save>` to perform bulk
 edits to the :ref:`active slice <groups-dataset-properties>` of a grouped
 dataset.
 
@@ -298,15 +298,15 @@ declared on all samples from that slice and all other slices:
     Persistent:  False
     Tags:        []
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.Metadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        group:            fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.groups.Group)
-        int_field:        fiftyone.core.fields.IntField
-        ground_truth:     fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Classification)
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.Metadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        group:            tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.groups.Group)
+        int_field:        tensorgrid.core.fields.IntField
+        ground_truth:     tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Classification)
 
 .. note::
 
@@ -314,11 +314,11 @@ declared on all samples from that slice and all other slices:
     not been explicitly set on a |Sample| in the dataset will be `None`.
 
 You can use methods like
-:meth:`clone_sample_field() <fiftyone.core.dataset.Dataset.clone_sample_field>`,
-:meth:`rename_sample_field() <fiftyone.core.dataset.Dataset.rename_sample_field>`,
-:meth:`delete_sample_field() <fiftyone.core.dataset.Dataset.delete_sample_field>`,
-:meth:`clear_sample_field() <fiftyone.core.dataset.Dataset.clear_sample_field>`,
-and :meth:`keep_fields() <fiftyone.core.view.DatasetView.keep_fields>` to
+:meth:`clone_sample_field() <tensorgrid.core.dataset.Dataset.clone_sample_field>`,
+:meth:`rename_sample_field() <tensorgrid.core.dataset.Dataset.rename_sample_field>`,
+:meth:`delete_sample_field() <tensorgrid.core.dataset.Dataset.delete_sample_field>`,
+:meth:`clear_sample_field() <tensorgrid.core.dataset.Dataset.clear_sample_field>`,
+and :meth:`keep_fields() <tensorgrid.core.view.DatasetView.keep_fields>` to
 perform batch edits to the fields across *all slices* of a grouped dataset.
 
 .. _groups-accessing-samples:
@@ -339,7 +339,7 @@ filepath:
     also_sample = dataset[sample.id]
 
 In addition, you can also use
-:meth:`get_group() <fiftyone.core.dataset.Dataset.get_group>` to retrieve a
+:meth:`get_group() <tensorgrid.core.dataset.Dataset.get_group>` to retrieve a
 dict containing all samples in a group with a given ID:
 
 .. code-block:: python
@@ -393,7 +393,7 @@ Deleting samples
 ----------------
 
 Like ungrouped datasets, you can use
-:meth:`delete_samples() <fiftyone.core.dataset.Dataset.delete_samples>` to
+:meth:`delete_samples() <tensorgrid.core.dataset.Dataset.delete_samples>` to
 delete individual sample(s) from a grouped dataset:
 
 .. code-block:: python
@@ -405,7 +405,7 @@ delete individual sample(s) from a grouped dataset:
     dataset.delete_samples(sample)
 
 In addition, you can use
-:meth:`delete_groups() <fiftyone.core.dataset.Dataset.delete_groups>` to delete
+:meth:`delete_groups() <tensorgrid.core.dataset.Dataset.delete_groups>` to delete
 all samples in a specific group(s):
 
 .. code-block:: python
@@ -417,8 +417,8 @@ all samples in a specific group(s):
     dataset.delete_groups(group_id)
 
 You can also use methods like
-:meth:`clear() <fiftyone.core.view.DatasetView.clear>` and
-:meth:`keep() <fiftyone.core.view.DatasetView.keep>` to perform batch edits to
+:meth:`clear() <tensorgrid.core.view.DatasetView.clear>` and
+:meth:`keep() <tensorgrid.core.view.DatasetView.keep>` to perform batch edits to
 the groups in a grouped dataset.
 
 .. _groups-iteration:
@@ -456,11 +456,11 @@ dataset's :ref:`active slice <groups-dataset-properties>`:
 .. note::
 
     You can customize the dataset's active slice by setting the
-    :meth:`group_slice <fiftyone.core.dataset.Dataset.group_slice>` property to
+    :meth:`group_slice <tensorgrid.core.dataset.Dataset.group_slice>` property to
     another slice name.
 
 You can also use
-:meth:`iter_groups() <fiftyone.core.dataset.Dataset.iter_groups>` to iterate
+:meth:`iter_groups() <tensorgrid.core.dataset.Dataset.iter_groups>` to iterate
 over dicts containing all samples in each group:
 
 .. code-block:: python
@@ -511,8 +511,8 @@ over dicts containing all samples in each group:
 Example datasets
 ________________
 
-The :ref:`FiftyOne Dataset Zoo <dataset-zoo>` contains grouped datasets that
-you can use out-of-the-box to test drive FiftyOne's group-related features.
+The :ref:`TensorGrid Dataset Zoo <dataset-zoo>` contains grouped datasets that
+you can use out-of-the-box to test drive TensorGrid's group-related features.
 
 Quickstart groups
 -----------------
@@ -526,8 +526,8 @@ data:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-groups")
 
@@ -545,14 +545,14 @@ data:
     Persistent:  False
     Tags:        []
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.Metadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        group:            fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.groups.Group)
-        ground_truth:     fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.Metadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        group:            tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.groups.Group)
+        ground_truth:     tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
 
 KITTI multiview
 ---------------
@@ -563,8 +563,8 @@ dataset:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("kitti-multiview", split="train")
 
@@ -582,7 +582,7 @@ points that demonstrates how
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
     import numpy as np
     import open3d as o3d
 
@@ -671,13 +671,13 @@ You can perform simple operations like shuffling and limiting grouped datasets:
     Group slice: center
     Num groups:  10
     Group fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.Metadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        group:            fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.groups.Group)
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.Metadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        group:            tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.groups.Group)
     View stages:
         1. Shuffle(seed=None)
         2. Limit(limit=10)
@@ -725,9 +725,9 @@ of grouped datasets:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart-groups")
 
@@ -751,7 +751,7 @@ collection via the special `"groups.<slice>.field.name"` syntax:
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     dataset.compute_metadata()
 
@@ -770,7 +770,7 @@ Selecting groups
 ----------------
 
 You can use
-:meth:`select_groups() <fiftyone.core.collections.SampleCollection.select_groups>`
+:meth:`select_groups() <tensorgrid.core.collections.SampleCollection.select_groups>`
 to create a view that contains certain group(s) of interest by their IDs:
 
 .. code-block:: python
@@ -795,7 +795,7 @@ Excluding groups
 ----------------
 
 You can use
-:meth:`exclude_groups() <fiftyone.core.collections.SampleCollection.exclude_groups>`
+:meth:`exclude_groups() <tensorgrid.core.collections.SampleCollection.exclude_groups>`
 to create a view that excludes certain group(s) of interest by their IDs:
 
 .. code-block:: python
@@ -814,7 +814,7 @@ Selecting slices
 ----------------
 
 You can use
-:meth:`select_group_slices() <fiftyone.core.collections.SampleCollection.select_group_slices>`
+:meth:`select_group_slices() <tensorgrid.core.collections.SampleCollection.select_group_slices>`
 to select one or more slices of data from a grouped dataset, either as a
 grouped view or as a flattened *non-grouped* view.
 
@@ -833,13 +833,13 @@ images from the grouped dataset:
     Media type:  image
     Num samples: 108
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.Metadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        group:            fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.groups.Group)
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.Metadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        group:            tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.groups.Group)
     View stages:
         1. SelectGroupSlices(slices='left')
 
@@ -858,17 +858,17 @@ images:
     Media type:  image
     Num samples: 216
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.Metadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        group:            fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.groups.Group)
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.Metadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        group:            tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.groups.Group)
     View stages:
         1. SelectGroupSlices(slices=['left', 'right'])
 
-Note that the :meth:`media_type <fiftyone.core.view.DatasetView.media_type>` of
+Note that the :meth:`media_type <tensorgrid.core.view.DatasetView.media_type>` of
 the above collections are `image`, not `group`. This means you can perform any
 valid operation for image collections to these views, without worrying about
 the fact that their data is sourced from a grouped dataset!
@@ -885,7 +885,7 @@ the fact that their data is sourced from a grouped dataset!
 .. note::
 
     Any filtering that you apply prior to a
-    :meth:`select_group_slices() <fiftyone.core.collections.SampleCollection.select_group_slices>`
+    :meth:`select_group_slices() <tensorgrid.core.collections.SampleCollection.select_group_slices>`
     stage in a view is **not** automatically reflected by the output view, as
     the stage looks up unfiltered slice data from the source collection:
 
@@ -899,7 +899,7 @@ the fact that their data is sourced from a grouped dataset!
         images_view = match_view.select_group_slices(media_type="image")
 
     Instead, you can apply the same (or different) filtering *after* the
-    :meth:`select_group_slices() <fiftyone.core.collections.SampleCollection.select_group_slices>`
+    :meth:`select_group_slices() <tensorgrid.core.collections.SampleCollection.select_group_slices>`
     stage:
 
     .. code-block:: python
@@ -908,7 +908,7 @@ the fact that their data is sourced from a grouped dataset!
         match_images_view = images_view.filter_labels(...).match(...)
 
 Alternatively, you can pass `flat=False` to
-:meth:`select_group_slices() <fiftyone.core.collections.SampleCollection.select_group_slices>`
+:meth:`select_group_slices() <tensorgrid.core.collections.SampleCollection.select_group_slices>`
 to create a grouped view that only contains certain group slices:
 
 .. code-block:: python
@@ -925,7 +925,7 @@ Excluding slices
 ----------------
 
 You can use
-:meth:`exclude_group_slices() <fiftyone.core.collections.SampleCollection.exclude_group_slices>`
+:meth:`exclude_group_slices() <tensorgrid.core.collections.SampleCollection.exclude_group_slices>`
 to create a grouped view that excludes certain slice(s) of a grouped dataset:
 
 .. code-block:: python
@@ -951,9 +951,9 @@ only include samples from the :ref:`active slice <groups-dataset-properties>`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart-groups")
 
@@ -972,7 +972,7 @@ only include samples from the :ref:`active slice <groups-dataset-properties>`:
     # 8878.752327468706
 
 You can customize the dataset's active slice by setting the
-:meth:`group_slice <fiftyone.core.dataset.Dataset.group_slice>` property to
+:meth:`group_slice <tensorgrid.core.dataset.Dataset.group_slice>` property to
 another slice name:
 
 .. code-block:: python
@@ -1030,8 +1030,8 @@ default.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-groups")
 
@@ -1106,7 +1106,7 @@ objects across the slices of a |Group|:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     group = fo.Group()
 
@@ -1140,7 +1140,7 @@ objects across the slices of a |Group|:
 
 .. note::
 
-    Linking labels in this way enables helpful interactions in the FiftyOne
+    Linking labels in this way enables helpful interactions in the TensorGrid
     App. See :ref:`this section <app-linking-labels>` for more details.
 
 .. _groups-importing:
@@ -1167,7 +1167,7 @@ The simplest way to import grouped datasets is to
 
 Remember that each group is represented by a |Group| instance, and each sample
 in a group is denoted by its slice `name` using
-:meth:`Group.element() <fiftyone.core.groups.Group.element>`. The |Sample|
+:meth:`Group.element() <tensorgrid.core.groups.Group.element>`. The |Sample|
 objects can then simply be added to the dataset as usual.
 
 Alternatively, you can
@@ -1188,7 +1188,7 @@ Exporting groups
 ________________
 
 If you need to export an entire grouped dataset (or a view into it), you can
-use :ref:`FiftyOneDataset format <FiftyOneDataset-export>`:
+use :ref:`TensorGridDataset format <TensorGridDataset-export>`:
 
 .. code-block:: python
     :linenos:
@@ -1197,12 +1197,12 @@ use :ref:`FiftyOneDataset format <FiftyOneDataset-export>`:
 
     view.export(
         export_dir="/tmp/groups",
-        dataset_type=fo.types.FiftyOneDataset,
+        dataset_type=fo.types.TensorGridDataset,
     )
 
     dataset2 = fo.Dataset.from_dir(
         dataset_dir="/tmp/groups",
-        dataset_type=fo.types.FiftyOneDataset,
+        dataset_type=fo.types.TensorGridDataset,
     )
 
 You can also :ref:`select specific slice(s) <groups-selecting-slices>` and then

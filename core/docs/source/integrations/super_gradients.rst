@@ -5,9 +5,9 @@ Super Gradients Integration
 
 .. default-role:: code
 
-FiftyOne integrates natively with Deci AI's
+TensorGrid integrates natively with Deci AI's
 `SuperGradients <https://github.com/Deci-AI/super-gradients>`_ library, so you
-can run inference with YOLO-NAS architectures on your FiftyOne datasets with
+can run inference with YOLO-NAS architectures on your TensorGrid datasets with
 just a few lines of code!
 
 .. _super-gradients-setup:
@@ -28,15 +28,15 @@ the `super-gradients` package:
 Inference
 _________
 
-You can directly pass SuperGradients YOLO-NAS models to your FiftyOne dataset's
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+You can directly pass SuperGradients YOLO-NAS models to your TensorGrid dataset's
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
 method:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     from super_gradients.training import models
 
@@ -57,13 +57,13 @@ Model zoo
 _________
 
 SuperGradients YOLO-NAS is also available directly from the
-:ref:`FiftyOne Model Zoo <model-zoo-yolo-nas-torch>`!
+:ref:`TensorGrid Model Zoo <model-zoo-yolo-nas-torch>`!
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     model = foz.load_zoo_model("yolo-nas-torch")
 

@@ -6,7 +6,7 @@ Filtering Cheat Sheet
 .. default-role:: code
 
 This cheat sheet shows how to perform common matching and filtering operations
-in FiftyOne using :ref:`dataset views <using-views>`.
+in TensorGrid using :ref:`dataset views <using-views>`.
 
 Strings and pattern matching
 ____________________________
@@ -16,8 +16,8 @@ The formulas in this section use the following example data:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     ds = foz.load_zoo_dataset("quickstart")
 
@@ -45,8 +45,8 @@ The formulas in this section use the following example data:
 +-----------------------------------------+-----------------------------------------------------------------------+
 
 Reference:
-:meth:`match() <fiftyone.core.collections.SampleCollection.match>` and
-:meth:`filter_labels() <fiftyone.core.collections.SampleCollection.filter_labels>`.
+:meth:`match() <tensorgrid.core.collections.SampleCollection.match>` and
+:meth:`filter_labels() <tensorgrid.core.collections.SampleCollection.filter_labels>`.
 
 Dates and times
 _______________
@@ -58,9 +58,9 @@ The formulas in this section use the following example data:
 
     from datetime import datetime, timedelta
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     filepaths = ["image%d.jpg" % i for i in range(5)]
     dates = [
@@ -121,7 +121,7 @@ The formulas in this section use the following example data:
 +-------------------------------------------+-----------------------------------------------------------------------+
 
 Reference:
-:meth:`match() <fiftyone.core.collections.SampleCollection.match>`.
+:meth:`match() <tensorgrid.core.collections.SampleCollection.match>`.
 
 Geospatial
 __________
@@ -131,7 +131,7 @@ The formulas in this section use the following example data:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     TIMES_SQUARE = [-73.9855, 40.7580]
     MANHATTAN = [
@@ -159,8 +159,8 @@ The formulas in this section use the following example data:
 +-------------------------------------------+-----------------------------------------------------------------------+
 
 Reference:
-:meth:`geo_near() <fiftyone.core.collections.SampleCollection.geo_near>` and
-:meth:`geo_within() <fiftyone.core.collections.SampleCollection.geo_within>`.
+:meth:`geo_near() <tensorgrid.core.collections.SampleCollection.geo_near>` and
+:meth:`geo_within() <tensorgrid.core.collections.SampleCollection.geo_within>`.
 
 Detections
 __________
@@ -170,8 +170,8 @@ The formulas in this section use the following example data:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     ds = foz.load_zoo_dataset("quickstart")
 
@@ -235,8 +235,8 @@ The formulas in this section use the following example data:
 +--------------------------------------+-------------------------------------------------------------------------+
 
 Reference:
-:meth:`match() <fiftyone.core.collections.SampleCollection.match>` and
-:meth:`filter_labels() <fiftyone.core.collections.SampleCollection.filter_labels>`.
+:meth:`match() <tensorgrid.core.collections.SampleCollection.match>` and
+:meth:`filter_labels() <tensorgrid.core.collections.SampleCollection.filter_labels>`.
 
 Bounding boxes
 --------------
@@ -246,8 +246,8 @@ The formulas in this section assume the following code has been run:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     ds = foz.load_zoo_dataset("quickstart")
 
@@ -290,9 +290,9 @@ The formulas in this section assume the following code has been run:
 +---------------------------------+-------------------------------------------------------------------------+
 
 Reference:
-:meth:`filter_labels() <fiftyone.core.collections.SampleCollection.filter_labels>`
+:meth:`filter_labels() <tensorgrid.core.collections.SampleCollection.filter_labels>`
 and
-:meth:`select_fields() <fiftyone.core.collections.SampleCollection.select_fields>`.
+:meth:`select_fields() <tensorgrid.core.collections.SampleCollection.select_fields>`.
 
 Evaluating detections
 ---------------------
@@ -303,9 +303,9 @@ dataset ``ds`` with detections in its ``predictions`` field:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     ds = foz.load_zoo_dataset("quickstart")
 
@@ -351,11 +351,11 @@ dataset ``ds`` with detections in its ``predictions`` field:
 +-------------------------------------------+-------------------------------------------------------------------------+
 
 Reference:
-:meth:`match() <fiftyone.core.collections.SampleCollection.match>`,
-:meth:`sort_by() <fiftyone.core.collections.SampleCollection.sort_by>`,
-:meth:`filter_labels() <fiftyone.core.collections.SampleCollection.filter_labels>`,
+:meth:`match() <tensorgrid.core.collections.SampleCollection.match>`,
+:meth:`sort_by() <tensorgrid.core.collections.SampleCollection.sort_by>`,
+:meth:`filter_labels() <tensorgrid.core.collections.SampleCollection.filter_labels>`,
 and
-:meth:`match_labels() <fiftyone.core.collections.SampleCollection.match_labels>`.
+:meth:`match_labels() <tensorgrid.core.collections.SampleCollection.match_labels>`.
 
 Classifications
 _______________
@@ -370,8 +370,8 @@ classification predictions that have their ``logits`` attribute set:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     ds = foz.load_zoo_dataset("cifar10", split="test")
 
@@ -404,15 +404,15 @@ classification predictions that have their ``logits`` attribute set:
 +-------------------------------------------+-------------------------------------------------------------------------+
 
 Reference:
-:meth:`match() <fiftyone.core.collections.SampleCollection.match>`,
-:meth:`sort_by() <fiftyone.core.collections.SampleCollection.sort_by>`,
+:meth:`match() <tensorgrid.core.collections.SampleCollection.match>`,
+:meth:`sort_by() <tensorgrid.core.collections.SampleCollection.sort_by>`,
 and
-:meth:`match_tags() <fiftyone.core.collections.SampleCollection.match_tags>`.
+:meth:`match_tags() <tensorgrid.core.collections.SampleCollection.match_tags>`.
 
 Built-in filter and match functions
 ___________________________________
 
-FiftyOne has special methods for matching and filtering on specific data types. 
+TensorGrid has special methods for matching and filtering on specific data types. 
 Take a look at the examples in this section to see how various operations can
 be performed via these special purpose methods, and compare that to the brute
 force implementation of the same operation that follows.
@@ -424,9 +424,9 @@ The tables in this section use the following example data:
 
     from bson import ObjectId
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     ds = foz.load_zoo_dataset("quickstart")
 
@@ -462,7 +462,7 @@ Filtering labels
 +---------------+-------------------------------------------------------------------------+
 
 Reference:
-:meth:`filter_labels() <fiftyone.core.collections.SampleCollection.filter_labels>`.
+:meth:`filter_labels() <tensorgrid.core.collections.SampleCollection.filter_labels>`.
 
 Matching labels
 ---------------
@@ -514,7 +514,7 @@ Matching labels
 +---------------+-----------------------------------------------------------------------------------------------------+
 
 Reference:
-:meth:`match_labels() <fiftyone.core.collections.SampleCollection.match_labels>`.
+:meth:`match_labels() <tensorgrid.core.collections.SampleCollection.match_labels>`.
 
 Matching tags
 -------------
@@ -532,7 +532,7 @@ Matching tags
 +---------------+-------------------------------------------------------------------------+
 
 Reference:
-:meth:`match_tags() <fiftyone.core.collections.SampleCollection.match_tags>`.
+:meth:`match_tags() <tensorgrid.core.collections.SampleCollection.match_tags>`.
 
 Matching frames
 ---------------
@@ -542,8 +542,8 @@ The following table uses this example data:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     ds = foz.load_zoo_dataset("quickstart-video")
     num_objects = F("detections.detections").length()
@@ -561,13 +561,13 @@ The following table uses this example data:
 +---------------+-------------------------------------------------------------------------+
 
 Reference:
-:meth:`match_frames() <fiftyone.core.collections.SampleCollection.match_frames>`.
+:meth:`match_frames() <tensorgrid.core.collections.SampleCollection.match_frames>`.
 
 Filtering keypoints
 -------------------
 
 You can use
-:meth:`filter_keypoints() <fiftyone.core.collections.SampleCollection.filter_keypoints>`
+:meth:`filter_keypoints() <tensorgrid.core.collections.SampleCollection.filter_keypoints>`
 to retrieve individual keypoints within a |Keypoint| instance that match a
 specified condition.
 
@@ -576,8 +576,8 @@ The following table uses this example data:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    from tensorgrid import ViewField as F
 
     ds = fo.Dataset()
     ds.add_samples(
@@ -624,4 +624,4 @@ The following table uses this example data:
 +---------------+-----------------------------------------------------------------------------------------------------+
 
 Reference:
-:meth:`match_frames() <fiftyone.core.collections.SampleCollection.match_frames>`.
+:meth:`match_frames() <tensorgrid.core.collections.SampleCollection.match_frames>`.

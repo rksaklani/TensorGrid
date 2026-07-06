@@ -1,12 +1,12 @@
 .. _enterprise-agent:
 
-FiftyOne Agent
+TensorGrid Agent
 ==============
 
 .. default-role:: code
 
-The FiftyOne Agent is an AI-powered assistant built into the
-:ref:`FiftyOne Enterprise App <enterprise-app>`. It lets you work with your
+The TensorGrid Agent is an AI-powered assistant built into the
+:ref:`TensorGrid Enterprise App <enterprise-app>`. It lets you work with your
 datasets using natural language. You can import data, run model inference,
 find duplicates, evaluate predictions, and more, all from a conversational
 interface.
@@ -20,10 +20,10 @@ interface.
 Setup
 _____
 
-1. Contact your Customer Success representative to enable the FiftyOne Agent
+1. Contact your Customer Success representative to enable the TensorGrid Agent
    for your deployment.
 
-2. Open any dataset in the FiftyOne Enterprise App. You will see a new Agent
+2. Open any dataset in the TensorGrid Enterprise App. You will see a new Agent
    button in the upper-right corner of the App.
 
 .. image:: https://cdn.voxel51.com/voxel-agent/enterprise/location_agent.webp
@@ -105,7 +105,7 @@ A typical configuration looks like:
 **Per-user attribution**
 
 When a custom endpoint is configured, the Agent automatically adds an
-``X-FiftyOne-User-Email`` header to every request containing the email address
+``X-TensorGrid-User-Email`` header to every request containing the email address
 of the currently logged-in user. Gateways can use this header to attribute
 requests to individual users rather than a shared system account, which is
 useful for enforcing per-user quotas or audit logging.

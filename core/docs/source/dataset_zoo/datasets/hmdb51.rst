@@ -17,7 +17,7 @@ clips distributed across 51 action classes.
 -   Tags: ``video, action-recognition``
 -   Supported splits: ``train, test, other``
 -   ZooDataset class:
-    :class:`HMDB51Dataset <fiftyone.zoo.datasets.base.HMDB51Dataset>`
+    :class:`HMDB51Dataset <tensorgrid.zoo.datasets.base.HMDB51Dataset>`
 
 **Example usage**
 
@@ -28,9 +28,9 @@ clips distributed across 51 action classes.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
-        import fiftyone.utils.video as fouv
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
+        import tensorgrid.utils.video as fouv
 
         dataset = foz.load_zoo_dataset("hmdb51", split="test")
 
@@ -43,12 +43,12 @@ clips distributed across 51 action classes.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load hmdb51 --split test
+        tensorgrid zoo datasets load hmdb51 --split test
 
         # Re-encode source videos as H.264 MP4s so they can be viewed in the App
-        fiftyone utils transform-videos hmdb51-test --reencode
+        tensorgrid utils transform-videos hmdb51-test --reencode
 
-        fiftyone app launch hmdb51-test
+        tensorgrid app launch hmdb51-test
 
 .. note::
 

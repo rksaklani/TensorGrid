@@ -5,8 +5,8 @@ Dataset Zoo Overview
 
 .. default-role:: code
 
-The FiftyOne Dataset Zoo provides a powerful interface for downloading datasets
-and loading them into FiftyOne.
+The TensorGrid Dataset Zoo provides a powerful interface for downloading datasets
+and loading them into TensorGrid.
 
 It provides native access to dozens of popular benchmark datasets, and it also
 supports downloading arbitrary public or private datasets whose
@@ -23,23 +23,23 @@ visualizing it in the App is shown below.
 
   .. group-tab:: Python
 
-    Use :meth:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>` to
-    load a zoo dataset into a FiftyOne dataset.
+    Use :meth:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>` to
+    load a zoo dataset into a TensorGrid dataset.
 
     For example, the code sample below loads the validation split of
     :ref:`COCO-2017 <dataset-zoo-coco-2017>` from the zoo and visualizes it in
-    the FiftyOne App:
+    the TensorGrid App:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         # List available zoo datasets
         print(foz.list_zoo_datasets())
 
-        # Download the COCO-2017 validation split and load it into FiftyOne
+        # Download the COCO-2017 validation split and load it into TensorGrid
         dataset = foz.load_zoo_dataset("coco-2017", split="validation")
 
         # Give the dataset a new name, and make it persistent
@@ -51,24 +51,24 @@ visualizing it in the App is shown below.
 
   .. group-tab:: CLI
 
-    Use :ref:`fiftyone zoo datasets load <cli-fiftyone-zoo-datasets-load>` to
-    load a zoo dataset into a FiftyOne dataset.
+    Use :ref:`tensorgrid zoo datasets load <cli-fiftyone-zoo-datasets-load>` to
+    load a zoo dataset into a TensorGrid dataset.
 
     For example, the code sample below loads the validation split of
     :ref:`COCO-2017 <dataset-zoo-coco-2017>` from the zoo and visualizes it in
-    the FiftyOne App:
+    the TensorGrid App:
 
     .. code-block:: shell
 
         # List available zoo datasets
-        fiftyone zoo datasets list
+        tensorgrid zoo datasets list
 
-        # Download the COCO-2017 validation split and load it into FiftyOne
-        fiftyone zoo datasets load coco-2017 --split validation \
+        # Download the COCO-2017 validation split and load it into TensorGrid
+        tensorgrid zoo datasets load coco-2017 --split validation \
             --dataset-name coco-2017-validation-example
 
         # Visualize it in the App
-        fiftyone app launch coco-2017-validation-example
+        tensorgrid app launch coco-2017-validation-example
 
 .. image:: /images/dataset_zoo_coco_2017.png
    :alt: Dataset Zoo
@@ -89,7 +89,7 @@ Built-in datasets
 -----------------
 
 The Dataset Zoo provides built-in access to dozens of datasets that you can
-load into FiftyOne with a single command.
+load into TensorGrid with a single command.
 
 .. customanimatedcta::
     :button_text: Explore the datasets in the zoo

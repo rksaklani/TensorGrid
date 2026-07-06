@@ -7,12 +7,12 @@ Qdrant Integration
 
 `Qdrant <https://qdrant.tech>`_ is one of the most popular vector search
 engines available, and we've made it easy to use Qdrant's vector search
-capabilities on your computer vision data directly from FiftyOne!
+capabilities on your computer vision data directly from TensorGrid!
 
 Follow these :ref:`simple instructions <qdrant-setup>` to configure your Qdrant
-server and get started using Qdrant + FiftyOne.
+server and get started using Qdrant + TensorGrid.
 
-FiftyOne provides an API to create Qdrant collections, upload vectors, and run
+TensorGrid provides an API to create Qdrant collections, upload vectors, and run
 similarity queries, both :ref:`programmatically <qdrant-query>` in Python and
 via point-and-click in the App.
 
@@ -31,23 +31,23 @@ via point-and-click in the App.
 Basic recipe
 ____________
 
-The basic workflow to use Qdrant to create a similarity index on your FiftyOne
+The basic workflow to use Qdrant to create a similarity index on your TensorGrid
 datasets and use this to query your data is as follows:
 
 1)  Start a Qdrant service locally
 
-2)  :ref:`Load a dataset <importing-datasets>` into FiftyOne
+2)  :ref:`Load a dataset <importing-datasets>` into TensorGrid
 
 3)  Compute embedding vectors for samples or patches in your dataset, or select
     a model to use to generate embeddings
 
-4)  Use the :meth:`compute_similarity() <fiftyone.brain.compute_similarity>`
+4)  Use the :meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`
     method to generate a Qdrant similarity index for the samples or object
     patches in a dataset by setting the parameter `backend="qdrant"` and
     specifying a `brain_key` of your choice
 
 5)  Use this Qdrant similarity index to query your data with
-    :meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+    :meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 
 6) If desired, delete the index
 
@@ -71,16 +71,16 @@ The example below demonstrates this workflow.
     credentials as described in :ref:`this section <qdrant-setup>` to avoid
     entering them manually each time you interact with your Qdrant index.
 
-First let's load a dataset into FiftyOne and compute embeddings for the samples:
+First let's load a dataset into TensorGrid and compute embeddings for the samples:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
-    # Step 1: Load your data into FiftyOne
+    # Step 1: Load your data into TensorGrid
     dataset = foz.load_zoo_dataset("quickstart")
 
     # Steps 2 and 3: Compute embeddings and create a similarity index
@@ -90,7 +90,7 @@ First let's load a dataset into FiftyOne and compute embeddings for the samples:
         backend="qdrant",
     )
 
-Once the similarity index has been generated, we can query our data in FiftyOne
+Once the similarity index has been generated, we can query our data in TensorGrid
 by specifying the `brain_key`:
 
 .. code-block:: python
@@ -109,7 +109,7 @@ by specifying the `brain_key`:
     # Delete the Qdrant collection
     qdrant_index.cleanup()
 
-    # Delete run record from FiftyOne
+    # Delete run record from TensorGrid
     dataset.delete_brain_run("qdrant_index")
 
 .. note::
@@ -144,21 +144,21 @@ Using the Qdrant backend
 ------------------------
 
 By default, calling
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` or 
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` or 
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 will use an sklearn backend.
 
 To use the Qdrant backend, simply set the optional `backend` parameter of
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` to `"qdrant"`:
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` to `"qdrant"`:
 
 .. code:: python
     :linenos:
 
-    import fiftyone.brain as fob
+    import tensorgrid.brain as fob
 
     fob.compute_similarity(..., backend="qdrant", ...)
 
-Alternatively, you can permanently configure FiftyOne to use the Qdrant backend
+Alternatively, you can permanently configure TensorGrid to use the Qdrant backend
 by setting the following environment variable:
 
 .. code-block:: shell
@@ -184,7 +184,7 @@ variety of ways.
 
 The recommended way to configure your Qdrant credentials is to store them in
 the environment variables shown below, which are automatically accessed by
-FiftyOne whenever a connection to Qdrant is made.
+TensorGrid whenever a connection to Qdrant is made.
 
 .. code-block:: shell
 
@@ -195,7 +195,7 @@ FiftyOne whenever a connection to Qdrant is made.
 
 The `API_KEY`, `GRPC_PORT`, and `PREFER_GRPC` environment variables are optional.
 
-**FiftyOne Brain config**
+**TensorGrid Brain config**
 
 You can also store your credentials in your :ref:`brain config <brain-config>`
 located at `~/.fiftyone/brain_config.json`:
@@ -218,13 +218,13 @@ Note that this file will not exist until you create it.
 **Keyword arguments**
 
 You can manually provide credentials as keyword arguments each time you call
-methods like :meth:`compute_similarity() <fiftyone.brain.compute_similarity>`
+methods like :meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`
 that require connections to Qdrant:
 
 .. code:: python
     :linenos:
 
-    import fiftyone.brain as fob 
+    import tensorgrid.brain as fob 
     
     qdrant_index = fob.compute_similarity(
         ...
@@ -238,7 +238,7 @@ that require connections to Qdrant:
 
 Note that, when using this strategy, you must manually provide the credentials
 when loading an index later via
-:meth:`load_brain_results() <fiftyone.core.collections.SampleCollection.load_brain_results>`:
+:meth:`load_brain_results() <tensorgrid.core.collections.SampleCollection.load_brain_results>`:
 
 .. code:: python
     :linenos:
@@ -309,7 +309,7 @@ that includes all of the available parameters:
     }
 
 However, typically these parameters are directly passed to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` to configure
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` to configure
 a specific new index:
 
 .. code:: python
@@ -329,16 +329,16 @@ a specific new index:
 Managing brain runs
 ___________________
 
-FiftyOne provides a variety of methods that you can use to manage brain runs.
+TensorGrid provides a variety of methods that you can use to manage brain runs.
 
 For example, you can call
-:meth:`list_brain_runs() <fiftyone.core.collections.SampleCollection.list_brain_runs>`
+:meth:`list_brain_runs() <tensorgrid.core.collections.SampleCollection.list_brain_runs>`
 to see the available brain keys on a dataset:
 
 .. code:: python
     :linenos:
 
-    import fiftyone.brain as fob
+    import tensorgrid.brain as fob
 
     # List all brain runs
     dataset.list_brain_runs()
@@ -354,7 +354,7 @@ to see the available brain keys on a dataset:
     )
 
 Or, you can use
-:meth:`get_brain_info() <fiftyone.core.collections.SampleCollection.get_brain_info>`
+:meth:`get_brain_info() <tensorgrid.core.collections.SampleCollection.get_brain_info>`
 to retrieve information about the configuration of a brain run:
 
 .. code:: python
@@ -363,11 +363,11 @@ to retrieve information about the configuration of a brain run:
     info = dataset.get_brain_info(brain_key)
     print(info)
 
-Use :meth:`load_brain_results() <fiftyone.core.collections.SampleCollection.load_brain_results>`
+Use :meth:`load_brain_results() <tensorgrid.core.collections.SampleCollection.load_brain_results>`
 to load the |SimilarityIndex| instance for a brain run.
 
 You can use
-:meth:`rename_brain_run() <fiftyone.core.collections.SampleCollection.rename_brain_run>`
+:meth:`rename_brain_run() <tensorgrid.core.collections.SampleCollection.rename_brain_run>`
 to rename the brain key associated with an existing similarity results run:
 
 .. code:: python
@@ -376,8 +376,8 @@ to rename the brain key associated with an existing similarity results run:
     dataset.rename_brain_run(brain_key, new_brain_key)
 
 Finally, you can use
-:meth:`delete_brain_run() <fiftyone.core.collections.SampleCollection.delete_brain_run>`
-to delete the record of a similarity index computation from your FiftyOne 
+:meth:`delete_brain_run() <tensorgrid.core.collections.SampleCollection.delete_brain_run>`
+to delete the record of a similarity index computation from your TensorGrid 
 dataset:
 
 .. code:: python
@@ -388,8 +388,8 @@ dataset:
 .. note::
 
     Calling
-    :meth:`delete_brain_run() <fiftyone.core.collections.SampleCollection.delete_brain_run>`
-    only deletes the **record** of the brain run from your FiftyOne dataset; it
+    :meth:`delete_brain_run() <tensorgrid.core.collections.SampleCollection.delete_brain_run>`
+    only deletes the **record** of the brain run from your TensorGrid dataset; it
     will not delete any associated Qdrant collection, which you can do as
     follows:
 
@@ -405,7 +405,7 @@ Examples
 ________
 
 This section demonstrates how to perform some common vector search workflows on 
-a FiftyOne dataset using the Qdrant backend.
+a TensorGrid dataset using the Qdrant backend.
 
 .. note::
 
@@ -419,15 +419,15 @@ Create a similarity index
 
 In order to create a new Qdrant similarity index, you need to specify either
 the `embeddings` or `model` argument to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`. Here's a few
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`. Here's a few
 possibilities:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     model_name = "clip-vit-base32-torch"
@@ -481,14 +481,14 @@ Create a patch similarity index
 You can also create a similarity index for
 :ref:`object patches <brain-object-similarity>` within your dataset by
 including the `patches_field` argument to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`:
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -513,14 +513,14 @@ Connect to an existing index
 If you have already created a Qdrant collection storing the embedding vectors
 for the samples or patches in your dataset, you can connect to it by passing
 the `collection_name` to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`:
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -539,12 +539,12 @@ Add/remove embeddings from an index
 -----------------------------------
 
 You can use
-:meth:`add_to_index() <fiftyone.brain.similarity.SimilarityIndex.add_to_index>`
+:meth:`add_to_index() <tensorgrid.brain.similarity.SimilarityIndex.add_to_index>`
 and
-:meth:`remove_from_index() <fiftyone.brain.similarity.SimilarityIndex.remove_from_index>`
+:meth:`remove_from_index() <tensorgrid.brain.similarity.SimilarityIndex.remove_from_index>`
 to add and remove embeddings from an existing Qdrant index.
 
-These methods can come in handy if you modify your FiftyOne dataset and need
+These methods can come in handy if you modify your TensorGrid dataset and need
 to update the Qdrant index to reflect these changes:
 
 .. code:: python
@@ -552,9 +552,9 @@ to update the Qdrant index to reflect these changes:
 
     import numpy as np
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -591,15 +591,15 @@ Retrieve embeddings from an index
 ---------------------------------
 
 You can use
-:meth:`get_embeddings() <fiftyone.brain.similarity.SimilarityIndex.get_embeddings>`
+:meth:`get_embeddings() <tensorgrid.brain.similarity.SimilarityIndex.get_embeddings>`
 to retrieve embeddings from a Qdrant index by ID:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -628,7 +628,7 @@ Querying a Qdrant index
 -----------------------
 
 You can query a Qdrant index by appending a
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>` 
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>` 
 stage to any dataset or view. The query can be any of the following:
 
 *   An ID (sample or patch)
@@ -641,9 +641,9 @@ stage to any dataset or view. The query can be any of the following:
 
     import numpy as np
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -692,9 +692,9 @@ underlying Qdrant client instance and use its methods as desired:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -716,7 +716,7 @@ Advanced usage
 
 As :ref:`previously mentioned <qdrant-config-parameters>`, you can customize
 your Qdrant collections by providing optional parameters to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`.
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`.
 
 In particular, the `hnsw_config`, `wal_config`, and `optimizers_config`
 parameters may impact the quality of your query results, as well as the time
@@ -731,9 +731,9 @@ product similarity, and populate the index for only a subset of our dataset:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 

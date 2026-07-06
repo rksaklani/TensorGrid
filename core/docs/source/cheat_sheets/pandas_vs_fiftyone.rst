@@ -1,12 +1,12 @@
 .. _pandas-cheat-sheet:
 
-pandas vs FiftyOne
+pandas vs TensorGrid
 ==================
 
 .. default-role:: code
 
 This cheat sheet shows how to translate common
-`pandas <https://pandas.pydata.org>`_ operations into FiftyOne.
+`pandas <https://pandas.pydata.org>`_ operations into TensorGrid.
 
 Nomenclature
 ____________
@@ -16,7 +16,7 @@ ____________
    :header-rows: 1
 
    * - pandas
-     - FiftyOne
+     - TensorGrid
    * - DataFrame (``df``)
      - Dataset (``ds``)
    * - Row
@@ -34,10 +34,10 @@ _______________
 
    * - 
      - pandas
-     - FiftyOne
+     - TensorGrid
    * - Importing the packages
      - ``import pandas as pd``
-     - ``import fiftyone as fo``
+     - ``import tensorgrid as tg``
    * - Create empty dataset
      - ``df = pd.DataFrame()``
      - ``ds = fo.Dataset()``
@@ -55,7 +55,7 @@ ______
 
    * - 
      - pandas
-     - FiftyOne
+     - TensorGrid
    * - First row/sample
      - ``df.iloc[0]`` or ``df.head(1)``
      - ``ds.first()`` or ``ds.head(1)``
@@ -91,7 +91,7 @@ ___________
 
    * - 
      - pandas
-     - FiftyOne
+     - TensorGrid
    * - Make a copy
      - ``df.copy()``
      - ``ds.clone()`` 
@@ -125,7 +125,7 @@ ____________
 
    * - 
      - pandas
-     - FiftyOne
+     - TensorGrid
    * - Count
      - ``df[*].count()``
      - ``ds.count(*)`` 
@@ -159,7 +159,7 @@ __________________
 
    * - 
      - pandas
-     - FiftyOne
+     - TensorGrid
    * - New column/field as constant value
      - ``df["col"] = value``
      - | ``ds.add_sample_field("field", fo.StringField)``
@@ -205,7 +205,7 @@ ___________
 
    * - 
      - pandas
-     - FiftyOne
+     - TensorGrid
    * - Exact equality
      - ``df[df[*] == value]``
      - ``ds.match(F(*) == value)``
@@ -246,4 +246,4 @@ ___________
     .. code-block:: python
 
         import pandas.api.types as pdt
-        from fiftyone import ViewField as F
+        from tensorgrid import ViewField as F

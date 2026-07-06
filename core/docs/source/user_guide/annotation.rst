@@ -8,9 +8,9 @@ In-App Annotation
 Overview
 --------
 
-This guide will walk you through the basics of FiftyOne's in-App annotation features.
+This guide will walk you through the basics of TensorGrid's in-App annotation features.
 
-Currently in-App annotation is designed for ad hoc, sample-by-sample metadata editing. The features and controls extend FiftyOne's existing data visualization UI. Once you have samples loaded into a FiftyOne dataset, you can begin defining your Annotation Schema and labeling your data in the App.
+Currently in-App annotation is designed for ad hoc, sample-by-sample metadata editing. The features and controls extend TensorGrid's existing data visualization UI. Once you have samples loaded into a TensorGrid dataset, you can begin defining your Annotation Schema and labeling your data in the App.
 
 ----
 
@@ -20,7 +20,7 @@ Basics
 Supported Media and Label Types
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In-App annotation within FiftyOne supports datasets containing the following media and label types:
+In-App annotation within TensorGrid supports datasets containing the following media and label types:
 
 * :ref:`media_type <dataset-media-type>`
 
@@ -47,7 +47,7 @@ All in-App annotation controls now live in the :ref:`expanded view for samples <
 Saving and Reverting Changes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When you make changes to sample metadata with FiftyOne's in-App annotation, your changes automatically save to the database. The auto-save functionality triggers either explicitly after an action (e.g., deleting a label) or after a short period of time (e.g., updating the spatial properties of a bounding box multiple times in succession), depending on the action.
+When you make changes to sample metadata with TensorGrid's in-App annotation, your changes automatically save to the database. The auto-save functionality triggers either explicitly after an action (e.g., deleting a label) or after a short period of time (e.g., updating the spatial properties of a bounding box multiple times in succession), depending on the action.
 
 You can tell whether your changes are saved or are in the process of being saved thanks to this indicator:
 
@@ -85,7 +85,7 @@ When accessing the "Annotate" tab in the expanded view on a dataset for the firs
 Supported Field Types
 ^^^^^^^^^^^^^^^^^^^^^
 
-FiftyOne's in-App annotation supports two groups of field types: **label-type** fields (e.g., ``Detections`` or ``Classification``) and non-label-type **primitive** fields (e.g., ``StringField``\s or ``IntField``\s). Your Annotation Schema can be a mix of fields within these groups. The parameters available for configuring fields' schemas in your Annotation Schema will depend on the type of field (see: :ref:`annotation-schema-format`).
+TensorGrid's in-App annotation supports two groups of field types: **label-type** fields (e.g., ``Detections`` or ``Classification``) and non-label-type **primitive** fields (e.g., ``StringField``\s or ``IntField``\s). Your Annotation Schema can be a mix of fields within these groups. The parameters available for configuring fields' schemas in your Annotation Schema will depend on the type of field (see: :ref:`annotation-schema-format`).
 
 .. _schema-manager:
 
@@ -127,7 +127,7 @@ The "Edit field schema" page includes two ways for you to configure the field's 
 Annotation Schema Format
 """"""""""""""""""""""""
 
-The in-App Annotation Schema format is borrowed from :ref:`FiftyOne's existing label_schema format <annotation-label-schema>` (historically supported for requesting annotations from third-party backends).
+The in-App Annotation Schema format is borrowed from :ref:`TensorGrid's existing label_schema format <annotation-label-schema>` (historically supported for requesting annotations from third-party backends).
 
 For label-type fields, ``classes`` are a first-order list of classes available for selection on all instances of your label across samples in your dataset. Label-type fields also have ``attributes``, which are optional semantic properties whose values may also be edited across samples on your dataset.
 
@@ -205,7 +205,7 @@ Create and save an ontology with the SDK:
 
 .. code-block:: python
 
-   import fiftyone as fo
+   import tensorgrid as tg
 
    ontology = fo.AnnotationOntology(
        name="vehicle_damage_ontology",
@@ -219,7 +219,7 @@ Attach the ontology to a field on a dataset's label schema:
 
 .. code-block:: python
 
-   import fiftyone as fo
+   import tensorgrid as tg
 
    dataset = fo.load_dataset("my_dataset")
    label_schemas = fo.apply_ontology(
@@ -244,7 +244,7 @@ the parent, including ``label`` itself.
 
 .. code-block:: python
 
-   import fiftyone as fo
+   import tensorgrid as tg
 
    fo.AnnotationOntology(
        name="vehicles",
@@ -275,7 +275,7 @@ annotation UI as they annotate.
 Bypassing Schema Configuration
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you do not see a field or its contents in the "Annotate" tab of the sample expanded view, and you don't want to go through the process of configuring a schema for the field and adding it to the Annotation Schema, you can bypass interacting with the Schema Manager altogether and ask the FiftyOne App to take the requisite steps on your behalf.
+If you do not see a field or its contents in the "Annotate" tab of the sample expanded view, and you don't want to go through the process of configuring a schema for the field and adding it to the Annotation Schema, you can bypass interacting with the Schema Manager altogether and ask the TensorGrid App to take the requisite steps on your behalf.
 
 .. warning::
    Like the above features in :ref:`the "Schema Import / Management" section <schema-import-management>`, this bypass feature is only available to users with :ref:`"Can manage" access <enterprise-can-manage>` on a dataset.
@@ -329,7 +329,7 @@ For label types with spatial properties (e.g., 2D bounding boxes), you'll notice
 List of Primitives
 ^^^^^^^^^^^^^^^^^^
 
-Labels are not the only type of metadata available for edits in FiftyOne's in-App annotation functionality. Primitive :ref:`fields <basics-fields>` (e.g., ``StringField``\s or ``IntField``\s) on the dataset may also be made available in the Annotation Schema via :ref:`the Schema Manager interface <schema-import-management>`. When primitives exist in the Annotation Schema, you'll see a flattened list of all such fields under the "Primitives" header.
+Labels are not the only type of metadata available for edits in TensorGrid's in-App annotation functionality. Primitive :ref:`fields <basics-fields>` (e.g., ``StringField``\s or ``IntField``\s) on the dataset may also be made available in the Annotation Schema via :ref:`the Schema Manager interface <schema-import-management>`. When primitives exist in the Annotation Schema, you'll see a flattened list of all such fields under the "Primitives" header.
 
 ----
 
@@ -392,7 +392,7 @@ The kebab menu on an existing detection label in the right sidebar allows you to
 .. image:: /_static/images/annotation/mask_ai_assistance.gif
    :alt: AI assistance tool
 
-The AI assistance tool allows you to use mask segmentation models to draw masks. This tool allows you to click any number of positive and negative points per object as prompts to the model to refine the mask boundaries. For FiftyOne Enterprise customers, ask your Voxel51 Customer Success representative about bringing your own finetuned models for AI assisted segmentation.
+The AI assistance tool allows you to use mask segmentation models to draw masks. This tool allows you to click any number of positive and negative points per object as prompts to the model to refine the mask boundaries. For TensorGrid Enterprise customers, ask your TensorGrid Customer Success representative about bringing your own finetuned models for AI assisted segmentation.
 
 .. image:: /_static/images/annotation/mask_brush_tool.gif
    :alt: Brush tool
@@ -425,7 +425,7 @@ Click the canvas to begin placing vertices of the new polyline, with successive 
 .. image:: /_static/images/annotation/draw_polygon.gif
    :alt: Drawing a polygon
 
-:ref:`Polygon labels in FiftyOne <polylines>` are simply polylines with the ``closed`` and ``filled`` attributes set to ``True``. Configure the label schema to use default values for these attributes if desired, or configure these values for each label instance. Similar to polylines, edit polygons by clicking the canvas to place vertices defining the boundary of the polygon. Clicking an existing boundary segment allows you to add new vertices into an existing polygon. Right click the canvas to finish editing the current polygon.
+:ref:`Polygon labels in TensorGrid <polylines>` are simply polylines with the ``closed`` and ``filled`` attributes set to ``True``. Configure the label schema to use default values for these attributes if desired, or configure these values for each label instance. Similar to polylines, edit polygons by clicking the canvas to place vertices defining the boundary of the polygon. Clicking an existing boundary segment allows you to add new vertices into an existing polygon. Right click the canvas to finish editing the current polygon.
 
 Editing in the Right Sidebar
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -504,7 +504,7 @@ Annotation Plane
 .. image:: /_static/images/annotation/annotation_plane_concept.gif
    :alt: Annotation plane concept
 
-3D annotation mode in FiftyOne provides the concept of an "annotation plane". When a new point is created (for example the vertex of a polyline or cuboid), it gets placed at the location of the mouse pointer. However, the depth of the point would be ambiguous and so this annotation plane is used to define the point depth. By default, the annotation plane is set to be the XY plane.
+3D annotation mode in TensorGrid provides the concept of an "annotation plane". When a new point is created (for example the vertex of a polyline or cuboid), it gets placed at the location of the mouse pointer. However, the depth of the point would be ambiguous and so this annotation plane is used to define the point depth. By default, the annotation plane is set to be the XY plane.
 
 .. image:: /_static/images/annotation/reposition_annotation_plane.gif
    :alt: Annotation plane positioning
@@ -634,7 +634,7 @@ Newly created vertices are placed at the location of the mouse pointer. The dept
 Polylines vs Segments
 ^^^^^^^^^^^^^^^^^^^^^
 
-The points of a single :ref:`Polyline in FiftyOne <3d-polylines>` are represented as a list of lists of vertices:
+The points of a single :ref:`Polyline in TensorGrid <3d-polylines>` are represented as a list of lists of vertices:
 
 .. code-block:: python
 

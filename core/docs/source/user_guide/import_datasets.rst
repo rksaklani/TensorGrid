@@ -1,14 +1,14 @@
 .. _importing-datasets:
 
-Importing data into FiftyOne
+Importing data into TensorGrid
 ============================
 
 .. default-role:: code
 
-The first step to using FiftyOne is to load your data into a
-:ref:`dataset <using-datasets>`. FiftyOne supports automatic loading of
+The first step to using TensorGrid is to load your data into a
+:ref:`dataset <using-datasets>`. TensorGrid supports automatic loading of
 datasets stored in various :ref:`common formats <supported-import-formats>`.
-If your dataset is stored in a custom format, don't worry, FiftyOne also
+If your dataset is stored in a custom format, don't worry, TensorGrid also
 provides support for easily loading datasets in
 :ref:`custom formats <loading-custom-datasets>`.
 
@@ -17,29 +17,29 @@ your data.
 
 .. note::
 
-    Did you know? You can import media and/or labels from within the FiftyOne
+    Did you know? You can import media and/or labels from within the TensorGrid
     App by installing the
-    `@voxel51/io <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/io>`_
+    `@voxel51/io <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/io>`_
     plugin!
 
 .. note::
 
     When you create a |Dataset|, its samples and all of their fields (metadata,
-    labels, custom fields, etc.) are written to FiftyOne's backing database.
+    labels, custom fields, etc.) are written to TensorGrid's backing database.
 
     **Important:** Samples only store the `filepath` to the media, not the
-    raw media itself. FiftyOne does not create duplicate copies of your data!
+    raw media itself. TensorGrid does not create duplicate copies of your data!
 
 .. _loading-custom-datasets:
 
 Custom formats
 ______________
 
-The simplest and most flexible approach to loading your data into FiftyOne is
+The simplest and most flexible approach to loading your data into TensorGrid is
 to iterate over your data in a simple Python loop, create a |Sample| for each
 data + label(s) pair, and then add those samples to a |Dataset|.
 
-FiftyOne provides :ref:`label types <using-labels>` for common tasks such as
+TensorGrid provides :ref:`label types <using-labels>` for common tasks such as
 classification, detection, segmentation, and many more. The examples below
 give you a sense of the basic workflow for a few tasks.
 
@@ -51,7 +51,7 @@ give you a sense of the basic workflow for a few tasks.
           :linenos:
 
           import glob
-          import fiftyone as fo
+          import tensorgrid as tg
 
           images_patt = "/path/to/images/*"
 
@@ -82,7 +82,7 @@ give you a sense of the basic workflow for a few tasks.
           :linenos:
 
           import glob
-          import fiftyone as fo
+          import tensorgrid as tg
 
           images_patt = "/path/to/images/*"
 
@@ -100,7 +100,7 @@ give you a sense of the basic workflow for a few tasks.
           for filepath in glob.glob(images_patt):
               sample = fo.Sample(filepath=filepath)
 
-              # Convert detections to FiftyOne format
+              # Convert detections to TensorGrid format
               detections = []
               for obj in annotations[filepath]:
                   label = obj["label"]
@@ -128,7 +128,7 @@ give you a sense of the basic workflow for a few tasks.
       .. code:: python
           :linenos:
 
-          import fiftyone as fo
+          import tensorgrid as tg
 
           video_path = "/path/to/video.mp4"
 
@@ -156,7 +156,7 @@ give you a sense of the basic workflow for a few tasks.
               weather = labels["weather"]
               frame["weather"] = fo.Classification(label=weather)
 
-              # Convert detections to FiftyOne format
+              # Convert detections to TensorGrid format
               detections = []
               for obj in labels["objects"]:
                   label = obj["label"]
@@ -185,7 +185,7 @@ give you a sense of the basic workflow for a few tasks.
       .. code:: python
           :linenos:
 
-          import fiftyone as fo
+          import tensorgrid as tg
 
           # Create a 3D scene with a mesh
           scene = fo.Scene()
@@ -213,17 +213,17 @@ give you a sense of the basic workflow for a few tasks.
 .. note::
 
     Using
-    :meth:`Dataset.add_samples() <fiftyone.core.dataset.Dataset.add_samples>`
+    :meth:`Dataset.add_samples() <tensorgrid.core.dataset.Dataset.add_samples>`
     to add batches of samples to your datasets can be significantly more
     efficient than adding samples one-by-one via
-    :meth:`Dataset.add_sample() <fiftyone.core.dataset.Dataset.add_sample>`.
+    :meth:`Dataset.add_sample() <tensorgrid.core.dataset.Dataset.add_sample>`.
 
 .. note::
 
     If you use the same custom data format frequently in your workflows, then
     writing a :ref:`custom dataset importer <custom-dataset-importer>` is a
     great way to abstract and streamline the loading of your data into
-    FiftyOne.
+    TensorGrid.
 
 .. _loading-common-datasets:
 
@@ -232,7 +232,7 @@ ______________
 
 If your data is stored on disk in one of the
 :ref:`many common formats <supported-import-formats>` supported natively by
-FiftyOne, then you can load your data into a |Dataset| via Python or the CLI
+TensorGrid, then you can load your data into a |Dataset| via Python or the CLI
 with the following simple pattern:
 
 .. tabs::
@@ -240,7 +240,7 @@ with the following simple pattern:
   .. group-tab:: Python
 
     You can import a |Dataset| from disk via the
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` factory
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` factory
     method.
 
     If your data is stored in the
@@ -251,7 +251,7 @@ with the following simple pattern:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # The directory containing the dataset to import
         dataset_dir = "/path/to/dataset"
@@ -305,7 +305,7 @@ with the following simple pattern:
 
     In general, you can pass any parameter for the |DatasetImporter| of the
     format you're importing to
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>`. For
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>`. For
     example, most builtin importers support optional `max_samples`, `shuffle`,
     and `seed` parameters, which provide support for importing a small subset
     of a potentially large dataset:
@@ -323,7 +323,7 @@ with the following simple pattern:
 
   .. group-tab:: CLI
 
-    You can import a dataset from disk into FiftyOne
+    You can import a dataset from disk into TensorGrid
     :ref:`via the CLI <cli-fiftyone-datasets-create>`.
 
     If your data is stored in the
@@ -340,11 +340,11 @@ with the following simple pattern:
         DATASET_DIR=/path/to/dataset
 
         # The type of the dataset being imported
-        # Any subclass of `fiftyone.types.Dataset` is supported
-        TYPE=fiftyone.types.COCODetectionDataset  # for example
+        # Any subclass of `tensorgrid.types.Dataset` is supported
+        TYPE=tensorgrid.types.COCODetectionDataset  # for example
 
         # Import the dataset
-        fiftyone datasets create --name $NAME --dataset-dir $DATASET_DIR --type $TYPE
+        tensorgrid datasets create --name $NAME --dataset-dir $DATASET_DIR --type $TYPE
 
     Alternatively, when importing labeled datasets in formats such as
     :ref:`COCO <COCODetectionDataset-import>`, you may find it more natural to
@@ -362,8 +362,8 @@ with the following simple pattern:
         LABELS_PATH=/path/to/coco-labels.json
 
         # Import the dataset
-        fiftyone datasets create --name my-dataset \
-            --type fiftyone.types.COCODetectionDataset \
+        tensorgrid datasets create --name my-dataset \
+            --type tensorgrid.types.COCODetectionDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -378,8 +378,8 @@ with the following simple pattern:
         LABELS_PATH=/path/to/coco-labels.json
 
         # Import the dataset
-        fiftyone datasets create --name my-dataset \
-            --type fiftyone.types.COCODetectionDataset \
+        tensorgrid datasets create --name my-dataset \
+            --type tensorgrid.types.COCODetectionDataset \
             --kwargs labels_path=$LABELS_PATH
 
     In general, you can pass any parameter for the |DatasetImporter| of the
@@ -392,7 +392,7 @@ with the following simple pattern:
     .. code-block:: shell
 
         # Import a random subset of 10 samples from the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME --dataset-dir $DATASET_DIR --type $TYPE \
             --kwargs \
                 max_samples=10 \
@@ -416,7 +416,7 @@ Loading media
 _____________
 
 If you're just getting started with a project and all you have is a bunch of
-media files, you can easily load them into a FiftyOne dataset and start
+media files, you can easily load them into a TensorGrid dataset and start
 visualizing them :ref:`in the App <fiftyone-app>`.
 
 .. tabs::
@@ -424,15 +424,15 @@ visualizing them :ref:`in the App <fiftyone-app>`.
   .. group-tab:: Images
 
     You can use the
-    :meth:`Dataset.from_images() <fiftyone.core.dataset.Dataset.from_images>`,
-    :meth:`Dataset.from_images_dir() <fiftyone.core.dataset.Dataset.from_images_dir>`, and
-    :meth:`Dataset.from_images_patt() <fiftyone.core.dataset.Dataset.from_images_patt>`
-    factory methods to load your images into FiftyOne:
+    :meth:`Dataset.from_images() <tensorgrid.core.dataset.Dataset.from_images>`,
+    :meth:`Dataset.from_images_dir() <tensorgrid.core.dataset.Dataset.from_images_dir>`, and
+    :meth:`Dataset.from_images_patt() <tensorgrid.core.dataset.Dataset.from_images_patt>`
+    factory methods to load your images into TensorGrid:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # Create a dataset from a list of images
         dataset = fo.Dataset.from_images(
@@ -448,35 +448,35 @@ visualizing them :ref:`in the App <fiftyone-app>`.
         session = fo.launch_app(dataset)
 
     You can also use
-    :meth:`Dataset.add_images() <fiftyone.core.dataset.Dataset.add_images>`,
-    :meth:`Dataset.add_images_dir() <fiftyone.core.dataset.Dataset.add_images_dir>`, and
-    :meth:`Dataset.add_images_patt() <fiftyone.core.dataset.Dataset.add_images_patt>`
+    :meth:`Dataset.add_images() <tensorgrid.core.dataset.Dataset.add_images>`,
+    :meth:`Dataset.add_images_dir() <tensorgrid.core.dataset.Dataset.add_images_dir>`, and
+    :meth:`Dataset.add_images_patt() <tensorgrid.core.dataset.Dataset.add_images_patt>`
     to add images to an existing dataset.
 
-    You can use the :ref:`fiftyone app view <cli-fiftyone-app-view>` command
+    You can use the :ref:`tensorgrid app view <cli-fiftyone-app-view>` command
     from the CLI to quickly browse images in the App without creating a
-    (persistent) FiftyOne dataset:
+    (persistent) TensorGrid dataset:
 
     .. code-block:: shell
 
         # View a glob pattern of images in the App
-        fiftyone app view --images-patt '/path/to/images/*.jpg'
+        tensorgrid app view --images-patt '/path/to/images/*.jpg'
 
         # View a directory of images in the App
-        fiftyone app view --images-dir '/path/to/images'
+        tensorgrid app view --images-dir '/path/to/images'
 
   .. group-tab:: Videos
 
     You can use the
-    :meth:`Dataset.from_videos() <fiftyone.core.dataset.Dataset.from_videos>`,
-    :meth:`Dataset.from_videos_dir() <fiftyone.core.dataset.Dataset.from_videos_dir>`, and
-    :meth:`Dataset.from_videos_patt() <fiftyone.core.dataset.Dataset.from_videos_patt>`
-    factory methods to load your videos into FiftyOne:
+    :meth:`Dataset.from_videos() <tensorgrid.core.dataset.Dataset.from_videos>`,
+    :meth:`Dataset.from_videos_dir() <tensorgrid.core.dataset.Dataset.from_videos_dir>`, and
+    :meth:`Dataset.from_videos_patt() <tensorgrid.core.dataset.Dataset.from_videos_patt>`
+    factory methods to load your videos into TensorGrid:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # Create a dataset from a list of videos
         dataset = fo.Dataset.from_videos(
@@ -492,22 +492,22 @@ visualizing them :ref:`in the App <fiftyone-app>`.
         session = fo.launch_app(dataset)
 
     You can also use
-    :meth:`Dataset.add_videos() <fiftyone.core.dataset.Dataset.add_videos>`,
-    :meth:`Dataset.add_videos_dir() <fiftyone.core.dataset.Dataset.add_videos_dir>`, and
-    :meth:`Dataset.add_videos_patt() <fiftyone.core.dataset.Dataset.add_videos_patt>`
+    :meth:`Dataset.add_videos() <tensorgrid.core.dataset.Dataset.add_videos>`,
+    :meth:`Dataset.add_videos_dir() <tensorgrid.core.dataset.Dataset.add_videos_dir>`, and
+    :meth:`Dataset.add_videos_patt() <tensorgrid.core.dataset.Dataset.add_videos_patt>`
     to add videos to an existing dataset.
 
-    You can use the :ref:`fiftyone app view <cli-fiftyone-app-view>` command
+    You can use the :ref:`tensorgrid app view <cli-fiftyone-app-view>` command
     from the CLI to quickly browse videos in the App without creating a
-    (persistent) FiftyOne dataset:
+    (persistent) TensorGrid dataset:
 
     .. code-block:: shell
 
         # View a glob pattern of videos in the App
-        fiftyone app view --videos-patt '/path/to/videos/*.mp4'
+        tensorgrid app view --videos-patt '/path/to/videos/*.mp4'
 
         # View a directory of videos in the App
-        fiftyone app view --videos-dir '/path/to/videos'
+        tensorgrid app view --videos-dir '/path/to/videos'
 
 .. _adding-model-predictions:
 
@@ -515,7 +515,7 @@ Adding model predictions
 ________________________
 
 Once you've created a dataset and ground truth labels, you can easily add model
-predictions to take advantage of FiftyOne's
+predictions to take advantage of TensorGrid's
 :ref:`evaluation capabilities <evaluating-models>`.
 
 .. tabs::
@@ -524,7 +524,7 @@ predictions to take advantage of FiftyOne's
 
     If you have model predictions stored in
     :ref:`COCO format <COCODetectionDataset-import>`, then you can use
-    :func:`add_coco_labels() <fiftyone.utils.coco.add_coco_labels>` to
+    :func:`add_coco_labels() <tensorgrid.utils.coco.add_coco_labels>` to
     conveniently add the labels to an existing dataset.
 
     The example below demonstrates a round-trip export and then re-import of
@@ -533,9 +533,9 @@ predictions to take advantage of FiftyOne's
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
-        import fiftyone.utils.coco as fouc
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
+        import tensorgrid.utils.coco as fouc
 
         dataset = foz.load_zoo_dataset("quickstart")
         classes = dataset.distinct("predictions.detections.label")
@@ -580,7 +580,7 @@ predictions to take advantage of FiftyOne's
 
     .. note::
 
-        See :func:`add_coco_labels() <fiftyone.utils.coco.add_coco_labels>` for
+        See :func:`add_coco_labels() <tensorgrid.utils.coco.add_coco_labels>` for
         a complete description of the available syntaxes for loading
         COCO-formatted predictions to an existing dataset.
 
@@ -588,7 +588,7 @@ predictions to take advantage of FiftyOne's
 
     If you have model predictions stored in
     :ref:`YOLO format <YOLOv4Dataset-import>`, then you can use
-    :func:`add_yolo_labels() <fiftyone.utils.yolo.add_yolo_labels>` to
+    :func:`add_yolo_labels() <tensorgrid.utils.yolo.add_yolo_labels>` to
     conveniently add the labels to an existing dataset.
 
     The example below demonstrates a round-trip export and then re-import of
@@ -597,9 +597,9 @@ predictions to take advantage of FiftyOne's
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
-        import fiftyone.utils.yolo as fouy
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
+        import tensorgrid.utils.yolo as fouy
 
         dataset = foz.load_zoo_dataset("quickstart")
         classes = dataset.distinct("predictions.detections.label")
@@ -643,7 +643,7 @@ predictions to take advantage of FiftyOne's
 
     .. note::
 
-        See :func:`add_yolo_labels() <fiftyone.utils.yolo.add_yolo_labels>` for
+        See :func:`add_yolo_labels() <tensorgrid.utils.yolo.add_yolo_labels>` for
         a complete description of the available syntaxes for loading
         YOLO-formatted predictions to an existing dataset.
 
@@ -660,7 +660,7 @@ predictions to take advantage of FiftyOne's
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # Ex: your custom predictions format
         predictions = {
@@ -675,7 +675,7 @@ predictions to take advantage of FiftyOne's
         for sample in dataset:
             filepath = sample.filepath
 
-            # Convert predictions to FiftyOne format
+            # Convert predictions to TensorGrid format
             detections = []
             for obj in predictions[filepath]:
                 label = obj["label"]
@@ -702,17 +702,17 @@ predictions to take advantage of FiftyOne's
     .. note::
 
         If you are in need of a model to run on your dataset, check out the
-        :ref:`FiftyOne Model Zoo <model-zoo>`.
+        :ref:`TensorGrid Model Zoo <model-zoo>`.
 
 .. _supported-import-formats:
 
 Built-in formats
 ________________
 
-FiftyOne provides a variety of built-in importers for common data formats.
+TensorGrid provides a variety of built-in importers for common data formats.
 
 Each data format is represented by a subclass of
-:class:`fiftyone.types.Dataset`, which is used by the Python library and CLI to
+:class:`tensorgrid.types.Dataset`, which is used by the Python library and CLI to
 refer to the corresponding dataset format when reading the dataset from disk.
 
 .. table::
@@ -731,7 +731,7 @@ refer to the corresponding dataset format when reading the dataset from disk.
     +---------------------------------------------------------------------------------------+------------------------------------------------------------------------------------+
     | :ref:`Video Classification Directory Tree <VideoClassificationDirectoryTree-import>`  | A directory tree whose subfolders define a video classification dataset.           |
     +---------------------------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Image Classification <FiftyOneImageClassificationDataset-import>`      | A labeled dataset consisting of images and their associated classification labels  |
+    | :ref:`TensorGrid Image Classification <TensorGridImageClassificationDataset-import>`      | A labeled dataset consisting of images and their associated classification labels  |
     |                                                                                       | in a simple JSON format.                                                           |
     +---------------------------------------------------------------------------------------+------------------------------------------------------------------------------------+
     | :ref:`TF Image Classification <TFImageClassificationDataset-import>`                  | A labeled dataset consisting of images and their associated classification labels  |
@@ -752,10 +752,10 @@ refer to the corresponding dataset format when reading the dataset from disk.
     | :ref:`YOLOv5 <YOLOv5Dataset-import>`                                                  | A labeled dataset consisting of images and their associated object detections      |
     |                                                                                       | saved in `YOLOv5 format <https://github.com/ultralytics/yolov5>`_.                 |
     +---------------------------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Object Detection <FiftyOneImageDetectionDataset-import>`               | A labeled dataset consisting of images and their associated object detections      |
+    | :ref:`TensorGrid Object Detection <TensorGridImageDetectionDataset-import>`               | A labeled dataset consisting of images and their associated object detections      |
     |                                                                                       | stored in a simple JSON format.                                                    |
     +---------------------------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Temporal Detection <FiftyOneTemporalDetectionDataset-import>`          | A labeled dataset consisting of videos and their associated temporal detections in |
+    | :ref:`TensorGrid Temporal Detection <TensorGridTemporalDetectionDataset-import>`          | A labeled dataset consisting of videos and their associated temporal detections in |
     |                                                                                       | a simple JSON format.                                                              |
     +---------------------------------------------------------------------------------------+------------------------------------------------------------------------------------+
     | :ref:`TF Object Detection <TFObjectDetectionDataset-import>`                          | A labeled dataset consisting of images and their associated object detections      |
@@ -792,14 +792,14 @@ refer to the corresponding dataset format when reading the dataset from disk.
     | :ref:`GeoTIFF <GeoTIFFDataset-import>`                                                | An image dataset whose image and geolocation data are stored in                    |
     |                                                                                       | `GeoTIFF format <https://en.wikipedia.org/wiki/GeoTIFF>`_.                         |
     +---------------------------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Dataset <FiftyOneDataset-import>`                                      | A dataset consisting of an entire serialized |Dataset| and its associated source   |
+    | :ref:`TensorGrid Dataset <TensorGridDataset-import>`                                      | A dataset consisting of an entire serialized |Dataset| and its associated source   |
     |                                                                                       | media.                                                                             |
     +---------------------------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Image Labels <FiftyOneImageLabelsDataset-import>`                      | A labeled dataset consisting of images and their associated multitask predictions  |
+    | :ref:`TensorGrid Image Labels <TensorGridImageLabelsDataset-import>`                      | A labeled dataset consisting of images and their associated multitask predictions  |
     |                                                                                       | stored in `ETA ImageLabels format \                                                |
     |                                                                                       | <https://github.com/voxel51/eta/blob/develop/docs/image_labels_guide.md>`_.        |
     +---------------------------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Video Labels <FiftyOneVideoLabelsDataset-import>`                      | A labeled dataset consisting of videos and their associated multitask predictions  |
+    | :ref:`TensorGrid Video Labels <TensorGridVideoLabelsDataset-import>`                      | A labeled dataset consisting of videos and their associated multitask predictions  |
     |                                                                                       | stored in `ETA VideoLabels format \                                                |
     |                                                                                       | <https://github.com/voxel51/eta/blob/develop/docs/video_labels_guide.md>`_.        |
     +---------------------------------------------------------------------------------------+------------------------------------------------------------------------------------+
@@ -812,7 +812,7 @@ refer to the corresponding dataset format when reading the dataset from disk.
 Image Directory
 _______________
 
-The :class:`fiftyone.types.ImageDirectory` type represents a directory of
+The :class:`tensorgrid.types.ImageDirectory` type represents a directory of
 images.
 
 Datasets of this type are read in the following format:
@@ -830,12 +830,12 @@ recursively listed.
 
 .. note::
 
-    See :class:`ImageDirectoryImporter <fiftyone.utils.data.importers.ImageDirectoryImporter>`
+    See :class:`ImageDirectoryImporter <tensorgrid.utils.data.importers.ImageDirectoryImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a directory of images as follows:
+You can create a TensorGrid dataset from a directory of images as follows:
 
 .. tabs::
 
@@ -844,7 +844,7 @@ You can create a FiftyOne dataset from a directory of images as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/images-dir"
@@ -870,35 +870,35 @@ You can create a FiftyOne dataset from a directory of images as follows:
       DATASET_DIR=/path/to/images-dir
 
       # Create the dataset
-      fiftyone datasets create \
+      tensorgrid datasets create \
           --name $NAME \
           --dataset-dir $DATASET_DIR \
-          --type fiftyone.types.ImageDirectory
+          --type tensorgrid.types.ImageDirectory
 
       # View summary info about the dataset
-      fiftyone datasets info $NAME
+      tensorgrid datasets info $NAME
 
       # Print the first few samples in the dataset
-      fiftyone datasets head $NAME
+      tensorgrid datasets head $NAME
 
-    To view a directory of images in the FiftyOne App without creating
-    a persistent FiftyOne dataset, you can execute:
+    To view a directory of images in the TensorGrid App without creating
+    a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/images-dir
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.ImageDirectory
+            --type tensorgrid.types.ImageDirectory
 
 .. _VideoDirectory-import:
 
 Video Directory
 _______________
 
-The :class:`fiftyone.types.VideoDirectory` type represents a directory of
+The :class:`tensorgrid.types.VideoDirectory` type represents a directory of
 videos.
 
 Datasets of this type are read in the following format:
@@ -916,12 +916,12 @@ recursively listed.
 
 .. note::
 
-    See :class:`VideoDirectoryImporter <fiftyone.utils.data.importers.VideoDirectoryImporter>`
+    See :class:`VideoDirectoryImporter <tensorgrid.utils.data.importers.VideoDirectoryImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a directory of videos as follows:
+You can create a TensorGrid dataset from a directory of videos as follows:
 
 .. tabs::
 
@@ -930,7 +930,7 @@ You can create a FiftyOne dataset from a directory of videos as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/videos-dir"
@@ -956,35 +956,35 @@ You can create a FiftyOne dataset from a directory of videos as follows:
       DATASET_DIR=/path/to/videos-dir
 
       # Create the dataset
-      fiftyone datasets create \
+      tensorgrid datasets create \
           --name $NAME \
           --dataset-dir $DATASET_DIR \
-          --type fiftyone.types.VideoDirectory
+          --type tensorgrid.types.VideoDirectory
 
       # View summary info about the dataset
-      fiftyone datasets info $NAME
+      tensorgrid datasets info $NAME
 
       # Print the first few samples in the dataset
-      fiftyone datasets head $NAME
+      tensorgrid datasets head $NAME
 
-    To view a directory of videos in the FiftyOne App without creating
-    a persistent FiftyOne dataset, you can execute:
+    To view a directory of videos in the TensorGrid App without creating
+    a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/videos-dir
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.VideoDirectory
+            --type tensorgrid.types.VideoDirectory
 
 .. _MediaDirectory-import:
 
 Media Directory
 _______________
 
-The :class:`fiftyone.types.MediaDirectory` type represents a directory of media
+The :class:`tensorgrid.types.MediaDirectory` type represents a directory of media
 files.
 
 Datasets of this type are read in the following format:
@@ -1004,12 +1004,12 @@ recursively listed.
 
 .. note::
 
-    See :class:`MediaDirectoryImporter <fiftyone.utils.data.importers.MediaDirectoryImporter>`
+    See :class:`MediaDirectoryImporter <tensorgrid.utils.data.importers.MediaDirectoryImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a directory of media files as follows:
+You can create a TensorGrid dataset from a directory of media files as follows:
 
 .. tabs::
 
@@ -1018,7 +1018,7 @@ You can create a FiftyOne dataset from a directory of media files as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/media-dir"
@@ -1044,35 +1044,35 @@ You can create a FiftyOne dataset from a directory of media files as follows:
       DATASET_DIR=/path/to/media-dir
 
       # Create the dataset
-      fiftyone datasets create \
+      tensorgrid datasets create \
           --name $NAME \
           --dataset-dir $DATASET_DIR \
-          --type fiftyone.types.MediaDirectory
+          --type tensorgrid.types.MediaDirectory
 
       # View summary info about the dataset
-      fiftyone datasets info $NAME
+      tensorgrid datasets info $NAME
 
       # Print the first few samples in the dataset
-      fiftyone datasets head $NAME
+      tensorgrid datasets head $NAME
 
-    To view a directory of media in the FiftyOne App without creating
-    a persistent FiftyOne dataset, you can execute:
+    To view a directory of media in the TensorGrid App without creating
+    a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/media-dir
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.MediaDirectory
+            --type tensorgrid.types.MediaDirectory
 
 .. _ImageClassificationDirectoryTree-import:
 
 Image Classification Dir Tree
 _____________________________
 
-The :class:`fiftyone.types.ImageClassificationDirectoryTree` type represents a
+The :class:`tensorgrid.types.ImageClassificationDirectoryTree` type represents a
 directory tree whose subfolders define an image classification dataset.
 
 Datasets of this type are read in the following format:
@@ -1096,12 +1096,12 @@ Each class folder may contain nested subfolders of images.
 
 .. note::
 
-    See :class:`ImageClassificationDirectoryTreeImporter <fiftyone.utils.data.importers.ImageClassificationDirectoryTreeImporter>`
+    See :class:`ImageClassificationDirectoryTreeImporter <tensorgrid.utils.data.importers.ImageClassificationDirectoryTreeImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from an image classification directory tree
+You can create a TensorGrid dataset from an image classification directory tree
 stored in the above format as follows:
 
 .. tabs::
@@ -1111,7 +1111,7 @@ stored in the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/image-classification-dir-tree"
@@ -1137,35 +1137,35 @@ stored in the above format as follows:
         DATASET_DIR=/path/to/image-classification-dir-tree
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.ImageClassificationDirectoryTree
+            --type tensorgrid.types.ImageClassificationDirectoryTree
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view an image classification directory tree in the FiftyOne App
-    without creating a persistent FiftyOne dataset, you can execute:
+    To view an image classification directory tree in the TensorGrid App
+    without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/image-classification-dir-tree
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.ImageClassificationDirectoryTree
+            --type tensorgrid.types.ImageClassificationDirectoryTree
 
 .. _VideoClassificationDirectoryTree-import:
 
 Video Classification Dir Tree
 _____________________________
 
-The :class:`fiftyone.types.VideoClassificationDirectoryTree` type represents a
+The :class:`tensorgrid.types.VideoClassificationDirectoryTree` type represents a
 directory tree whose subfolders define a video classification dataset.
 
 Datasets of this type are read in the following format:
@@ -1189,12 +1189,12 @@ Each class folder may contain nested subfolders of videos.
 
 .. note::
 
-    See :class:`VideoClassificationDirectoryTreeImporter <fiftyone.utils.data.importers.VideoClassificationDirectoryTreeImporter>`
+    See :class:`VideoClassificationDirectoryTreeImporter <tensorgrid.utils.data.importers.VideoClassificationDirectoryTreeImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a video classification directory tree
+You can create a TensorGrid dataset from a video classification directory tree
 stored in the above format as follows:
 
 .. tabs::
@@ -1204,7 +1204,7 @@ stored in the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/video-classification-dir-tree"
@@ -1230,35 +1230,35 @@ stored in the above format as follows:
         DATASET_DIR=/path/to/video-classification-dir-tree
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.VideoClassificationDirectoryTree
+            --type tensorgrid.types.VideoClassificationDirectoryTree
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a video classification directory tree in the FiftyOne App without
-    creating a persistent FiftyOne dataset, you can execute:
+    To view a video classification directory tree in the TensorGrid App without
+    creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/video-classification-dir-tree
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.VideoClassificationDirectoryTree
+            --type tensorgrid.types.VideoClassificationDirectoryTree
 
-.. _FiftyOneImageClassificationDataset-import:
+.. _TensorGridImageClassificationDataset-import:
 
-FiftyOne Image Classification
+TensorGrid Image Classification
 _____________________________
 
-The :class:`fiftyone.types.FiftyOneImageClassificationDataset` type represents
+The :class:`tensorgrid.types.TensorGridImageClassificationDataset` type represents
 a labeled dataset consisting of images and their associated classification
 label(s) stored in a simple JSON format.
 
@@ -1357,12 +1357,12 @@ attributes.
 
 .. note::
 
-    See :class:`FiftyOneImageClassificationDatasetImporter <fiftyone.utils.data.importers.FiftyOneImageClassificationDatasetImporter>`
+    See :class:`TensorGridImageClassificationDatasetImporter <tensorgrid.utils.data.importers.TensorGridImageClassificationDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from an image classification dataset stored
+You can create a TensorGrid dataset from an image classification dataset stored
 in the above format as follows:
 
 .. tabs::
@@ -1372,7 +1372,7 @@ in the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/image-classification-dataset"
@@ -1380,7 +1380,7 @@ in the above format as follows:
         # Create the dataset
         dataset = fo.Dataset.from_dir(
             dataset_dir=dataset_dir,
-            dataset_type=fo.types.FiftyOneImageClassificationDataset,
+            dataset_type=fo.types.TensorGridImageClassificationDataset,
             name=name,
         )
 
@@ -1398,28 +1398,28 @@ in the above format as follows:
         DATASET_DIR=/path/to/image-classification-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneImageClassificationDataset
+            --type tensorgrid.types.TensorGridImageClassificationDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view an image classification dataset in the FiftyOne App without
-    creating a persistent FiftyOne dataset, you can execute:
+    To view an image classification dataset in the TensorGrid App without
+    creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/image-classification-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneImageClassificationDataset
+            --type tensorgrid.types.TensorGridImageClassificationDataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -1432,7 +1432,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -1440,7 +1440,7 @@ directory containing the corresponding media files by providing the
 
         # Import dataset by explicitly providing paths to the source media and labels
         dataset = fo.Dataset.from_dir(
-            dataset_type=fo.types.FiftyOneImageClassificationDataset,
+            dataset_type=fo.types.TensorGridImageClassificationDataset,
             data_path=data_path,
             labels_path=labels_path,
             name=name,
@@ -1455,9 +1455,9 @@ directory containing the corresponding media files by providing the
         LABELS_PATH=/path/to/labels.json
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.FiftyOneImageClassificationDataset \
+            --type tensorgrid.types.TensorGridImageClassificationDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -1472,7 +1472,7 @@ directory containing the corresponding media files by providing the
 TF Image Classification
 _______________________
 
-The :class:`fiftyone.types.TFImageClassificationDataset` type represents a
+The :class:`tensorgrid.types.TFImageClassificationDataset` type represents a
 labeled dataset consisting of images and their associated classification labels
 stored as
 `TFRecords <https://www.tensorflow.org/tutorials/load_data/tfrecord>`_.
@@ -1508,12 +1508,12 @@ For unlabeled samples, the TFRecords do not contain `label` features.
 
 .. note::
 
-    See :class:`TFImageClassificationDatasetImporter <fiftyone.utils.tf.TFImageClassificationDatasetImporter>`
+    See :class:`TFImageClassificationDatasetImporter <tensorgrid.utils.tf.TFImageClassificationDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from an image classification dataset stored
+You can create a TensorGrid dataset from an image classification dataset stored
 as a directory of TFRecords in the above format as follows:
 
 .. tabs::
@@ -1523,7 +1523,7 @@ as a directory of TFRecords in the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/tf-image-classification-dataset"
@@ -1544,7 +1544,7 @@ as a directory of TFRecords in the above format as follows:
         print(dataset.head())
 
     When the above command is executed, the images in the TFRecords will be
-    written to the provided `images_dir`, which is required because FiftyOne
+    written to the provided `images_dir`, which is required because TensorGrid
     datasets must make their images available as individual files on disk.
 
   .. group-tab:: CLI
@@ -1556,24 +1556,24 @@ as a directory of TFRecords in the above format as follows:
         IMAGES_DIR=/path/for/images
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.TFImageClassificationDataset \
+            --type tensorgrid.types.TFImageClassificationDataset \
             --kwargs images_dir=$IMAGES_DIR
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
     When the above command is executed, the images in the TFRecords will be
-    written to the provided `IMAGES_DIR`, which is required because FiftyOne
+    written to the provided `IMAGES_DIR`, which is required because TensorGrid
     datasets must make their images available as individual files on disk.
 
     To view an image classification dataset stored as a directory of TFRecords
-    in the FiftyOne App without creating a persistent FiftyOne dataset,
+    in the TensorGrid App without creating a persistent TensorGrid dataset,
     you can execute:
 
     .. code-block:: shell
@@ -1581,15 +1581,15 @@ as a directory of TFRecords in the above format as follows:
         DATASET_DIR=/path/to/tf-image-classification-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.TFImageClassificationDataset
+            --type tensorgrid.types.TFImageClassificationDataset
 
 .. note::
 
     You can provide the `tf_records_path` argument instead of `dataset_dir` in
     the examples above to directly specify the path to the TFRecord(s) to load.
-    See :class:`TFImageClassificationDatasetImporter <fiftyone.utils.tf.TFImageClassificationDatasetImporter>`
+    See :class:`TFImageClassificationDatasetImporter <tensorgrid.utils.tf.TFImageClassificationDatasetImporter>`
     for details.
 
 .. _COCODetectionDataset-import:
@@ -1597,7 +1597,7 @@ as a directory of TFRecords in the above format as follows:
 COCO
 ____
 
-The :class:`fiftyone.types.COCODetectionDataset` type represents a labeled
+The :class:`tensorgrid.types.COCODetectionDataset` type represents a labeled
 dataset consisting of images and their associated object detections saved in
 `COCO Object Detection Format <https://cocodataset.org/#format-data>`_.
 
@@ -1679,12 +1679,12 @@ corresponding images, which can be any of the following:
 
 .. note::
 
-    See :class:`COCODetectionDatasetImporter <fiftyone.utils.coco.COCODetectionDatasetImporter>`
+    See :class:`COCODetectionDatasetImporter <tensorgrid.utils.coco.COCODetectionDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a COCO detection dataset stored in the
+You can create a TensorGrid dataset from a COCO detection dataset stored in the
 above format as follows:
 
 .. tabs::
@@ -1694,7 +1694,7 @@ above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/coco-detection-dataset"
@@ -1720,35 +1720,35 @@ above format as follows:
         DATASET_DIR=/path/to/coco-detection-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.COCODetectionDataset
+            --type tensorgrid.types.COCODetectionDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a COCO detection dataset stored in the above format in the FiftyOne
-    App without creating a persistent FiftyOne dataset, you can execute:
+    To view a COCO detection dataset stored in the above format in the TensorGrid
+    App without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/coco-detection-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.COCODetectionDataset
+            --type tensorgrid.types.COCODetectionDataset
 
 .. note::
 
     By default, all supported label types are loaded (detections,
     segmentations, and keypoints). However, you can choose specific type(s) to
     load by passing the optional `label_types` argument to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>`:
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>`:
 
     .. code-block:: python
 
@@ -1759,7 +1759,7 @@ above format as follows:
             ...
         )
 
-    See :class:`COCODetectionDatasetImporter <fiftyone.utils.coco.COCODetectionDatasetImporter>`
+    See :class:`COCODetectionDatasetImporter <tensorgrid.utils.coco.COCODetectionDatasetImporter>`
     for complete documentation of the available COCO import options.
 
 You can also independently specify the locations of the labels and the root
@@ -1773,7 +1773,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -1796,9 +1796,9 @@ directory containing the corresponding media files by providing the
         LABELS_PATH=/path/to/coco-labels.json
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.COCODetectionDataset \
+            --type tensorgrid.types.COCODetectionDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -1810,7 +1810,7 @@ directory containing the corresponding media files by providing the
 
 If you have an existing dataset and corresponding model predictions stored in
 COCO format, then you can use
-:func:`add_coco_labels() <fiftyone.utils.coco.add_coco_labels>` to conveniently
+:func:`add_coco_labels() <tensorgrid.utils.coco.add_coco_labels>` to conveniently
 add the labels to the dataset. The example below demonstrates a round-trip
 export and then re-import of both images-and-labels and labels-only data in
 COCO format:
@@ -1818,9 +1818,9 @@ COCO format:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.utils.coco as fouc
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.coco as fouc
 
     dataset = foz.load_zoo_dataset("quickstart")
     classes = dataset.distinct("predictions.detections.label")
@@ -1864,7 +1864,7 @@ COCO format:
 
 .. note::
 
-    See :func:`add_coco_labels() <fiftyone.utils.coco.add_coco_labels>` for a
+    See :func:`add_coco_labels() <tensorgrid.utils.coco.add_coco_labels>` for a
     complete description of the available syntaxes for loading COCO-formatted
     predictions to an existing dataset.
 
@@ -1873,7 +1873,7 @@ COCO format:
 VOC
 ___
 
-The :class:`fiftyone.types.VOCDetectionDataset` type represents a labeled
+The :class:`tensorgrid.types.VOCDetectionDataset` type represents a labeled
 dataset consisting of images and their associated object detections saved in
 `VOC format <http://host.robots.ox.ac.uk/pascal/VOC>`_.
 
@@ -1947,12 +1947,12 @@ organized images and masks.
 
 .. note::
 
-    See :class:`VOCDetectionDatasetImporter <fiftyone.utils.voc.VOCDetectionDatasetImporter>`
+    See :class:`VOCDetectionDatasetImporter <tensorgrid.utils.voc.VOCDetectionDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a VOC detection dataset stored in the
+You can create a TensorGrid dataset from a VOC detection dataset stored in the
 above format as follows:
 
 .. tabs::
@@ -1962,7 +1962,7 @@ above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/voc-detection-dataset"
@@ -1988,28 +1988,28 @@ above format as follows:
         DATASET_DIR=/path/to/voc-detection-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.VOCDetectionDataset
+            --type tensorgrid.types.VOCDetectionDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a VOC detection dataset stored in the above format in the FiftyOne
-    App without creating a persistent FiftyOne dataset, you can execute:
+    To view a VOC detection dataset stored in the above format in the TensorGrid
+    App without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/voc-detection-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.VOCDetectionDataset
+            --type tensorgrid.types.VOCDetectionDataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -2022,7 +2022,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -2045,9 +2045,9 @@ directory containing the corresponding media files by providing the
         LABELS_PATH=/path/to/voc-labels
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.VOCDetectionDataset \
+            --type tensorgrid.types.VOCDetectionDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -2063,7 +2063,7 @@ directory containing the corresponding media files by providing the
 KITTI
 _____
 
-The :class:`fiftyone.types.KITTIDetectionDataset` type represents a labeled
+The :class:`tensorgrid.types.KITTIDetectionDataset` type represents a labeled
 dataset consisting of images and their associated object detections saved in
 `KITTI format <http://www.cvlibs.net/datasets/kitti/eval_object.php>`_.
 
@@ -2126,12 +2126,12 @@ organized images and masks.
 
 .. note::
 
-    See :class:`KITTIDetectionDatasetImporter <fiftyone.utils.kitti.KITTIDetectionDatasetImporter>`
+    See :class:`KITTIDetectionDatasetImporter <tensorgrid.utils.kitti.KITTIDetectionDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a KITTI detection dataset stored in the
+You can create a TensorGrid dataset from a KITTI detection dataset stored in the
 above format as follows:
 
 .. tabs::
@@ -2141,7 +2141,7 @@ above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/kitti-detection-dataset"
@@ -2167,19 +2167,19 @@ above format as follows:
         DATASET_DIR=/path/to/kitti-detection-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.KITTIDetectionDataset
+            --type tensorgrid.types.KITTIDetectionDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
     To view a KITTI detection dataset stored in the above format in the
-    FiftyOne App without creating a persistent FiftyOne dataset, you can
+    TensorGrid App without creating a persistent TensorGrid dataset, you can
     execute:
 
     .. code-block:: shell
@@ -2187,9 +2187,9 @@ above format as follows:
         DATASET_DIR=/path/to/kitti-detection-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.KITTIDetectionDataset
+            --type tensorgrid.types.KITTIDetectionDataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -2202,7 +2202,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -2225,9 +2225,9 @@ directory containing the corresponding media files by providing the
         LABELS_PATH=/path/to/kitti-labels
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.KITTIDetectionDataset \
+            --type tensorgrid.types.KITTIDetectionDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -2237,7 +2237,7 @@ directory containing the corresponding media files by providing the
 YOLOv4
 ______
 
-The :class:`fiftyone.types.YOLOv4Dataset` type represents a labeled dataset
+The :class:`tensorgrid.types.YOLOv4Dataset` type represents a labeled dataset
 consisting of images and their associated object detections saved in
 `YOLOv4 format <https://github.com/AlexeyAB/darknet>`_.
 
@@ -2302,7 +2302,7 @@ The `data/` folder may contain nested subfolders.
     polylines to tight bounding boxes if necessary. However, you can choose to
     load YOLO annotations as instance segmentations or polygons by passing the
     optional `label_type` argument to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>`:
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>`:
 
     .. code-block:: python
 
@@ -2321,12 +2321,12 @@ The `data/` folder may contain nested subfolders.
             ...
         )
 
-    See :class:`YOLOv4DatasetImporter <fiftyone.utils.yolo.YOLOv4DatasetImporter>`
+    See :class:`YOLOv4DatasetImporter <tensorgrid.utils.yolo.YOLOv4DatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a YOLOv4 dataset stored in the above
+You can create a TensorGrid dataset from a YOLOv4 dataset stored in the above
 format as follows:
 
 .. tabs::
@@ -2336,7 +2336,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/yolov4-dataset"
@@ -2362,28 +2362,28 @@ format as follows:
         DATASET_DIR=/path/to/yolov4-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.YOLOv4Dataset
+            --type tensorgrid.types.YOLOv4Dataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a YOLOv4 dataset stored in the above format in the FiftyOne App
-    without creating a persistent FiftyOne dataset, you can execute:
+    To view a YOLOv4 dataset stored in the above format in the TensorGrid App
+    without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/yolov4-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.YOLOv4Dataset
+            --type tensorgrid.types.YOLOv4Dataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -2396,7 +2396,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -2422,9 +2422,9 @@ directory containing the corresponding media files by providing the
         OBJECTS_PATH=/path/to/obj.names
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.YOLOv4Dataset \
+            --type tensorgrid.types.YOLOv4Dataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH \
@@ -2432,7 +2432,7 @@ directory containing the corresponding media files by providing the
 
 If you have an existing dataset and corresponding model predictions stored in
 YOLO format, then you can use
-:func:`add_yolo_labels() <fiftyone.utils.yolo.add_yolo_labels>` to conveniently
+:func:`add_yolo_labels() <tensorgrid.utils.yolo.add_yolo_labels>` to conveniently
 add the labels to the dataset.
 
 The example below demonstrates a round-trip export and then re-import of both
@@ -2441,9 +2441,9 @@ images-and-labels and labels-only data in YOLO format:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.utils.yolo as fouy
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.yolo as fouy
 
     dataset = foz.load_zoo_dataset("quickstart")
     classes = dataset.distinct("predictions.detections.label")
@@ -2487,7 +2487,7 @@ images-and-labels and labels-only data in YOLO format:
 
 .. note::
 
-    See :func:`add_yolo_labels() <fiftyone.utils.yolo.add_yolo_labels>` for a
+    See :func:`add_yolo_labels() <tensorgrid.utils.yolo.add_yolo_labels>` for a
     complete description of the available syntaxes for loading YOLO-formatted
     predictions to an existing dataset.
 
@@ -2496,7 +2496,7 @@ images-and-labels and labels-only data in YOLO format:
 YOLOv5
 ______
 
-The :class:`fiftyone.types.YOLOv5Dataset` type represents a labeled dataset
+The :class:`tensorgrid.types.YOLOv5Dataset` type represents a labeled dataset
 consisting of images and their associated object detections saved in
 `YOLOv5 format <https://github.com/ultralytics/yolov5>`_.
 
@@ -2543,7 +2543,7 @@ See `this page <https://docs.ultralytics.com/datasets/detect>`_ for a full
 description of the possible format of `dataset.yaml`. In particular, the
 dataset may contain one or more splits with arbitrary names, as the specific
 split being imported or exported is specified by the `split` argument to
-:class:`fiftyone.utils.yolo.YOLOv5DatasetImporter`. Also, `dataset.yaml` can be
+:class:`tensorgrid.utils.yolo.YOLOv5DatasetImporter`. Also, `dataset.yaml` can be
 located outside of `<dataset_dir>` as long as the optional `path` is provided.
 
 .. note::
@@ -2581,7 +2581,7 @@ subfolders of parallelly organized images and labels.
     polylines to tight bounding boxes if necessary. However, you can choose to
     load YOLO annotations as instance segmentations or polygons by passing the
     optional `label_type` argument to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>`:
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>`:
 
     .. code-block:: python
 
@@ -2600,18 +2600,18 @@ subfolders of parallelly organized images and labels.
             ...
         )
 
-    See :class:`YOLOv5DatasetImporter <fiftyone.utils.yolo.YOLOv5DatasetImporter>`
+    See :class:`YOLOv5DatasetImporter <tensorgrid.utils.yolo.YOLOv5DatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a YOLOv5 dataset stored in the above
+You can create a TensorGrid dataset from a YOLOv5 dataset stored in the above
 format as follows:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     name = "my-dataset"
     dataset_dir = "/path/to/yolov5-dataset"
@@ -2637,7 +2637,7 @@ format as follows:
 
 If you have an existing dataset and corresponding model predictions stored in
 YOLO format, then you can use
-:func:`add_yolo_labels() <fiftyone.utils.yolo.add_yolo_labels>` to conveniently
+:func:`add_yolo_labels() <tensorgrid.utils.yolo.add_yolo_labels>` to conveniently
 add the labels to the dataset.
 
 The example below demonstrates a round-trip export and then re-import of both
@@ -2646,9 +2646,9 @@ images-and-labels and labels-only data in YOLO format:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.utils.yolo as fouy
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.yolo as fouy
 
     dataset = foz.load_zoo_dataset("quickstart")
     classes = dataset.distinct("predictions.detections.label")
@@ -2697,16 +2697,16 @@ images-and-labels and labels-only data in YOLO format:
 
 .. note::
 
-    See :func:`add_yolo_labels() <fiftyone.utils.yolo.add_yolo_labels>` for a
+    See :func:`add_yolo_labels() <tensorgrid.utils.yolo.add_yolo_labels>` for a
     complete description of the available syntaxes for loading YOLO-formatted
     predictions to an existing dataset.
 
-.. _FiftyOneImageDetectionDataset-import:
+.. _TensorGridImageDetectionDataset-import:
 
-FiftyOne Object Detection
+TensorGrid Object Detection
 _________________________
 
-The :class:`fiftyone.types.FiftyOneImageDetectionDataset` type represents a
+The :class:`tensorgrid.types.TensorGridImageDetectionDataset` type represents a
 labeled dataset consisting of images and their associated object detections
 stored in a simple JSON format.
 
@@ -2769,12 +2769,12 @@ may or may not be in `data/`.
 
 .. note::
 
-    See :class:`FiftyOneImageDetectionDatasetImporter <fiftyone.utils.data.importers.FiftyOneImageDetectionDatasetImporter>`
+    See :class:`TensorGridImageDetectionDatasetImporter <tensorgrid.utils.data.importers.TensorGridImageDetectionDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from an image detection dataset stored in the
+You can create a TensorGrid dataset from an image detection dataset stored in the
 above format as follows:
 
 .. tabs::
@@ -2784,7 +2784,7 @@ above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/image-detection-dataset"
@@ -2792,7 +2792,7 @@ above format as follows:
         # Create the dataset
         dataset = fo.Dataset.from_dir(
             dataset_dir=dataset_dir,
-            dataset_type=fo.types.FiftyOneImageDetectionDataset,
+            dataset_type=fo.types.TensorGridImageDetectionDataset,
             name=name,
         )
 
@@ -2810,19 +2810,19 @@ above format as follows:
         DATASET_DIR=/path/to/image-detection-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneImageDetectionDataset
+            --type tensorgrid.types.TensorGridImageDetectionDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
     To view an image detection dataset stored in the above format in the
-    FiftyOne App without creating a persistent FiftyOne dataset, you
+    TensorGrid App without creating a persistent TensorGrid dataset, you
     can execute:
 
     .. code-block:: shell
@@ -2830,9 +2830,9 @@ above format as follows:
         DATASET_DIR=/path/to/image-detection-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneImageDetectionDataset
+            --type tensorgrid.types.TensorGridImageDetectionDataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -2845,7 +2845,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -2853,7 +2853,7 @@ directory containing the corresponding media files by providing the
 
         # Import dataset by explicitly providing paths to the source media and labels
         dataset = fo.Dataset.from_dir(
-            dataset_type=fo.types.FiftyOneImageDetectionDataset,
+            dataset_type=fo.types.TensorGridImageDetectionDataset,
             data_path=data_path,
             labels_path=labels_path,
             name=name,
@@ -2868,9 +2868,9 @@ directory containing the corresponding media files by providing the
         LABELS_PATH=/path/to/labels.json
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.FiftyOneImageDetectionDataset \
+            --type tensorgrid.types.TensorGridImageDetectionDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -2880,12 +2880,12 @@ directory containing the corresponding media files by providing the
     If the UUIDs in your labels are absolute paths to the source media, then
     you can omit the `data_path` parameter from the example above.
 
-.. _FiftyOneTemporalDetectionDataset-import:
+.. _TensorGridTemporalDetectionDataset-import:
 
-FiftyOne Temporal Detection
+TensorGrid Temporal Detection
 ___________________________
 
-The :class:`fiftyone.types.FiftyOneTemporalDetectionDataset` type represents a
+The :class:`tensorgrid.types.TensorGridTemporalDetectionDataset` type represents a
 labeled dataset consisting of videos and their associated temporal detections
 stored in a simple JSON format.
 
@@ -2974,12 +2974,12 @@ may or may not be in `data/`.
 
 .. note::
 
-    See :class:`FiftyOneTemporalDetectionDatasetImporter <fiftyone.utils.data.importers.FiftyOneTemporalDetectionDatasetImporter>`
+    See :class:`TensorGridTemporalDetectionDatasetImporter <tensorgrid.utils.data.importers.TensorGridTemporalDetectionDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a temporal detection dataset stored in
+You can create a TensorGrid dataset from a temporal detection dataset stored in
 the above format as follows:
 
 .. tabs::
@@ -2989,7 +2989,7 @@ the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/temporal-detection-dataset"
@@ -2997,7 +2997,7 @@ the above format as follows:
         # Create the dataset
         dataset = fo.Dataset.from_dir(
             dataset_dir=dataset_dir,
-            dataset_type=fo.types.FiftyOneTemporalDetectionDataset,
+            dataset_type=fo.types.TensorGridTemporalDetectionDataset,
             name=name,
         )
 
@@ -3015,28 +3015,28 @@ the above format as follows:
         DATASET_DIR=/path/to/temporal-detection-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneTemporalDetectionDataset
+            --type tensorgrid.types.TensorGridTemporalDetectionDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a temporal detection dataset in the FiftyOne App without creating
-    a persistent FiftyOne dataset, you can execute:
+    To view a temporal detection dataset in the TensorGrid App without creating
+    a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/temporal-detection-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneTemporalDetectionDataset
+            --type tensorgrid.types.TensorGridTemporalDetectionDataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -3049,7 +3049,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -3057,7 +3057,7 @@ directory containing the corresponding media files by providing the
 
         # Import dataset by explicitly providing paths to the source media and labels
         dataset = fo.Dataset.from_dir(
-            dataset_type=fo.types.FiftyOneTemporalDetectionDataset,
+            dataset_type=fo.types.TensorGridTemporalDetectionDataset,
             data_path=data_path,
             labels_path=labels_path,
             name=name,
@@ -3072,9 +3072,9 @@ directory containing the corresponding media files by providing the
         LABELS_PATH=/path/to/labels.json
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.FiftyOneTemporalDetectionDataset \
+            --type tensorgrid.types.TensorGridTemporalDetectionDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -3089,7 +3089,7 @@ directory containing the corresponding media files by providing the
 TF Object Detection
 ___________________
 
-The :class:`fiftyone.types.TFObjectDetectionDataset` type represents a labeled
+The :class:`tensorgrid.types.TFObjectDetectionDataset` type represents a labeled
 dataset consisting of images and their associated object detections stored as
 `TFRecords <https://www.tensorflow.org/tutorials/load_data/tfrecord>`_ in
 `TF Object Detection API format <https://github.com/tensorflow/models/blob/master/research/object_detection>`_.
@@ -3150,12 +3150,12 @@ The TFRecords for unlabeled samples do not contain `image/object/*` features.
 
 .. note::
 
-    See :class:`TFObjectDetectionDatasetImporter <fiftyone.utils.tf.TFObjectDetectionDatasetImporter>`
+    See :class:`TFObjectDetectionDatasetImporter <tensorgrid.utils.tf.TFObjectDetectionDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from an object detection dataset stored as a
+You can create a TensorGrid dataset from an object detection dataset stored as a
 directory of TFRecords in the above format as follows:
 
 .. tabs::
@@ -3165,7 +3165,7 @@ directory of TFRecords in the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/tf-object-detection-dataset"
@@ -3186,7 +3186,7 @@ directory of TFRecords in the above format as follows:
         print(dataset.head())
 
     When the above command is executed, the images in the TFRecords will be
-    written to the provided `images_dir`, which is required because FiftyOne
+    written to the provided `images_dir`, which is required because TensorGrid
     datasets must make their images available as individual files on disk.
 
   .. group-tab:: CLI
@@ -3198,24 +3198,24 @@ directory of TFRecords in the above format as follows:
         IMAGES_DIR=/path/for/images
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.TFObjectDetectionDataset \
+            --type tensorgrid.types.TFObjectDetectionDataset \
             --kwargs images_dir=$IMAGES_DIR
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
     When the above command is executed, the images in the TFRecords will be
-    written to the provided `IMAGES_DIR`, which is required because FiftyOne
+    written to the provided `IMAGES_DIR`, which is required because TensorGrid
     datasets must make their images available as individual files on disk.
 
     To view an object detection dataset stored as a directory of TFRecords in
-    the FiftyOne App without creating a persistent FiftyOne dataset, you can
+    the TensorGrid App without creating a persistent TensorGrid dataset, you can
     execute:
 
     .. code-block:: shell
@@ -3223,15 +3223,15 @@ directory of TFRecords in the above format as follows:
         DATASET_DIR=/path/to/tf-object-detection-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.TFObjectDetectionDataset
+            --type tensorgrid.types.TFObjectDetectionDataset
 
 .. note::
 
     You can provide the `tf_records_path` argument instead of `dataset_dir` in
     the examples above to directly specify the path to the TFRecord(s) to load.
-    See :class:`TFObjectDetectionDatasetImporter <fiftyone.utils.tf.TFObjectDetectionDatasetImporter>`
+    See :class:`TFObjectDetectionDatasetImporter <tensorgrid.utils.tf.TFObjectDetectionDatasetImporter>`
     for details.
 
 .. _ImageSegmentationDirectory-import:
@@ -3239,7 +3239,7 @@ directory of TFRecords in the above format as follows:
 Image Segmentation Directory
 ____________________________
 
-The :class:`fiftyone.types.ImageSegmentationDirectory` type represents a
+The :class:`tensorgrid.types.ImageSegmentationDirectory` type represents a
 labeled dataset consisting of images and their associated semantic
 segmentations stored as images on disk.
 
@@ -3266,12 +3266,12 @@ organized images and masks.
 
 .. note::
 
-    See :class:`ImageSegmentationDirectoryImporter <fiftyone.utils.data.importers.ImageSegmentationDirectoryImporter>`
+    See :class:`ImageSegmentationDirectoryImporter <tensorgrid.utils.data.importers.ImageSegmentationDirectoryImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from an image segmentation dataset stored in
+You can create a TensorGrid dataset from an image segmentation dataset stored in
 the above format as follows:
 
 .. tabs::
@@ -3281,7 +3281,7 @@ the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/image-segmentation-dataset"
@@ -3307,19 +3307,19 @@ the above format as follows:
         DATASET_DIR=/path/to/image-segmentation-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.ImageSegmentationDirectory
+            --type tensorgrid.types.ImageSegmentationDirectory
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
     To view an image segmentation dataset stored in the above format in the
-    FiftyOne App without creating a persistent FiftyOne dataset, you
+    TensorGrid App without creating a persistent TensorGrid dataset, you
     can execute:
 
     .. code-block:: shell
@@ -3327,9 +3327,9 @@ the above format as follows:
         DATASET_DIR=/path/to/image-segmentation-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.ImageSegmentationDirectory
+            --type tensorgrid.types.ImageSegmentationDirectory
 
 You can also independently specify the locations of the masks and the root
 directory containing the corresponding media files by providing the
@@ -3342,7 +3342,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -3365,9 +3365,9 @@ directory containing the corresponding media files by providing the
         LABELS_PATH=/path/to/masks
 
         # Import dataset by explicitly providing paths to the source media and masks
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.ImageSegmentationDirectory \
+            --type tensorgrid.types.ImageSegmentationDirectory \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -3377,7 +3377,7 @@ directory containing the corresponding media files by providing the
 CVAT Image
 __________
 
-The :class:`fiftyone.types.CVATImageDataset` type represents a labeled dataset
+The :class:`tensorgrid.types.CVATImageDataset` type represents a labeled dataset
 consisting of images and their associated tags and object detections stored in
 `CVAT image format <https://github.com/opencv/cvat>`_.
 
@@ -3490,12 +3490,12 @@ of the corresponding images, which can be any of the following:
 
 .. note::
 
-    See :class:`CVATImageDatasetImporter <fiftyone.utils.cvat.CVATImageDatasetImporter>`
+    See :class:`CVATImageDatasetImporter <tensorgrid.utils.cvat.CVATImageDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a CVAT image dataset stored in the above
+You can create a TensorGrid dataset from a CVAT image dataset stored in the above
 format as follows:
 
 .. tabs::
@@ -3505,7 +3505,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/cvat-image-dataset"
@@ -3531,28 +3531,28 @@ format as follows:
         DATASET_DIR=/path/to/cvat-image-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.CVATImageDataset
+            --type tensorgrid.types.CVATImageDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a CVAT image dataset stored in the above format in the FiftyOne
-    App without creating a persistent FiftyOne dataset, you can execute:
+    To view a CVAT image dataset stored in the above format in the TensorGrid
+    App without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/cvat-image-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.CVATImageDataset
+            --type tensorgrid.types.CVATImageDataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -3565,7 +3565,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -3588,9 +3588,9 @@ directory containing the corresponding media files by providing the
         LABELS_PATH=/path/to/cvat-labels.xml
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.CVATImageDataset \
+            --type tensorgrid.types.CVATImageDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -3605,7 +3605,7 @@ directory containing the corresponding media files by providing the
 CVAT Video
 __________
 
-The :class:`fiftyone.types.CVATVideoDataset` type represents a labeled dataset
+The :class:`tensorgrid.types.CVATVideoDataset` type represents a labeled dataset
 consisting of videos and their associated object detections stored in
 `CVAT video format <https://github.com/opencv/cvat>`_.
 
@@ -3722,12 +3722,12 @@ organized images and labels.
 
 .. note::
 
-    See :class:`CVATVideoDatasetImporter <fiftyone.utils.cvat.CVATVideoDatasetImporter>`
+    See :class:`CVATVideoDatasetImporter <tensorgrid.utils.cvat.CVATVideoDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a CVAT video dataset stored in the above
+You can create a TensorGrid dataset from a CVAT video dataset stored in the above
 format as follows:
 
 .. tabs::
@@ -3737,7 +3737,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/cvat-video-dataset"
@@ -3763,28 +3763,28 @@ format as follows:
         DATASET_DIR=/path/to/cvat-video-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.CVATVideoDataset
+            --type tensorgrid.types.CVATVideoDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a CVAT video dataset stored in the above format in the FiftyOne
-    App without creating a persistent FiftyOne dataset, you can execute:
+    To view a CVAT video dataset stored in the above format in the TensorGrid
+    App without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/cvat-video-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.CVATVideoDataset
+            --type tensorgrid.types.CVATVideoDataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -3797,7 +3797,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -3820,9 +3820,9 @@ directory containing the corresponding media files by providing the
         LABELS_PATH=/path/to/cvat-labels
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.CVATVideoDataset \
+            --type tensorgrid.types.CVATVideoDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -3832,14 +3832,14 @@ directory containing the corresponding media files by providing the
 OpenLABEL Image
 _______________
 
-The :class:`fiftyone.types.OpenLABELImageDataset` type represents a labeled
+The :class:`tensorgrid.types.OpenLABELImageDataset` type represents a labeled
 dataset consisting of images and their associated multitask predictions stored =
 in `OpenLABEL format <https://www.asam.net/index.php?eID=dumpFile&t=f&f=3876&token=413e8c85031ae64cc35cf42d0768627514868b2f>`_.
 
 OpenLABEL is a flexible format which allows labels to be stored in a variety of
 different ways with respect to the corresponding media files. The following
 enumerates the possible structures in which media data and OpenLABEL formatted
-label files can be stored in ways that is understood by FiftyOne:
+label files can be stored in ways that is understood by TensorGrid:
 
 1. One label file per image. Each label contains only the metadata and labels
    associated with the image of the same name. In this case, the `labels_path`
@@ -3996,19 +3996,19 @@ following this format:
 
 .. note::
 
-    See :class:`OpenLABELImageDatasetImporter <fiftyone.utils.openlabel.OpenLABELImageDatasetImporter>`
+    See :class:`OpenLABELImageDatasetImporter <tensorgrid.utils.openlabel.OpenLABELImageDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
 If loading |Keypoints| related to a given |KeypointSkeleton|, then you can
 provide a `skeleton` and `skeleton_key` argument to the
-:class:`OpenLABELImageDatasetImporter <fiftyone.utils.openlabel.OpenLABELImageDatasetImporter>`
+:class:`OpenLABELImageDatasetImporter <tensorgrid.utils.openlabel.OpenLABELImageDatasetImporter>`
 allowing you to match points in your annotations file to labels in the
 |KeypointSkeleton| and load the points and their attributes in the correct
 order.
 
-You can create a FiftyOne dataset from a OpenLABEL image dataset stored in the
+You can create a TensorGrid dataset from a OpenLABEL image dataset stored in the
 above format as follows:
 
 .. tabs::
@@ -4018,7 +4018,7 @@ above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/openlabel-image-dataset"
@@ -4044,19 +4044,19 @@ above format as follows:
         DATASET_DIR=/path/to/openlabel-image-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.OpenLABELImageDataset
+            --type tensorgrid.types.OpenLABELImageDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
     To view a OpenLABEL image dataset stored in the above format in the
-    FiftyOne App without creating a persistent FiftyOne dataset, you can
+    TensorGrid App without creating a persistent TensorGrid dataset, you can
     execute:
 
     .. code-block:: shell
@@ -4064,9 +4064,9 @@ above format as follows:
         DATASET_DIR=/path/to/openlabel-image-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.OpenLABELImageDataset
+            --type tensorgrid.types.OpenLABELImageDataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -4079,7 +4079,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -4106,9 +4106,9 @@ directory containing the corresponding media files by providing the
         # LABELS_PATH=/path/to/openlabel-labels
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.OpenLABELImageDataset \
+            --type tensorgrid.types.OpenLABELImageDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -4125,14 +4125,14 @@ directory containing the corresponding media files by providing the
 OpenLABEL Video
 _______________
 
-The :class:`fiftyone.types.OpenLABELVideoDataset` type represents a labeled
+The :class:`tensorgrid.types.OpenLABELVideoDataset` type represents a labeled
 dataset consisting of videos and their associated multitask predictions stored
 in `OpenLABEL format <https://www.asam.net/index.php?eID=dumpFile&t=f&f=3876&token=413e8c85031ae64cc35cf42d0768627514868b2f>`_.
 
 OpenLABEL is a flexible format which allows labels to be stored in a variety of
 different ways with respect to the corresponding media files. The following
 enumerates the possible structures in which media data and OpenLABEL formatted
-label files can be stored in ways that is understood by FiftyOne:
+label files can be stored in ways that is understood by TensorGrid:
 
 1. One label file per video. Each label contains only the metadata and labels
    associated with the video of the same name. In this case, the `labels_path`
@@ -4286,19 +4286,19 @@ following this format:
 
 .. note::
 
-    See :class:`OpenLABELVideoDatasetImporter <fiftyone.utils.openlabel.OpenLABELVideoDatasetImporter>`
+    See :class:`OpenLABELVideoDatasetImporter <tensorgrid.utils.openlabel.OpenLABELVideoDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
 If loading |Keypoints| related to a given |KeypointSkeleton|, then you can
 provide a `skeleton` and `skeleton_key` argument to the
-:class:`OpenLABELVideoDatasetImporter <fiftyone.utils.openlabel.OpenLABELVideoDatasetImporter>`
+:class:`OpenLABELVideoDatasetImporter <tensorgrid.utils.openlabel.OpenLABELVideoDatasetImporter>`
 allowing you to match points in your annotations file to labels in the
 |KeypointSkeleton| and load the points and their attributes in the correct
 order.
 
-You can create a FiftyOne dataset from a OpenLABEL video dataset stored in the
+You can create a TensorGrid dataset from a OpenLABEL video dataset stored in the
 above format as follows:
 
 .. tabs::
@@ -4308,7 +4308,7 @@ above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/openlabel-video-dataset"
@@ -4334,28 +4334,28 @@ above format as follows:
         DATASET_DIR=/path/to/openlabel-video-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.OpenLABELVideoDataset
+            --type tensorgrid.types.OpenLABELVideoDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a OpenLABEL video dataset stored in the above format in the FiftyOne
-    App without creating a persistent FiftyOne dataset, you can execute:
+    To view a OpenLABEL video dataset stored in the above format in the TensorGrid
+    App without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/openlabel-video-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.OpenLABELVideoDataset
+            --type tensorgrid.types.OpenLABELVideoDataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -4368,7 +4368,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/videos"
@@ -4395,9 +4395,9 @@ directory containing the corresponding media files by providing the
         # LABELS_PATH=/path/to/openlabel-labels
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.OpenLABELVideoDataset \
+            --type tensorgrid.types.OpenLABELVideoDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -4414,7 +4414,7 @@ directory containing the corresponding media files by providing the
 BDD
 ___
 
-The :class:`fiftyone.types.BDDDataset` type represents a labeled dataset
+The :class:`tensorgrid.types.BDDDataset` type represents a labeled dataset
 consisting of images and their associated multitask predictions saved in
 `Berkeley DeepDrive (BDD) format <http://bdd-data.berkeley.edu>`_.
 
@@ -4524,12 +4524,12 @@ corresponding images, which can be any of the following:
 
 .. note::
 
-    See :class:`BDDDatasetImporter <fiftyone.utils.bdd.BDDDatasetImporter>`
+    See :class:`BDDDatasetImporter <tensorgrid.utils.bdd.BDDDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a BDD dataset stored in the above format
+You can create a TensorGrid dataset from a BDD dataset stored in the above format
 as follows:
 
 .. tabs::
@@ -4539,7 +4539,7 @@ as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/bdd-dataset"
@@ -4565,28 +4565,28 @@ as follows:
         DATASET_DIR=/path/to/bdd-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.BDDDataset
+            --type tensorgrid.types.BDDDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a BDD dataset stored in the above format in the FiftyOne App
-    without creating a persistent FiftyOne dataset, you can execute:
+    To view a BDD dataset stored in the above format in the TensorGrid App
+    without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/bdd-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.BDDDataset
+            --type tensorgrid.types.BDDDataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -4599,7 +4599,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -4622,9 +4622,9 @@ directory containing the corresponding media files by providing the
         LABELS_PATH=/path/to/bdd-labels.json
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.BDDDataset \
+            --type tensorgrid.types.BDDDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -4639,7 +4639,7 @@ directory containing the corresponding media files by providing the
 CSV
 ___
 
-The :class:`fiftyone.types.CSVDataset` type represents a dataset consisting
+The :class:`tensorgrid.types.CSVDataset` type represents a dataset consisting
 of images or videos and their associated field values stored as columns of a
 CSV file.
 
@@ -4681,12 +4681,12 @@ custom parsing functions for each field, as demonstrated below.
 
 .. note::
 
-    See :class:`CSVDatasetImporter <fiftyone.utils.csv.CSVDatasetImporter>`
+    See :class:`CSVDatasetImporter <tensorgrid.utils.csv.CSVDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a CSV dataset stored in the above
+You can create a TensorGrid dataset from a CSV dataset stored in the above
 format as follows:
 
 .. tabs::
@@ -4696,7 +4696,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/csv-dataset"
@@ -4722,28 +4722,28 @@ format as follows:
         DATASET_DIR=/path/to/csv-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.CSVDataset
+            --type tensorgrid.types.CSVDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a CSV dataset stored in the above format in the FiftyOne App
-    without creating a persistent FiftyOne dataset, you can execute:
+    To view a CSV dataset stored in the above format in the TensorGrid App
+    without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/csv-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.CSVDataset
+            --type tensorgrid.types.CSVDataset
 
 If your CSV file contains absolute media paths, then you can directly specify
 the path to the CSV file itself by providing the `labels_path` parameter.
@@ -4758,7 +4758,7 @@ parsed, as demonstrated below:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         labels_path = "/path/to/labels.csv"
@@ -4786,9 +4786,9 @@ parsed, as demonstrated below:
         LABELS_PATH=/path/to/labels.csv
 
         # Import CSV file with absolute media paths
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.CSVDataset \
+            --type tensorgrid.types.CSVDataset \
             --kwargs labels_path=$LABELS_PATH
 
 .. _DICOMDataset-import:
@@ -4796,7 +4796,7 @@ parsed, as demonstrated below:
 DICOM
 _____
 
-The :class:`fiftyone.types.DICOMDataset` type represents a dataset consisting
+The :class:`tensorgrid.types.DICOMDataset` type represents a dataset consisting
 of images and their associated properties stored in
 `DICOM format <https://en.wikipedia.org/wiki/DICOM>`_.
 
@@ -4843,12 +4843,12 @@ passing the optional ``keywords`` argument.
 
 .. note::
 
-    See :class:`DICOMDatasetImporter <fiftyone.utils.dicom.DICOMDatasetImporter>`
+    See :class:`DICOMDatasetImporter <tensorgrid.utils.dicom.DICOMDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a DICOM dataset stored in standard
+You can create a TensorGrid dataset from a DICOM dataset stored in standard
 format as follows:
 
 .. tabs::
@@ -4858,7 +4858,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/dicom-dataset"
@@ -4884,18 +4884,18 @@ format as follows:
         DATASET_DIR=/path/to/dicom-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.DICOMDataset
+            --type tensorgrid.types.DICOMDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-You can create a FiftyOne dataset from a glob pattern of DICOM files or the
+You can create a TensorGrid dataset from a glob pattern of DICOM files or the
 path to a DICOMDIR file as follows:
 
 .. tabs::
@@ -4905,7 +4905,7 @@ path to a DICOMDIR file as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
 
@@ -4936,25 +4936,25 @@ path to a DICOMDIR file as follows:
         # DICOM_PATH='/path/to/DICOMDIR'  # DICOMDIR file
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.DICOMDataset \
+            --type tensorgrid.types.DICOMDataset \
             --kwargs \
                 dicom_path=$DICOM_PATH \
                 keywords=PatientName,StudyID  # load specific attributes
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
 .. _GeoJSONDataset-import:
 
 GeoJSON
 _______
 
-The :class:`fiftyone.types.GeoJSONDataset` type represents a dataset consisting
+The :class:`tensorgrid.types.GeoJSONDataset` type represents a dataset consisting
 of images or videos and their associated geolocation data and optional
 properties stored in `GeoJSON format <https://en.wikipedia.org/wiki/GeoJSON>`_.
 
@@ -5021,12 +5021,12 @@ can be imported.
 
 .. note::
 
-    See :class:`GeoJSONDatasetImporter <fiftyone.utils.geojson.GeoJSONDatasetImporter>`
+    See :class:`GeoJSONDatasetImporter <tensorgrid.utils.geojson.GeoJSONDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a GeoJSON dataset stored in the above
+You can create a TensorGrid dataset from a GeoJSON dataset stored in the above
 format as follows:
 
 .. tabs::
@@ -5036,7 +5036,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/geojson-dataset"
@@ -5062,28 +5062,28 @@ format as follows:
         DATASET_DIR=/path/to/geojson-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.GeoJSONDataset
+            --type tensorgrid.types.GeoJSONDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a GeoJSON dataset stored in the above format in the FiftyOne App
-    without creating a persistent FiftyOne dataset, you can execute:
+    To view a GeoJSON dataset stored in the above format in the TensorGrid App
+    without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/geojson-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.GeoJSONDataset
+            --type tensorgrid.types.GeoJSONDataset
 
 You can also independently specify the locations of the labels and the root
 directory containing the corresponding media files by providing the
@@ -5096,7 +5096,7 @@ directory containing the corresponding media files by providing the
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         data_path = "/path/to/images"
@@ -5119,9 +5119,9 @@ directory containing the corresponding media files by providing the
         LABELS_PATH=/path/to/geo-labels.json
 
         # Import dataset by explicitly providing paths to the source media and labels
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.GeoJSONDataset \
+            --type tensorgrid.types.GeoJSONDataset \
             --kwargs \
                 data_path=$DATA_PATH \
                 labels_path=$LABELS_PATH
@@ -5136,7 +5136,7 @@ directory containing the corresponding media files by providing the
 GeoTIFF
 _______
 
-The :class:`fiftyone.types.GeoTIFFDataset` type represents a dataset consisting
+The :class:`tensorgrid.types.GeoTIFFDataset` type represents a dataset consisting
 of images and their associated geolocation data stored in
 `GeoTIFF format <https://en.wikipedia.org/wiki/GeoTIFF>`_.
 
@@ -5161,20 +5161,20 @@ Alternatively, rather than providing a ``dataset_dir``, you can provide the
 GeoTIFF images to load.
 
 The dataset will contain a |GeoLocation| field whose
-:attr:`point <fiftyone.core.labels.GeoLocation.point>` attribute contains the
+:attr:`point <tensorgrid.core.labels.GeoLocation.point>` attribute contains the
 `(longitude, latitude)` coordinates of each image center and whose
-:attr:`polygon <fiftyone.core.labels.GeoLocation.polygon>` attribute contains
+:attr:`polygon <tensorgrid.core.labels.GeoLocation.polygon>` attribute contains
 the `(longitude, latitude)` coordinates of the corners of the image (clockwise,
 starting from the top-left corner).
 
 .. note::
 
-    See :class:`GeoTIFFDatasetImporter <fiftyone.utils.geotiff.GeoTIFFDatasetImporter>`
+    See :class:`GeoTIFFDatasetImporter <tensorgrid.utils.geotiff.GeoTIFFDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a GeoTIFF dataset stored in standard
+You can create a TensorGrid dataset from a GeoTIFF dataset stored in standard
 format as follows:
 
 .. tabs::
@@ -5184,7 +5184,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/geotiff-dataset"
@@ -5211,19 +5211,19 @@ format as follows:
         DATASET_DIR=/path/to/geotiff-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.GeoTIFFDataset \
+            --type tensorgrid.types.GeoTIFFDataset \
             --kwargs label_field=location
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-You can create a FiftyOne dataset from a list or glob pattern of GeoTIFF images
+You can create a TensorGrid dataset from a list or glob pattern of GeoTIFF images
 as follows:
 
 .. tabs::
@@ -5233,7 +5233,7 @@ as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         image_path = "/path/to/*.tif"  # glob pattern of GeoTIFF images
@@ -5262,25 +5262,25 @@ as follows:
         # IMAGE_PATH='/path/to/image1.tif,...'  # list of GeoTIFF images
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
-            --type fiftyone.types.GeoTIFFDataset \
+            --type tensorgrid.types.GeoTIFFDataset \
             --kwargs \
                 image_path=$IMAGE_PATH \
                 label_field=location
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-.. _FiftyOneDataset-import:
+.. _TensorGridDataset-import:
 
-FiftyOne Dataset
+TensorGrid Dataset
 ________________
 
-The :class:`fiftyone.types.FiftyOneDataset` provides a disk representation of
+The :class:`tensorgrid.types.TensorGridDataset` provides a disk representation of
 an entire |Dataset| in a serialized JSON format along with its source media.
 
 Datasets of this type are read in the following format:
@@ -5322,12 +5322,12 @@ representation of the frame labels for each video in the dataset.
 
 .. note::
 
-    See :class:`FiftyOneDatasetImporter <fiftyone.utils.data.importers.FiftyOneDatasetImporter>`
+    See :class:`TensorGridDatasetImporter <tensorgrid.utils.data.importers.TensorGridDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a directory in the above format as
+You can create a TensorGrid dataset from a directory in the above format as
 follows:
 
 .. tabs::
@@ -5337,7 +5337,7 @@ follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/fiftyone-dataset"
@@ -5345,7 +5345,7 @@ follows:
         # Create the dataset
         dataset = fo.Dataset.from_dir(
             dataset_dir=dataset_dir,
-            dataset_type=fo.types.FiftyOneDataset,
+            dataset_type=fo.types.TensorGridDataset,
             name=name,
         )
 
@@ -5363,33 +5363,33 @@ follows:
         DATASET_DIR=/path/to/fiftyone-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneDataset
+            --type tensorgrid.types.TensorGridDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a dataset stored on disk in the FiftyOne App without creating a
-    persistent FiftyOne dataset, you can execute:
+    To view a dataset stored on disk in the TensorGrid App without creating a
+    persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/fiftyone-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneDataset
+            --type tensorgrid.types.TensorGridDataset
 
-If you performed a :ref:`FiftyOneDataset export <FiftyOneDataset-export>`
+If you performed a :ref:`TensorGridDataset export <TensorGridDataset-export>`
 using the `rel_dir` parameter to strip a common prefix from the media filepaths
 in the dataset, then simply include the `rel_dir` parameter when importing back
-into FiftyOne to prepend the appropriate prefix to each media path:
+into TensorGrid to prepend the appropriate prefix to each media path:
 
 .. tabs::
 
@@ -5398,7 +5398,7 @@ into FiftyOne to prepend the appropriate prefix to each media path:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/fiftyone-dataset"
@@ -5406,7 +5406,7 @@ into FiftyOne to prepend the appropriate prefix to each media path:
         # Import dataset, prepending `rel_dir` to each media path
         dataset = fo.Dataset.from_dir(
             dataset_dir=dataset_dir,
-            dataset_type=fo.types.FiftyOneDataset,
+            dataset_type=fo.types.TensorGridDataset,
             rel_dir="/common/images/dir",
             name=name,
         )
@@ -5419,27 +5419,27 @@ into FiftyOne to prepend the appropriate prefix to each media path:
         DATASET_DIR=/path/to/fiftyone-dataset
 
         # Import dataset, prepending `rel_dir` to each media path
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneDataset \
+            --type tensorgrid.types.TensorGridDataset \
             --kwargs rel_dir=/common/images/dir
 
 .. note::
 
-    Exporting in :ref:`FiftyOneDataset format <FiftyOneDataset-export>` using
+    Exporting in :ref:`TensorGridDataset format <TensorGridDataset-export>` using
     the `export_media=False` and `rel_dir` parameters is a convenient way to
     transfer datasets between work environments, since this enables you to
     store the media files wherever you wish in each environment and then simply
     provide the appropriate `rel_dir` value as shown above when importing the
-    dataset into FiftyOne in a new environment.
+    dataset into TensorGrid in a new environment.
 
-.. _FiftyOneImageLabelsDataset-import:
+.. _TensorGridImageLabelsDataset-import:
 
-FiftyOne Image Labels
+TensorGrid Image Labels
 _____________________
 
-The :class:`fiftyone.types.FiftyOneImageLabelsDataset` type represents a
+The :class:`tensorgrid.types.TensorGridImageLabelsDataset` type represents a
 labeled dataset consisting of images and their associated multitask predictions
 stored in
 `ETA ImageLabels format <https://github.com/voxel51/eta/blob/develop/docs/image_labels_guide.md>`_.
@@ -5486,12 +5486,12 @@ For unlabeled images, an empty `eta.core.image.ImageLabels` file is stored.
 
 .. note::
 
-    See :class:`FiftyOneImageLabelsDatasetImporter <fiftyone.utils.data.importers.FiftyOneImageLabelsDatasetImporter>`
+    See :class:`TensorGridImageLabelsDatasetImporter <tensorgrid.utils.data.importers.TensorGridImageLabelsDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from an image labels dataset stored in the
+You can create a TensorGrid dataset from an image labels dataset stored in the
 above format as follows:
 
 .. tabs::
@@ -5501,7 +5501,7 @@ above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/image-labels-dataset"
@@ -5509,7 +5509,7 @@ above format as follows:
         # Create the dataset
         dataset = fo.Dataset.from_dir(
             dataset_dir=dataset_dir,
-            dataset_type=fo.types.FiftyOneImageLabelsDataset,
+            dataset_type=fo.types.TensorGridImageLabelsDataset,
             name=name,
         )
 
@@ -5527,35 +5527,35 @@ above format as follows:
         DATASET_DIR=/path/to/image-labels-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneImageLabelsDataset
+            --type tensorgrid.types.TensorGridImageLabelsDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view an image labels dataset stored in the above format in the FiftyOne
-    App without creating a persistent FiftyOne dataset, you can execute:
+    To view an image labels dataset stored in the above format in the TensorGrid
+    App without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/image-labels-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneImageLabelsDataset
+            --type tensorgrid.types.TensorGridImageLabelsDataset
 
-.. _FiftyOneVideoLabelsDataset-import:
+.. _TensorGridVideoLabelsDataset-import:
 
-FiftyOne Video Labels
+TensorGrid Video Labels
 _____________________
 
-The :class:`fiftyone.types.FiftyOneVideoLabelsDataset` type represents a
+The :class:`tensorgrid.types.TensorGridVideoLabelsDataset` type represents a
 labeled dataset consisting of videos and their associated labels stored in
 `ETA VideoLabels format <https://github.com/voxel51/eta/blob/develop/docs/video_labels_guide.md>`_.
 
@@ -5601,12 +5601,12 @@ For unlabeled videos, an empty `eta.core.video.VideoLabels` file is written.
 
 .. note::
 
-    See :class:`FiftyOneVideoLabelsDatasetImporter <fiftyone.utils.data.importers.FiftyOneVideoLabelsDatasetImporter>`
+    See :class:`TensorGridVideoLabelsDatasetImporter <tensorgrid.utils.data.importers.TensorGridVideoLabelsDatasetImporter>`
     for parameters that can be passed to methods like
-    :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to
+    :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to
     customize the import of datasets of this type.
 
-You can create a FiftyOne dataset from a video labels dataset stored in the
+You can create a TensorGrid dataset from a video labels dataset stored in the
 above format as follows:
 
 .. tabs::
@@ -5616,7 +5616,7 @@ above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         name = "my-dataset"
         dataset_dir = "/path/to/video-labels-dataset"
@@ -5624,7 +5624,7 @@ above format as follows:
         # Create the dataset
         dataset = fo.Dataset.from_dir(
             dataset_dir=dataset_dir,
-            dataset_type=fo.types.FiftyOneVideoLabelsDataset,
+            dataset_type=fo.types.TensorGridVideoLabelsDataset,
             name=name,
         )
 
@@ -5642,28 +5642,28 @@ above format as follows:
         DATASET_DIR=/path/to/video-labels-dataset
 
         # Create the dataset
-        fiftyone datasets create \
+        tensorgrid datasets create \
             --name $NAME \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneVideoLabelsDataset
+            --type tensorgrid.types.TensorGridVideoLabelsDataset
 
         # View summary info about the dataset
-        fiftyone datasets info $NAME
+        tensorgrid datasets info $NAME
 
         # Print the first few samples in the dataset
-        fiftyone datasets head $NAME
+        tensorgrid datasets head $NAME
 
-    To view a video labels dataset stored in the above format in the FiftyOne
-    App without creating a persistent FiftyOne dataset, you can execute:
+    To view a video labels dataset stored in the above format in the TensorGrid
+    App without creating a persistent TensorGrid dataset, you can execute:
 
     .. code-block:: shell
 
         DATASET_DIR=/path/to/video-labels-dataset
 
         # View the dataset in the App
-        fiftyone app view \
+        tensorgrid app view \
             --dataset-dir $DATASET_DIR \
-            --type fiftyone.types.FiftyOneVideoLabelsDataset
+            --type tensorgrid.types.TensorGridVideoLabelsDataset
 
 .. _custom-dataset-importer:
 
@@ -5671,12 +5671,12 @@ Custom formats
 ______________
 
 If your data does not follow one of the previous formats, then the simplest and
-most flexible approach to loading your data into FiftyOne is
+most flexible approach to loading your data into TensorGrid is
 :ref:`to iterate over your data in a loop <loading-custom-datasets>`
 and add it to a |Dataset|.
 
 Alternatively, the |Dataset| class provides a
-:meth:`Dataset.from_importer() <fiftyone.core.dataset.Dataset.from_importer>`
+:meth:`Dataset.from_importer() <tensorgrid.core.dataset.Dataset.from_importer>`
 factory method that can be used to import a dataset using any |DatasetImporter|
 instance.
 
@@ -5686,7 +5686,7 @@ a dataset from disk in your custom format using the following recipe:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Create an instance of your custom dataset importer
     importer = CustomDatasetImporter(...)
@@ -5696,15 +5696,15 @@ a dataset from disk in your custom format using the following recipe:
 
 You can also define a custom |DatasetType| type, which enables you to import
 datasets in your custom format using the
-:meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` factory
+:meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` factory
 method:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
-    # The `fiftyone.types.Dataset` subclass for your custom dataset
+    # The `tensorgrid.types.Dataset` subclass for your custom dataset
     dataset_type = CustomDataset
 
     # Import the dataset
@@ -5731,7 +5731,7 @@ should implement is determined by the type of dataset that you are importing.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.utils.data as foud
+        import tensorgrid.utils.data as foud
 
         class CustomGenericSampleDatasetImporter(foud.GenericSampleDatasetImporter):
             """Custom importer for generic sample datasets.
@@ -5776,7 +5776,7 @@ should implement is determined by the type of dataset that you are importing.
                 """Returns information about the next sample in the dataset.
 
                 Returns:
-                    a :class:`fiftyone.core.sample.Sample` instance
+                    a :class:`tensorgrid.core.sample.Sample` instance
 
                 Raises:
                     StopIteration: if there are no more samples to import
@@ -5823,7 +5823,7 @@ should implement is determined by the type of dataset that you are importing.
                 loaded by this importer.
 
                 Returns:
-                    a dict mapping field names to :class:`fiftyone.core.fields.Field`
+                    a dict mapping field names to :class:`tensorgrid.core.fields.Field`
                     instances or ``str(field)`` representations of them
                 """
                 # Return the sample schema here, if known
@@ -5842,13 +5842,13 @@ should implement is determined by the type of dataset that you are importing.
                 # Your custom code here to complete the import
                 pass
 
-    When :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` is
+    When :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` is
     called with a custom |GenericSampleDatasetImporter|, the import is effectively
     performed via the pseudocode below:
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.Dataset(...)
         importer = CustomGenericSampleDatasetImporter(...)
@@ -5863,21 +5863,21 @@ should implement is determined by the type of dataset that you are importing.
 
     Note that the importer is invoked via its context manager interface, which
     automatically calls the
-    :meth:`setup() <fiftyone.utils.data.importers.GenericSampleDatasetImporter.setup>`
+    :meth:`setup() <tensorgrid.utils.data.importers.GenericSampleDatasetImporter.setup>`
     and
-    :meth:`close() <fiftyone.utils.data.importers.GenericSampleDatasetImporter.close>`
+    :meth:`close() <tensorgrid.utils.data.importers.GenericSampleDatasetImporter.close>`
     methods of the importer to handle setup/completion of the import.
 
     The samples in the dataset are iteratively loaded by invoking the
-    :meth:`__next__() <fiftyone.utils.data.importers.GenericSampleDatasetImporter.__next__>`
+    :meth:`__next__() <tensorgrid.utils.data.importers.GenericSampleDatasetImporter.__next__>`
     method of the importer.
 
     The
-    :meth:`has_dataset_info <fiftyone.utils.data.importers.GenericSampleDatasetImporter.has_dataset_info>`
+    :meth:`has_dataset_info <tensorgrid.utils.data.importers.GenericSampleDatasetImporter.has_dataset_info>`
     property of the importer allows it to declare whether its
-    :meth:`get_dataset_info() <fiftyone.utils.data.importers.GenericSampleDatasetImporter.get_dataset_info>`
+    :meth:`get_dataset_info() <tensorgrid.utils.data.importers.GenericSampleDatasetImporter.get_dataset_info>`
     method should be called after all samples have been imported to retrieve
-    dataset-level information to store on the FiftyOne dataset. See
+    dataset-level information to store on the TensorGrid dataset. See
     :ref:`this section <importing-dataset-level-info>` for more information.
 
   .. group-tab:: Batch imports
@@ -5893,7 +5893,7 @@ should implement is determined by the type of dataset that you are importing.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.utils.data as foud
+        import tensorgrid.utils.data as foud
 
         class CustomBatchDatasetImporter(foud.BatchDatasetImporter):
             """Custom batch importer for datasets.
@@ -5938,10 +5938,10 @@ should implement is determined by the type of dataset that you are importing.
                 """Imports the samples into the given dataset.
 
                 Args:
-                    dataset: a :class:`fiftyone.core.dataset.Dataset`
+                    dataset: a :class:`tensorgrid.core.dataset.Dataset`
                     tags (None): an optional list of tags to attach to each sample
                     progress (None): whether to render a progress bar (True/False), use
-                        the default value ``fiftyone.config.show_progress_bars``
+                        the default value ``tensorgrid.config.show_progress_bars``
                         (None), or a progress callback function to invoke instead
 
                 Returns:
@@ -5989,7 +5989,7 @@ should implement is determined by the type of dataset that you are importing.
                 loaded by this importer.
 
                 Returns:
-                    a dict mapping field names to :class:`fiftyone.core.fields.Field`
+                    a dict mapping field names to :class:`tensorgrid.core.fields.Field`
                     instances or ``str(field)`` representations of them
                 """
                 # Return the sample schema here, if known
@@ -6008,13 +6008,13 @@ should implement is determined by the type of dataset that you are importing.
                 # Your custom code here to complete the import
                 pass
 
-    When :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` is
+    When :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` is
     called with a custom |BatchDatasetImporter|, the import is effectively
     performed via the pseudocode below:
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.Dataset(...)
         importer = CustomBatchDatasetImporter(...)
@@ -6028,21 +6028,21 @@ should implement is determined by the type of dataset that you are importing.
 
     Note that the importer is invoked via its context manager interface, which
     automatically calls the
-    :meth:`setup() <fiftyone.utils.data.importers.BatchDatasetImporter.setup>`
+    :meth:`setup() <tensorgrid.utils.data.importers.BatchDatasetImporter.setup>`
     and
-    :meth:`close() <fiftyone.utils.data.importers.BatchDatasetImporter.close>`
+    :meth:`close() <tensorgrid.utils.data.importers.BatchDatasetImporter.close>`
     methods of the importer to handle setup/completion of the import.
 
     The samples are then imported via a single call to the
-    :meth:`import_samples() <fiftyone.utils.data.importers.BatchDatasetImporter.import_samples>`
+    :meth:`import_samples() <tensorgrid.utils.data.importers.BatchDatasetImporter.import_samples>`
     method of the importer.
 
     The
-    :meth:`has_dataset_info <fiftyone.utils.data.importers.BatchDatasetImporter.has_dataset_info>`
+    :meth:`has_dataset_info <tensorgrid.utils.data.importers.BatchDatasetImporter.has_dataset_info>`
     property of the importer allows it to declare whether its
-    :meth:`get_dataset_info() <fiftyone.utils.data.importers.BatchDatasetImporter.get_dataset_info>`
+    :meth:`get_dataset_info() <tensorgrid.utils.data.importers.BatchDatasetImporter.get_dataset_info>`
     method should be called after all samples have been imported to retrieve
-    dataset-level information to store on the FiftyOne dataset. See
+    dataset-level information to store on the TensorGrid dataset. See
     :ref:`this section <importing-dataset-level-info>` for more information.
 
   .. group-tab:: Unlabeled image datasets
@@ -6056,7 +6056,7 @@ should implement is determined by the type of dataset that you are importing.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.utils.data as foud
+        import tensorgrid.utils.data as foud
 
         class CustomUnlabeledImageDatasetImporter(foud.UnlabeledImageDatasetImporter):
             """Custom importer for unlabeled image datasets.
@@ -6104,7 +6104,7 @@ should implement is determined by the type of dataset that you are importing.
                     an ``(image_path, image_metadata)`` tuple, where:
                     -   ``image_path`` is the path to the image on disk
                     -   ``image_metadata`` is an
-                        :class:`fiftyone.core.metadata.ImageMetadata` instances for the
+                        :class:`tensorgrid.core.metadata.ImageMetadata` instances for the
                         image, or ``None`` if :meth:`has_image_metadata` is ``False``
 
                 Raises:
@@ -6122,7 +6122,7 @@ should implement is determined by the type of dataset that you are importing.
             @property
             def has_image_metadata(self):
                 """Whether this importer produces
-                :class:`fiftyone.core.metadata.ImageMetadata` instances for each image.
+                :class:`tensorgrid.core.metadata.ImageMetadata` instances for each image.
                 """
                 # Return True or False here
                 pass
@@ -6162,13 +6162,13 @@ should implement is determined by the type of dataset that you are importing.
                 # Your custom code here to complete the import
                 pass
 
-    When :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` is
+    When :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` is
     called with a custom |UnlabeledImageDatasetImporter|, the import is effectively
     performed via the pseudocode below:
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.Dataset(...)
         importer = CustomUnlabeledImageDatasetImporter(...)
@@ -6185,28 +6185,28 @@ should implement is determined by the type of dataset that you are importing.
 
     Note that the importer is invoked via its context manager interface, which
     automatically calls the
-    :meth:`setup() <fiftyone.utils.data.importers.UnlabeledImageDatasetImporter.setup>`
+    :meth:`setup() <tensorgrid.utils.data.importers.UnlabeledImageDatasetImporter.setup>`
     and
-    :meth:`close() <fiftyone.utils.data.importers.UnlabeledImageDatasetImporter.close>`
+    :meth:`close() <tensorgrid.utils.data.importers.UnlabeledImageDatasetImporter.close>`
     methods of the importer to handle setup/completion of the import.
 
     The images in the dataset are iteratively loaded by invoking the
-    :meth:`__next__() <fiftyone.utils.data.importers.UnlabeledImageDatasetImporter.__next__>`
+    :meth:`__next__() <tensorgrid.utils.data.importers.UnlabeledImageDatasetImporter.__next__>`
     method of the importer.
 
     The
-    :meth:`has_dataset_info <fiftyone.utils.data.importers.UnlabeledImageDatasetImporter.has_dataset_info>`
+    :meth:`has_dataset_info <tensorgrid.utils.data.importers.UnlabeledImageDatasetImporter.has_dataset_info>`
     property of the importer allows it to declare whether its
-    :meth:`get_dataset_info() <fiftyone.utils.data.importers.UnlabeledImageDatasetImporter.get_dataset_info>`
+    :meth:`get_dataset_info() <tensorgrid.utils.data.importers.UnlabeledImageDatasetImporter.get_dataset_info>`
     method should be called after all samples have been imported to retrieve
-    dataset-level information to store on the FiftyOne dataset. See
+    dataset-level information to store on the TensorGrid dataset. See
     :ref:`this section <importing-dataset-level-info>` for more information.
 
     The
-    :meth:`has_image_metadata <fiftyone.utils.data.importers.UnlabeledImageDatasetImporter.has_image_metadata>`
+    :meth:`has_image_metadata <tensorgrid.utils.data.importers.UnlabeledImageDatasetImporter.has_image_metadata>`
     property of the importer allows it to declare whether it returns
     |ImageMetadata| instances for each image that it loads when
-    :meth:`__next__() <fiftyone.utils.data.importers.UnlabeledImageDatasetImporter.__next__>`
+    :meth:`__next__() <tensorgrid.utils.data.importers.UnlabeledImageDatasetImporter.__next__>`
     is called.
 
   .. group-tab:: Labeled image datasets
@@ -6220,7 +6220,7 @@ should implement is determined by the type of dataset that you are importing.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.utils.data as foud
+        import tensorgrid.utils.data as foud
 
         class CustomLabeledImageDatasetImporter(foud.LabeledImageDatasetImporter):
             """Custom importer for labeled image datasets.
@@ -6269,10 +6269,10 @@ should implement is determined by the type of dataset that you are importing.
 
                     -   ``image_path``: the path to the image on disk
                     -   ``image_metadata``: an
-                        :class:`fiftyone.core.metadata.ImageMetadata` instances for the
+                        :class:`tensorgrid.core.metadata.ImageMetadata` instances for the
                         image, or ``None`` if :meth:`has_image_metadata` is ``False``
                     -   ``label``: an instance of :meth:`label_cls`, or a dictionary
-                        mapping field names to :class:`fiftyone.core.labels.Label`
+                        mapping field names to :class:`tensorgrid.core.labels.Label`
                         instances, or ``None`` if the sample is unlabeled
 
                 Raises:
@@ -6290,24 +6290,24 @@ should implement is determined by the type of dataset that you are importing.
             @property
             def has_image_metadata(self):
                 """Whether this importer produces
-                :class:`fiftyone.core.metadata.ImageMetadata` instances for each image.
+                :class:`tensorgrid.core.metadata.ImageMetadata` instances for each image.
                 """
                 # Return True or False here
                 pass
 
             @property
             def label_cls(self):
-                """The :class:`fiftyone.core.labels.Label` class(es) returned by this
+                """The :class:`tensorgrid.core.labels.Label` class(es) returned by this
                 importer.
 
                 This can be any of the following:
 
-                -   a :class:`fiftyone.core.labels.Label` class. In this case, the
+                -   a :class:`tensorgrid.core.labels.Label` class. In this case, the
                     importer is guaranteed to return labels of this type
-                -   a list or tuple of :class:`fiftyone.core.labels.Label` classes. In
+                -   a list or tuple of :class:`tensorgrid.core.labels.Label` classes. In
                     this case, the importer can produce a single label field of any of
                     these types
-                -   a dict mapping keys to :class:`fiftyone.core.labels.Label` classes.
+                -   a dict mapping keys to :class:`tensorgrid.core.labels.Label` classes.
                     In this case, the importer will return label dictionaries with keys
                     and value-types specified by this dictionary. Not all keys need be
                     present in the imported labels
@@ -6352,13 +6352,13 @@ should implement is determined by the type of dataset that you are importing.
                 # Your custom code here to complete the import
                 pass
 
-    When :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` is
+    When :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` is
     called with a custom |LabeledImageDatasetImporter|, the import is effectively
     performed via the pseudocode below:
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.Dataset(...)
         importer = CustomLabeledImageDatasetImporter(...)
@@ -6389,34 +6389,34 @@ should implement is determined by the type of dataset that you are importing.
 
     Note that the importer is invoked via its context manager interface, which
     automatically calls the
-    :meth:`setup() <fiftyone.utils.data.importers.LabeledImageDatasetImporter.setup>`
+    :meth:`setup() <tensorgrid.utils.data.importers.LabeledImageDatasetImporter.setup>`
     and
-    :meth:`close() <fiftyone.utils.data.importers.LabeledImageDatasetImporter.close>`
+    :meth:`close() <tensorgrid.utils.data.importers.LabeledImageDatasetImporter.close>`
     methods of the importer to handle setup/completion of the import.
 
     The images and their corresponding |Label| instances in the dataset are
     iteratively loaded by invoking the
-    :meth:`__next__() <fiftyone.utils.data.importers.LabeledImageDatasetImporter.__next__>`
+    :meth:`__next__() <tensorgrid.utils.data.importers.LabeledImageDatasetImporter.__next__>`
     method of the importer.
 
     The
-    :meth:`has_dataset_info <fiftyone.utils.data.importers.LabeledImageDatasetImporter.has_dataset_info>`
+    :meth:`has_dataset_info <tensorgrid.utils.data.importers.LabeledImageDatasetImporter.has_dataset_info>`
     property of the importer allows it to declare whether its
-    :meth:`get_dataset_info() <fiftyone.utils.data.importers.LabeledImageDatasetImporter.get_dataset_info>`
+    :meth:`get_dataset_info() <tensorgrid.utils.data.importers.LabeledImageDatasetImporter.get_dataset_info>`
     method should be called after all samples have been imported to retrieve
-    dataset-level information to store on the FiftyOne dataset. See
+    dataset-level information to store on the TensorGrid dataset. See
     :ref:`this section <importing-dataset-level-info>` for more information.
 
     The
-    :meth:`label_cls <fiftyone.utils.data.importers.LabeledImageDatasetImporter.label_cls>`
+    :meth:`label_cls <tensorgrid.utils.data.importers.LabeledImageDatasetImporter.label_cls>`
     property of the importer declares the type of label(s) that the importer
     will produce.
 
     The
-    :meth:`has_image_metadata <fiftyone.utils.data.importers.LabeledImageDatasetImporter.has_image_metadata>`
+    :meth:`has_image_metadata <tensorgrid.utils.data.importers.LabeledImageDatasetImporter.has_image_metadata>`
     property of the importer allows it to declare whether it returns
     |ImageMetadata| instances for each image that it loads when
-    :meth:`__next__() <fiftyone.utils.data.importers.LabeledImageDatasetImporter.__next__>`
+    :meth:`__next__() <tensorgrid.utils.data.importers.LabeledImageDatasetImporter.__next__>`
     is called.
 
   .. group-tab:: Unlabeled video datasets
@@ -6430,7 +6430,7 @@ should implement is determined by the type of dataset that you are importing.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.utils.data as foud
+        import tensorgrid.utils.data as foud
 
         class CustomUnlabeledVideoDatasetImporter(foud.UnlabeledVideoDatasetImporter):
             """Custom importer for unlabeled video datasets.
@@ -6478,7 +6478,7 @@ should implement is determined by the type of dataset that you are importing.
                     an ``(video_path, video_metadata)`` tuple, where:
                     -   ``video_path`` is the path to the video on disk
                     -   ``video_metadata`` is an
-                        :class:`fiftyone.core.metadata.VideoMetadata` instances for the
+                        :class:`tensorgrid.core.metadata.VideoMetadata` instances for the
                         video, or ``None`` if :meth:`has_video_metadata` is ``False``
 
                 Raises:
@@ -6496,7 +6496,7 @@ should implement is determined by the type of dataset that you are importing.
             @property
             def has_video_metadata(self):
                 """Whether this importer produces
-                :class:`fiftyone.core.metadata.VideoMetadata` instances for each video.
+                :class:`tensorgrid.core.metadata.VideoMetadata` instances for each video.
                 """
                 # Return True or False here
                 pass
@@ -6536,13 +6536,13 @@ should implement is determined by the type of dataset that you are importing.
                 # Your custom code here to complete the import
                 pass
 
-    When :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` is
+    When :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` is
     called with a custom |UnlabeledVideoDatasetImporter|, the import is effectively
     performed via the pseudocode below:
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.Dataset(...)
         importer = CustomUnlabeledVideoDatasetImporter(...)
@@ -6559,28 +6559,28 @@ should implement is determined by the type of dataset that you are importing.
 
     Note that the importer is invoked via its context manager interface, which
     automatically calls the
-    :meth:`setup() <fiftyone.utils.data.importers.UnlabeledVideoDatasetImporter.setup>`
+    :meth:`setup() <tensorgrid.utils.data.importers.UnlabeledVideoDatasetImporter.setup>`
     and
-    :meth:`close() <fiftyone.utils.data.importers.UnlabeledVideoDatasetImporter.close>`
+    :meth:`close() <tensorgrid.utils.data.importers.UnlabeledVideoDatasetImporter.close>`
     methods of the importer to handle setup/completion of the import.
 
     The videos in the dataset are iteratively loaded by invoking the
-    :meth:`__next__() <fiftyone.utils.data.importers.UnlabeledVideoDatasetImporter.__next__>`
+    :meth:`__next__() <tensorgrid.utils.data.importers.UnlabeledVideoDatasetImporter.__next__>`
     method of the importer.
 
     The
-    :meth:`has_dataset_info <fiftyone.utils.data.importers.UnlabeledVideoDatasetImporter.has_dataset_info>`
+    :meth:`has_dataset_info <tensorgrid.utils.data.importers.UnlabeledVideoDatasetImporter.has_dataset_info>`
     property of the importer allows it to declare whether its
-    :meth:`get_dataset_info() <fiftyone.utils.data.importers.UnlabeledVideoDatasetImporter.get_dataset_info>`
+    :meth:`get_dataset_info() <tensorgrid.utils.data.importers.UnlabeledVideoDatasetImporter.get_dataset_info>`
     method should be called after all samples have been imported to retrieve
-    dataset-level information to store on the FiftyOne dataset. See
+    dataset-level information to store on the TensorGrid dataset. See
     :ref:`this section <importing-dataset-level-info>` for more information.
 
     The
-    :meth:`has_video_metadata <fiftyone.utils.data.importers.UnlabeledVideoDatasetImporter.has_video_metadata>`
+    :meth:`has_video_metadata <tensorgrid.utils.data.importers.UnlabeledVideoDatasetImporter.has_video_metadata>`
     property of the importer allows it to declare whether it returns
     |VideoMetadata| instances for each video that it loads when
-    :meth:`__next__() <fiftyone.utils.data.importers.UnlabeledVideoDatasetImporter.__next__>`
+    :meth:`__next__() <tensorgrid.utils.data.importers.UnlabeledVideoDatasetImporter.__next__>`
     is called.
 
   .. group-tab:: Labeled video datasets
@@ -6594,7 +6594,7 @@ should implement is determined by the type of dataset that you are importing.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.utils.data as foud
+        import tensorgrid.utils.data as foud
 
         class CustomLabeledVideoDatasetImporter(foud.LabeledVideoDatasetImporter):
             """Custom importer for labeled video datasets.
@@ -6643,21 +6643,21 @@ should implement is determined by the type of dataset that you are importing.
 
                     -   ``video_path``: the path to the video on disk
                     -   ``video_metadata``: an
-                        :class:`fiftyone.core.metadata.VideoMetadata` instances for the
+                        :class:`tensorgrid.core.metadata.VideoMetadata` instances for the
                         video, or ``None`` if :meth:`has_video_metadata` is ``False``
                     -   ``labels``: sample-level labels for the video, which can be any
                         of the following::
 
-                        -   a :class:`fiftyone.core.labels.Label` instance
+                        -   a :class:`tensorgrid.core.labels.Label` instance
                         -   a dictionary mapping label fields to
-                            :class:`fiftyone.core.labels.Label` instances
+                            :class:`tensorgrid.core.labels.Label` instances
                         -   ``None`` if the sample has no sample-level labels
 
                     -   ``frames``: frame-level labels for the video, which can
                         be any of the following::
 
                         -   a dictionary mapping frame numbers to dictionaries that
-                            map label fields to :class:`fiftyone.core.labels.Label`
+                            map label fields to :class:`tensorgrid.core.labels.Label`
                             instances for each video frame
                         -   ``None`` if the sample has no frame-level labels
 
@@ -6676,24 +6676,24 @@ should implement is determined by the type of dataset that you are importing.
             @property
             def has_video_metadata(self):
                 """Whether this importer produces
-                :class:`fiftyone.core.metadata.VideoMetadata` instances for each video.
+                :class:`tensorgrid.core.metadata.VideoMetadata` instances for each video.
                 """
                 # Return True or False here
                 pass
 
             @property
             def label_cls(self):
-                """The :class:`fiftyone.core.labels.Label` class(es) returned by this
+                """The :class:`tensorgrid.core.labels.Label` class(es) returned by this
                 importer within the sample-level labels that it produces.
 
                 This can be any of the following:
 
-                -   a :class:`fiftyone.core.labels.Label` class. In this case, the
+                -   a :class:`tensorgrid.core.labels.Label` class. In this case, the
                     importer is guaranteed to return sample-level labels of this type
-                -   a list or tuple of :class:`fiftyone.core.labels.Label` classes. In
+                -   a list or tuple of :class:`tensorgrid.core.labels.Label` classes. In
                     this case, the importer can produce a single sample-level label
                     field of any of these types
-                -   a dict mapping keys to :class:`fiftyone.core.labels.Label` classes.
+                -   a dict mapping keys to :class:`tensorgrid.core.labels.Label` classes.
                     In this case, the importer will return sample-level label
                     dictionaries with keys and value-types specified by this
                     dictionary. Not all keys need be present in the imported labels
@@ -6705,17 +6705,17 @@ should implement is determined by the type of dataset that you are importing.
 
             @property
             def frame_label_cls(self):
-                """The :class:`fiftyone.core.labels.Label` class(es) returned by this
+                """The :class:`tensorgrid.core.labels.Label` class(es) returned by this
                 importer within the frame labels that it produces.
 
                 This can be any of the following:
 
-                -   a :class:`fiftyone.core.labels.Label` class. In this case, the
+                -   a :class:`tensorgrid.core.labels.Label` class. In this case, the
                     importer is guaranteed to return frame labels of this type
-                -   a list or tuple of :class:`fiftyone.core.labels.Label` classes. In
+                -   a list or tuple of :class:`tensorgrid.core.labels.Label` classes. In
                     this case, the importer can produce a single frame label field of
                     any of these types
-                -   a dict mapping keys to :class:`fiftyone.core.labels.Label` classes.
+                -   a dict mapping keys to :class:`tensorgrid.core.labels.Label` classes.
                     In this case, the importer will return frame label dictionaries
                     with keys and value-types specified by this dictionary. Not all
                     keys need be present in each frame
@@ -6760,13 +6760,13 @@ should implement is determined by the type of dataset that you are importing.
                 # Your custom code here to complete the import
                 pass
 
-    When :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` is
+    When :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` is
     called with a custom |LabeledVideoDatasetImporter|, the import is effectively
     performed via the pseudocode below:
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.Dataset(...)
         importer = CustomLabeledVideoDatasetImporter(...)
@@ -6810,14 +6810,14 @@ should implement is determined by the type of dataset that you are importing.
 
     Note that the importer is invoked via its context manager interface, which
     automatically calls the
-    :meth:`setup() <fiftyone.utils.data.importers.LabeledVideoDatasetImporter.setup>`
+    :meth:`setup() <tensorgrid.utils.data.importers.LabeledVideoDatasetImporter.setup>`
     and
-    :meth:`close() <fiftyone.utils.data.importers.LabeledVideoDatasetImporter.close>`
+    :meth:`close() <tensorgrid.utils.data.importers.LabeledVideoDatasetImporter.close>`
     methods of the importer to handle setup/completion of the import.
 
     The videos and their corresponding labels in the dataset are iteratively
     loaded by invoking the
-    :meth:`__next__() <fiftyone.utils.data.importers.LabeledVideoDatasetImporter.__next__>`
+    :meth:`__next__() <tensorgrid.utils.data.importers.LabeledVideoDatasetImporter.__next__>`
     method of the importer. In particular, sample-level labels for the video
     may be returned in a `label` value (which may contain a single |Label|
     value or a dictionary that maps field names to labels), and frame-level
@@ -6825,26 +6825,26 @@ should implement is determined by the type of dataset that you are importing.
     to dictionaries of field names and labels.
 
     The
-    :meth:`has_dataset_info <fiftyone.utils.data.importers.LabeledVideoDatasetImporter.has_dataset_info>`
+    :meth:`has_dataset_info <tensorgrid.utils.data.importers.LabeledVideoDatasetImporter.has_dataset_info>`
     property of the importer allows it to declare whether its
-    :meth:`get_dataset_info() <fiftyone.utils.data.importers.LabeledVideoDatasetImporter.get_dataset_info>`
+    :meth:`get_dataset_info() <tensorgrid.utils.data.importers.LabeledVideoDatasetImporter.get_dataset_info>`
     method should be called after all samples have been imported to retrieve
-    dataset-level information to store on the FiftyOne dataset. See
+    dataset-level information to store on the TensorGrid dataset. See
     :ref:`this section <importing-dataset-level-info>` for more information.
 
     The
-    :meth:`label_cls <fiftyone.utils.data.importers.LabeledVideoDatasetImporter.label_cls>`
+    :meth:`label_cls <tensorgrid.utils.data.importers.LabeledVideoDatasetImporter.label_cls>`
     property of the importer declares the type of sample-level label(s) that
     the importer will produce (if any), and the
-    :meth:`frame_labels_cls <fiftyone.utils.data.importers.LabeledVideoDatasetImporter.frame_labels_cls>`
+    :meth:`frame_labels_cls <tensorgrid.utils.data.importers.LabeledVideoDatasetImporter.frame_labels_cls>`
     property of the importer declares the type of frame-level label(s) that the
     importer will produce (if any).
 
     The
-    :meth:`has_video_metadata <fiftyone.utils.data.importers.LabeledVideoDatasetImporter.has_video_metadata>`
+    :meth:`has_video_metadata <tensorgrid.utils.data.importers.LabeledVideoDatasetImporter.has_video_metadata>`
     property of the importer allows it to declare whether it returns
     |VideoMetadata| instances for each video that it loads when
-    :meth:`__next__() <fiftyone.utils.data.importers.LabeledVideoDatasetImporter.__next__>`
+    :meth:`__next__() <tensorgrid.utils.data.importers.LabeledVideoDatasetImporter.__next__>`
     is called.
 
   .. group-tab:: Grouped datasets
@@ -6858,7 +6858,7 @@ should implement is determined by the type of dataset that you are importing.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.utils.data as foud
+        import tensorgrid.utils.data as foud
 
         class CustomGroupDatasetImporter(foud.GroupDatasetImporter):
             """Custom importer for grouped datasets.
@@ -6904,7 +6904,7 @@ should implement is determined by the type of dataset that you are importing.
                 """Returns information about the next group in the dataset.
 
                 Returns:
-                    a dict mapping slice names to :class:`fiftyone.core.sample.Sample`
+                    a dict mapping slice names to :class:`tensorgrid.core.sample.Sample`
                     instances
 
                 Raises:
@@ -6958,7 +6958,7 @@ should implement is determined by the type of dataset that you are importing.
                 loaded by this importer.
 
                 Returns:
-                    a dict mapping field names to :class:`fiftyone.core.fields.Field`
+                    a dict mapping field names to :class:`tensorgrid.core.fields.Field`
                     instances or ``str(field)`` representations of them
                 """
                 # Return the sample schema here, if known
@@ -6987,13 +6987,13 @@ should implement is determined by the type of dataset that you are importing.
                 # Your custom code here to complete the import
                 pass
 
-    When :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` is
+    When :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` is
     called with a custom |GroupDatasetImporter|, the import is effectively
     performed via the pseudocode below:
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.Dataset(...)
         importer = CustomGroupDatasetImporter(...)
@@ -7012,25 +7012,25 @@ should implement is determined by the type of dataset that you are importing.
 
     Note that the importer is invoked via its context manager interface, which
     automatically calls the
-    :meth:`setup() <fiftyone.utils.data.importers.GroupDatasetImporter.setup>`
+    :meth:`setup() <tensorgrid.utils.data.importers.GroupDatasetImporter.setup>`
     and
-    :meth:`close() <fiftyone.utils.data.importers.GroupDatasetImporter.close>`
+    :meth:`close() <tensorgrid.utils.data.importers.GroupDatasetImporter.close>`
     methods of the importer to handle setup/completion of the import.
 
     The groups in the dataset are iteratively loaded by invoking the
-    :meth:`__next__() <fiftyone.utils.data.importers.GroupDatasetImporter.__next__>`
+    :meth:`__next__() <tensorgrid.utils.data.importers.GroupDatasetImporter.__next__>`
     method of the importer.
 
     The
-    :meth:`has_dataset_info <fiftyone.utils.data.importers.GroupDatasetImporter.has_dataset_info>`
+    :meth:`has_dataset_info <tensorgrid.utils.data.importers.GroupDatasetImporter.has_dataset_info>`
     property of the importer allows it to declare whether its
-    :meth:`get_dataset_info() <fiftyone.utils.data.importers.GroupDatasetImporter.get_dataset_info>`
+    :meth:`get_dataset_info() <tensorgrid.utils.data.importers.GroupDatasetImporter.get_dataset_info>`
     method should be called after all samples have been imported to retrieve
-    dataset-level information to store on the FiftyOne dataset. See
+    dataset-level information to store on the TensorGrid dataset. See
     :ref:`this section <importing-dataset-level-info>` for more information.
 
     The
-    :meth:`group_field <fiftyone.utils.data.importers.GroupDatasetImporter.group_field>`
+    :meth:`group_field <tensorgrid.utils.data.importers.GroupDatasetImporter.group_field>`
     property of the importer allows it to declare the name of the field in
     which to store the |Group| information for each sample.
 
@@ -7040,37 +7040,37 @@ Importing dataset-level information
 -----------------------------------
 
 The
-:meth:`has_dataset_info <fiftyone.utils.data.importers.DatasetImporter.has_dataset_info>`
+:meth:`has_dataset_info <tensorgrid.utils.data.importers.DatasetImporter.has_dataset_info>`
 property of the importer allows it to declare whether its
-:meth:`get_dataset_info() <fiftyone.utils.data.importers.DatasetImporter.get_dataset_info>`
+:meth:`get_dataset_info() <tensorgrid.utils.data.importers.DatasetImporter.get_dataset_info>`
 method should be called after all samples have been imported to retrieve a dict
 of dataset-level information to store in the
-:meth:`info <fiftyone.core.dataset.Dataset.info>` property of the dataset.
+:meth:`info <tensorgrid.core.dataset.Dataset.info>` property of the dataset.
 
 As a special case, if the `info` dict contains any of the keys listed below,
 these items are popped and stored in the corresponding dedicated dataset field:
 
 -   `"classes"` key:
-    :meth:`Dataset.classes <fiftyone.core.dataset.Dataset.classes>`
+    :meth:`Dataset.classes <tensorgrid.core.dataset.Dataset.classes>`
 -   `"default_classes"` key:
-    :meth:`Dataset.default_classes <fiftyone.core.dataset.Dataset.default_classes>`
+    :meth:`Dataset.default_classes <tensorgrid.core.dataset.Dataset.default_classes>`
 -   `"mask_targets"` key:
-    :meth:`Dataset.mask_targets <fiftyone.core.dataset.Dataset.mask_targets>`
+    :meth:`Dataset.mask_targets <tensorgrid.core.dataset.Dataset.mask_targets>`
 -   `"default_mask_targets"` key:
-    :meth:`Dataset.default_mask_targets <fiftyone.core.dataset.Dataset.default_mask_targets>`
+    :meth:`Dataset.default_mask_targets <tensorgrid.core.dataset.Dataset.default_mask_targets>`
 -   `"skeletons"` key:
-    :meth:`Dataset.skeletons <fiftyone.core.dataset.Dataset.skeletons>`
+    :meth:`Dataset.skeletons <tensorgrid.core.dataset.Dataset.skeletons>`
 -   `"default_skeleton"` key:
-    :meth:`Dataset.default_skeleton <fiftyone.core.dataset.Dataset.default_skeleton>`
+    :meth:`Dataset.default_skeleton <tensorgrid.core.dataset.Dataset.default_skeleton>`
 -   `"app_config"` key:
-    :meth:`Dataset.app_config <fiftyone.core.dataset.Dataset.app_config>`
+    :meth:`Dataset.app_config <tensorgrid.core.dataset.Dataset.app_config>`
 
 .. _writing-a-custom-dataset-type-importer:
 
 Writing a custom Dataset type
 -----------------------------
 
-FiftyOne provides the |DatasetType| type system so that dataset formats can be
+TensorGrid provides the |DatasetType| type system so that dataset formats can be
 conveniently referenced by their type when reading/writing datasets on disk.
 
 The primary function of the |DatasetType| subclasses is to define the
@@ -7094,18 +7094,18 @@ corresponding to the type of dataset that you are working with.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.types as fot
+        import tensorgrid.types as fot
 
         class CustomDataset(fot.Dataset):
             """Custom dataset type."""
 
             def get_dataset_importer_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.importers.DatasetImporter`
+                :class:`tensorgrid.utils.data.importers.DatasetImporter`
                 class for importing datasets of this type from disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.importers.DatasetImporter`
+                    a :class:`tensorgrid.utils.data.importers.DatasetImporter`
                     class
                 """
                 # Return your custom DatasetImporter class here
@@ -7113,11 +7113,11 @@ corresponding to the type of dataset that you are working with.
 
             def get_dataset_exporter_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.exporters.DatasetExporter`
+                :class:`tensorgrid.utils.data.exporters.DatasetExporter`
                 class for exporting datasets of this type to disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.exporters.DatasetExporter`
+                    a :class:`tensorgrid.utils.data.exporters.DatasetExporter`
                     class
                 """
                 # Return your custom DatasetExporter class here
@@ -7135,18 +7135,18 @@ corresponding to the type of dataset that you are working with.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.types as fot
+        import tensorgrid.types as fot
 
         class CustomUnlabeledImageDataset(fot.UnlabeledImageDataset):
             """Custom unlabeled image dataset type."""
 
             def get_dataset_importer_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.importers.UnlabeledImageDatasetImporter`
+                :class:`tensorgrid.utils.data.importers.UnlabeledImageDatasetImporter`
                 class for importing datasets of this type from disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.importers.UnlabeledImageDatasetImporter`
+                    a :class:`tensorgrid.utils.data.importers.UnlabeledImageDatasetImporter`
                     class
                 """
                 # Return your custom UnlabeledImageDatasetImporter class here
@@ -7154,11 +7154,11 @@ corresponding to the type of dataset that you are working with.
 
             def get_dataset_exporter_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.exporters.UnlabeledImageDatasetExporter`
+                :class:`tensorgrid.utils.data.exporters.UnlabeledImageDatasetExporter`
                 class for exporting datasets of this type to disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.exporters.UnlabeledImageDatasetExporter`
+                    a :class:`tensorgrid.utils.data.exporters.UnlabeledImageDatasetExporter`
                     class
                 """
                 # Return your custom UnlabeledImageDatasetExporter class here
@@ -7176,18 +7176,18 @@ corresponding to the type of dataset that you are working with.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.types as fot
+        import tensorgrid.types as fot
 
         class CustomLabeledImageDataset(fot.LabeledImageDataset):
             """Custom labeled image dataset type."""
 
             def get_dataset_importer_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.importers.LabeledImageDatasetImporter`
+                :class:`tensorgrid.utils.data.importers.LabeledImageDatasetImporter`
                 class for importing datasets of this type from disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.importers.LabeledImageDatasetImporter`
+                    a :class:`tensorgrid.utils.data.importers.LabeledImageDatasetImporter`
                     class
                 """
                 # Return your custom LabeledImageDatasetImporter class here
@@ -7195,11 +7195,11 @@ corresponding to the type of dataset that you are working with.
 
             def get_dataset_exporter_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.exporters.LabeledImageDatasetExporter`
+                :class:`tensorgrid.utils.data.exporters.LabeledImageDatasetExporter`
                 class for exporting datasets of this type to disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.exporters.LabeledImageDatasetExporter`
+                    a :class:`tensorgrid.utils.data.exporters.LabeledImageDatasetExporter`
                     class
                 """
                 # Return your custom LabeledImageDatasetExporter class here
@@ -7217,18 +7217,18 @@ corresponding to the type of dataset that you are working with.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.types as fot
+        import tensorgrid.types as fot
 
         class CustomUnlabeledVideoDataset(fot.UnlabeledVideoDataset):
             """Custom unlabeled video dataset type."""
 
             def get_dataset_importer_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.importers.UnlabeledVideoDatasetImporter`
+                :class:`tensorgrid.utils.data.importers.UnlabeledVideoDatasetImporter`
                 class for importing datasets of this type from disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.importers.UnlabeledVideoDatasetImporter`
+                    a :class:`tensorgrid.utils.data.importers.UnlabeledVideoDatasetImporter`
                     class
                 """
                 # Return your custom UnlabeledVideoDatasetImporter class here
@@ -7236,11 +7236,11 @@ corresponding to the type of dataset that you are working with.
 
             def get_dataset_exporter_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.exporters.UnlabeledVideoDatasetExporter`
+                :class:`tensorgrid.utils.data.exporters.UnlabeledVideoDatasetExporter`
                 class for exporting datasets of this type to disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.exporters.UnlabeledVideoDatasetExporter`
+                    a :class:`tensorgrid.utils.data.exporters.UnlabeledVideoDatasetExporter`
                     class
                 """
                 # Return your custom UnlabeledVideoDatasetExporter class here
@@ -7258,18 +7258,18 @@ corresponding to the type of dataset that you are working with.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.types as fot
+        import tensorgrid.types as fot
 
         class CustomLabeledVideoDataset(fot.LabeledVideoDataset):
             """Custom labeled video dataset type."""
 
             def get_dataset_importer_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.importers.LabeledVideoDatasetImporter`
+                :class:`tensorgrid.utils.data.importers.LabeledVideoDatasetImporter`
                 class for importing datasets of this type from disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.importers.LabeledVideoDatasetImporter`
+                    a :class:`tensorgrid.utils.data.importers.LabeledVideoDatasetImporter`
                     class
                 """
                 # Return your custom LabeledVideoDatasetImporter class here
@@ -7277,11 +7277,11 @@ corresponding to the type of dataset that you are working with.
 
             def get_dataset_exporter_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.exporters.LabeledVideoDatasetExporter`
+                :class:`tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter`
                 class for exporting datasets of this type to disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.exporters.LabeledVideoDatasetExporter`
+                    a :class:`tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter`
                     class
                 """
                 # Return your custom LabeledVideoDatasetExporter class here
@@ -7299,18 +7299,18 @@ corresponding to the type of dataset that you are working with.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.types as fot
+        import tensorgrid.types as fot
 
         class CustomGroupDataset(fot.GroupDataset):
             """Custom grouped dataset type."""
 
             def get_dataset_importer_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.importers.GroupDatasetImporter`
+                :class:`tensorgrid.utils.data.importers.GroupDatasetImporter`
                 class for importing datasets of this type from disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.importers.GroupDatasetImporter`
+                    a :class:`tensorgrid.utils.data.importers.GroupDatasetImporter`
                     class
                 """
                 # Return your custom GroupDatasetImporter class here
@@ -7318,11 +7318,11 @@ corresponding to the type of dataset that you are working with.
 
             def get_dataset_exporter_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.exporters.GroupDatasetExporter`
+                :class:`tensorgrid.utils.data.exporters.GroupDatasetExporter`
                 class for exporting datasets of this type to disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.exporters.GroupDatasetExporter`
+                    a :class:`tensorgrid.utils.data.exporters.GroupDatasetExporter`
                     class
                 """
                 # Return your custom GroupDatasetExporter class here

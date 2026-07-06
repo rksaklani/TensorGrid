@@ -4,7 +4,7 @@ Sphinx utility that generates HTML page redirects specified in the
 
 Inspired by https://github.com/sphinx-contrib/redirects.
 
-| Copyright 2017-2026, Voxel51, Inc.
+| Copyright 2017-2026, TensorGrid Contributors
 | `voxel51.com <https://voxel51.com/>`_
 |
 """
@@ -125,7 +125,7 @@ def _process_api_redirects(app):
         return
 
     count = 0
-    for html_file in glob.glob(os.path.join(api_dir, "fiftyone.*.html")):
+    for html_file in glob.glob(os.path.join(api_dir, "tensorgrid.*.html")):
         module_name = os.path.basename(html_file)
         with open(html_file) as f:
             for class_id in re.findall(r'id="(fiftyone\.[^"]+)"', f.read()):

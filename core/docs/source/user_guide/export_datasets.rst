@@ -1,26 +1,26 @@
 .. _exporting-datasets:
 
-Exporting FiftyOne Datasets
+Exporting TensorGrid Datasets
 ===========================
 
 .. default-role:: code
 
-FiftyOne provides native support for exporting datasets to disk in a
+TensorGrid provides native support for exporting datasets to disk in a
 variety of :ref:`common formats <supported-export-formats>`, and it can be
 easily extended to export datasets in
 :ref:`custom formats <custom-dataset-exporter>`.
 
 .. note::
 
-    Did you know? You can export media and/or labels from within the FiftyOne
+    Did you know? You can export media and/or labels from within the TensorGrid
     App by installing the
-    `@voxel51/io <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/io>`_
+    `@voxel51/io <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/io>`_
     plugin!
 
 Basic recipe
 ------------
 
-The interface for exporting a FiftyOne |Dataset| is conveniently exposed via
+The interface for exporting a TensorGrid |Dataset| is conveniently exposed via
 the Python library and the CLI. You can easily export entire datasets as well
 as arbitrary subsets of your datasets that you have identified by constructing
 a |DatasetView| into any format of your choice via the basic recipe below.
@@ -30,13 +30,13 @@ a |DatasetView| into any format of your choice via the basic recipe below.
   .. group-tab:: Python
 
     You can export a |Dataset| or |DatasetView| via their
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     method:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # The Dataset or DatasetView containing the samples you wish to export
         dataset_or_view = fo.load_dataset(...)
@@ -49,7 +49,7 @@ a |DatasetView| into any format of your choice via the basic recipe below.
         label_field = "ground_truth"  # for example
 
         # The type of dataset to export
-        # Any subclass of `fiftyone.types.Dataset` is supported
+        # Any subclass of `tensorgrid.types.Dataset` is supported
         dataset_type = fo.types.COCODetectionDataset  # for example
 
         # Export the dataset
@@ -61,9 +61,9 @@ a |DatasetView| into any format of your choice via the basic recipe below.
 
     Note the `label_field` argument in the above example, which specifies the
     particular label field that you wish to export. This is necessary if your
-    FiftyOne dataset contains multiple label fields.
+    TensorGrid dataset contains multiple label fields.
 
-    The :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    The :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     method also provides additional parameters that you can use to configure
     the export. For example, you can use the `data_path` and `labels_path`
     parameters to independently customize the location of the exported media
@@ -98,16 +98,16 @@ a |DatasetView| into any format of your choice via the basic recipe below.
 
     In general, you can pass any parameter for the |DatasetExporter| of the
     format you're writing to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`.
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`.
 
   .. group-tab:: CLI
 
-    You can export a FiftyOne dataset
+    You can export a TensorGrid dataset
     :ref:`via the CLI <cli-fiftyone-datasets-export>`:
 
     .. code-block:: shell
 
-        # The name of the FiftyOne dataset to export
+        # The name of the TensorGrid dataset to export
         NAME="your-dataset"
 
         # The directory to which to write the exported dataset
@@ -118,18 +118,18 @@ a |DatasetView| into any format of your choice via the basic recipe below.
         LABEL_FIELD=ground_truth  # for example
 
         # The type of dataset to export
-        # Any subclass of `fiftyone.types.Dataset` is supported
-        TYPE=fiftyone.types.COCODetectionDataset  # for example
+        # Any subclass of `tensorgrid.types.Dataset` is supported
+        TYPE=tensorgrid.types.COCODetectionDataset  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --type $TYPE \
             --label-field $LABEL_FIELD
 
     Note the `LABEL_FIELD` argument in the above example, which specifies the
     particular label field that you wish to export. This is necessary your
-    FiftyOne dataset contains multiple label fields.
+    TensorGrid dataset contains multiple label fields.
 
     You can use the :ref:`kwargs option <cli-fiftyone-datasets-export>` to
     provide additional parameters to configure the export. For example, you can
@@ -141,8 +141,8 @@ a |DatasetView| into any format of your choice via the basic recipe below.
 
         # Export **only** labels in the `ground_truth` field in COCO format
         # with absolute image filepaths in the labels
-        fiftyone datasets export $NAME \
-            --type fiftyone.types.COCODetectionDataset \
+        tensorgrid datasets export $NAME \
+            --type tensorgrid.types.COCODetectionDataset \
             --label-field ground_truth \
             --kwargs \
                 labels_path=/path/for/labels.json \
@@ -155,9 +155,9 @@ a |DatasetView| into any format of your choice via the basic recipe below.
 
         # Export the labels in the `ground_truth` field in COCO format, and
         # move (rather than copy) the source media to the output directory
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir /path/for/export \
-            --type fiftyone.types.COCODetectionDataset \
+            --type tensorgrid.types.COCODetectionDataset \
             --label-field ground_truth \
             --kwargs export_media=move
 
@@ -171,7 +171,7 @@ Label type coercion
 -------------------
 
 For your convenience, the
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>` method
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>` method
 will automatically coerce the data to match the requested export types in a
 variety of common cases listed below.
 
@@ -181,7 +181,7 @@ Single labels to lists
 Many export formats expect label list types
 (|Classifications|, |Detections|, |Polylines|, or |Keypoints|). If you provide
 a label field to
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>` that
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>` that
 refers to a single label type (|Classification|, |Detection|, |Polyline|, or
 |Keypoint|), then the labels will be automatically upgraded to single-label
 lists to match the export type's expectations.
@@ -189,8 +189,8 @@ lists to match the export type's expectations.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     patches = dataset.to_patches("ground_truth")
@@ -208,15 +208,15 @@ Classifications as detections
 
 When exporting in labeled image dataset formats that expect |Detections|
 labels, if you provide a label field to
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>` that has
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>` that has
 type |Classification|, the classification labels will be automatically upgraded
 to detections that span the entire images.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart").limit(5).clone()
 
@@ -237,15 +237,15 @@ Object patches
 When exporting in either an unlabeled image or image classification format, if
 a spatial label field (|Detection|, |Detections|, |Polyline|, or |Polylines|)
 is provided to
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>`, the
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>`, the
 :ref:`object patches <app-object-patches>` of the provided samples will be
 exported.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -272,7 +272,7 @@ exported.
     )
 
 You can also directly call
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>` on
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>` on
 :ref:`patches views <object-patches-views>` to export the specified object
 patches along with their appropriately typed labels.
 
@@ -300,14 +300,14 @@ Video clips
 
 When exporting in either an unlabeled video or video classification format, if
 a |TemporalDetection| or |TemporalDetections| field is provided to
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>`, the
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>`, the
 specified :ref:`video clips <app-video-clips>` will be exported.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video", max_samples=2)
 
@@ -347,7 +347,7 @@ specified :ref:`video clips <app-video-clips>` will be exported.
     )
 
 You can also directly call
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>` on
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>` on
 :ref:`clip views <clip-views>` to export the specified video clips along with
 their appropriately typed labels.
 
@@ -373,7 +373,7 @@ their appropriately typed labels.
     # Export the clips along with their associated frame labels
     clips.export(
         export_dir="/tmp/quickstart-video/clip-frame-labels",
-        dataset_type=fo.types.FiftyOneVideoLabelsDataset,
+        dataset_type=fo.types.TensorGridVideoLabelsDataset,
         frame_labels_field="detections",
     )
 
@@ -387,7 +387,7 @@ Certain labeled image/video export formats such as
 :ref:`YOLO <YOLOv5Dataset-export>` store an explicit list of classes for the
 label field being exported.
 
-By convention, all exporters provided by FiftyOne should provide a `classes`
+By convention, all exporters provided by TensorGrid should provide a `classes`
 parameter that allows for manually specifying the classes list to use.
 
 If no explicit class list is provided, the observed classes in the collection
@@ -397,14 +397,14 @@ dataset when exporting a view.
 .. note::
 
     See :ref:`this section <storing-classes>` for more information about
-    storing class lists on FiftyOne datasets.
+    storing class lists on TensorGrid datasets.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     # Load 10 samples containing cats and dogs (among other objects)
     dataset = foz.load_zoo_dataset(
@@ -439,10 +439,10 @@ dataset when exporting a view.
 Built-in formats
 ----------------
 
-FiftyOne provides a variety of built-in exporters for common data formats.
+TensorGrid provides a variety of built-in exporters for common data formats.
 
 Each data format is represented by a subclass of
-:class:`fiftyone.types.Dataset`, which is used by the Python library and CLI to
+:class:`tensorgrid.types.Dataset`, which is used by the Python library and CLI to
 refer to the corresponding dataset format when writing the dataset to disk.
 
 .. table::
@@ -463,8 +463,8 @@ refer to the corresponding dataset format when writing the dataset to disk.
     | :ref:`Video Classification Directory Tree                          | A directory tree whose subfolders define a video classification dataset.           |
     | <VideoClassificationDirectoryTree-export>`                         |                                                                                    |
     +--------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Image Classification                                | A labeled dataset consisting of images and their associated classification labels  |
-    | <FiftyOneImageClassificationDataset-export>`                       | in a simple JSON format.                                                           |
+    | :ref:`TensorGrid Image Classification                                | A labeled dataset consisting of images and their associated classification labels  |
+    | <TensorGridImageClassificationDataset-export>`                       | in a simple JSON format.                                                           |
     +--------------------------------------------------------------------+------------------------------------------------------------------------------------+
     | :ref:`TF Image Classification                                      | A labeled dataset consisting of images and their associated classification labels  |
     | <TFImageClassificationDataset-export>`                             | stored as TFRecords.                                                               |
@@ -484,11 +484,11 @@ refer to the corresponding dataset format when writing the dataset to disk.
     | :ref:`YOLOv5 <YOLOv5Dataset-export>`                               | A labeled dataset consisting of images and their associated object detections      |
     |                                                                    | saved in `YOLOv5 format <https://github.com/ultralytics/yolov5>`_.                 |
     +--------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Object Detection                                    | A labeled dataset consisting of images and their associated object detections      |
-    | <FiftyOneImageDetectionDataset-export>`                            | stored in a simple JSON format.                                                    |
+    | :ref:`TensorGrid Object Detection                                    | A labeled dataset consisting of images and their associated object detections      |
+    | <TensorGridImageDetectionDataset-export>`                            | stored in a simple JSON format.                                                    |
     +--------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Temporal Detection                                  | A labeled dataset consisting of videos and their associated temporal detections in |
-    | <FiftyOneTemporalDetectionDataset-export>`                         | a simple JSON format.                                                              |
+    | :ref:`TensorGrid Temporal Detection                                  | A labeled dataset consisting of videos and their associated temporal detections in |
+    | <TensorGridTemporalDetectionDataset-export>`                         | a simple JSON format.                                                              |
     +--------------------------------------------------------------------+------------------------------------------------------------------------------------+
     | :ref:`TF Object Detection <TFObjectDetectionDataset-export>`       | A labeled dataset consisting of images and their associated object detections      |
     |                                                                    | stored as TFRecords in `TF Object Detection API format \                           |
@@ -512,14 +512,14 @@ refer to the corresponding dataset format when writing the dataset to disk.
     | :ref:`GeoJSON <GeoJSONDataset-export>`                             | An image or video dataset whose location data and labels are stored in             |
     |                                                                    | `GeoJSON format <https://en.wikipedia.org/wiki/GeoJSON>`_.                         |
     +--------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Dataset <FiftyOneDataset-export>`                   | A dataset consisting of an entire serialized |Dataset| and its associated source   |
+    | :ref:`TensorGrid Dataset <TensorGridDataset-export>`                   | A dataset consisting of an entire serialized |Dataset| and its associated source   |
     |                                                                    | media.                                                                             |
     +--------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Image Labels  <FiftyOneImageLabelsDataset-export>`  | A labeled dataset consisting of images and their associated multitask predictions  |
+    | :ref:`TensorGrid Image Labels  <TensorGridImageLabelsDataset-export>`  | A labeled dataset consisting of images and their associated multitask predictions  |
     |                                                                    | stored in `ETA ImageLabels format \                                                |
     |                                                                    | <https://github.com/voxel51/eta/blob/develop/docs/image_labels_guide.md>`_.        |
     +--------------------------------------------------------------------+------------------------------------------------------------------------------------+
-    | :ref:`FiftyOne Video Labels <FiftyOneVideoLabelsDataset-export>`   | A labeled dataset consisting of videos and their associated multitask predictions  |
+    | :ref:`TensorGrid Video Labels <TensorGridVideoLabelsDataset-export>`   | A labeled dataset consisting of videos and their associated multitask predictions  |
     |                                                                    | stored in `ETA VideoLabels format \                                                |
     |                                                                    | <https://github.com/voxel51/eta/blob/develop/docs/video_labels_guide.md>`_.        |
     +--------------------------------------------------------------------+------------------------------------------------------------------------------------+
@@ -532,7 +532,7 @@ refer to the corresponding dataset format when writing the dataset to disk.
 Image Directory
 ---------------
 
-The :class:`fiftyone.types.ImageDirectory` type represents a directory of
+The :class:`tensorgrid.types.ImageDirectory` type represents a directory of
 images.
 
 Datasets of this type are exported in the following format:
@@ -546,12 +546,12 @@ Datasets of this type are exported in the following format:
 
 .. note::
 
-    See :class:`ImageDirectoryExporter <fiftyone.utils.data.exporters.ImageDirectoryExporter>`
+    See :class:`ImageDirectoryExporter <tensorgrid.utils.data.exporters.ImageDirectoryExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export the images in a FiftyOne dataset as a directory of images on
+You can export the images in a TensorGrid dataset as a directory of images on
 disk as follows:
 
 .. tabs::
@@ -561,7 +561,7 @@ disk as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/images-dir"
 
@@ -581,16 +581,16 @@ disk as follows:
         EXPORT_DIR=/path/to/images-dir
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
-            --type fiftyone.types.ImageDirectory
+            --type tensorgrid.types.ImageDirectory
 
 .. _VideoDirectory-export:
 
 Video Directory
 ---------------
 
-The :class:`fiftyone.types.VideoDirectory` type represents a directory of
+The :class:`tensorgrid.types.VideoDirectory` type represents a directory of
 videos.
 
 Datasets of this type are exported in the following format:
@@ -604,12 +604,12 @@ Datasets of this type are exported in the following format:
 
 .. note::
 
-    See :class:`VideoDirectoryExporter <fiftyone.utils.data.exporters.VideoDirectoryExporter>`
+    See :class:`VideoDirectoryExporter <tensorgrid.utils.data.exporters.VideoDirectoryExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export the videos in a FiftyOne dataset as a directory of videos on
+You can export the videos in a TensorGrid dataset as a directory of videos on
 disk as follows:
 
 .. tabs::
@@ -619,7 +619,7 @@ disk as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/videos-dir"
 
@@ -639,16 +639,16 @@ disk as follows:
         EXPORT_DIR=/path/to/videos-dir
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
-            --type fiftyone.types.VideoDirectory
+            --type tensorgrid.types.VideoDirectory
 
 .. _MediaDirectory-export:
 
 Media Directory
 ---------------
 
-The :class:`fiftyone.types.MediaDirectory` type represents a directory of
+The :class:`tensorgrid.types.MediaDirectory` type represents a directory of
 media files.
 
 Datasets of this type are exported in the following format:
@@ -662,12 +662,12 @@ Datasets of this type are exported in the following format:
 
 .. note::
 
-    See :class:`MediaDirectoryExporter <fiftyone.utils.data.exporters.MediaDirectoryExporter>`
+    See :class:`MediaDirectoryExporter <tensorgrid.utils.data.exporters.MediaDirectoryExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export the media in a FiftyOne dataset as a directory of media files on
+You can export the media in a TensorGrid dataset as a directory of media files on
 disk as follows:
 
 .. tabs::
@@ -677,7 +677,7 @@ disk as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/media-dir"
 
@@ -697,9 +697,9 @@ disk as follows:
         EXPORT_DIR=/path/to/media-dir
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
-            --type fiftyone.types.MediaDirectory
+            --type tensorgrid.types.MediaDirectory
 
 .. _ImageClassificationDirectoryTree-export:
 
@@ -711,7 +711,7 @@ Image Classification Dir Tree
 
     |Classification|
 
-The :class:`fiftyone.types.ImageClassificationDirectoryTree` type represents a
+The :class:`tensorgrid.types.ImageClassificationDirectoryTree` type represents a
 directory tree whose subfolders define an image classification dataset.
 
 Datasets of this type are exported in the following format:
@@ -733,12 +733,12 @@ Unlabeled images are stored in a subdirectory named `_unlabeled`.
 
 .. note::
 
-    See :class:`ImageClassificationDirectoryTreeExporter <fiftyone.utils.data.exporters.ImageClassificationDirectoryTreeExporter>`
+    See :class:`ImageClassificationDirectoryTreeExporter <tensorgrid.utils.data.exporters.ImageClassificationDirectoryTreeExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as an image classification directory tree
+You can export a TensorGrid dataset as an image classification directory tree
 stored on disk in the above format as follows:
 
 .. tabs::
@@ -748,7 +748,7 @@ stored on disk in the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/image-classification-dir-tree"
         label_field = "ground_truth"  # for example
@@ -772,10 +772,10 @@ stored on disk in the above format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.ImageClassificationDirectoryTree
+            --type tensorgrid.types.ImageClassificationDirectoryTree
 
 .. _VideoClassificationDirectoryTree-export:
 
@@ -787,7 +787,7 @@ Video Classification Dir Tree
 
     |Classification|
 
-The :class:`fiftyone.types.VideoClassificationDirectoryTree` type represents a
+The :class:`tensorgrid.types.VideoClassificationDirectoryTree` type represents a
 directory tree whose subfolders define a video classification dataset.
 
 Datasets of this type are exported in the following format:
@@ -809,12 +809,12 @@ Unlabeled videos are stored in a subdirectory named `_unlabeled`.
 
 .. note::
 
-    See :class:`VideoClassificationDirectoryTreeExporter <fiftyone.utils.data.exporters.VideoClassificationDirectoryTreeExporter>`
+    See :class:`VideoClassificationDirectoryTreeExporter <tensorgrid.utils.data.exporters.VideoClassificationDirectoryTreeExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a video classification directory tree
+You can export a TensorGrid dataset as a video classification directory tree
 stored on disk in the above format as follows:
 
 .. tabs::
@@ -824,7 +824,7 @@ stored on disk in the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/video-classification-dir-tree"
         label_field = "ground_truth"  # for example
@@ -848,14 +848,14 @@ stored on disk in the above format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.VideoClassificationDirectoryTree
+            --type tensorgrid.types.VideoClassificationDirectoryTree
 
-.. _FiftyOneImageClassificationDataset-export:
+.. _TensorGridImageClassificationDataset-export:
 
-FiftyOne Image Classification
+TensorGrid Image Classification
 -----------------------------
 
 .. admonition:: Supported label types
@@ -863,7 +863,7 @@ FiftyOne Image Classification
 
     |Classification|, |Classifications|
 
-The :class:`fiftyone.types.FiftyOneImageClassificationDataset` type represents
+The :class:`tensorgrid.types.TensorGridImageClassificationDataset` type represents
 a labeled dataset consisting of images and their associated classification
 label(s) stored in a simple JSON format.
 
@@ -961,12 +961,12 @@ attributes, depending on how you configured the export.
 
 .. note::
 
-    See :class:`FiftyOneImageClassificationDatasetExporter <fiftyone.utils.data.exporters.FiftyOneImageClassificationDatasetExporter>`
+    See :class:`TensorGridImageClassificationDatasetExporter <tensorgrid.utils.data.exporters.TensorGridImageClassificationDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as an image classification dataset stored on
+You can export a TensorGrid dataset as an image classification dataset stored on
 disk in the above format as follows:
 
 .. tabs::
@@ -976,7 +976,7 @@ disk in the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/image-classification-dataset"
         label_field = "ground_truth"  # for example
@@ -987,7 +987,7 @@ disk in the above format as follows:
         # Export the dataset
         dataset_or_view.export(
             export_dir=export_dir,
-            dataset_type=fo.types.FiftyOneImageClassificationDataset,
+            dataset_type=fo.types.TensorGridImageClassificationDataset,
             label_field=label_field,
         )
 
@@ -1000,34 +1000,34 @@ disk in the above format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.FiftyOneImageClassificationDataset
+            --type tensorgrid.types.TensorGridImageClassificationDataset
 
 .. note::
 
     You can pass the optional `classes` parameter to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>` to
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to
     explicitly define the class list to use in the exported labels. Otherwise,
     the strategy outlined in :ref:`this section <export-class-lists>` will be
     used to populate the class list.
 
 You can also perform labels-only exports in this format by providing the
 `labels_path` parameter instead of `export_dir` to
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>` to specify
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to specify
 a location to write (only) the labels.
 
 .. note::
 
     You can optionally include the `export_media=False` option to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>` to
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to
     make it explicit that you only wish to export labels, although this will be
     inferred if you do not provide an `export_dir` or `data_path`.
 
 By default, the filenames of your images will be used as keys in the exported
 labels. However, you can also provide the optional `rel_dir` parameter to
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>` to specify
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to specify
 a prefix to strip from each image path to generate a key for the image. This
 argument allows for populating nested subdirectories that match the shape of
 the input paths.
@@ -1039,7 +1039,7 @@ the input paths.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/labels.json"
         label_field = "ground_truth"  # for example
@@ -1049,7 +1049,7 @@ the input paths.
 
         # Export labels using the basename of each image as keys
         dataset_or_view.export(
-            dataset_type=fo.types.FiftyOneImageClassificationDataset,
+            dataset_type=fo.types.TensorGridImageClassificationDataset,
             labels_path=labels_path,
             label_field=label_field,
         )
@@ -1057,7 +1057,7 @@ the input paths.
         # Export labels using the relative path of each image with respect to
         # the given `rel_dir` as keys
         dataset_or_view.export(
-            dataset_type=fo.types.FiftyOneImageClassificationDataset,
+            dataset_type=fo.types.TensorGridImageClassificationDataset,
             labels_path=labels_path,
             label_field=label_field,
             rel_dir="/common/images/dir",
@@ -1072,16 +1072,16 @@ the input paths.
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels using the basename of each image as keys
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.FiftyOneImageClassificationDataset \
+            --type tensorgrid.types.TensorGridImageClassificationDataset \
             --kwargs labels_path=$LABELS_PATH
 
         # Export labels using the relative path of each image with respect to
         # the given `rel_dir` as keys
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.FiftyOneImageClassificationDataset \
+            --type tensorgrid.types.TensorGridImageClassificationDataset \
             --kwargs \
                 labels_path=$LABELS_PATH \
                 rel_dir=/common/images/dir
@@ -1096,7 +1096,7 @@ TF Image Classification
 
     |Classification|
 
-The :class:`fiftyone.types.TFImageClassificationDataset` type represents a
+The :class:`tensorgrid.types.TFImageClassificationDataset` type represents a
 labeled dataset consisting of images and their associated classification labels
 stored as
 `TFRecords <https://www.tensorflow.org/tutorials/load_data/tfrecord>`_.
@@ -1132,12 +1132,12 @@ For unlabeled samples, the TFRecords do not contain `label` features.
 
 .. note::
 
-    See :class:`TFImageClassificationDatasetExporter <fiftyone.utils.tf.TFImageClassificationDatasetExporter>`
+    See :class:`TFImageClassificationDatasetExporter <tensorgrid.utils.tf.TFImageClassificationDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a directory of TFRecords in the above
+You can export a TensorGrid dataset as a directory of TFRecords in the above
 format as follows:
 
 .. tabs::
@@ -1147,7 +1147,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/tf-image-classification-dataset"
         label_field = "ground_truth"  # for example
@@ -1171,17 +1171,17 @@ format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.TFImageClassificationDataset
+            --type tensorgrid.types.TFImageClassificationDataset
 
 .. note::
 
     You can provide the `tf_records_path` argument instead of `export_dir` in
     the examples above to directly specify the path to the TFRecord(s) to
     write. See
-    :class:`TFImageClassificationDatasetExporter <fiftyone.utils.tf.TFImageClassificationDatasetExporter>`
+    :class:`TFImageClassificationDatasetExporter <tensorgrid.utils.tf.TFImageClassificationDatasetExporter>`
     for details.
 
 .. _COCODetectionDataset-export:
@@ -1194,7 +1194,7 @@ COCO
 
     |Detections|, |Polylines|, |Keypoints|
 
-The :class:`fiftyone.types.COCODetectionDataset` type represents a labeled
+The :class:`tensorgrid.types.COCODetectionDataset` type represents a labeled
 dataset consisting of images and their associated object detections saved in
 `COCO Object Detection Format <https://cocodataset.org/#format-data>`_.
 
@@ -1217,9 +1217,9 @@ where `labels.json` is a JSON file in the following format:
         "info": {
             "year": "",
             "version": "",
-            "description": "Exported from FiftyOne",
+            "description": "Exported from TensorGrid",
             "contributor": "",
-            "url": "https://voxel51.com/fiftyone",
+            "url": "https://voxel51.com/tensorgrid",
             "date_created": "2020-06-19T09:48:27"
         },
         "licenses": [],
@@ -1273,12 +1273,12 @@ corresponding images, which can be any of the following:
 
 .. note::
 
-    See :class:`COCODetectionDatasetExporter <fiftyone.utils.coco.COCODetectionDatasetExporter>`
+    See :class:`COCODetectionDatasetExporter <tensorgrid.utils.coco.COCODetectionDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a COCO detection dataset in the above
+You can export a TensorGrid dataset as a COCO detection dataset in the above
 format as follows:
 
 .. tabs::
@@ -1288,7 +1288,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/image-detection-dataset"
         label_field = "ground_truth"  # for example
@@ -1312,15 +1312,15 @@ format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.COCODetectionDataset
+            --type tensorgrid.types.COCODetectionDataset
 
 .. note::
 
     You can pass the optional `classes` or `categories` parameters to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>` to
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to
     explicitly define the class list/category IDs to use in the exported
     labels. Otherwise, the strategy outlined in
     :ref:`this section <export-class-lists>` will be used to populate the class
@@ -1336,7 +1336,7 @@ the `labels_path` parameter instead of `export_dir`:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/coco-labels.json"
         label_field = "ground_truth"  # for example
@@ -1360,9 +1360,9 @@ the `labels_path` parameter instead of `export_dir`:
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.COCODetectionDataset \
+            --type tensorgrid.types.COCODetectionDataset \
             --kwargs labels_path=$LABELS_PATH
 
 .. _VOCDetectionDataset-export:
@@ -1375,7 +1375,7 @@ VOC
 
     |Detections|
 
-The :class:`fiftyone.types.VOCDetectionDataset` type represents a labeled
+The :class:`tensorgrid.types.VOCDetectionDataset` type represents a labeled
 dataset consisting of images and their associated object detections saved in
 `VOC format <http://host.robots.ox.ac.uk/pascal/VOC>`_.
 
@@ -1446,12 +1446,12 @@ Unlabeled images have no corresponding file in `labels/`.
 
 .. note::
 
-    See :class:`VOCDetectionDatasetExporter <fiftyone.utils.voc.VOCDetectionDatasetExporter>`
+    See :class:`VOCDetectionDatasetExporter <tensorgrid.utils.voc.VOCDetectionDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a VOC detection dataset in the above
+You can export a TensorGrid dataset as a VOC detection dataset in the above
 format as follows:
 
 .. tabs::
@@ -1461,7 +1461,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/voc-detection-dataset"
         label_field = "ground_truth"  # for example
@@ -1485,10 +1485,10 @@ format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.VOCDetectionDataset
+            --type tensorgrid.types.VOCDetectionDataset
 
 You can also perform labels-only exports of VOC-formatted labels by providing
 the `labels_path` parameter instead of `export_dir`:
@@ -1500,7 +1500,7 @@ the `labels_path` parameter instead of `export_dir`:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/voc-labels"
         label_field = "ground_truth"  # for example
@@ -1524,9 +1524,9 @@ the `labels_path` parameter instead of `export_dir`:
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.VOCDetectionDataset \
+            --type tensorgrid.types.VOCDetectionDataset \
             --kwargs labels_path=$LABELS_PATH
 
 .. _KITTIDetectionDataset-export:
@@ -1539,7 +1539,7 @@ KITTI
 
     |Detections|
 
-The :class:`fiftyone.types.KITTIDetectionDataset` type represents a labeled
+The :class:`tensorgrid.types.KITTIDetectionDataset` type represents a labeled
 dataset consisting of images and their associated object detections saved in
 `KITTI format <http://www.cvlibs.net/datasets/kitti/eval_object.php>`_.
 
@@ -1600,12 +1600,12 @@ Unlabeled images have no corresponding file in `labels/`.
 
 .. note::
 
-    See :class:`KITTIDetectionDatasetExporter <fiftyone.utils.kitti.KITTIDetectionDatasetExporter>`
+    See :class:`KITTIDetectionDatasetExporter <tensorgrid.utils.kitti.KITTIDetectionDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a KITTI detection dataset in the above
+You can export a TensorGrid dataset as a KITTI detection dataset in the above
 format as follows:
 
 .. tabs::
@@ -1615,7 +1615,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/kitti-detection-dataset"
         label_field = "ground_truth"  # for example
@@ -1639,10 +1639,10 @@ format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.KITTIDetectionDataset
+            --type tensorgrid.types.KITTIDetectionDataset
 
 You can also perform labels-only exports of KITTI-formatted labels by providing
 the `labels_path` parameter instead of `export_dir`:
@@ -1654,7 +1654,7 @@ the `labels_path` parameter instead of `export_dir`:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/kitti-labels"
         label_field = "ground_truth"  # for example
@@ -1678,9 +1678,9 @@ the `labels_path` parameter instead of `export_dir`:
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.KITTIDetectionDataset \
+            --type tensorgrid.types.KITTIDetectionDataset \
             --kwargs labels_path=$LABELS_PATH
 
 .. _YOLOv4Dataset-export:
@@ -1693,7 +1693,7 @@ YOLOv4
 
     |Detections| |Polylines|
 
-The :class:`fiftyone.types.YOLOv4Dataset` type represents a labeled dataset
+The :class:`tensorgrid.types.YOLOv4Dataset` type represents a labeled dataset
 consisting of images and their associated object detections saved in
 `YOLOv4 format <https://github.com/AlexeyAB/darknet>`_.
 
@@ -1753,7 +1753,7 @@ Unlabeled images have no corresponding TXT file in `data/`.
     By default, only the bounding boxes of |Detections| fields are exported.
     However, you can choose to export instance segmentation masks as polygons
     by passing the optional `use_masks=True` argument to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`:
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`:
 
     .. code-block:: python
 
@@ -1765,12 +1765,12 @@ Unlabeled images have no corresponding TXT file in `data/`.
             tolerance=2,  # optional tolerance when converting masks to polygons
         )
 
-    See :class:`YOLOv4DatasetExporter <fiftyone.utils.yolo.YOLOv4DatasetExporter>`
+    See :class:`YOLOv4DatasetExporter <tensorgrid.utils.yolo.YOLOv4DatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a YOLOv4 dataset in the above format as
+You can export a TensorGrid dataset as a YOLOv4 dataset in the above format as
 follows:
 
 .. tabs::
@@ -1780,7 +1780,7 @@ follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/yolov4-dataset"
         label_field = "ground_truth"  # for example
@@ -1804,15 +1804,15 @@ follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.YOLOv4Dataset
+            --type tensorgrid.types.YOLOv4Dataset
 
 .. note::
 
     You can pass the optional `classes` parameter to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>` to
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to
     explicitly define the class list to use in the exported labels. Otherwise,
     the strategy outlined in :ref:`this section <export-class-lists>` will be
     used to populate the class list.
@@ -1827,7 +1827,7 @@ the `labels_path` parameter instead of `export_dir`:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/yolo-labels"
         label_field = "ground_truth"  # for example
@@ -1851,9 +1851,9 @@ the `labels_path` parameter instead of `export_dir`:
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.YOLOv4Dataset \
+            --type tensorgrid.types.YOLOv4Dataset \
             --kwargs labels_path=$LABELS_PATH
 
 .. _YOLOv5Dataset-export:
@@ -1866,7 +1866,7 @@ YOLOv5
 
     |Detections| |Polylines|
 
-The :class:`fiftyone.types.YOLOv5Dataset` type represents a labeled dataset
+The :class:`tensorgrid.types.YOLOv5Dataset` type represents a labeled dataset
 consisting of images and their associated object detections saved in
 `YOLOv5 format <https://github.com/ultralytics/yolov5>`_.
 
@@ -1913,7 +1913,7 @@ See `this page <https://docs.ultralytics.com/datasets/detect>`_ for a full
 description of the possible format of `dataset.yaml`. In particular, the
 dataset may contain one or more splits with arbitrary names, as the specific
 split being imported or exported is specified by the `split` argument to
-:class:`fiftyone.utils.yolo.YOLOv5DatasetExporter`. Also, `dataset.yaml` can be
+:class:`tensorgrid.utils.yolo.YOLOv5DatasetExporter`. Also, `dataset.yaml` can be
 located outside of `<dataset_dir>` as long as the optional `path` is provided.
 
 The TXT files in `labels/` are space-delimited files where each row corresponds
@@ -1943,7 +1943,7 @@ respective image path.
     By default, only the bounding boxes of |Detections| fields are exported.
     However, you can choose to export instance segmentation masks as polygons
     by passing the optional `use_masks=True` argument to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`:
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`:
 
     .. code-block:: python
 
@@ -1955,18 +1955,18 @@ respective image path.
             tolerance=2,  # optional tolerance when converting masks to polygons
         )
 
-    See :class:`YOLOv5DatasetExporter <fiftyone.utils.yolo.YOLOv5DatasetExporter>`
+    See :class:`YOLOv5DatasetExporter <tensorgrid.utils.yolo.YOLOv5DatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a YOLOv5 dataset in the above format as
+You can export a TensorGrid dataset as a YOLOv5 dataset in the above format as
 follows:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     export_dir = "/path/for/yolov5-dataset"
     label_field = "ground_truth"  # for example
@@ -1995,7 +1995,7 @@ follows:
 .. note::
 
     You can pass the optional `classes` parameter to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>` to
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to
     explicitly define the class list to use in the exported labels. Otherwise,
     the strategy outlined in :ref:`this section <export-class-lists>` will be
     used to populate the class list.
@@ -2006,7 +2006,7 @@ the `labels_path` parameter instead of `export_dir`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     labels_path = "/path/for/yolo-labels"
     label_field = "ground_truth"  # for example
@@ -2021,9 +2021,9 @@ the `labels_path` parameter instead of `export_dir`:
         label_field=label_field,
     )
 
-.. _FiftyOneImageDetectionDataset-export:
+.. _TensorGridImageDetectionDataset-export:
 
-FiftyOne Object Detection
+TensorGrid Object Detection
 -------------------------
 
 .. admonition:: Supported label types
@@ -2031,7 +2031,7 @@ FiftyOne Object Detection
 
     |Detections|
 
-The :class:`fiftyone.types.FiftyOneImageDetectionDataset` type represents a
+The :class:`tensorgrid.types.TensorGridImageDetectionDataset` type represents a
 labeled dataset consisting of images and their associated object detections
 stored in a simple JSON format.
 
@@ -2095,12 +2095,12 @@ to customize this behavior.
 
 .. note::
 
-    See :class:`FiftyOneImageDetectionDatasetExporter <fiftyone.utils.data.exporters.FiftyOneImageDetectionDatasetExporter>`
+    See :class:`TensorGridImageDetectionDatasetExporter <tensorgrid.utils.data.exporters.TensorGridImageDetectionDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as an image detection dataset in the above
+You can export a TensorGrid dataset as an image detection dataset in the above
 format as follows:
 
 .. tabs::
@@ -2110,7 +2110,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/image-detection-dataset"
         label_field = "ground_truth"  # for example
@@ -2121,7 +2121,7 @@ format as follows:
         # Export the dataset
         dataset_or_view.export(
             export_dir=export_dir,
-            dataset_type=fo.types.FiftyOneImageDetectionDataset,
+            dataset_type=fo.types.TensorGridImageDetectionDataset,
             label_field=label_field,
         )
 
@@ -2134,34 +2134,34 @@ format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.FiftyOneImageDetectionDataset
+            --type tensorgrid.types.TensorGridImageDetectionDataset
 
 .. note::
 
     You can pass the optional `classes` parameter to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>` to
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to
     explicitly define the class list to use in the exported labels. Otherwise,
     the strategy outlined in :ref:`this section <export-class-lists>` will be
     used to populate the class list.
 
 You can also perform labels-only exports in this format by providing the
 `labels_path` parameter instead of `export_dir` to
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>` to specify
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to specify
 a location to write (only) the labels.
 
 .. note::
 
     You can optionally include the `export_media=False` option to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>` to
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to
     make it explicit that you only wish to export labels, although this will be
     inferred if you do not provide an `export_dir` or `data_path`.
 
 By default, the filenames of your images will be used as keys in the exported
 labels. However, you can also provide the optional `rel_dir` parameter to
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>` to specify
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to specify
 a prefix to strip from each image path to generate a key for the image. This
 argument allows for populating nested subdirectories that match the shape of
 the input paths.
@@ -2173,7 +2173,7 @@ the input paths.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/labels.json"
         label_field = "ground_truth"  # for example
@@ -2183,7 +2183,7 @@ the input paths.
 
         # Export labels using the basename of each image as keys
         dataset_or_view.export(
-            dataset_type=fo.types.FiftyOneImageDetectionDataset,
+            dataset_type=fo.types.TensorGridImageDetectionDataset,
             labels_path=labels_path,
             label_field=label_field,
         )
@@ -2191,7 +2191,7 @@ the input paths.
         # Export labels using the relative path of each image with respect to
         # the given `rel_dir` as keys
         dataset_or_view.export(
-            dataset_type=fo.types.FiftyOneImageDetectionDataset,
+            dataset_type=fo.types.TensorGridImageDetectionDataset,
             labels_path=labels_path,
             label_field=label_field,
             rel_dir="/common/images/dir",
@@ -2206,23 +2206,23 @@ the input paths.
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels using the basename of each image as keys
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.FiftyOneImageDetectionDataset \
+            --type tensorgrid.types.TensorGridImageDetectionDataset \
             --kwargs labels_path=$LABELS_PATH
 
         # Export labels using the relative path of each image with respect to
         # the given `rel_dir` as keys
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.FiftyOneImageDetectionDataset \
+            --type tensorgrid.types.TensorGridImageDetectionDataset \
             --kwargs \
                 labels_path=$LABELS_PATH \
                 rel_dir=/common/images/dir
 
-.. _FiftyOneTemporalDetectionDataset-export:
+.. _TensorGridTemporalDetectionDataset-export:
 
-FiftyOne Temporal Detection
+TensorGrid Temporal Detection
 ---------------------------
 
 .. admonition:: Supported label types
@@ -2230,7 +2230,7 @@ FiftyOne Temporal Detection
 
     |TemporalDetections|
 
-The :class:`fiftyone.types.FiftyOneTemporalDetectionDataset` type represents a
+The :class:`tensorgrid.types.TensorGridTemporalDetectionDataset` type represents a
 labeled dataset consisting of videos and their associated temporal detections
 stored in a simple JSON format.
 
@@ -2320,12 +2320,12 @@ to customize this behavior.
 
 .. note::
 
-    See :class:`FiftyOneTemporalDetectionDatasetExporter <fiftyone.utils.data.exporters.FiftyOneTemporalDetectionDatasetExporter>`
+    See :class:`TensorGridTemporalDetectionDatasetExporter <tensorgrid.utils.data.exporters.TensorGridTemporalDetectionDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a temporal detection dataset stored on
+You can export a TensorGrid dataset as a temporal detection dataset stored on
 disk in the above format as follows:
 
 .. tabs::
@@ -2335,7 +2335,7 @@ disk in the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/temporal-detection-dataset"
         label_field = "ground_truth"  # for example
@@ -2346,7 +2346,7 @@ disk in the above format as follows:
         # Export the dataset
         dataset_or_view.export(
             export_dir=export_dir,
-            dataset_type=fo.types.FiftyOneTemporalDetectionDataset,
+            dataset_type=fo.types.TensorGridTemporalDetectionDataset,
             label_field=label_field,
         )
 
@@ -2359,34 +2359,34 @@ disk in the above format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.FiftyOneTemporalDetectionDataset
+            --type tensorgrid.types.TensorGridTemporalDetectionDataset
 
 .. note::
 
     You can pass the optional `classes` parameter to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>` to
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to
     explicitly define the class list to use in the exported labels. Otherwise,
     the strategy outlined in :ref:`this section <export-class-lists>` will be
     used to populate the class list.
 
 You can also perform labels-only exports in this format by providing the
 `labels_path` parameter instead of `export_dir` to
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>` to specify
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to specify
 a location to write (only) the labels.
 
 .. note::
 
     You can optionally include the `export_media=False` option to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>` to
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to
     make it explicit that you only wish to export labels, although this will be
     inferred if you do not provide an `export_dir` or `data_path`.
 
 By default, the filenames of your images will be used as keys in the exported
 labels. However, you can also provide the optional `rel_dir` parameter to
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>` to specify
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to specify
 a prefix to strip from each image path to generate a key for the image. This
 argument allows for populating nested subdirectories that match the shape of
 the input paths.
@@ -2398,7 +2398,7 @@ the input paths.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/labels.json"
         label_field = "ground_truth"  # for example
@@ -2408,7 +2408,7 @@ the input paths.
 
         # Export labels using the basename of each image as keys
         dataset_or_view.export(
-            dataset_type=fo.types.FiftyOneTemporalDetectionDataset,
+            dataset_type=fo.types.TensorGridTemporalDetectionDataset,
             labels_path=labels_path,
             label_field=label_field,
         )
@@ -2416,7 +2416,7 @@ the input paths.
         # Export labels using the relative path of each image with respect to
         # the given `rel_dir` as keys
         dataset_or_view.export(
-            dataset_type=fo.types.FiftyOneTemporalDetectionDataset,
+            dataset_type=fo.types.TensorGridTemporalDetectionDataset,
             labels_path=labels_path,
             label_field=label_field,
             rel_dir="/common/images/dir",
@@ -2431,16 +2431,16 @@ the input paths.
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels using the basename of each image as keys
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.FiftyOneTemporalDetectionDataset \
+            --type tensorgrid.types.TensorGridTemporalDetectionDataset \
             --kwargs labels_path=$LABELS_PATH
 
         # Export labels using the relative path of each image with respect to
         # the given `rel_dir` as keys
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.FiftyOneTemporalDetectionDataset \
+            --type tensorgrid.types.TensorGridTemporalDetectionDataset \
             --kwargs \
                 labels_path=$LABELS_PATH \
                 rel_dir=/common/images/dir
@@ -2455,7 +2455,7 @@ TF Object Detection
 
     |Detections|
 
-The :class:`fiftyone.types.TFObjectDetectionDataset` type represents a labeled
+The :class:`tensorgrid.types.TFObjectDetectionDataset` type represents a labeled
 dataset consisting of images and their associated object detections stored as
 `TFRecords <https://www.tensorflow.org/tutorials/load_data/tfrecord>`_ in
 `TF Object Detection API format <https://github.com/tensorflow/models/blob/master/research/object_detection>`_.
@@ -2516,12 +2516,12 @@ The TFRecords for unlabeled samples do not contain `image/object/*` features.
 
 .. note::
 
-    See :class:`TFObjectDetectionDatasetExporter <fiftyone.utils.tf.TFObjectDetectionDatasetExporter>`
+    See :class:`TFObjectDetectionDatasetExporter <tensorgrid.utils.tf.TFObjectDetectionDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a directory of TFRecords in the above
+You can export a TensorGrid dataset as a directory of TFRecords in the above
 format as follows:
 
 .. tabs::
@@ -2531,7 +2531,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/tf-object-detection-dataset"
         label_field = "ground_truth"  # for example
@@ -2555,23 +2555,23 @@ format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.TFObjectDetectionDataset
+            --type tensorgrid.types.TFObjectDetectionDataset
 
 .. note::
 
     You can provide the `tf_records_path` argument instead of `export_dir` in
     the examples above to directly specify the path to the TFRecord(s) to
     write. See
-    :class:`TFObjectDetectionDatasetExporter <fiftyone.utils.tf.TFObjectDetectionDatasetExporter>`
+    :class:`TFObjectDetectionDatasetExporter <tensorgrid.utils.tf.TFObjectDetectionDatasetExporter>`
     for details.
 
 .. note::
 
     You can pass the optional `classes` parameter to
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>` to
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` to
     explicitly define the class list to use in the exported labels. Otherwise,
     the strategy outlined in :ref:`this section <export-class-lists>` will be
     used to populate the class list.
@@ -2586,7 +2586,7 @@ Image Segmentation Directory
 
     |Segmentation|, |Detections|, |Polylines|
 
-The :class:`fiftyone.types.ImageSegmentationDirectory` type represents a
+The :class:`tensorgrid.types.ImageSegmentationDirectory` type represents a
 labeled dataset consisting of images and their associated semantic
 segmentations stored as images on disk.
 
@@ -2614,12 +2614,12 @@ Unlabeled images have no corresponding file in `labels/`.
 
 .. note::
 
-    See :class:`ImageSegmentationDirectoryExporter <fiftyone.utils.data.exporters.ImageSegmentationDirectoryExporter>`
+    See :class:`ImageSegmentationDirectoryExporter <tensorgrid.utils.data.exporters.ImageSegmentationDirectoryExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as an image segmentation dataset in the above
+You can export a TensorGrid dataset as an image segmentation dataset in the above
 format as follows:
 
 .. tabs::
@@ -2629,7 +2629,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/image-segmentation-dataset"
         label_field = "ground_truth"  # for example
@@ -2653,10 +2653,10 @@ format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.ImageSegmentationDirectory
+            --type tensorgrid.types.ImageSegmentationDirectory
 
 You can also export only the segmentation masks by providing the `labels_path`
 parameter instead of `export_dir`:
@@ -2668,7 +2668,7 @@ parameter instead of `export_dir`:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/segmentation-masks"
         label_field = "ground_truth"  # for example
@@ -2692,9 +2692,9 @@ parameter instead of `export_dir`:
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.ImageSegmentationDirectory \
+            --type tensorgrid.types.ImageSegmentationDirectory \
             --kwargs labels_path=$LABELS_PATH
 
 .. _CVATImageDataset-export:
@@ -2707,7 +2707,7 @@ CVAT Image
 
     |Classifications|, |Detections|, |Polylines|, |Keypoints|
 
-The :class:`fiftyone.types.CVATImageDataset` type represents a labeled dataset
+The :class:`tensorgrid.types.CVATImageDataset` type represents a labeled dataset
 consisting of images and their associated tags and object detections stored in
 `CVAT image format <https://github.com/opencv/cvat>`_.
 
@@ -2820,12 +2820,12 @@ of the corresponding images, which can be any of the following:
 
 .. note::
 
-    See :class:`CVATImageDatasetExporter <fiftyone.utils.cvat.CVATImageDatasetExporter>`
+    See :class:`CVATImageDatasetExporter <tensorgrid.utils.cvat.CVATImageDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a CVAT image dataset in the above format
+You can export a TensorGrid dataset as a CVAT image dataset in the above format
 as follows:
 
 .. tabs::
@@ -2835,7 +2835,7 @@ as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/cvat-image-dataset"
         label_field = "ground_truth"  # for example
@@ -2859,10 +2859,10 @@ as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.CVATImageDataset
+            --type tensorgrid.types.CVATImageDataset
 
 You can also perform labels-only exports of CVAT-formatted labels by providing
 the `labels_path` parameter instead of `export_dir`:
@@ -2874,7 +2874,7 @@ the `labels_path` parameter instead of `export_dir`:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/cvat-labels.xml"
         label_field = "ground_truth"  # for example
@@ -2898,9 +2898,9 @@ the `labels_path` parameter instead of `export_dir`:
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.CVATImageDataset \
+            --type tensorgrid.types.CVATImageDataset \
             --kwargs labels_path=$LABELS_PATH
 
 .. _CVATVideoDataset-export:
@@ -2913,7 +2913,7 @@ CVAT Video
 
     |Detections|, |Polylines|, |Keypoints|
 
-The :class:`fiftyone.types.CVATVideoDataset` type represents a labeled dataset
+The :class:`tensorgrid.types.CVATVideoDataset` type represents a labeled dataset
 consisting of videos and their associated object detections stored in
 `CVAT video format <https://github.com/opencv/cvat>`_.
 
@@ -3027,12 +3027,12 @@ Unlabeled videos have no corresponding file in `labels/`.
 
 .. note::
 
-    See :class:`CVATVideoDatasetExporter <fiftyone.utils.cvat.CVATVideoDatasetExporter>`
+    See :class:`CVATVideoDatasetExporter <tensorgrid.utils.cvat.CVATVideoDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a CVAT video dataset in the above format
+You can export a TensorGrid dataset as a CVAT video dataset in the above format
 as follows:
 
 .. tabs::
@@ -3042,7 +3042,7 @@ as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/cvat-video-dataset"
         label_field = "ground_truth"  # for example
@@ -3066,9 +3066,9 @@ as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
-            --type fiftyone.types.CVATVideoDataset \
+            --type tensorgrid.types.CVATVideoDataset \
             --kwargs frame_labels_field=$LABEL_FIELD
 
 You can also perform labels-only exports of CVAT-formatted labels by providing
@@ -3081,7 +3081,7 @@ the `labels_path` parameter instead of `export_dir`:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/cvat-labels"
         label_field = "ground_truth"  # for example
@@ -3105,9 +3105,9 @@ the `labels_path` parameter instead of `export_dir`:
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.CVATVideoDataset \
+            --type tensorgrid.types.CVATVideoDataset \
             --kwargs frames_labels_path=$LABELS_PATH
 
 .. _BDDDataset-export:
@@ -3120,7 +3120,7 @@ BDD
 
     |Classifications|, |Detections|, |Polylines|
 
-The :class:`fiftyone.types.BDDDataset` type represents a labeled dataset
+The :class:`tensorgrid.types.BDDDataset` type represents a labeled dataset
 consisting of images and their associated multitask predictions saved in
 `Berkeley DeepDrive (BDD) format <http://bdd-data.berkeley.edu>`_.
 
@@ -3230,12 +3230,12 @@ corresponding images, which can be any of the following:
 
 .. note::
 
-    See :class:`BDDDatasetExporter <fiftyone.utils.bdd.BDDDatasetExporter>`
+    See :class:`BDDDatasetExporter <tensorgrid.utils.bdd.BDDDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a BDD dataset in the above format as
+You can export a TensorGrid dataset as a BDD dataset in the above format as
 follows:
 
 .. tabs::
@@ -3245,7 +3245,7 @@ follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/bdd-dataset"
         label_field = "ground_truth"  # for example
@@ -3269,10 +3269,10 @@ follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.BDDDataset
+            --type tensorgrid.types.BDDDataset
 
 You can also perform labels-only exports of BDD-formatted labels by providing
 the `labels_path` parameter instead of `export_dir`:
@@ -3284,7 +3284,7 @@ the `labels_path` parameter instead of `export_dir`:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/bdd-labels.json"
         label_field = "ground_truth"  # for example
@@ -3308,9 +3308,9 @@ the `labels_path` parameter instead of `export_dir`:
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.BDDDataset \
+            --type tensorgrid.types.BDDDataset \
             --kwargs labels_path=$LABELS_PATH
 
 .. _CSVDataset-export:
@@ -3318,7 +3318,7 @@ the `labels_path` parameter instead of `export_dir`:
 CSV
 ---
 
-The :class:`fiftyone.types.CSVDataset` type is a flexible CSV format that
+The :class:`tensorgrid.types.CSVDataset` type is a flexible CSV format that
 represents slice(s) of field values of a dataset as columns of a CSV file.
 
 Datasets of this type are exported in the following format:
@@ -3350,12 +3350,12 @@ commas. Missing field values are encoded as empty cells.
 
 .. note::
 
-    See :class:`CSVDatasetExporter <fiftyone.utils.csv.CSVDatasetExporter>` for
+    See :class:`CSVDatasetExporter <tensorgrid.utils.csv.CSVDatasetExporter>` for
     parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a CSV dataset in the above format as
+You can export a TensorGrid dataset as a CSV dataset in the above format as
 follows:
 
 .. tabs::
@@ -3365,7 +3365,7 @@ follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/csv-dataset"
 
@@ -3387,9 +3387,9 @@ follows:
         EXPORT_DIR=/path/for/csv-dataset
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
-            --type fiftyone.types.CSVDataset \
+            --type tensorgrid.types.CSVDataset \
             --kwargs fields=list,of,fields
 
 You can also directly export a CSV file of field values and absolute media
@@ -3403,7 +3403,7 @@ parameter instead of `export_dir`:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/labels.csv"
 
@@ -3426,8 +3426,8 @@ parameter instead of `export_dir`:
         LABELS_PATH=/path/for/labels.csv
 
         # Export labels with absolute media paths
-        fiftyone datasets export $NAME \
-            --type fiftyone.types.CSVDataset \
+        tensorgrid datasets export $NAME \
+            --type tensorgrid.types.CSVDataset \
             --kwargs \
                 labels_path=$LABELS_PATH \
                 fields=list,of,fields \
@@ -3438,7 +3438,7 @@ parameter instead of `export_dir`:
 GeoJSON
 -------
 
-The :class:`fiftyone.types.GeoJSONDataset` type represents a dataset consisting
+The :class:`tensorgrid.types.GeoJSONDataset` type represents a dataset consisting
 of images or videos and their associated geolocation data and optional
 properties stored in `GeoJSON format <https://en.wikipedia.org/wiki/GeoJSON>`_.
 
@@ -3505,12 +3505,12 @@ each sample.
 
 .. note::
 
-    See :class:`GeoJSONDatasetExporter <fiftyone.utils.geojson.GeoJSONDatasetExporter>`
+    See :class:`GeoJSONDatasetExporter <tensorgrid.utils.geojson.GeoJSONDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a GeoJSON dataset in the above format as
+You can export a TensorGrid dataset as a GeoJSON dataset in the above format as
 follows:
 
 .. tabs::
@@ -3520,7 +3520,7 @@ follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/geojson-dataset"
 
@@ -3541,9 +3541,9 @@ follows:
         EXPORT_DIR=/path/for/geojson-dataset
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
-            --type fiftyone.types.GeoJSONDataset
+            --type tensorgrid.types.GeoJSONDataset
 
 You can also perform labels-only exports of GeoJSON-formatted labels by
 providing the `labels_path` parameter instead of `export_dir`:
@@ -3555,7 +3555,7 @@ providing the `labels_path` parameter instead of `export_dir`:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         labels_path = "/path/for/geo-labels.json"
         label_field = "ground_truth"  # for example
@@ -3579,17 +3579,17 @@ providing the `labels_path` parameter instead of `export_dir`:
         LABEL_FIELD=ground_truth  # for example
 
         # Export labels
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.GeoJSONDataset \
+            --type tensorgrid.types.GeoJSONDataset \
             --kwargs labels_path=$LABELS_PATH
 
-.. _FiftyOneDataset-export:
+.. _TensorGridDataset-export:
 
-FiftyOne Dataset
+TensorGrid Dataset
 ----------------
 
-The :class:`fiftyone.types.FiftyOneDataset` provides a disk representation of
+The :class:`tensorgrid.types.TensorGridDataset` provides a disk representation of
 an entire |Dataset| in a serialized JSON format along with its source media.
 
 Datasets of this type are exported in the following format:
@@ -3627,12 +3627,12 @@ representation of the frame labels for each video in the dataset.
 
 .. note::
 
-    See :class:`FiftyOneDatasetExporter <fiftyone.utils.data.exporters.FiftyOneDatasetExporter>`
+    See :class:`TensorGridDatasetExporter <tensorgrid.utils.data.exporters.TensorGridDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset to disk in the above format as follows:
+You can export a TensorGrid dataset to disk in the above format as follows:
 
 .. tabs::
 
@@ -3641,7 +3641,7 @@ You can export a FiftyOne dataset to disk in the above format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/fiftyone-dataset"
 
@@ -3651,7 +3651,7 @@ You can export a FiftyOne dataset to disk in the above format as follows:
         # Export the dataset
         dataset_or_view.export(
             export_dir=export_dir,
-            dataset_type=fo.types.FiftyOneDataset,
+            dataset_type=fo.types.TensorGridDataset,
         )
 
   .. group-tab:: CLI
@@ -3662,13 +3662,13 @@ You can export a FiftyOne dataset to disk in the above format as follows:
         EXPORT_DIR=/path/for/fiftyone-dataset
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
-            --type fiftyone.types.FiftyOneDataset
+            --type tensorgrid.types.TensorGridDataset
 
 You can export datasets in this format without copying the source media
 files by including `export_media=False` in your call to
-:meth:`export() <fiftyone.core.collections.SampleCollection.export>`.
+:meth:`export() <tensorgrid.core.collections.SampleCollection.export>`.
 
 You can also pass `use_dirs=True` to export per-sample/frame JSON files rather
 than storing all samples/frames in single JSON files.
@@ -3678,7 +3678,7 @@ However, if you want to re-import this dataset on a different machine with the
 source media files stored in a different root directory, you can include the
 optional `rel_dir` parameter to specify a common prefix to strip from each
 image's filepath, and then provide the new `rel_dir` when
-:ref:`importing the dataset <FiftyOneDataset-import>`:
+:ref:`importing the dataset <TensorGridDataset-import>`:
 
 .. tabs::
 
@@ -3687,7 +3687,7 @@ image's filepath, and then provide the new `rel_dir` when
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/fiftyone-dataset"
 
@@ -3697,7 +3697,7 @@ image's filepath, and then provide the new `rel_dir` when
         # Export the dataset without copying the media files
         dataset_or_view.export(
             export_dir=export_dir,
-            dataset_type=fo.types.FiftyOneDataset,
+            dataset_type=fo.types.TensorGridDataset,
             export_media=False,
         )
 
@@ -3706,7 +3706,7 @@ image's filepath, and then provide the new `rel_dir` when
         # can be imported with a different `rel_dir` prepended later
         dataset_or_view.export(
             export_dir=export_dir,
-            dataset_type=fo.types.FiftyOneDataset,
+            dataset_type=fo.types.TensorGridDataset,
             export_media=False,
             rel_dir="/common/images/dir",
         )
@@ -3719,29 +3719,29 @@ image's filepath, and then provide the new `rel_dir` when
         EXPORT_DIR=/path/for/fiftyone-dataset
 
         # Export the dataset without copying the media files
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
-            --type fiftyone.types.FiftyOneDataset \
+            --type tensorgrid.types.TensorGridDataset \
             --kwargs export_media=False
 
         # Export the dataset without media, including only the relative path of
         # each image with respect to the given `rel_dir` so that the dataset
         # can be imported with a different `rel_dir` prepended later
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
-            --type fiftyone.types.FiftyOneDataset \
+            --type tensorgrid.types.TensorGridDataset \
             --kwargs \
                 export_media=False \
                 rel_dir=/common/images/dir
 
 .. note::
 
-    Exporting in :class:`fiftyone.types.FiftyOneDataset` format as shown above
+    Exporting in :class:`tensorgrid.types.TensorGridDataset` format as shown above
     using the `export_media=False` and `rel_dir` parameters is a convenient way
     to transfer datasets between work environments, since this enables you to
     store the media files wherever you wish in each environment and then simply
     provide the appropriate `rel_dir` value when
-    :ref:`importing <FiftyOneDataset-import>` the dataset into FiftyOne in a
+    :ref:`importing <TensorGridDataset-import>` the dataset into TensorGrid in a
     new environment.
 
 You can also pass in a `chunk_size` parameter to create nested directories of
@@ -3755,7 +3755,7 @@ media files per directory:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     export_dir = "/path/for/fiftyone-dataset"
 
@@ -3765,7 +3765,7 @@ media files per directory:
     # Export the dataset with a maximum of 1000 media files per directory
     dataset_or_view.export(
         export_dir=export_dir,
-        dataset_type=fo.types.FiftyOneDataset,
+        dataset_type=fo.types.TensorGridDataset,
         chunk_size=1000,
     )
 
@@ -3786,9 +3786,9 @@ This will create a directory structure like the following:
                 <filename2>.<ext>
             ...
 
-.. _FiftyOneImageLabelsDataset-export:
+.. _TensorGridImageLabelsDataset-export:
 
-FiftyOne Image Labels
+TensorGrid Image Labels
 ---------------------
 
 .. admonition:: Supported label types
@@ -3796,7 +3796,7 @@ FiftyOne Image Labels
 
     |Classifications|, |Detections|, |Polylines|, |Keypoints|
 
-The :class:`fiftyone.types.FiftyOneImageLabelsDataset` type represents a
+The :class:`tensorgrid.types.TensorGridImageLabelsDataset` type represents a
 labeled dataset consisting of images and their associated multitask predictions
 stored in
 `ETA ImageLabels format <https://github.com/voxel51/eta/blob/develop/docs/image_labels_guide.md>`_.
@@ -3843,12 +3843,12 @@ For unlabeled images, an empty `eta.core.image.ImageLabels` file is stored.
 
 .. note::
 
-    See :class:`FiftyOneImageLabelsDatasetExporter <fiftyone.utils.data.exporters.FiftyOneImageLabelsDatasetExporter>`
+    See :class:`TensorGridImageLabelsDatasetExporter <tensorgrid.utils.data.exporters.TensorGridImageLabelsDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as an image labels dataset in the above
+You can export a TensorGrid dataset as an image labels dataset in the above
 format as follows:
 
 .. tabs::
@@ -3858,7 +3858,7 @@ format as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/image-labels-dataset"
         label_field = "ground_truth"  # for example
@@ -3869,7 +3869,7 @@ format as follows:
         # Export the dataset
         dataset_or_view.export(
             export_dir=export_dir,
-            dataset_type=fo.types.FiftyOneImageLabelsDataset,
+            dataset_type=fo.types.TensorGridImageLabelsDataset,
             label_field=label_field,
         )
 
@@ -3882,14 +3882,14 @@ format as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.FiftyOneImageLabelsDataset
+            --type tensorgrid.types.TensorGridImageLabelsDataset
 
-.. _FiftyOneVideoLabelsDataset-export:
+.. _TensorGridVideoLabelsDataset-export:
 
-FiftyOne Video Labels
+TensorGrid Video Labels
 ---------------------
 
 .. admonition:: Supported label types
@@ -3897,7 +3897,7 @@ FiftyOne Video Labels
 
     |Classifications|, |Detections|, |TemporalDetections|, |Polylines|, |Keypoints|
 
-The :class:`fiftyone.types.FiftyOneVideoLabelsDataset` type represents a
+The :class:`tensorgrid.types.TensorGridVideoLabelsDataset` type represents a
 labeled dataset consisting of videos and their associated labels stored in
 `ETA VideoLabels format <https://github.com/voxel51/eta/blob/develop/docs/video_labels_guide.md>`_.
 
@@ -3943,12 +3943,12 @@ For unlabeled videos, an empty `eta.core.video.VideoLabels` file is stored.
 
 .. note::
 
-    See :class:`FiftyOneVideoLabelsDatasetExporter <fiftyone.utils.data.exporters.FiftyOneVideoLabelsDatasetExporter>`
+    See :class:`TensorGridVideoLabelsDatasetExporter <tensorgrid.utils.data.exporters.TensorGridVideoLabelsDatasetExporter>`
     for parameters that can be passed to methods like
-    :meth:`export() <fiftyone.core.collections.SampleCollection.export>`
+    :meth:`export() <tensorgrid.core.collections.SampleCollection.export>`
     to customize the export of datasets of this type.
 
-You can export a FiftyOne dataset as a video labels dataset in the above format
+You can export a TensorGrid dataset as a video labels dataset in the above format
 as follows:
 
 .. tabs::
@@ -3958,7 +3958,7 @@ as follows:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         export_dir = "/path/for/video-labels-dataset"
         label_field = "ground_truth"  # for example
@@ -3969,7 +3969,7 @@ as follows:
         # Export the dataset
         dataset_or_view.export(
             export_dir=export_dir,
-            dataset_type=fo.types.FiftyOneVideoLabelsDataset,
+            dataset_type=fo.types.TensorGridVideoLabelsDataset,
             label_field=label_field,
         )
 
@@ -3982,17 +3982,17 @@ as follows:
         LABEL_FIELD=ground_truth  # for example
 
         # Export the dataset
-        fiftyone datasets export $NAME \
+        tensorgrid datasets export $NAME \
             --export-dir $EXPORT_DIR \
             --label-field $LABEL_FIELD \
-            --type fiftyone.types.FiftyOneVideoLabelsDataset
+            --type tensorgrid.types.TensorGridVideoLabelsDataset
 
 .. _custom-dataset-exporter:
 
 Custom formats
 --------------
 
-The :meth:`export() <fiftyone.core.collections.SampleCollection.export>` method
+The :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` method
 provides an optional `dataset_exporter` keyword argument that can be used to
 export a dataset using any |DatasetExporter| instance.
 
@@ -4002,7 +4002,7 @@ a |Dataset| or |DatasetView| in your custom format using the following recipe:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # The dataset or view to export
     dataset_or_view = fo.load_dataset(...)
@@ -4019,9 +4019,9 @@ datasets in your custom format using the following recipe:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
-    # The `fiftyone.types.Dataset` subclass for your custom dataset
+    # The `tensorgrid.types.Dataset` subclass for your custom dataset
     dataset_type = CustomDataset
 
     # The dataset or view to export
@@ -4051,7 +4051,7 @@ should implement is determined by the type of dataset that you are exporting.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.utils.data as foud
+            import tensorgrid.utils.data as foud
 
             class CustomGenericSampleDatasetExporter(foud.GenericSampleDatasetExporter):
                 """Custom exporter for generic sample datasets.
@@ -4078,25 +4078,25 @@ should implement is determined by the type of dataset that you are exporting.
 
                 def log_collection(self, sample_collection):
                     """Logs any relevant information about the
-                    :class:`fiftyone.core.collections.SampleCollection` whose samples will
+                    :class:`tensorgrid.core.collections.SampleCollection` whose samples will
                     be exported.
 
                     Subclasses can optionally implement this method if their export format
                     can record information such as the
-                    :meth:`fiftyone.core.collections.SampleCollection.info` or
-                    :meth:`fiftyone.core.collections.SampleCollection.classes` of the
+                    :meth:`tensorgrid.core.collections.SampleCollection.info` or
+                    :meth:`tensorgrid.core.collections.SampleCollection.classes` of the
                     collection being exported.
 
                     By convention, this method must be optional; i.e., if it is not called
                     before the first call to :meth:`export_sample`, then the exporter must
                     make do without any information about the
-                    :class:`fiftyone.core.collections.SampleCollection` (which may not be
+                    :class:`tensorgrid.core.collections.SampleCollection` (which may not be
                     available, for example, if the samples being exported are not stored in
                     a collection).
 
                     Args:
                         sample_collection: the
-                            :class:`fiftyone.core.collections.SampleCollection` whose
+                            :class:`tensorgrid.core.collections.SampleCollection` whose
                             samples will be exported
                     """
                     # Log any information from the sample collection here
@@ -4106,7 +4106,7 @@ should implement is determined by the type of dataset that you are exporting.
                     """Exports the given sample to the dataset.
 
                     Args:
-                        sample: a :class:`fiftyone.core.sample.Sample`
+                        sample: a :class:`tensorgrid.core.sample.Sample`
                     """
                     # Export the provided sample
                     pass
@@ -4125,13 +4125,13 @@ should implement is determined by the type of dataset that you are exporting.
                     pass
 
         When
-        :meth:`export() <fiftyone.core.collections.SampleCollection.export>` is
+        :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` is
         called with a custom |GenericSampleDatasetExporter|, the export is effectively
         performed via the pseudocode below:
 
         .. code-block:: python
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             samples = ...
             exporter = CustomGenericSampleDatasetExporter(...)
@@ -4144,22 +4144,22 @@ should implement is determined by the type of dataset that you are exporting.
 
         Note that the exporter is invoked via its context manager interface,
         which automatically calls the
-        :meth:`setup() <fiftyone.utils.data.exporters.GenericSampleDatasetExporter.setup>`
+        :meth:`setup() <tensorgrid.utils.data.exporters.GenericSampleDatasetExporter.setup>`
         and
-        :meth:`close() <fiftyone.utils.data.exporters.GenericSampleDatasetExporter.close>`
+        :meth:`close() <tensorgrid.utils.data.exporters.GenericSampleDatasetExporter.close>`
         methods of the exporter to handle setup/completion of the export.
 
         The
-        :meth:`log_collection() <fiftyone.utils.data.exporters.GenericSampleDatasetExporter.log_collection>`
+        :meth:`log_collection() <tensorgrid.utils.data.exporters.GenericSampleDatasetExporter.log_collection>`
         method is called after the exporter's context manager has been entered
         but before any samples have been exported. This method can optionally
         be implemented by exporters that store information such as the
-        :meth:`name <fiftyone.core.collections.SampleCollection.name>` or
-        :meth:`info <fiftyone.core.collections.SampleCollection.info>` from the
+        :meth:`name <tensorgrid.core.collections.SampleCollection.name>` or
+        :meth:`info <tensorgrid.core.collections.SampleCollection.info>` from the
         collection being exported.
 
         Each sample is exported via the
-        :meth:`export_sample() <fiftyone.utils.data.exporters.GenericSampleDatasetExporter.export_sample>`
+        :meth:`export_sample() <tensorgrid.utils.data.exporters.GenericSampleDatasetExporter.export_sample>`
         method.
 
   .. group-tab:: Batch exports
@@ -4175,7 +4175,7 @@ should implement is determined by the type of dataset that you are exporting.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.utils.data as foud
+            import tensorgrid.utils.data as foud
 
             class CustomBatchDatasetExporter(foud.BatchDatasetExporter):
                 """Custom batch exporter for datasets.
@@ -4201,25 +4201,25 @@ should implement is determined by the type of dataset that you are exporting.
 
                 def log_collection(self, sample_collection):
                     """Logs any relevant information about the
-                    :class:`fiftyone.core.collections.SampleCollection` whose samples will
+                    :class:`tensorgrid.core.collections.SampleCollection` whose samples will
                     be exported.
 
                     Subclasses can optionally implement this method if their export format
                     can record information such as the
-                    :meth:`fiftyone.core.collections.SampleCollection.info` or
-                    :meth:`fiftyone.core.collections.SampleCollection.classes` of the
+                    :meth:`tensorgrid.core.collections.SampleCollection.info` or
+                    :meth:`tensorgrid.core.collections.SampleCollection.classes` of the
                     collection being exported.
 
                     By convention, this method must be optional; i.e., if it is not called
                     before :meth:`export_samples`, then the exporter must make do without
                     any information about the
-                    :class:`fiftyone.core.collections.SampleCollection` (which may not be
+                    :class:`tensorgrid.core.collections.SampleCollection` (which may not be
                     available, for example, if the samples being exported are not stored in
                     a collection).
 
                     Args:
                         sample_collection: the
-                            :class:`fiftyone.core.collections.SampleCollection` whose
+                            :class:`tensorgrid.core.collections.SampleCollection` whose
                             samples will be exported
                     """
                     # Log any information from the sample collection here
@@ -4230,9 +4230,9 @@ should implement is determined by the type of dataset that you are exporting.
 
                     Args:
                         sample_collection: a
-                            :class:`fiftyone.core.collections.SampleCollection`
+                            :class:`tensorgrid.core.collections.SampleCollection`
                         progress (None): whether to render a progress bar (True/False), use
-                            the default value ``fiftyone.config.show_progress_bars``
+                            the default value ``tensorgrid.config.show_progress_bars``
                             (None), or a progress callback function to invoke instead
                     """
 
@@ -4250,13 +4250,13 @@ should implement is determined by the type of dataset that you are exporting.
                     pass
 
         When
-        :meth:`export() <fiftyone.core.collections.SampleCollection.export>` is
+        :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` is
         called with a custom |BatchDatasetExporter|, the export is effectively
         performed via the pseudocode below:
 
         .. code-block:: python
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             samples = ...
             exporter = CustomBatchDatasetExporter(...)
@@ -4268,22 +4268,22 @@ should implement is determined by the type of dataset that you are exporting.
 
         Note that the exporter is invoked via its context manager interface,
         which automatically calls the
-        :meth:`setup() <fiftyone.utils.data.exporters.BatchDatasetExporter.setup>`
+        :meth:`setup() <tensorgrid.utils.data.exporters.BatchDatasetExporter.setup>`
         and
-        :meth:`close() <fiftyone.utils.data.exporters.BatchDatasetExporter.close>`
+        :meth:`close() <tensorgrid.utils.data.exporters.BatchDatasetExporter.close>`
         methods of the exporter to handle setup/completion of the export.
 
         The
-        :meth:`log_collection() <fiftyone.utils.data.exporters.BatchDatasetExporter.log_collection>`
+        :meth:`log_collection() <tensorgrid.utils.data.exporters.BatchDatasetExporter.log_collection>`
         method is called after the exporter's context manager has been entered
         but before the samples have been exported. This method can optionally
         be implemented by exporters that store information such as the
-        :meth:`name <fiftyone.core.collections.SampleCollection.name>` or
-        :meth:`info <fiftyone.core.collections.SampleCollection.info>` from the
+        :meth:`name <tensorgrid.core.collections.SampleCollection.name>` or
+        :meth:`info <tensorgrid.core.collections.SampleCollection.info>` from the
         collection being exported.
 
         The core export logic is invoked via the
-        :meth:`export_samples() <fiftyone.utils.data.exporters.BatchDatasetExporter.export_samples>`
+        :meth:`export_samples() <tensorgrid.utils.data.exporters.BatchDatasetExporter.export_samples>`
         method.
 
   .. group-tab:: Unlabeled image datasets
@@ -4297,7 +4297,7 @@ should implement is determined by the type of dataset that you are exporting.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.utils.data as foud
+            import tensorgrid.utils.data as foud
 
             class CustomUnlabeledImageDatasetExporter(foud.UnlabeledImageDatasetExporter):
                 """Custom exporter for unlabeled image datasets.
@@ -4315,7 +4315,7 @@ should implement is determined by the type of dataset that you are exporting.
                 @property
                 def requires_image_metadata(self):
                     """Whether this exporter requires
-                    :class:`fiftyone.core.metadata.ImageMetadata` instances for each sample
+                    :class:`tensorgrid.core.metadata.ImageMetadata` instances for each sample
                     being exported.
                     """
                     # Return True or False here
@@ -4333,25 +4333,25 @@ should implement is determined by the type of dataset that you are exporting.
 
                 def log_collection(self, sample_collection):
                     """Logs any relevant information about the
-                    :class:`fiftyone.core.collections.SampleCollection` whose samples will
+                    :class:`tensorgrid.core.collections.SampleCollection` whose samples will
                     be exported.
 
                     Subclasses can optionally implement this method if their export format
                     can record information such as the
-                    :meth:`fiftyone.core.collections.SampleCollection.info` or
-                    :meth:`fiftyone.core.collections.SampleCollection.classes` of the
+                    :meth:`tensorgrid.core.collections.SampleCollection.info` or
+                    :meth:`tensorgrid.core.collections.SampleCollection.classes` of the
                     collection being exported.
 
                     By convention, this method must be optional; i.e., if it is not called
                     before the first call to :meth:`export_sample`, then the exporter must
                     make do without any information about the
-                    :class:`fiftyone.core.collections.SampleCollection` (which may not be
+                    :class:`tensorgrid.core.collections.SampleCollection` (which may not be
                     available, for example, if the samples being exported are not stored in
                     a collection).
 
                     Args:
                         sample_collection: the
-                            :class:`fiftyone.core.collections.SampleCollection` whose
+                            :class:`tensorgrid.core.collections.SampleCollection` whose
                             samples will be exported
                     """
                     # Log any information from the sample collection here
@@ -4362,7 +4362,7 @@ should implement is determined by the type of dataset that you are exporting.
 
                     Args:
                         image_or_path: an image or the path to the image on disk
-                        metadata (None): a :class:`fiftyone.core.metadata.ImageMetadata`
+                        metadata (None): a :class:`tensorgrid.core.metadata.ImageMetadata`
                             isinstance for the sample. Only required when
                             :meth:`requires_image_metadata` is ``True``
                     """
@@ -4383,13 +4383,13 @@ should implement is determined by the type of dataset that you are exporting.
                     pass
 
         When
-        :meth:`export() <fiftyone.core.collections.SampleCollection.export>` is
+        :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` is
         called with a custom |UnlabeledImageDatasetExporter|, the export is
         effectively performed via the pseudocode below:
 
         .. code-block:: python
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             samples = ...
             exporter = CustomUnlabeledImageDatasetExporter(...)
@@ -4408,29 +4408,29 @@ should implement is determined by the type of dataset that you are exporting.
 
         Note that the exporter is invoked via its context manager interface,
         which automatically calls the
-        :meth:`setup() <fiftyone.utils.data.exporters.UnlabeledImageDatasetExporter.setup>`
+        :meth:`setup() <tensorgrid.utils.data.exporters.UnlabeledImageDatasetExporter.setup>`
         and
-        :meth:`close() <fiftyone.utils.data.exporters.UnlabeledImageDatasetExporter.close>`
+        :meth:`close() <tensorgrid.utils.data.exporters.UnlabeledImageDatasetExporter.close>`
         methods of the exporter to handle setup/completion of the export.
 
         The
-        :meth:`log_collection() <fiftyone.utils.data.exporters.UnlabeledImageDatasetExporter.log_collection>`
+        :meth:`log_collection() <tensorgrid.utils.data.exporters.UnlabeledImageDatasetExporter.log_collection>`
         method is called after the exporter's context manager has been entered
         but before any samples have been exported. This method can optionally
         be implemented by exporters that store information such as the
-        :meth:`name <fiftyone.core.collections.SampleCollection.name>` or
-        :meth:`info <fiftyone.core.collections.SampleCollection.info>` from the
+        :meth:`name <tensorgrid.core.collections.SampleCollection.name>` or
+        :meth:`info <tensorgrid.core.collections.SampleCollection.info>` from the
         collection being exported.
 
         The image in each |Sample| is exported via the
-        :meth:`export_sample() <fiftyone.utils.data.exporters.UnlabeledImageDatasetExporter.export_sample>`
+        :meth:`export_sample() <tensorgrid.utils.data.exporters.UnlabeledImageDatasetExporter.export_sample>`
         method.
 
         The
-        :meth:`requires_image_metadata <fiftyone.utils.data.exporters.UnlabeledImageDatasetExporter.requires_image_metadata>`
+        :meth:`requires_image_metadata <tensorgrid.utils.data.exporters.UnlabeledImageDatasetExporter.requires_image_metadata>`
         property of the exporter allows it to declare whether it requires
         |ImageMetadata| instances for each image to be provided when
-        :meth:`export_sample() <fiftyone.utils.data.exporters.UnlabeledImageDatasetExporter.export_sample>`
+        :meth:`export_sample() <tensorgrid.utils.data.exporters.UnlabeledImageDatasetExporter.export_sample>`
         is called. This allows for cases where metadata about of the image
         (e.g., its filename, encoding, shape, etc) are required in order to export the
         sample.
@@ -4446,7 +4446,7 @@ should implement is determined by the type of dataset that you are exporting.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.utils.data as foud
+            import tensorgrid.utils.data as foud
 
             class CustomLabeledImageDatasetExporter(foud.LabeledImageDatasetExporter):
                 """Custom exporter for labeled image datasets.
@@ -4464,7 +4464,7 @@ should implement is determined by the type of dataset that you are exporting.
                 @property
                 def requires_image_metadata(self):
                     """Whether this exporter requires
-                    :class:`fiftyone.core.metadata.ImageMetadata` instances for each sample
+                    :class:`tensorgrid.core.metadata.ImageMetadata` instances for each sample
                     being exported.
                     """
                     # Return True or False here
@@ -4472,17 +4472,17 @@ should implement is determined by the type of dataset that you are exporting.
 
                 @property
                 def label_cls(self):
-                    """The :class:`fiftyone.core.labels.Label` class(es) exported by this
+                    """The :class:`tensorgrid.core.labels.Label` class(es) exported by this
                     exporter.
 
                     This can be any of the following:
 
-                    -   a :class:`fiftyone.core.labels.Label` class. In this case, the
+                    -   a :class:`tensorgrid.core.labels.Label` class. In this case, the
                         exporter directly exports labels of this type
-                    -   a list or tuple of :class:`fiftyone.core.labels.Label` classes. In
+                    -   a list or tuple of :class:`tensorgrid.core.labels.Label` classes. In
                         this case, the exporter can export a single label field of any of
                         these types
-                    -   a dict mapping keys to :class:`fiftyone.core.labels.Label` classes.
+                    -   a dict mapping keys to :class:`tensorgrid.core.labels.Label` classes.
                         In this case, the exporter can handle label dictionaries with
                         value-types specified by this dictionary. Not all keys need be
                         present in the exported label dicts
@@ -4504,25 +4504,25 @@ should implement is determined by the type of dataset that you are exporting.
 
                 def log_collection(self, sample_collection):
                     """Logs any relevant information about the
-                    :class:`fiftyone.core.collections.SampleCollection` whose samples will
+                    :class:`tensorgrid.core.collections.SampleCollection` whose samples will
                     be exported.
 
                     Subclasses can optionally implement this method if their export format
                     can record information such as the
-                    :meth:`fiftyone.core.collections.SampleCollection.name` and
-                    :meth:`fiftyone.core.collections.SampleCollection.info` of the
+                    :meth:`tensorgrid.core.collections.SampleCollection.name` and
+                    :meth:`tensorgrid.core.collections.SampleCollection.info` of the
                     collection being exported.
 
                     By convention, this method must be optional; i.e., if it is not called
                     before the first call to :meth:`export_sample`, then the exporter must
                     make do without any information about the
-                    :class:`fiftyone.core.collections.SampleCollection` (which may not be
+                    :class:`tensorgrid.core.collections.SampleCollection` (which may not be
                     available, for example, if the samples being exported are not stored in
                     a collection).
 
                     Args:
                         sample_collection: the
-                            :class:`fiftyone.core.collections.SampleCollection` whose
+                            :class:`tensorgrid.core.collections.SampleCollection` whose
                             samples will be exported
                     """
                     # Log any information from the sample collection here
@@ -4534,9 +4534,9 @@ should implement is determined by the type of dataset that you are exporting.
                     Args:
                         image_or_path: an image or the path to the image on disk
                         label: an instance of :meth:`label_cls`, or a dictionary mapping
-                            field names to :class:`fiftyone.core.labels.Label` instances,
+                            field names to :class:`tensorgrid.core.labels.Label` instances,
                             or ``None`` if the sample is unlabeled
-                        metadata (None): a :class:`fiftyone.core.metadata.ImageMetadata`
+                        metadata (None): a :class:`tensorgrid.core.metadata.ImageMetadata`
                             instance for the sample. Only required when
                             :meth:`requires_image_metadata` is ``True``
                     """
@@ -4557,13 +4557,13 @@ should implement is determined by the type of dataset that you are exporting.
                     pass
 
         When
-        :meth:`export() <fiftyone.core.collections.SampleCollection.export>` is
+        :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` is
         called with a custom |LabeledImageDatasetExporter|, the export is
         effectively performed via the pseudocode below:
 
         .. code-block:: python
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             samples = ...
             exporter = CustomLabeledImageDatasetExporter(...)
@@ -4586,35 +4586,35 @@ should implement is determined by the type of dataset that you are exporting.
 
         Note that the exporter is invoked via its context manager interface,
         which automatically calls the
-        :meth:`setup() <fiftyone.utils.data.exporters.LabeledImageDatasetExporter.setup>`
+        :meth:`setup() <tensorgrid.utils.data.exporters.LabeledImageDatasetExporter.setup>`
         and
-        :meth:`close() <fiftyone.utils.data.exporters.LabeledImageDatasetExporter.close>`
+        :meth:`close() <tensorgrid.utils.data.exporters.LabeledImageDatasetExporter.close>`
         methods of the exporter to handle setup/completion of the export.
 
         The
-        :meth:`log_collection() <fiftyone.utils.data.exporters.LabeledImageDatasetExporter.log_collection>`
+        :meth:`log_collection() <tensorgrid.utils.data.exporters.LabeledImageDatasetExporter.log_collection>`
         method is called after the exporter's context manager has been entered
         but before any samples have been exported. This method can optionally
         be implemented by exporters that store information such as the
-        :meth:`name <fiftyone.core.collections.SampleCollection.name>` or
-        :meth:`info <fiftyone.core.collections.SampleCollection.info>` from the
+        :meth:`name <tensorgrid.core.collections.SampleCollection.name>` or
+        :meth:`info <tensorgrid.core.collections.SampleCollection.info>` from the
         collection being exported.
 
         The image and corresponding |Label| in each |Sample| is exported via
         the
-        :meth:`export_sample() <fiftyone.utils.data.exporters.LabeledImageDatasetExporter.export_sample>`
+        :meth:`export_sample() <tensorgrid.utils.data.exporters.LabeledImageDatasetExporter.export_sample>`
         method.
 
         The
-        :meth:`label_cls <fiftyone.utils.data.exporters.LabeledImageDatasetExporter.label_cls>`
+        :meth:`label_cls <tensorgrid.utils.data.exporters.LabeledImageDatasetExporter.label_cls>`
         property of the exporter declares the type of label(s) that the dataset
         format expects.
 
         The
-        :meth:`requires_image_metadata <fiftyone.utils.data.exporters.LabeledImageDatasetExporter.requires_image_metadata>`
+        :meth:`requires_image_metadata <tensorgrid.utils.data.exporters.LabeledImageDatasetExporter.requires_image_metadata>`
         property of the exporter allows it to declare whether it requires
         |ImageMetadata| instances for each image to be provided when
-        :meth:`export_sample() <fiftyone.utils.data.exporters.LabeledImageDatasetExporter.export_sample>`
+        :meth:`export_sample() <tensorgrid.utils.data.exporters.LabeledImageDatasetExporter.export_sample>`
         is called. This allows for cases where metadata about of the image
         (e.g., its filename, encoding, shape, etc) are required in order to
         export the sample.
@@ -4630,7 +4630,7 @@ should implement is determined by the type of dataset that you are exporting.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.utils.data as foud
+            import tensorgrid.utils.data as foud
 
             class CustomUnlabeledVideoDatasetExporter(foud.UnlabeledVideoDatasetExporter):
                 """Custom exporter for unlabeled video datasets.
@@ -4648,7 +4648,7 @@ should implement is determined by the type of dataset that you are exporting.
                 @property
                 def requires_video_metadata(self):
                     """Whether this exporter requires
-                    :class:`fiftyone.core.metadata.VideoMetadata` instances for each sample
+                    :class:`tensorgrid.core.metadata.VideoMetadata` instances for each sample
                     being exported.
                     """
                     # Return True or False here
@@ -4666,25 +4666,25 @@ should implement is determined by the type of dataset that you are exporting.
 
                 def log_collection(self, sample_collection):
                     """Logs any relevant information about the
-                    :class:`fiftyone.core.collections.SampleCollection` whose samples will
+                    :class:`tensorgrid.core.collections.SampleCollection` whose samples will
                     be exported.
 
                     Subclasses can optionally implement this method if their export format
                     can record information such as the
-                    :meth:`fiftyone.core.collections.SampleCollection.name` and
-                    :meth:`fiftyone.core.collections.SampleCollection.info` of the
+                    :meth:`tensorgrid.core.collections.SampleCollection.name` and
+                    :meth:`tensorgrid.core.collections.SampleCollection.info` of the
                     collection being exported.
 
                     By convention, this method must be optional; i.e., if it is not called
                     before the first call to :meth:`export_sample`, then the exporter must
                     make do without any information about the
-                    :class:`fiftyone.core.collections.SampleCollection` (which may not be
+                    :class:`tensorgrid.core.collections.SampleCollection` (which may not be
                     available, for example, if the samples being exported are not stored in
                     a collection).
 
                     Args:
                         sample_collection: the
-                            :class:`fiftyone.core.collections.SampleCollection` whose
+                            :class:`tensorgrid.core.collections.SampleCollection` whose
                             samples will be exported
                     """
                     # Log any information from the sample collection here
@@ -4695,7 +4695,7 @@ should implement is determined by the type of dataset that you are exporting.
 
                     Args:
                         video_path: the path to a video on disk
-                        metadata (None): a :class:`fiftyone.core.metadata.VideoMetadata`
+                        metadata (None): a :class:`tensorgrid.core.metadata.VideoMetadata`
                             isinstance for the sample. Only required when
                             :meth:`requires_video_metadata` is ``True``
                     """
@@ -4716,13 +4716,13 @@ should implement is determined by the type of dataset that you are exporting.
                     pass
 
         When
-        :meth:`export() <fiftyone.core.collections.SampleCollection.export>` is
+        :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` is
         called with a custom |UnlabeledVideoDatasetExporter|, the export is
         effectively performed via the pseudocode below:
 
         .. code-block:: python
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             samples = ...
             exporter = CustomUnlabeledVideoDatasetExporter(...)
@@ -4741,29 +4741,29 @@ should implement is determined by the type of dataset that you are exporting.
 
         Note that the exporter is invoked via its context manager interface,
         which automatically calls the
-        :meth:`setup() <fiftyone.utils.data.exporters.UnlabeledVideoDatasetExporter.setup>`
+        :meth:`setup() <tensorgrid.utils.data.exporters.UnlabeledVideoDatasetExporter.setup>`
         and
-        :meth:`close() <fiftyone.utils.data.exporters.UnlabeledVideoDatasetExporter.close>`
+        :meth:`close() <tensorgrid.utils.data.exporters.UnlabeledVideoDatasetExporter.close>`
         methods of the exporter to handle setup/completion of the export.
 
         The
-        :meth:`log_collection() <fiftyone.utils.data.exporters.UnlabeledVideoDatasetExporter.log_collection>`
+        :meth:`log_collection() <tensorgrid.utils.data.exporters.UnlabeledVideoDatasetExporter.log_collection>`
         method is called after the exporter's context manager has been entered
         but before any samples have been exported. This method can optionally
         be implemented by exporters that store information such as the
-        :meth:`name <fiftyone.core.collections.SampleCollection.name>` or
-        :meth:`info <fiftyone.core.collections.SampleCollection.info>` from the
+        :meth:`name <tensorgrid.core.collections.SampleCollection.name>` or
+        :meth:`info <tensorgrid.core.collections.SampleCollection.info>` from the
         collection being exported.
 
         The video in each |Sample| is exported via the
-        :meth:`export_sample() <fiftyone.utils.data.exporters.UnlabeledVideoDatasetExporter.export_sample>`
+        :meth:`export_sample() <tensorgrid.utils.data.exporters.UnlabeledVideoDatasetExporter.export_sample>`
         method.
 
         The
-        :meth:`requires_video_metadata <fiftyone.utils.data.exporters.UnlabeledVideoDatasetExporter.requires_video_metadata>`
+        :meth:`requires_video_metadata <tensorgrid.utils.data.exporters.UnlabeledVideoDatasetExporter.requires_video_metadata>`
         property of the exporter allows it to declare whether it requires
         |VideoMetadata| instances for each video to be provided when
-        :meth:`export_sample() <fiftyone.utils.data.exporters.UnlabeledVideoDatasetExporter.export_sample>`
+        :meth:`export_sample() <tensorgrid.utils.data.exporters.UnlabeledVideoDatasetExporter.export_sample>`
         is called. This allows for cases where metadata about the video
         (e.g., its filename, encoding, shape, etc) are required in order to export the
         sample.
@@ -4779,7 +4779,7 @@ should implement is determined by the type of dataset that you are exporting.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.utils.data as foud
+            import tensorgrid.utils.data as foud
 
             class CustomLabeledVideoDatasetExporter(foud.LabeledVideoDatasetExporter):
                 """Custom exporter for labeled video datasets.
@@ -4797,7 +4797,7 @@ should implement is determined by the type of dataset that you are exporting.
                 @property
                 def requires_video_metadata(self):
                     """Whether this exporter requires
-                    :class:`fiftyone.core.metadata.VideoMetadata` instances for each sample
+                    :class:`tensorgrid.core.metadata.VideoMetadata` instances for each sample
                     being exported.
                     """
                     # Return True or False here
@@ -4805,17 +4805,17 @@ should implement is determined by the type of dataset that you are exporting.
 
                 @property
                 def label_cls(self):
-                    """The :class:`fiftyone.core.labels.Label` class(es) that can be
+                    """The :class:`tensorgrid.core.labels.Label` class(es) that can be
                     exported at the sample-level.
 
                     This can be any of the following:
 
-                    -   a :class:`fiftyone.core.labels.Label` class. In this case, the
+                    -   a :class:`tensorgrid.core.labels.Label` class. In this case, the
                         exporter directly exports sample-level labels of this type
-                    -   a list or tuple of :class:`fiftyone.core.labels.Label` classes. In
+                    -   a list or tuple of :class:`tensorgrid.core.labels.Label` classes. In
                         this case, the exporter can export a single sample-level label field
                         of any of these types
-                    -   a dict mapping keys to :class:`fiftyone.core.labels.Label` classes.
+                    -   a dict mapping keys to :class:`tensorgrid.core.labels.Label` classes.
                         In this case, the exporter can export multiple label fields with
                         value-types specified by this dictionary. Not all keys need be
                         present in the exported sample-level labels
@@ -4827,17 +4827,17 @@ should implement is determined by the type of dataset that you are exporting.
 
                 @property
                 def frame_labels_cls(self):
-                    """The :class:`fiftyone.core.labels.Label` class(es) that can be
+                    """The :class:`tensorgrid.core.labels.Label` class(es) that can be
                     exported by this exporter at the frame-level.
 
                     This can be any of the following:
 
-                    -   a :class:`fiftyone.core.labels.Label` class. In this case, the
+                    -   a :class:`tensorgrid.core.labels.Label` class. In this case, the
                         exporter directly exports frame labels of this type
-                    -   a list or tuple of :class:`fiftyone.core.labels.Label` classes. In
+                    -   a list or tuple of :class:`tensorgrid.core.labels.Label` classes. In
                         this case, the exporter can export a single frame label field of
                         any of these types
-                    -   a dict mapping keys to :class:`fiftyone.core.labels.Label` classes.
+                    -   a dict mapping keys to :class:`tensorgrid.core.labels.Label` classes.
                         In this case, the exporter can export multiple frame label fields
                         with value-types specified by this dictionary. Not all keys need be
                         present in the exported frame labels
@@ -4859,25 +4859,25 @@ should implement is determined by the type of dataset that you are exporting.
 
                 def log_collection(self, sample_collection):
                     """Logs any relevant information about the
-                    :class:`fiftyone.core.collections.SampleCollection` whose samples will
+                    :class:`tensorgrid.core.collections.SampleCollection` whose samples will
                     be exported.
 
                     Subclasses can optionally implement this method if their export format
                     can record information such as the
-                    :meth:`fiftyone.core.collections.SampleCollection.name` and
-                    :meth:`fiftyone.core.collections.SampleCollection.info` of the
+                    :meth:`tensorgrid.core.collections.SampleCollection.name` and
+                    :meth:`tensorgrid.core.collections.SampleCollection.info` of the
                     collection being exported.
 
                     By convention, this method must be optional; i.e., if it is not called
                     before the first call to :meth:`export_sample`, then the exporter must
                     make do without any information about the
-                    :class:`fiftyone.core.collections.SampleCollection` (which may not be
+                    :class:`tensorgrid.core.collections.SampleCollection` (which may not be
                     available, for example, if the samples being exported are not stored in
                     a collection).
 
                     Args:
                         sample_collection: the
-                            :class:`fiftyone.core.collections.SampleCollection` whose
+                            :class:`tensorgrid.core.collections.SampleCollection` whose
                             samples will be exported
                     """
                     # Log any information from the sample collection here
@@ -4889,12 +4889,12 @@ should implement is determined by the type of dataset that you are exporting.
                     Args:
                         video_path: the path to a video on disk
                         label: an instance of :meth:`label_cls`, or a dictionary mapping
-                            field names to :class:`fiftyone.core.labels.Label` instances,
+                            field names to :class:`tensorgrid.core.labels.Label` instances,
                             or ``None`` if the sample has no sample-level labels
                         frames: a dictionary mapping frame numbers to dictionaries that map
-                            field names to :class:`fiftyone.core.labels.Label` instances,
+                            field names to :class:`tensorgrid.core.labels.Label` instances,
                             or ``None`` if the sample has no frame-level labels
-                        metadata (None): a :class:`fiftyone.core.metadata.VideoMetadata`
+                        metadata (None): a :class:`tensorgrid.core.metadata.VideoMetadata`
                             instance for the sample. Only required when
                             :meth:`requires_video_metadata` is ``True``
                     """
@@ -4915,13 +4915,13 @@ should implement is determined by the type of dataset that you are exporting.
                     pass
 
         When
-        :meth:`export() <fiftyone.core.collections.SampleCollection.export>` is
+        :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` is
         called with a custom |LabeledVideoDatasetExporter|, the export is
         effectively performed via the pseudocode below:
 
         .. code-block:: python
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             samples = ...
             exporter = CustomLabeledVideoDatasetExporter(...)
@@ -4948,38 +4948,38 @@ should implement is determined by the type of dataset that you are exporting.
 
         Note that the exporter is invoked via its context manager interface,
         which automatically calls the
-        :meth:`setup() <fiftyone.utils.data.exporters.LabeledVideoDatasetExporter.setup>`
+        :meth:`setup() <tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter.setup>`
         and
-        :meth:`close() <fiftyone.utils.data.exporters.LabeledVideoDatasetExporter.close>`
+        :meth:`close() <tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter.close>`
         methods of the exporter to handle setup/completion of the export.
 
         The
-        :meth:`log_collection() <fiftyone.utils.data.exporters.LabeledVideoDatasetExporter.log_collection>`
+        :meth:`log_collection() <tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter.log_collection>`
         method is called after the exporter's context manager has been entered
         but before any samples have been exported. This method can optionally
         be implemented by exporters that store information such as the
-        :meth:`name <fiftyone.core.collections.SampleCollection.name>` or
-        :meth:`info <fiftyone.core.collections.SampleCollection.info>` from the
+        :meth:`name <tensorgrid.core.collections.SampleCollection.name>` or
+        :meth:`info <tensorgrid.core.collections.SampleCollection.info>` from the
         collection being exported.
 
         The video and its corresponding sample and frame-level labels are
         exported via the
-        :meth:`export_sample() <fiftyone.utils.data.exporters.LabeledVideoDatasetExporter.export_sample>`
+        :meth:`export_sample() <tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter.export_sample>`
         method.
 
         The
-        :meth:`label_cls <fiftyone.utils.data.exporters.LabeledVideoDatasetExporter.label_cls>`
+        :meth:`label_cls <tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter.label_cls>`
         property of the exporter declares the type of sample-level label(s)
         that the dataset format expects (if any), and the
-        :meth:`frame_labels_cls <fiftyone.utils.data.exporters.LabeledVideoDatasetExporter.frame_labels_cls>`
+        :meth:`frame_labels_cls <tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter.frame_labels_cls>`
         property of the exporter declares the type of frame-level label(s) that
         the dataset format expects (if any),
 
         The
-        :meth:`requires_video_metadata <fiftyone.utils.data.exporters.LabeledVideoDatasetExporter.requires_video_metadata>`
+        :meth:`requires_video_metadata <tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter.requires_video_metadata>`
         property of the exporter allows it to declare whether it requires
         |VideoMetadata| instances for each video to be provided when
-        :meth:`export_sample() <fiftyone.utils.data.exporters.LabeledVideoDatasetExporter.export_sample>`
+        :meth:`export_sample() <tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter.export_sample>`
         is called. This allows for cases where metadata about the video
         (e.g., its filename, encoding, shape, etc) are required in order to
         export the sample.
@@ -4995,7 +4995,7 @@ should implement is determined by the type of dataset that you are exporting.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.utils.data as foud
+            import tensorgrid.utils.data as foud
 
             class CustomGroupDatasetExporter(foud.GroupDatasetExporter):
                 """Custom exporter for grouped datasets.
@@ -5022,25 +5022,25 @@ should implement is determined by the type of dataset that you are exporting.
 
                 def log_collection(self, sample_collection):
                     """Logs any relevant information about the
-                    :class:`fiftyone.core.collections.SampleCollection` whose samples will
+                    :class:`tensorgrid.core.collections.SampleCollection` whose samples will
                     be exported.
 
                     Subclasses can optionally implement this method if their export format
                     can record information such as the
-                    :meth:`fiftyone.core.collections.SampleCollection.info` or
-                    :meth:`fiftyone.core.collections.SampleCollection.classes` of the
+                    :meth:`tensorgrid.core.collections.SampleCollection.info` or
+                    :meth:`tensorgrid.core.collections.SampleCollection.classes` of the
                     collection being exported.
 
                     By convention, this method must be optional; i.e., if it is not called
                     before the first call to :meth:`export_group`, then the exporter must
                     make do without any information about the
-                    :class:`fiftyone.core.collections.SampleCollection` (which may not be
+                    :class:`tensorgrid.core.collections.SampleCollection` (which may not be
                     available, for example, if the samples being exported are not stored in
                     a collection).
 
                     Args:
                         sample_collection: the
-                            :class:`fiftyone.core.collections.SampleCollection` whose
+                            :class:`tensorgrid.core.collections.SampleCollection` whose
                             samples will be exported
                     """
                     # Log any information from the sample collection here
@@ -5051,7 +5051,7 @@ should implement is determined by the type of dataset that you are exporting.
 
                     Args:
                         group: a dict mapping group slice names to
-                            :class:`fiftyone.core.sample.Sample` instances
+                            :class:`tensorgrid.core.sample.Sample` instances
                     """
                     # Export the provided group
                     pass
@@ -5070,13 +5070,13 @@ should implement is determined by the type of dataset that you are exporting.
                     pass
 
         When
-        :meth:`export() <fiftyone.core.collections.SampleCollection.export>` is
+        :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` is
         called with a custom |GroupDatasetExporter|, the export is effectively
         performed via the pseudocode below:
 
         .. code-block:: python
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             samples = ...
             exporter = CustomGroupDatasetExporter(...)
@@ -5089,22 +5089,22 @@ should implement is determined by the type of dataset that you are exporting.
 
         Note that the exporter is invoked via its context manager interface,
         which automatically calls the
-        :meth:`setup() <fiftyone.utils.data.exporters.GroupDatasetExporter.setup>`
+        :meth:`setup() <tensorgrid.utils.data.exporters.GroupDatasetExporter.setup>`
         and
-        :meth:`close() <fiftyone.utils.data.exporters.GroupDatasetExporter.close>`
+        :meth:`close() <tensorgrid.utils.data.exporters.GroupDatasetExporter.close>`
         methods of the exporter to handle setup/completion of the export.
 
         The
-        :meth:`log_collection() <fiftyone.utils.data.exporters.GroupDatasetExporter.log_collection>`
+        :meth:`log_collection() <tensorgrid.utils.data.exporters.GroupDatasetExporter.log_collection>`
         method is called after the exporter's context manager has been entered
         but before any samples have been exported. This method can optionally
         be implemented by exporters that store information such as the
-        :meth:`name <fiftyone.core.collections.SampleCollection.name>` or
-        :meth:`info <fiftyone.core.collections.SampleCollection.info>` from the
+        :meth:`name <tensorgrid.core.collections.SampleCollection.name>` or
+        :meth:`info <tensorgrid.core.collections.SampleCollection.info>` from the
         collection being exported.
 
         Each sample group is exported via the
-        :meth:`export_group() <fiftyone.utils.data.exporters.GroupDatasetExporter.export_group>`
+        :meth:`export_group() <tensorgrid.utils.data.exporters.GroupDatasetExporter.export_group>`
         method.
 
 .. _writing-a-custom-dataset-type-exporter:
@@ -5112,7 +5112,7 @@ should implement is determined by the type of dataset that you are exporting.
 Writing a custom Dataset type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-FiftyOne provides the |DatasetType| type system so that dataset formats can be
+TensorGrid provides the |DatasetType| type system so that dataset formats can be
 conveniently referenced by their type when reading/writing datasets on disk.
 
 The primary function of the |DatasetType| subclasses is to define the
@@ -5136,18 +5136,18 @@ corresponding to the type of dataset that you are working with.
     .. code-block:: python
         :linenos:
 
-        import fiftyone.types as fot
+        import tensorgrid.types as fot
 
         class CustomDataset(fot.Dataset):
             """Custom dataset type."""
 
             def get_dataset_importer_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.importers.DatasetImporter`
+                :class:`tensorgrid.utils.data.importers.DatasetImporter`
                 class for importing datasets of this type from disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.importers.DatasetImporter`
+                    a :class:`tensorgrid.utils.data.importers.DatasetImporter`
                     class
                 """
                 # Return your custom DatasetImporter class here
@@ -5155,11 +5155,11 @@ corresponding to the type of dataset that you are working with.
 
             def get_dataset_exporter_cls(self):
                 """Returns the
-                :class:`fiftyone.utils.data.exporters.DatasetExporter`
+                :class:`tensorgrid.utils.data.exporters.DatasetExporter`
                 class for exporting datasets of this type to disk.
 
                 Returns:
-                    a :class:`fiftyone.utils.data.exporters.DatasetExporter`
+                    a :class:`tensorgrid.utils.data.exporters.DatasetExporter`
                     class
                 """
                 # Return your custom DatasetExporter class here
@@ -5177,18 +5177,18 @@ corresponding to the type of dataset that you are working with.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.types as fot
+            import tensorgrid.types as fot
 
             class CustomUnlabeledImageDataset(fot.UnlabeledImageDataset):
                 """Custom unlabeled image dataset type."""
 
                 def get_dataset_importer_cls(self):
                     """Returns the
-                    :class:`fiftyone.utils.data.importers.UnlabeledImageDatasetImporter`
+                    :class:`tensorgrid.utils.data.importers.UnlabeledImageDatasetImporter`
                     class for importing datasets of this type from disk.
 
                     Returns:
-                        a :class:`fiftyone.utils.data.importers.UnlabeledImageDatasetImporter`
+                        a :class:`tensorgrid.utils.data.importers.UnlabeledImageDatasetImporter`
                         class
                     """
                     # Return your custom UnlabeledImageDatasetImporter class here
@@ -5196,11 +5196,11 @@ corresponding to the type of dataset that you are working with.
 
                 def get_dataset_exporter_cls(self):
                     """Returns the
-                    :class:`fiftyone.utils.data.exporters.UnlabeledImageDatasetExporter`
+                    :class:`tensorgrid.utils.data.exporters.UnlabeledImageDatasetExporter`
                     class for exporting datasets of this type to disk.
 
                     Returns:
-                        a :class:`fiftyone.utils.data.exporters.UnlabeledImageDatasetExporter`
+                        a :class:`tensorgrid.utils.data.exporters.UnlabeledImageDatasetExporter`
                         class
                     """
                     # Return your custom UnlabeledImageDatasetExporter class here
@@ -5218,18 +5218,18 @@ corresponding to the type of dataset that you are working with.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.types as fot
+            import tensorgrid.types as fot
 
             class CustomLabeledImageDataset(fot.LabeledImageDataset):
                 """Custom labeled image dataset type."""
 
                 def get_dataset_importer_cls(self):
                     """Returns the
-                    :class:`fiftyone.utils.data.importers.LabeledImageDatasetImporter`
+                    :class:`tensorgrid.utils.data.importers.LabeledImageDatasetImporter`
                     class for importing datasets of this type from disk.
 
                     Returns:
-                        a :class:`fiftyone.utils.data.importers.LabeledImageDatasetImporter`
+                        a :class:`tensorgrid.utils.data.importers.LabeledImageDatasetImporter`
                         class
                     """
                     # Return your custom LabeledImageDatasetImporter class here
@@ -5237,11 +5237,11 @@ corresponding to the type of dataset that you are working with.
 
                 def get_dataset_exporter_cls(self):
                     """Returns the
-                    :class:`fiftyone.utils.data.exporters.LabeledImageDatasetExporter`
+                    :class:`tensorgrid.utils.data.exporters.LabeledImageDatasetExporter`
                     class for exporting datasets of this type to disk.
 
                     Returns:
-                        a :class:`fiftyone.utils.data.exporters.LabeledImageDatasetExporter`
+                        a :class:`tensorgrid.utils.data.exporters.LabeledImageDatasetExporter`
                         class
                     """
                     # Return your custom LabeledImageDatasetExporter class here
@@ -5259,18 +5259,18 @@ corresponding to the type of dataset that you are working with.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.types as fot
+            import tensorgrid.types as fot
 
             class CustomUnlabeledVideoDataset(fot.UnlabeledVideoDataset):
                 """Custom unlabeled video dataset type."""
 
                 def get_dataset_importer_cls(self):
                     """Returns the
-                    :class:`fiftyone.utils.data.importers.UnlabeledVideoDatasetImporter`
+                    :class:`tensorgrid.utils.data.importers.UnlabeledVideoDatasetImporter`
                     class for importing datasets of this type from disk.
 
                     Returns:
-                        a :class:`fiftyone.utils.data.importers.UnlabeledVideoDatasetImporter`
+                        a :class:`tensorgrid.utils.data.importers.UnlabeledVideoDatasetImporter`
                         class
                     """
                     # Return your custom UnlabeledVideoDatasetImporter class here
@@ -5278,11 +5278,11 @@ corresponding to the type of dataset that you are working with.
 
                 def get_dataset_exporter_cls(self):
                     """Returns the
-                    :class:`fiftyone.utils.data.exporters.UnlabeledVideoDatasetExporter`
+                    :class:`tensorgrid.utils.data.exporters.UnlabeledVideoDatasetExporter`
                     class for exporting datasets of this type to disk.
 
                     Returns:
-                        a :class:`fiftyone.utils.data.exporters.UnlabeledVideoDatasetExporter`
+                        a :class:`tensorgrid.utils.data.exporters.UnlabeledVideoDatasetExporter`
                         class
                     """
                     # Return your custom UnlabeledVideoDatasetExporter class here
@@ -5300,18 +5300,18 @@ corresponding to the type of dataset that you are working with.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.types as fot
+            import tensorgrid.types as fot
 
             class CustomLabeledVideoDataset(fot.LabeledVideoDataset):
                 """Custom labeled video dataset type."""
 
                 def get_dataset_importer_cls(self):
                     """Returns the
-                    :class:`fiftyone.utils.data.importers.LabeledVideoDatasetImporter`
+                    :class:`tensorgrid.utils.data.importers.LabeledVideoDatasetImporter`
                     class for importing datasets of this type from disk.
 
                     Returns:
-                        a :class:`fiftyone.utils.data.importers.LabeledVideoDatasetImporter`
+                        a :class:`tensorgrid.utils.data.importers.LabeledVideoDatasetImporter`
                         class
                     """
                     # Return your custom LabeledVideoDatasetImporter class here
@@ -5319,11 +5319,11 @@ corresponding to the type of dataset that you are working with.
 
                 def get_dataset_exporter_cls(self):
                     """Returns the
-                    :class:`fiftyone.utils.data.exporters.LabeledVideoDatasetExporter`
+                    :class:`tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter`
                     class for exporting datasets of this type to disk.
 
                     Returns:
-                        a :class:`fiftyone.utils.data.exporters.LabeledVideoDatasetExporter`
+                        a :class:`tensorgrid.utils.data.exporters.LabeledVideoDatasetExporter`
                         class
                     """
                     # Return your custom LabeledVideoDatasetExporter class here
@@ -5341,18 +5341,18 @@ corresponding to the type of dataset that you are working with.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.types as fot
+            import tensorgrid.types as fot
 
             class CustomGroupDataset(fot.GroupDataset):
                 """Custom grouped dataset type."""
 
                 def get_dataset_importer_cls(self):
                     """Returns the
-                    :class:`fiftyone.utils.data.importers.GroupDatasetImporter`
+                    :class:`tensorgrid.utils.data.importers.GroupDatasetImporter`
                     class for importing datasets of this type from disk.
 
                     Returns:
-                        a :class:`fiftyone.utils.data.importers.GroupDatasetImporter`
+                        a :class:`tensorgrid.utils.data.importers.GroupDatasetImporter`
                         class
                     """
                     # Return your custom GroupDatasetImporter class here
@@ -5360,11 +5360,11 @@ corresponding to the type of dataset that you are working with.
 
                 def get_dataset_exporter_cls(self):
                     """Returns the
-                    :class:`fiftyone.utils.data.exporters.GroupDatasetExporter`
+                    :class:`tensorgrid.utils.data.exporters.GroupDatasetExporter`
                     class for exporting datasets of this type to disk.
 
                     Returns:
-                        a :class:`fiftyone.utils.data.exporters.GroupDatasetExporter`
+                        a :class:`tensorgrid.utils.data.exporters.GroupDatasetExporter`
                         class
                     """
                     # Return your custom GroupDatasetExporter class here

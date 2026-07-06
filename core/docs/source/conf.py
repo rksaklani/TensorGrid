@@ -1,11 +1,8 @@
 """
 Sphinx configuration file.
 
-For a full list of available options, see:
-https://www.sphinx-doc.org/en/master/usage/configuration.html
-
-| Copyright 2017-2026, Voxel51, Inc.
-| `voxel51.com <https://voxel51.com/>`_
+| Copyright 2017-2026, TensorGrid Contributors (original TensorGrid)
+| TensorGrid modifications Copyright 2026 TensorGrid Contributors
 |
 """
 
@@ -25,17 +22,17 @@ from custom_directives import (
     CustomImageLinkDirective,
     CustomUseCaseCardDirective,
 )
-from fiftyone.internal.docs import is_hidden_from_docs
+from tensorgrid.internal.docs import is_hidden_from_docs
 from redirects import generate_api_redirects, generate_redirects
 
-import fiftyone.constants as foc
+import tensorgrid.constants as foc
 
 with open("../../setup.py") as f:
     setup_version = re.search(r'VERSION = "(.+?)"', f.read()).group(1)
 
 if setup_version != foc.VERSION:
     raise RuntimeError(
-        "FiftyOne version in setup.py (%r) does not match installed version "
+        "TensorGrid version in setup.py (%r) does not match installed version "
         "(%r). If this is a dev install, reinstall with `pip install -e .` "
         "and try again." % (setup_version, foc.VERSION)
     )
@@ -51,7 +48,7 @@ if setup_version != foc.VERSION:
 
 # -- Project information -----------------------------------------------------
 
-project = "FiftyOne"
+project = "TensorGrid"
 copyright = foc.COPYRIGHT.rsplit(".", 1)[0]
 author = foc.AUTHOR
 release = foc.VERSION
@@ -84,7 +81,7 @@ extensions = [
 teams_dir = os.environ.get("FIFTYONE_TEAMS_DIR")
 if teams_dir:
     extensions.append("autoapi.extension")
-    autoapi_dirs = [os.path.join(teams_dir, "fiftyone")]
+    autoapi_dirs = [os.path.join(teams_dir, "tensorgrid")]
     autoapi_generate_api_docs = False
     autoapi_options = ["members", "undoc-members", "show-inheritance"]
 
@@ -137,17 +134,17 @@ nbsphinx_prolog = """
 
     <table class="fo-notebook-links" align="left">
         <td>
-            <a target="_blank" href="https://colab.research.google.com/github/voxel51/fiftyone/blob/%s/docs/source/{{ env.doc2path(env.docname, base=None) }}">
+            <a target="_blank" href="https://colab.research.google.com/github/rksaklani/TensorGrid/blob/%s/core/docs/source/{{ env.doc2path(env.docname, base=None) }}">
                 <img src="https://cdn.voxel51.com/colab-logo-256px.png"> &nbsp; Run in Google Colab
             </a>
         </td>
         <td>
-            <a target="_blank" href="https://github.com/voxel51/fiftyone/blob/%s/docs/source/{{ env.doc2path(env.docname, base=None) }}">
+            <a target="_blank" href="https://github.com/rksaklani/TensorGrid/blob/%s/core/docs/source/{{ env.doc2path(env.docname, base=None) }}">
                 <img src="https://cdn.voxel51.com/github-logo-256px.png"> &nbsp; View source on GitHub
             </a>
         </td>
         <td>
-            <a target="_blank" href="https://raw.githubusercontent.com/voxel51/fiftyone/%s/docs/source/{{ env.doc2path(env.docname, base=None) }}" download>
+            <a target="_blank" href="https://raw.githubusercontent.com/rksaklani/TensorGrid/%s/core/docs/source/{{ env.doc2path(env.docname, base=None) }}" download>
                 <img src="https://cdn.voxel51.com/cloud-icon-256px.png"> &nbsp; Download notebook
             </a>
         </td>
@@ -184,7 +181,7 @@ intersphinx_mapping = {
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_logo = "_static/images/voxel51-logo.svg"
+html_logo = "_static/images/tensorgrid-logo.svg"
 
 html_theme = "pydata_sphinx_theme"
 html_theme_options = {
@@ -230,7 +227,7 @@ html_js_files = [
 html_copy_source = False
 
 # Required by sphinx-sitemap to generate absolute URLs
-html_baseurl = "https://docs.voxel51.com/"
+html_baseurl = "/docs/"
 
 # -- Options for sphinx-sitemap ----------------------------------------------
 sitemap_url_scheme = "{link}"
@@ -253,46 +250,46 @@ docsearch_container = "#searchbox"
 
 # -- Options for theme -------------------------------------------------------
 html_context = {
-    # https://pydata-sphinx-theme.readthedocs.io/en/stable/user_guide/light-dark.html#configure-default-theme-mode
     "default_mode": "light",
     "docsearch_app_id": docsearch_app_id,
     "docsearch_api_key": docsearch_api_key,
     "docsearch_index_name": docsearch_index_name,
-    "link_docs_fiftyone": "https://docs.voxel51.com/",
-    "link_events": "https://voxel51.com/computer-vision-events/",
-    "link_voxel51_blog": "https://voxel51.com/blog/",
-    "link_annotation": "https://voxel51.com/annotation",
-    "link_curation": "https://voxel51.com/curation",
-    "link_evaluation": "https://voxel51.com/evaluation",
-    "link_integrations": "https://voxel51.com/integrations",
-    "link_plugins": "https://voxel51.com/plugins",
-    "link_pricing": "https://voxel51.com/pricing",
-    "link_agriculture": "https://voxel51.com/industries/agriculture",
-    "link_autonomous_systems": "https://voxel51.com/industries/autonomous-vehicles-systems",
-    "link_aviation": "https://voxel51.com/industries/aviation",
-    "link_defense": "https://voxel51.com/industries/defense",
-    "link_healthcare": "https://voxel51.com/industries/healthcare",
-    "link_manufacturing": "https://voxel51.com/industries/manufacturing",
-    "link_research": "https://voxel51.com/research",
-    "link_retail": "https://voxel51.com/industries/retail",
-    "link_robotics": "https://voxel51.com/industries/robotics",
-    "link_security": "https://voxel51.com/industries/security",
-    "link_sports": "https://voxel51.com/industries/sports",
-    "link_customers": "https://voxel51.com/customers",
-    "link_webinars": "https://voxel51.com/webinars",
-    "link_whitepapers": "https://voxel51.com/whitepapers",
-    "link_community": "https://voxel51.com/community",
-    "link_press": "https://voxel51.com/press",
-    "link_sales": "https://voxel51.com/sales",
-    "link_glossary": "https://voxel51.com/glossary",
-    "link_model_zoo": "https://docs.voxel51.com/model_zoo/models.html",
-    "link_dataset_zoo": "https://docs.voxel51.com/dataset_zoo/datasets.html",
-    "link_about": "https://voxel51.com/about",
-    "link_careers": "https://voxel51.com/careers",
-    "link_linkedin": "https://www.linkedin.com/company/voxel51/",
-    "link_twitter": "https://x.com/voxel51",
-    "link_youtube": "https://www.youtube.com/@voxel51",
-    "link_voxel51_discord": "https://community.voxel51.com",
+    "link_docs_tensorgrid": "/docs/index.html",
+    "link_docs_tensorgrid": "/docs/index.html",
+    "link_events": "/resources",
+    "link_voxel51_blog": "/resources",
+    "link_annotation": "/product#annotation",
+    "link_curation": "/product#curation",
+    "link_evaluation": "/product#evaluation",
+    "link_integrations": "/docs/integrations/index.html",
+    "link_plugins": "/docs/plugins/index.html",
+    "link_pricing": "/pricing",
+    "link_agriculture": "/customers",
+    "link_autonomous_systems": "/customers",
+    "link_aviation": "/customers",
+    "link_defense": "/customers",
+    "link_healthcare": "/customers",
+    "link_manufacturing": "/customers",
+    "link_research": "/resources",
+    "link_retail": "/customers",
+    "link_robotics": "/customers",
+    "link_security": "/customers",
+    "link_sports": "/customers",
+    "link_customers": "/customers",
+    "link_webinars": "/resources",
+    "link_whitepapers": "/resources",
+    "link_community": "https://github.com/rksaklani/TensorGrid/discussions",
+    "link_press": "/resources",
+    "link_sales": "/enterprise",
+    "link_glossary": "/docs/cheat_sheets/index.html",
+    "link_model_zoo": "/docs/model_zoo/models.html",
+    "link_dataset_zoo": "/docs/dataset_zoo/datasets.html",
+    "link_about": "/product",
+    "link_careers": "https://github.com/rksaklani/TensorGrid",
+    "link_linkedin": "https://github.com/rksaklani/TensorGrid",
+    "link_twitter": "https://github.com/rksaklani/TensorGrid",
+    "link_youtube": "https://github.com/rksaklani/TensorGrid",
+    "link_voxel51_discord": "https://github.com/rksaklani/TensorGrid/discussions",
 }
 
 

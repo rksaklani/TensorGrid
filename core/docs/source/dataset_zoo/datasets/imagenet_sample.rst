@@ -57,7 +57,7 @@ These images are provided according to the terms below.
 -   Tags: ``image, classification``
 -   Supported splits: ``N/A``
 -   ZooDataset class:
-    :class:`ImageNetSampleDataset <fiftyone.zoo.datasets.base.ImageNetSampleDataset>`
+    :class:`ImageNetSampleDataset <tensorgrid.zoo.datasets.base.ImageNetSampleDataset>`
 
 **Example usage**
 
@@ -68,8 +68,8 @@ These images are provided according to the terms below.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("imagenet-sample")
 
@@ -79,9 +79,9 @@ These images are provided according to the terms below.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load imagenet-sample
+        tensorgrid zoo datasets load imagenet-sample
 
-        fiftyone app launch imagenet-sample
+        tensorgrid app launch imagenet-sample
 
 .. image:: /images/dataset_zoo/imagenet-sample.png
    :alt: imagenet-sample

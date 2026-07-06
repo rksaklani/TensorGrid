@@ -9,14 +9,14 @@ Self-Driving Car Dataset Guide
 
 **Level:** Intermediate | **Estimated Time:** 25-40 minutes | **Tags:** Self-Driving, Autonomous Vehicles, nuScenes, Multi-Sensor, Video Sequences, 3D Data
 
-This step-by-step guide will walk you through a complete self-driving car dataset workflow using FiftyOne. You'll learn how to:
+This step-by-step guide will walk you through a complete self-driving car dataset workflow using TensorGrid. You'll learn how to:
 
 - Load and organize complex multi-sensor self-driving datasets
 - Work with video sequences and temporal data
 - Handle 3D bounding boxes and camera projections
 - Apply advanced filtering and curation techniques
 - Use embeddings and similarity for dataset analysis
-- Integrate with the FiftyOne Model Zoo for enhanced insights
+- Integrate with the TensorGrid Model Zoo for enhanced insights
 
 .. _self_driving-overview:
 
@@ -25,7 +25,7 @@ Guide Overview
 
 This guide is broken down into the following sequential steps:
 
-1. **Loading Self-Driving Datasets** - Learn how to load complex self-driving datasets into FiftyOne, working with multi-frame video sequences, sensor metadata, and associating labels with frames
+1. **Loading Self-Driving Datasets** - Learn how to load complex self-driving datasets into TensorGrid, working with multi-frame video sequences, sensor metadata, and associating labels with frames
 2. **Advanced Self-Driving Techniques** - Dive into advanced tools for managing and analyzing self-driving datasets, including filtering by events, syncing labels across sequences, and curating key frames
 
 .. _self_driving-prerequisites:
@@ -35,17 +35,17 @@ Prerequisites
 
 **Who Is This Guide For**
 
-This tutorial is designed for computer vision engineers working with self-driving car datasets. Whether you're dealing with large-scale video data, sensor fusion, or frame-level labels, this guide shows how FiftyOne can streamline your workflow.
+This tutorial is designed for computer vision engineers working with self-driving car datasets. Whether you're dealing with large-scale video data, sensor fusion, or frame-level labels, this guide shows how TensorGrid can streamline your workflow.
 
 **Required Knowledge**
 
-You should be familiar with the FiftyOne dataset structure and have a basic understanding of working with grouped datasets. If not, we recommend starting with the Getting Started with Grouped Datasets guide first.
+You should be familiar with the TensorGrid dataset structure and have a basic understanding of working with grouped datasets. If not, we recommend starting with the Getting Started with Grouped Datasets guide first.
 
 **Packages Used**
 
 The notebooks will automatically install the required packages when you run them. The main packages we'll be using include:
 
-- **fiftyone** - Core FiftyOne library for dataset management and visualization
+- **fiftyone** - Core TensorGrid library for dataset management and visualization
 - **nuscenes-devkit** - nuScenes dataset SDK for loading and processing data
 - **open3d** - 3D data processing and visualization
 - **torch & torchvision** - PyTorch framework for deep learning operations
@@ -118,7 +118,7 @@ This integrated approach gives you the tools to not just load self-driving data,
 Ready to Begin?
 ---------------
 
-Click **Next** to start with the first step: Loading Self-Driving Datasets with FiftyOne.
+Click **Next** to start with the first step: Loading Self-Driving Datasets with TensorGrid.
 
 .. toctree::
    :maxdepth: 1

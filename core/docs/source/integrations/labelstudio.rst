@@ -6,23 +6,23 @@ Label Studio Integration
 .. default-role:: code
 
 `Label Studio <https://labelstud.io/>`_ is a popular open-source data labeling
-tool with a friendly UI. The integration between FiftyOne and Label Studio
-allows you to easily upload your data directly from FiftyOne to Label Studio
+tool with a friendly UI. The integration between TensorGrid and Label Studio
+allows you to easily upload your data directly from TensorGrid to Label Studio
 for labeling.
 
 You can get started with Label Studio through a simple pip install to get a
-local server up and running. FiftyOne provides
+local server up and running. TensorGrid provides
 :ref:`simple setup instructions <label-studio-setup>` that you can use to
 specify the necessary account credentials and server endpoint to use.
 
 .. note::
 
     Did you know? You can request, manage, and import annotations from within
-    the FiftyOne App by installing the
-    `@voxel51/annotation <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/annotation>`_
+    the TensorGrid App by installing the
+    `@voxel51/annotation <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/annotation>`_
     plugin!
 
-FiftyOne provides an API to create projects, upload data, define label schemas,
+TensorGrid provides an API to create projects, upload data, define label schemas,
 and download annotations using Label Studio, all programmatically in Python.
 All of the following label types are supported for image datasets:
 
@@ -40,29 +40,29 @@ All of the following label types are supported for image datasets:
 Basic recipe
 ____________
 
-The basic workflow to use Label Studio to add or edit labels on your FiftyOne
+The basic workflow to use Label Studio to add or edit labels on your TensorGrid
 datasets is as follows:
 
-1) :ref:`Load a dataset <importing-datasets>` into FiftyOne
+1) :ref:`Load a dataset <importing-datasets>` into TensorGrid
 
 2) Explore the dataset using the :ref:`App <fiftyone-app>` or
    :ref:`dataset views <using-views>` to locate either unlabeled samples that
    you wish to annotate or labeled samples whose annotations you want to edit
 
 3) Use the
-   :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+   :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
    method on your dataset or view to upload the samples and optionally their
    existing labels to Label Studio by setting the parameter
    `backend="labelstudio"`
 
 4) In Label Studio, perform the necessary annotation work
 
-5) Back in FiftyOne, load your dataset and use the
-   :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
-   method to merge the annotations back into your FiftyOne dataset
+5) Back in TensorGrid, load your dataset and use the
+   :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
+   method to merge the annotations back into your TensorGrid dataset
 
 6) If desired, delete the Label Studio tasks and the record of the annotation
-   run from your FiftyOne dataset
+   run from your TensorGrid dataset
 
 |br|
 The example below demonstrates this workflow.
@@ -80,11 +80,11 @@ First, we create the annotation tasks in Label Studio:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
-    # Step 1: Load your data into FiftyOne
+    # Step 1: Load your data into TensorGrid
 
     dataset = foz.load_zoo_dataset(
         "quickstart", dataset_name="ls-annotation-example"
@@ -132,16 +132,16 @@ First, we create the annotation tasks in Label Studio:
     # Step 4: Perform annotation in Label Studio and save the tasks
 
 Then, once the annotation work is complete, we merge the annotations back into
-FiftyOne:
+TensorGrid:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     anno_key = "labelstudio_basic_recipe"
 
-    # Step 5: Merge annotations back into FiftyOne dataset
+    # Step 5: Merge annotations back into TensorGrid dataset
 
     dataset = fo.load_dataset("ls-annotation-example")
     dataset.load_annotations(anno_key)
@@ -156,7 +156,7 @@ FiftyOne:
     results = dataset.load_annotation_results(anno_key)
     results.cleanup()
 
-    # Delete run record (not the labels) from FiftyOne
+    # Delete run record (not the labels) from TensorGrid
     dataset.delete_annotation_run(anno_key)
 
 .. _label-studio-setup:
@@ -189,11 +189,11 @@ Using the Label Studio backend
 ------------------------------
 
 By default, calling
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` will
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` will
 use the :ref:`CVAT backend <cvat-integration>`.
 
 To use the Label Studio backend, simply set the optional `backend` parameter of
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` to
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` to
 `"labelstudio"`:
 
 .. code:: python
@@ -201,7 +201,7 @@ To use the Label Studio backend, simply set the optional `backend` parameter of
 
     view.annotate(anno_key, backend="labelstudio", ...)
 
-Alternatively, you can permanently configure FiftyOne to use the Label Studio
+Alternatively, you can permanently configure TensorGrid to use the Label Studio
 backend by setting the `FIFTYONE_ANNOTATION_DEFAULT_BACKEND` environment
 variable:
 
@@ -229,13 +229,13 @@ which can be done in a variety of ways.
 
 The recommended way to configure your Label Studio API key is to store it in
 the `FIFTYONE_LABELSTUDIO_API_KEY` environment variable. This is automatically
-accessed by FiftyOne whenever a connection to Label Studio is made.
+accessed by TensorGrid whenever a connection to Label Studio is made.
 
 .. code-block:: shell
 
     export FIFTYONE_LABELSTUDIO_API_KEY=...
 
-**FiftyOne annotation config**
+**TensorGrid annotation config**
 
 You can also store your credentials in your
 :ref:`annotation config <annotation-config>` located at
@@ -257,8 +257,8 @@ Note that this file will not exist until you create it.
 
 You can manually provide your API key as a keyword argument each time you call
 methods like
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` and
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` and
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
 that require connections to Label Studio:
 
 .. code:: python
@@ -322,7 +322,7 @@ following ways:
     }
 
 -   Pass the `url` parameter manually each time you call
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`:
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`:
 
 .. code:: python
     :linenos:
@@ -340,7 +340,7 @@ following ways:
 Configuring local file storage
 ------------------------------
 
-If you are using FiftyOne on the same machine that is hosting Label Studio,
+If you are using TensorGrid on the same machine that is hosting Label Studio,
 then you can make use of the
 `local storage feature <https://labelstud.io/guide/storage#Local-storage>`_
 of Label Studio to avoid needing to copy your media.
@@ -361,7 +361,7 @@ Requesting annotations
 ______________________
 
 Use the
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` method
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` method
 to send the samples and optionally existing labels in a |Dataset| or
 |DatasetView| to Label Studio for annotation.
 
@@ -375,21 +375,21 @@ The basic syntax is:
 
 The `anno_key` argument defines a unique identifier for the annotation run, and
 you will provide it to methods like
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`,
-:meth:`get_annotation_info() <fiftyone.core.collections.SampleCollection.load_annotations>`,
-:meth:`load_annotation_results() <fiftyone.core.collections.SampleCollection.load_annotation_results>`,
-:meth:`rename_annotation_run() <fiftyone.core.collections.SampleCollection.rename_annotation_run>`, and
-:meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
+:meth:`get_annotation_info() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
+:meth:`load_annotation_results() <tensorgrid.core.collections.SampleCollection.load_annotation_results>`,
+:meth:`rename_annotation_run() <tensorgrid.core.collections.SampleCollection.rename_annotation_run>`, and
+:meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
 to manage the run in the future.
 
 .. note::
 
     Calling
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
     will upload the source media files to the Label Studio server.
 
 In addition,
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
 provides various parameters that you can use to customize the annotation tasks
 that you wish to be performed.
 
@@ -397,8 +397,8 @@ The following parameters are supported by all annotation backends:
 
 -   **backend** (*None*): the annotation backend to use. Use `"labelstudio"`
     for the Label Studio backend. The supported values are
-    `fiftyone.annotation_config.backends.keys()` and the default is
-    `fiftyone.annotation_config.default_backend`
+    `tensorgrid.annotation_config.backends.keys()` and the default is
+    `tensorgrid.annotation_config.default_backend`
 -   **media_field** (*"filepath"*): the sample field containing the path to the
     source media to upload
 -   **launch_editor** (*False*): whether to launch the annotation backend's
@@ -422,13 +422,13 @@ more details:
         |Classifications| fields
     -   ``"detections"``: object detections stored in |Detections| fields
     -   ``"instances"``: instance segmentations stored in |Detections| fields
-        with their :attr:`mask <fiftyone.core.labels.Detection.mask>`
+        with their :attr:`mask <tensorgrid.core.labels.Detection.mask>`
         attributes populated
     -   ``"polylines"``: polylines stored in |Polylines| fields with their
-        :attr:`filled <fiftyone.core.labels.Polyline.filled>` attributes set to
+        :attr:`filled <tensorgrid.core.labels.Polyline.filled>` attributes set to
         `False`
     -   ``"polygons"``: polygons stored in |Polylines| fields with their
-        :attr:`filled <fiftyone.core.labels.Polyline.filled>` attributes set to
+        :attr:`filled <tensorgrid.core.labels.Polyline.filled>` attributes set to
         `True`
     -   ``"keypoints"``: keypoints stored in |Keypoints| fields
     -   ``"segmentation"``: semantic segmentations stored in |Segmentation|
@@ -441,8 +441,8 @@ more details:
     All new label fields must have a class list provided via one of the
     supported methods. For existing label fields, if classes are not provided
     by this argument nor `label_schema`, they are parsed from
-    :meth:`Dataset.classes <fiftyone.core.dataset.Dataset.classes>` or
-    :meth:`Dataset.default_classes <fiftyone.core.dataset.Dataset.default_classes>`
+    :meth:`Dataset.classes <tensorgrid.core.dataset.Dataset.classes>` or
+    :meth:`Dataset.default_classes <tensorgrid.core.dataset.Dataset.default_classes>`
 -   **mask_targets** (*None*): a dict mapping pixel values (2D masks) or RGB
     hex strings (3D masks) to semantic label strings. Only applicable when
     annotating semantic segmentations. All new label fields must have mask
@@ -453,11 +453,11 @@ more details:
 
 |br|
 In addition, the following Label Studio-specific parameters from
-:class:`LabelStudioBackendConfig <fiftyone.utils.labelstudio.LabelStudioBackendConfig>`
+:class:`LabelStudioBackendConfig <tensorgrid.utils.labelstudio.LabelStudioBackendConfig>`
 can also be provided:
 
 -   **project_name** (*None*): a name for the Label Studio project that will be
-    created. The default is `"FiftyOne_<dataset_name>"`
+    created. The default is `"TensorGrid_<dataset_name>"`
 
 .. _label-studio-label-schema:
 
@@ -466,12 +466,12 @@ Label schema
 
 The `label_schema`, `label_field`, `label_type`, `classes`, and `mask_targets`
 parameters to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` allow
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` allow
 you to define the annotation schema that you wish to be used.
 
 The label schema may define new label field(s) that you wish to populate, and
 it may also include existing label field(s), in which case you can add, delete,
-or edit the existing labels on your FiftyOne dataset.
+or edit the existing labels on your TensorGrid dataset.
 
 The `label_schema` argument is the most flexible way to define how to construct
 tasks in Label Studio. In its most verbose form, it is a dictionary that
@@ -519,8 +519,8 @@ individually:
 
 When you are annotating existing label fields, you can omit some of these
 parameters from
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`, as
-FiftyOne can infer the appropriate values to use:
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`, as
+TensorGrid can infer the appropriate values to use:
 
 -   **label_type**: if omitted, the |Label| type of the field will be used to
     infer the appropriate value for this parameter
@@ -528,8 +528,8 @@ FiftyOne can infer the appropriate values to use:
     to construct a classes list
 -   **mask_targets**: if omitted for a semantic segmentation field, the mask
     targets from the
-    :meth:`mask_targets <fiftyone.core.dataset.Dataset.mask_targets>` or
-    :meth:`default_mask_targets <fiftyone.core.dataset.Dataset.default_mask_targets>`
+    :meth:`mask_targets <tensorgrid.core.dataset.Dataset.mask_targets>` or
+    :meth:`default_mask_targets <tensorgrid.core.dataset.Dataset.default_mask_targets>`
     properties of your dataset will be used, if available
 
 .. _label-studio-label-attributes:
@@ -549,8 +549,8 @@ ___________________
 
 After your annotations tasks in the annotation backend are complete, you can
 use the
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
-method to download them and merge them back into your FiftyOne dataset.
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
+method to download them and merge them back into your TensorGrid dataset.
 
 .. code:: python
     :linenos:
@@ -559,15 +559,15 @@ method to download them and merge them back into your FiftyOne dataset.
 
 The `anno_key` parameter is the unique identifier for the annotation run that
 you provided when calling
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`. You
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`. You
 can use
-:meth:`list_annotation_runs() <fiftyone.core.collections.SampleCollection.list_annotation_runs>`
+:meth:`list_annotation_runs() <tensorgrid.core.collections.SampleCollection.list_annotation_runs>`
 to see the available keys on a dataset.
 
 .. note::
 
     By default, calling
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
     will not delete any information for the run from the annotation backend.
 
     However, you can pass `cleanup=True` to delete all information associated
@@ -585,11 +585,11 @@ dictionary mapping label schema field names to destination field names.
 Managing annotation runs
 ________________________
 
-FiftyOne provides a variety of methods that you can use to manage in-progress
+TensorGrid provides a variety of methods that you can use to manage in-progress
 or completed annotation runs.
 
 For example, you can call
-:meth:`list_annotation_runs() <fiftyone.core.collections.SampleCollection.list_annotation_runs>`
+:meth:`list_annotation_runs() <tensorgrid.core.collections.SampleCollection.list_annotation_runs>`
 to see the available annotation keys on a dataset:
 
 .. code:: python
@@ -598,7 +598,7 @@ to see the available annotation keys on a dataset:
     dataset.list_annotation_runs()
 
 Or, you can use
-:meth:`get_annotation_info() <fiftyone.core.collections.SampleCollection.get_annotation_info>`
+:meth:`get_annotation_info() <tensorgrid.core.collections.SampleCollection.get_annotation_info>`
 to retrieve information about the configuration of an annotation run:
 
 .. code:: python
@@ -607,11 +607,11 @@ to retrieve information about the configuration of an annotation run:
     info = dataset.get_annotation_info(anno_key)
     print(info)
 
-Use :meth:`load_annotation_results() <fiftyone.core.collections.SampleCollection.load_annotation_results>`
-to load the :class:`AnnotationResults <fiftyone.utils.annotations.AnnotationResults>`
+Use :meth:`load_annotation_results() <tensorgrid.core.collections.SampleCollection.load_annotation_results>`
+to load the :class:`AnnotationResults <tensorgrid.utils.annotations.AnnotationResults>`
 instance for an annotation run.
 
-All results objects provide a :class:`cleanup() <fiftyone.utils.annotations.AnnotationResults.cleanup>`
+All results objects provide a :class:`cleanup() <tensorgrid.utils.annotations.AnnotationResults.cleanup>`
 method that you can use to delete all information associated with a run from
 the annotation backend.
 
@@ -622,12 +622,12 @@ the annotation backend.
     results.cleanup()
 
 In addition, the
-:class:`AnnotationResults <fiftyone.utils.annotations.AnnotationResults>`
+:class:`AnnotationResults <tensorgrid.utils.annotations.AnnotationResults>`
 subclasses for each backend may provide additional utilities such as support
 for programmatically monitoring the status of the annotation tasks in the run.
 
 You can use
-:meth:`rename_annotation_run() <fiftyone.core.collections.SampleCollection.rename_annotation_run>`
+:meth:`rename_annotation_run() <tensorgrid.core.collections.SampleCollection.rename_annotation_run>`
 to rename the annotation key associated with an existing annotation run:
 
 .. code:: python
@@ -636,8 +636,8 @@ to rename the annotation key associated with an existing annotation run:
     dataset.rename_annotation_run(anno_key, new_anno_key)
 
 Finally, you can use
-:meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
-to delete the record of an annotation run from your FiftyOne dataset:
+:meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
+to delete the record of an annotation run from your TensorGrid dataset:
 
 .. code:: python
     :linenos:
@@ -647,10 +647,10 @@ to delete the record of an annotation run from your FiftyOne dataset:
 .. note::
 
     Calling
-    :meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
-    only deletes the **record** of the annotation run from your FiftyOne
+    :meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
+    only deletes the **record** of the annotation run from your TensorGrid
     dataset; it will not delete any annotations loaded onto your dataset via
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`,
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
     nor will it delete any associated information from the annotation backend.
 
 .. _label-studio-annotating-videos:

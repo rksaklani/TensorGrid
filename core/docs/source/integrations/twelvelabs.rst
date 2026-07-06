@@ -5,7 +5,7 @@ TwelveLabs Integration
 
 .. default-role:: code
 
-FiftyOne integrates with `TwelveLabs <https://twelvelabs.io>`_, whose video
+TensorGrid integrates with `TwelveLabs <https://twelvelabs.io>`_, whose video
 foundation models let you embed and caption videos for dataset curation with a
 few lines of code:
 
@@ -51,10 +51,10 @@ visualizations and similarity searches:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.brain as fob
-    from fiftyone.utils.twelvelabs import TwelveLabsModel, TwelveLabsModelConfig
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.brain as fob
+    from tensorgrid.utils.twelvelabs import TwelveLabsModel, TwelveLabsModelConfig
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -97,9 +97,9 @@ Apply the Pegasus model to caption your videos for curation:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone.utils.twelvelabs import TwelveLabsModel, TwelveLabsModelConfig
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid.utils.twelvelabs import TwelveLabsModel, TwelveLabsModelConfig
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 

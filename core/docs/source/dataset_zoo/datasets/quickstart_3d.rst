@@ -22,7 +22,7 @@ Objects have been rescaled and recentered from the original dataset.
 -   Tags: ``3d, point-cloud, mesh, quickstart``
 -   Supported splits: ``N/A``
 -   ZooDataset class:
-    :class:`Quickstart3DDataset <fiftyone.zoo.datasets.base.Quickstart3DDataset>`
+    :class:`Quickstart3DDataset <tensorgrid.zoo.datasets.base.Quickstart3DDataset>`
 
 **Example usage**
 
@@ -33,8 +33,8 @@ Objects have been rescaled and recentered from the original dataset.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("quickstart-3d")
 
@@ -44,9 +44,9 @@ Objects have been rescaled and recentered from the original dataset.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load quickstart-3d
+        tensorgrid zoo datasets load quickstart-3d
 
-        fiftyone app launch quickstart-3d
+        tensorgrid app launch quickstart-3d
 
 .. image:: /images/dataset_zoo/quickstart-3d.png
    :alt: quickstart-3d

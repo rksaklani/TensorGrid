@@ -5,7 +5,7 @@ Dataset Views
 
 .. default-role:: code
 
-FiftyOne provides methods that allow you to sort, slice, and search your
+TensorGrid provides methods that allow you to sort, slice, and search your
 |Dataset| using any information that you have added to the |Dataset|.
 Performing these actions returns a |DatasetView| into your |Dataset| that will
 show only the samples and labels therein that match your criteria.
@@ -26,12 +26,12 @@ A |DatasetView| is returned whenever any sorting, slicing, or searching
 operation is performed on a |Dataset|.
 
 You can explicitly create a view that contains an entire dataset via
-:meth:`Dataset.view() <fiftyone.core.dataset.Dataset.view>`:
+:meth:`Dataset.view() <tensorgrid.core.dataset.Dataset.view>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -45,15 +45,15 @@ You can explicitly create a view that contains an entire dataset via
     Media type:     image
     Num samples:    200
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        ground_truth:     fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        uniqueness:       fiftyone.core.fields.FloatField
-        predictions:      fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        ground_truth:     tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        uniqueness:       tensorgrid.core.fields.FloatField
+        predictions:      tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
     View stages:
         ---
 
@@ -84,7 +84,7 @@ Or, you can access individual samples in a view by their ID or filepath:
     sample = view.take(1).first()
 
     print(type(sample))
-    # fiftyone.core.sample.SampleView
+    # tensorgrid.core.sample.SampleView
 
     same_sample = view[sample.id]
     also_same_sample = view[sample.filepath]
@@ -106,15 +106,15 @@ Saving views
 ____________
 
 If you find yourself frequently using/recreating certain views, you can use
-:meth:`save_view() <fiftyone.core.dataset.Dataset.save_view>` to save them on
+:meth:`save_view() <tensorgrid.core.dataset.Dataset.save_view>` to save them on
 your dataset under a name of your choice:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
     dataset.persistent = True
@@ -131,13 +131,13 @@ your dataset under a name of your choice:
     dataset.save_view("cats-view", cats_view)
 
 Then you can conveniently use
-:meth:`load_saved_view() <fiftyone.core.dataset.Dataset.load_saved_view>`
+:meth:`load_saved_view() <tensorgrid.core.dataset.Dataset.load_saved_view>`
 to load the view in a future session:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset("quickstart")
 
@@ -152,9 +152,9 @@ to load the view in a future session:
 
 Saved views have certain editable metadata such as a description that you can
 view via
-:meth:`get_saved_view_info() <fiftyone.core.dataset.Dataset.get_saved_view_info>`
+:meth:`get_saved_view_info() <tensorgrid.core.dataset.Dataset.get_saved_view_info>`
 and update via
-:meth:`update_saved_view_info() <fiftyone.core.dataset.Dataset.update_saved_view_info>`:
+:meth:`update_saved_view_info() <tensorgrid.core.dataset.Dataset.update_saved_view_info>`:
 
 .. code-block:: python
     :linenos:
@@ -173,10 +173,10 @@ and update via
     print(dataset.get_saved_view_info("still-cats-view"))
 
 You can also use
-:meth:`list_saved_views() <fiftyone.core.dataset.Dataset.list_saved_views>`,
-:meth:`has_saved_view() <fiftyone.core.dataset.Dataset.has_saved_view>`,
+:meth:`list_saved_views() <tensorgrid.core.dataset.Dataset.list_saved_views>`,
+:meth:`has_saved_view() <tensorgrid.core.dataset.Dataset.has_saved_view>`,
 and
-:meth:`delete_saved_view() <fiftyone.core.dataset.Dataset.delete_saved_view>`
+:meth:`delete_saved_view() <tensorgrid.core.dataset.Dataset.delete_saved_view>`
 to manage your saved views.
 
 .. note::
@@ -230,7 +230,7 @@ that multiple operations can be chained together:
     sorted_random_view = random_view.sort_by("filepath")
 
 The sections below discuss some interesting view stages in more detail. You can
-also refer to the :mod:`fiftyone.core.stages` module documentation for examples
+also refer to the :mod:`tensorgrid.core.stages` module documentation for examples
 of using each stage.
 
 .. _view-slicing:
@@ -239,8 +239,8 @@ Slicing
 _______
 
 You can extract a range of |Sample| instances from a |Dataset| using
-:meth:`skip() <fiftyone.core.collections.SampleCollection.skip>` and
-:meth:`limit() <fiftyone.core.collections.SampleCollection.limit>` or,
+:meth:`skip() <tensorgrid.core.collections.SampleCollection.skip>` and
+:meth:`limit() <tensorgrid.core.collections.SampleCollection.limit>` or,
 equivalently, by using array slicing:
 
 .. code-block:: python
@@ -254,8 +254,8 @@ equivalently, by using array slicing:
 
 Samples can be accessed from views in
 :ref:`all the same ways <accessing-samples-in-a-dataset>` as for datasets.
-This includes using :meth:`first() <fiftyone.core.view.DatasetView.first>` and
-:meth:`last() <fiftyone.core.view.DatasetView.last>` to retrieve the first and
+This includes using :meth:`first() <tensorgrid.core.view.DatasetView.first>` and
+:meth:`last() <tensorgrid.core.view.DatasetView.last>` to retrieve the first and
 last samples in a view, respectively, or accessing a sample directly from a
 |DatasetView| by its ID or filepath:
 
@@ -315,7 +315,7 @@ extract:
     # 17
 
 The above syntax is equivalent to the following
-:meth:`select() <fiftyone.core.collections.SampleCollection.select>` statement:
+:meth:`select() <tensorgrid.core.collections.SampleCollection.select>` statement:
 
 .. code-block:: python
     :linenos:
@@ -333,7 +333,7 @@ implemented using :ref:`match filters <querying-samples>`:
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     # ViewExpression defining the samples to match
     expr = F("uniqueness") > 0.7
@@ -354,7 +354,7 @@ Sorting
 _______
 
 You can use
-:meth:`sort_by() <fiftyone.core.collections.SampleCollection.sort_by>`
+:meth:`sort_by() <tensorgrid.core.collections.SampleCollection.sort_by>`
 to sort the samples in a |Dataset| or |DatasetView| by a field of interest. The
 samples in the returned |DatasetView| can be sorted in ascending or descending
 order:
@@ -370,7 +370,7 @@ You can also sort by :ref:`expressions <querying-samples>`!
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     # Sort by number of detections in `Detections` field `ground_truth`
     view = dataset.sort_by(F("ground_truth.detections").length(), reverse=True)
@@ -384,7 +384,7 @@ Shuffling
 _________
 
 The samples in a |Dataset| or |DatasetView| can be randomly shuffled using
-:meth:`shuffle() <fiftyone.core.collections.SampleCollection.shuffle>`:
+:meth:`shuffle() <tensorgrid.core.collections.SampleCollection.shuffle>`:
 
 .. code-block:: python
     :linenos:
@@ -413,7 +413,7 @@ Random sampling
 _______________
 
 You can extract a random subset of the samples in a |Dataset| or |DatasetView|
-using :meth:`take() <fiftyone.core.collections.SampleCollection.take>`:
+using :meth:`take() <tensorgrid.core.collections.SampleCollection.take>`:
 
 .. code-block:: python
     :linenos:
@@ -450,7 +450,7 @@ Querying samples
 ----------------
 
 You can query for a subset of the samples in a dataset via the
-:meth:`match() <fiftyone.core.collections.SampleCollection.match>` method. The
+:meth:`match() <tensorgrid.core.collections.SampleCollection.match>` method. The
 syntax is:
 
 .. code-block:: python
@@ -461,7 +461,7 @@ syntax is:
 where `expression` defines the matching expression to use to decide whether to
 include a sample in the view.
 
-FiftyOne provides powerful |ViewField| and |ViewExpression| classes that allow
+TensorGrid provides powerful |ViewField| and |ViewExpression| classes that allow
 you to use native Python operators to define your match expression. Simply wrap
 the target field of your sample in a |ViewField| and then apply comparison,
 logic, arithmetic or array operations to it to create a |ViewExpression|. You
@@ -475,7 +475,7 @@ for a full list of supported operations.
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     # Populate metadata on all samples
     dataset.compute_metadata()
@@ -496,7 +496,7 @@ Common filters
 Convenience functions for common queries are also available.
 
 Use the
-:meth:`match_tags() <fiftyone.core.collections.SampleCollection.match_tags>`
+:meth:`match_tags() <tensorgrid.core.collections.SampleCollection.match_tags>`
 method to match samples that have the specified tag(s) in their `tags` field:
 
 .. code-block:: python
@@ -508,7 +508,7 @@ method to match samples that have the specified tag(s) in their `tags` field:
     # Union of the validation and test splits
     val_test_view = dataset.match_tags(("validation", "test"))
 
-Use :meth:`exists() <fiftyone.core.collections.SampleCollection.exists>` to
+Use :meth:`exists() <tensorgrid.core.collections.SampleCollection.exists>` to
 only include samples for which a given |Field| exists and is not ``None``:
 
 .. code-block:: python
@@ -517,8 +517,8 @@ only include samples for which a given |Field| exists and is not ``None``:
     # The subset of samples where predictions have been computed
     predictions_view = dataset.exists("predictions")
 
-Use :meth:`select() <fiftyone.core.collections.SampleCollection.select>` and
-:meth:`exclude() <fiftyone.core.collections.SampleCollection.exclude>` to
+Use :meth:`select() <tensorgrid.core.collections.SampleCollection.select>` and
+:meth:`exclude() <tensorgrid.core.collections.SampleCollection.exclude>` to
 restrict attention to or exclude samples from a view by their IDs:
 
 .. code-block:: python
@@ -549,7 +549,7 @@ That's why |DatasetView| instances return |SampleView| objects rather than
 usual ways, with some important caveats:
 
 - If you modify the contents of a |SampleView| and then
-  :meth:`save() <fiftyone.core.sample.Sample.save>` it, any changes that
+  :meth:`save() <tensorgrid.core.sample.Sample.save>` it, any changes that
   you made to the contents of the |SampleView| will be reflected in the
   database.
 
@@ -559,15 +559,15 @@ usual ways, with some important caveats:
   sample.
 
 - Sample views are not singletons and thus you must explicitly
-  :meth:`reload() <fiftyone.core.sample.Sample.reload>` them in order to
+  :meth:`reload() <tensorgrid.core.sample.Sample.reload>` them in order to
   refresh their contents if the underlying sample has been modified elsewhere.
   However, extracting a |SampleView| from a |DatasetView| always returns the
   updated version of the sample's contents.
 
 You can use the
-:meth:`select_fields() <fiftyone.core.collections.SampleCollection.select_fields>`
+:meth:`select_fields() <tensorgrid.core.collections.SampleCollection.select_fields>`
 and
-:meth:`exclude_fields() <fiftyone.core.collections.SampleCollection.exclude_fields>`
+:meth:`exclude_fields() <tensorgrid.core.collections.SampleCollection.exclude_fields>`
 stages to select or exclude fields from the returned |SampleView|:
 
 .. code-block:: python
@@ -584,7 +584,7 @@ stages to select or exclude fields from the returned |SampleView|:
         print(sample.predictions)   # AttributeError: `predictions` was excluded
 
 The
-:meth:`filter_labels() <fiftyone.core.collections.SampleCollection.filter_labels>`
+:meth:`filter_labels() <tensorgrid.core.collections.SampleCollection.filter_labels>`
 stage is a powerful stage that allows you to filter the contents of
 |Detections|, |Classifications|, |Polylines|, and |Keypoints| fields,
 respectively.
@@ -598,9 +598,9 @@ Here are some self-contained examples for each task:
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.zoo as foz
-            from fiftyone import ViewField as F
+            import tensorgrid as tg
+            import tensorgrid.zoo as foz
+            from tensorgrid import ViewField as F
 
             dataset = foz.load_zoo_dataset("imagenet-sample")
 
@@ -616,9 +616,9 @@ Here are some self-contained examples for each task:
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.zoo as foz
-            from fiftyone import ViewField as F
+            import tensorgrid as tg
+            import tensorgrid.zoo as foz
+            from tensorgrid import ViewField as F
 
             dataset = foz.load_zoo_dataset("quickstart")
 
@@ -642,9 +642,9 @@ Here are some self-contained examples for each task:
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.zoo as foz
-            from fiftyone import ViewField as F
+            import tensorgrid as tg
+            import tensorgrid.zoo as foz
+            from tensorgrid import ViewField as F
 
             # The path to the source files that you manually downloaded
             source_dir = "/path/to/dir-with-bdd100k-files"
@@ -670,9 +670,9 @@ Here are some self-contained examples for each task:
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.zoo as foz
-            from fiftyone import ViewField as F
+            import tensorgrid as tg
+            import tensorgrid.zoo as foz
+            from tensorgrid import ViewField as F
 
             dataset = foz.load_zoo_dataset("quickstart")
 
@@ -696,7 +696,7 @@ Here are some self-contained examples for each task:
             session = fo.launch_app(view=many_points_view)
 
 You can also use the
-:meth:`filter_field() <fiftyone.core.collections.SampleCollection.filter_field>`
+:meth:`filter_field() <tensorgrid.core.collections.SampleCollection.filter_field>`
 stage to filter the contents of arbitrarily-typed fields:
 
 .. code-block:: python
@@ -709,7 +709,7 @@ stage to filter the contents of arbitrarily-typed fields:
 
     When you create a |DatasetView| that contains filtered detections or
     classifications, the other labels are not removed from the source dataset,
-    even if you :meth:`save() <fiftyone.core.sample.Sample.save>` a
+    even if you :meth:`save() <tensorgrid.core.sample.Sample.save>` a
     |SampleView| after modifying the filtered detections. This is because each
     label is updated individually, and other labels in the field are left
     unchanged.
@@ -749,15 +749,15 @@ Grouping
 ________
 
 You can use
-:meth:`group_by() <fiftyone.core.collections.SampleCollection.group_by>` to
+:meth:`group_by() <tensorgrid.core.collections.SampleCollection.group_by>` to
 dynamically group the samples in a collection by a specified field:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("cifar10", split="test")
 
@@ -770,12 +770,12 @@ dynamically group the samples in a collection by a specified field:
 .. note::
 
     Views generated by
-    :meth:`group_by() <fiftyone.core.collections.SampleCollection.group_by>`
+    :meth:`group_by() <tensorgrid.core.collections.SampleCollection.group_by>`
     have media type ``group``.
 
 By default, the samples in each group are unordered, but you can provide the
 optional ``order_by`` and ``reverse`` arguments to
-:meth:`group_by() <fiftyone.core.collections.SampleCollection.group_by>` to
+:meth:`group_by() <tensorgrid.core.collections.SampleCollection.group_by>` to
 specify an ordering for the samples in each group:
 
 .. code-block:: python
@@ -845,7 +845,7 @@ refine the view's contents:
     truck
 
 In particular, you can use
-:meth:`flatten() <fiftyone.core.collections.SampleCollection.flatten>` to
+:meth:`flatten() <tensorgrid.core.collections.SampleCollection.flatten>` to
 unravel the samples in a dynamic grouped view back into a flat view:
 
 .. code-block:: python
@@ -866,7 +866,7 @@ unravel the samples in a dynamic grouped view back into a flat view:
     and view all samples in the group.
 
 You can use
-:meth:`get_dynamic_group() <fiftyone.core.view.DatasetView.get_dynamic_group>`
+:meth:`get_dynamic_group() <tensorgrid.core.view.DatasetView.get_dynamic_group>`
 to retrieve a view containing the samples with a specific group value of
 interest:
 
@@ -877,7 +877,7 @@ interest:
     print(len(group))  # 11
 
 You can also use
-:meth:`iter_dynamic_groups() <fiftyone.core.view.DatasetView.iter_dynamic_groups>`
+:meth:`iter_dynamic_groups() <tensorgrid.core.view.DatasetView.iter_dynamic_groups>`
 to iterate over all groups in a dynamic group view:
 
 .. code-block:: python
@@ -905,15 +905,15 @@ Concatenating views
 ___________________
 
 You can use
-:meth:`concat() <fiftyone.core.collections.SampleCollection.concat>` to
+:meth:`concat() <tensorgrid.core.collections.SampleCollection.concat>` to
 concatenate views into the same dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -959,9 +959,9 @@ as long as each view is derived from the same root generated view:
     patches = patches1 + patches2  # ERROR: not allowed
 
 If you concatenate views that use
-:meth:`select_fields() <fiftyone.core.collections.SampleCollection.select_fields>`
+:meth:`select_fields() <tensorgrid.core.collections.SampleCollection.select_fields>`
 or
-:meth:`exclude_fields() <fiftyone.core.collections.SampleCollection.exclude_fields>`
+:meth:`exclude_fields() <tensorgrid.core.collections.SampleCollection.exclude_fields>`
 to manipulate the schema of individual views, the concatenated view will
 respect the schema of the *first view* in the chain:
 
@@ -987,7 +987,7 @@ respect the schema of the *first view* in the chain:
     # Missing fields from `view2` appear as `None` to match schema of `view1`
     print(view.last())
 
-Note that :meth:`concat() <fiftyone.core.collections.SampleCollection.concat>`
+Note that :meth:`concat() <tensorgrid.core.collections.SampleCollection.concat>`
 will not prevent you from creating concatenated views that contain multiple
 (possibly filtered) versions of the same |Sample|, which results in views that
 contains duplicate sample IDs:
@@ -1003,7 +1003,7 @@ contains duplicate sample IDs:
 
 .. warning::
 
-    The :ref:`FiftyOne App <fiftyone-app>` is not designed to display views
+    The :ref:`TensorGrid App <fiftyone-app>` is not designed to display views
     with duplicate sample IDs.
 
 .. _date-views:
@@ -1017,7 +1017,7 @@ writing the appropriate |ViewExpression|, using `date`, `datetime` and
 `timedelta` objects to define the required logic.
 
 For example, you can use the
-:meth:`match() <fiftyone.core.collections.SampleCollection.match>` stage to
+:meth:`match() <tensorgrid.core.collections.SampleCollection.match>` stage to
 filter a dataset by date as follows:
 
 .. code-block:: python
@@ -1025,8 +1025,8 @@ filter a dataset by date as follows:
 
     from datetime import datetime, timedelta
 
-    import fiftyone as fo
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    from tensorgrid import ViewField as F
 
     dataset = fo.Dataset()
     dataset.add_samples(
@@ -1071,7 +1071,7 @@ ______________
 
 If your dataset contains label list fields like |Detections| or |Polylines|,
 then you can use
-:meth:`to_patches() <fiftyone.core.collections.SampleCollection.to_patches>` to
+:meth:`to_patches() <tensorgrid.core.collections.SampleCollection.to_patches>` to
 create views that contain one sample per object patch in a specified label
 field of your dataset.
 
@@ -1081,9 +1081,9 @@ detection dataset:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1102,21 +1102,21 @@ detection dataset:
     Media type:  image
     Num patches: 1232
     Patch fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        sample_id:        fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        ground_truth:     fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detection)
+        id:               tensorgrid.core.fields.ObjectIdField
+        sample_id:        tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        ground_truth:     tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detection)
     View stages:
         1. ToPatches(field='ground_truth', config=None)
 
 .. note::
 
     You can pass the optional `other_fields` parameter to
-    :meth:`to_patches() <fiftyone.core.collections.SampleCollection.to_patches>`
+    :meth:`to_patches() <tensorgrid.core.collections.SampleCollection.to_patches>`
     to specify additional read-only sample-level fields that each patch should
     include from their parent samples.
 
@@ -1152,18 +1152,18 @@ in the sense that:
     :ref:`views API <using-views>`
 -   Any modifications to label tags that you make via the App's
     :ref:`tagging menu <app-tagging>` or via API methods like
-    :meth:`tag_labels() <fiftyone.core.collections.SampleCollection.tag_labels>`
-    and :meth:`untag_labels() <fiftyone.core.collections.SampleCollection.untag_labels>`
+    :meth:`tag_labels() <tensorgrid.core.collections.SampleCollection.tag_labels>`
+    and :meth:`untag_labels() <tensorgrid.core.collections.SampleCollection.untag_labels>`
     will be reflected on the source dataset
 -   Any modifications to the patch labels that you make by iterating over the
     contents of the view or calling
-    :meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`
+    :meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`
     or
-    :meth:`set_label_values() <fiftyone.core.collections.SampleCollection.set_label_values>`
+    :meth:`set_label_values() <tensorgrid.core.collections.SampleCollection.set_label_values>`
     will be reflected on the source dataset
--   Calling :meth:`save() <fiftyone.core.patches.PatchesView.save>`,
-    :meth:`keep() <fiftyone.core.patches.PatchesView.keep>`, or
-    :meth:`keep_fields() <fiftyone.core.patches.PatchesView.keep_fields>` on a
+-   Calling :meth:`save() <tensorgrid.core.patches.PatchesView.save>`,
+    :meth:`keep() <tensorgrid.core.patches.PatchesView.keep>`, or
+    :meth:`keep_fields() <tensorgrid.core.patches.PatchesView.keep_fields>` on a
     patches view (typically one that contains additional view stages that
     filter or modify its contents) will sync any edits or deletions to the
     patch labels with the source dataset
@@ -1187,7 +1187,7 @@ By default, patches views do not retain any
 :ref:`custom indexes <app-optimizing-query-performance>` that you've created on
 the source collection, but you can control this by passing the optional
 `include_indexes` parameter to
-:meth:`to_patches() <fiftyone.core.collections.SampleCollection.to_patches>`:
+:meth:`to_patches() <tensorgrid.core.collections.SampleCollection.to_patches>`:
 
 .. code-block:: python
     :linenos:
@@ -1210,7 +1210,7 @@ __________________
 
 If you have :ref:`run evaluation <evaluating-detections>` on predictions from
 an object detection model, then you can use
-:meth:`to_evaluation_patches() <fiftyone.core.collections.SampleCollection.to_evaluation_patches>`
+:meth:`to_evaluation_patches() <tensorgrid.core.collections.SampleCollection.to_evaluation_patches>`
 to transform the dataset (or a view into it) into a new view that contains one
 sample for each true positive, false positive, and false negative example.
 
@@ -1222,8 +1222,8 @@ respectively.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1250,25 +1250,25 @@ respectively.
     Media type:  image
     Num patches: 5363
     Patch fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        sample_id:        fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        predictions:      fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        ground_truth:     fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        type:             fiftyone.core.fields.StringField
-        iou:              fiftyone.core.fields.FloatField
-        crowd:            fiftyone.core.fields.BooleanField
+        id:               tensorgrid.core.fields.ObjectIdField
+        sample_id:        tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        predictions:      tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        ground_truth:     tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        type:             tensorgrid.core.fields.StringField
+        iou:              tensorgrid.core.fields.FloatField
+        crowd:            tensorgrid.core.fields.BooleanField
     View stages:
         1. ToEvaluationPatches(eval_key='eval', config=None)
 
 .. note::
 
     You can pass the optional `other_fields` parameter to
-    :meth:`to_evaluation_patches() <fiftyone.core.collections.SampleCollection.to_evaluation_patches>`
+    :meth:`to_evaluation_patches() <tensorgrid.core.collections.SampleCollection.to_evaluation_patches>`
     to specify additional read-only sample-level fields that each patch should
     include from their parent samples.
 
@@ -1288,19 +1288,19 @@ Evaluation patches views are just like any other
     :ref:`views API <using-views>`
 -   Any modifications to ground truth or predicted label tags that you make via
     the App's :ref:`tagging menu <app-tagging>` or via API methods like
-    :meth:`tag_labels() <fiftyone.core.collections.SampleCollection.tag_labels>`
-    and :meth:`untag_labels() <fiftyone.core.collections.SampleCollection.untag_labels>`
+    :meth:`tag_labels() <tensorgrid.core.collections.SampleCollection.tag_labels>`
+    and :meth:`untag_labels() <tensorgrid.core.collections.SampleCollection.untag_labels>`
     will be reflected on the source dataset
 -   Any modifications to the predicted or ground truth |Label| elements in the
     patches view that you make by iterating over the contents of the view or
     calling
-    :meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`
+    :meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`
     or
-    :meth:`set_label_values() <fiftyone.core.collections.SampleCollection.set_label_values>`
+    :meth:`set_label_values() <tensorgrid.core.collections.SampleCollection.set_label_values>`
     will be reflected on the source dataset
--   Calling :meth:`save() <fiftyone.core.patches.EvaluationPatchesView.save>`,
-    :meth:`keep() <fiftyone.core.patches.EvaluationPatchesView.keep>`, or
-    :meth:`keep_fields() <fiftyone.core.patches.EvaluationPatchesView.keep_fields>`
+-   Calling :meth:`save() <tensorgrid.core.patches.EvaluationPatchesView.save>`,
+    :meth:`keep() <tensorgrid.core.patches.EvaluationPatchesView.keep>`, or
+    :meth:`keep_fields() <tensorgrid.core.patches.EvaluationPatchesView.keep_fields>`
     on an evaluation patches view (typically one that contains additional view
     stages that filter or modify its contents) will sync any predicted or
     ground truth |Label| edits or deletions with the source dataset
@@ -1319,7 +1319,7 @@ By default, evaluation patches views do not retain any
 :ref:`custom indexes <app-optimizing-query-performance>` that you've created on
 the source collection, but you can control this by passing the optional
 `include_indexes` parameter to
-:meth:`to_evaluation_patches() <fiftyone.core.collections.SampleCollection.to_evaluation_patches>`:
+:meth:`to_evaluation_patches() <tensorgrid.core.collections.SampleCollection.to_evaluation_patches>`:
 
 .. code-block:: python
     :linenos:
@@ -1348,9 +1348,9 @@ prepending ``"frames."`` to the relevant parameters:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -1361,7 +1361,7 @@ prepending ``"frames."`` to the relevant parameters:
     print(dataset.count("frames.detections.detections"))  # 11345
     print(view.count("frames.detections.detections"))  # 7511
 
-In addition, FiftyOne provides a variety of dedicated view stages for
+In addition, TensorGrid provides a variety of dedicated view stages for
 performing manipulations that are unique to video data.
 
 .. _clip-views:
@@ -1370,19 +1370,19 @@ Clip views
 ----------
 
 You can use
-:meth:`to_clips() <fiftyone.core.collections.SampleCollection.to_clips>` to
+:meth:`to_clips() <tensorgrid.core.collections.SampleCollection.to_clips>` to
 create views into your video datasets that contain one sample per clip defined
 by a specific field or expression in a video collection.
 
 For example, if you have :ref:`temporal detection <temporal-detection>` labels
 on your dataset, then you can create a clips view that contains one sample per
 temporal segment by simply passing the name of the temporal detection field to
-:meth:`to_clips() <fiftyone.core.collections.SampleCollection.to_clips>`:
+:meth:`to_clips() <tensorgrid.core.collections.SampleCollection.to_clips>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -1423,20 +1423,20 @@ temporal segment by simply passing the name of the temporal detection field to
     Media type: video
     Num clips:  4
     Clip fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        sample_id:        fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        support:          fiftyone.core.fields.FrameSupportField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.VideoMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        events:           fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Classification)
+        id:               tensorgrid.core.fields.ObjectIdField
+        sample_id:        tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        support:          tensorgrid.core.fields.FrameSupportField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.VideoMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        events:           tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Classification)
     Frame fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        frame_number:     fiftyone.core.fields.FrameNumberField
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
+        id:               tensorgrid.core.fields.ObjectIdField
+        frame_number:     tensorgrid.core.fields.FrameNumberField
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
     View stages:
         1. ToClips(field_or_expr='events', config=None)
 
@@ -1451,7 +1451,7 @@ classification has a one-to-one relationship with its clip.
 .. note::
 
     You can pass the optional `other_fields` parameter to
-    :meth:`to_clips() <fiftyone.core.collections.SampleCollection.to_clips>` to
+    :meth:`to_clips() <tensorgrid.core.collections.SampleCollection.to_clips>` to
     specify additional read-only sample-level fields that each clip should
     include from their parent samples.
 
@@ -1468,7 +1468,7 @@ specific temporal detection labels, you can achieve this by first
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     # Create a clips view with one clip per meeting
     view = (
@@ -1486,15 +1486,15 @@ that contain specific frame content of interest.
 
 In the simplest case, you can provide the name of a frame-level list field
 (e.g., |Classifications| or |Detections|) to
-:meth:`to_clips() <fiftyone.core.collections.SampleCollection.to_clips>`, which
+:meth:`to_clips() <tensorgrid.core.collections.SampleCollection.to_clips>`, which
 will create one clip per contiguous range of frames that contain at least one
 label in the specified field:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -1512,7 +1512,7 @@ that contains at least one person:
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     # Create a view that contains one clip per contiguous range of frames that
     # contains at least one person
@@ -1529,20 +1529,20 @@ that contains at least one person:
     Media type: video
     Num clips:  8
     Clip fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        sample_id:        fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        support:          fiftyone.core.fields.FrameSupportField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.VideoMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
+        id:               tensorgrid.core.fields.ObjectIdField
+        sample_id:        tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        support:          tensorgrid.core.fields.FrameSupportField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.VideoMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
     Frame fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        frame_number:     fiftyone.core.fields.FrameNumberField
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        detections:       fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
+        id:               tensorgrid.core.fields.ObjectIdField
+        frame_number:     tensorgrid.core.fields.FrameNumberField
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        detections:       tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
     View stages:
         1. FilterLabels(field='frames.detections', filter={'$eq': ['$$this.label', 'person']}, only_matches=True)
         2. ToClips(field_or_expr='frames.detections', config=None)
@@ -1568,20 +1568,20 @@ the frames within the `[first, last]` support of each clip:
 .. note::
 
     Clips views created via
-    :meth:`to_clips() <fiftyone.core.collections.SampleCollection.to_clips>`
+    :meth:`to_clips() <tensorgrid.core.collections.SampleCollection.to_clips>`
     always contain all frame-level labels from the underlying dataset for
     their respective frame supports, even if frame-level filtering was applied
     in previous view stages. In other words, filtering prior to the
-    :meth:`to_clips() <fiftyone.core.collections.SampleCollection.to_clips>`
+    :meth:`to_clips() <tensorgrid.core.collections.SampleCollection.to_clips>`
     stage only affects the frame supports.
 
     You can, however, apply frame-level filtering to clips by appending
     filtering operations after the
-    :meth:`to_clips() <fiftyone.core.collections.SampleCollection.to_clips>`
+    :meth:`to_clips() <tensorgrid.core.collections.SampleCollection.to_clips>`
     stage in your view, just like any other view.
 
 More generally, you can provide an arbitrary |ViewExpression| to
-:meth:`to_clips() <fiftyone.core.collections.SampleCollection.to_clips>` that
+:meth:`to_clips() <tensorgrid.core.collections.SampleCollection.to_clips>` that
 defines a boolean expression to apply to each frame. In this case, the clips
 view will contain one clip per contiguous range of frames for which the
 expression evaluates to true:
@@ -1604,7 +1604,7 @@ constructing frame expressions.
 .. note::
 
     You can pass optional `tol` and `min_len` parameters to
-    :meth:`to_clips() <fiftyone.core.collections.SampleCollection.to_clips>` to
+    :meth:`to_clips() <tensorgrid.core.collections.SampleCollection.to_clips>` to
     configure a missing frame tolerance and minimum length for clips generated
     from frame-level fields or expressions.
 
@@ -1615,18 +1615,18 @@ sense that:
     :ref:`views API <using-views>`
 -   Any modifications to label tags that you make via the App's
     :ref:`tagging menu <app-tagging>` or via API methods like
-    :meth:`tag_labels() <fiftyone.core.collections.SampleCollection.tag_labels>`
-    and :meth:`untag_labels() <fiftyone.core.collections.SampleCollection.untag_labels>`
+    :meth:`tag_labels() <tensorgrid.core.collections.SampleCollection.tag_labels>`
+    and :meth:`untag_labels() <tensorgrid.core.collections.SampleCollection.untag_labels>`
     will be reflected on the source dataset
 -   Any modifications to the frame-level labels in a clips view that you make
     by iterating over the contents of the view or calling
-    :meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`
+    :meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`
     or
-    :meth:`set_label_values() <fiftyone.core.collections.SampleCollection.set_label_values>`
+    :meth:`set_label_values() <tensorgrid.core.collections.SampleCollection.set_label_values>`
     will be reflected on the source dataset
--   Calling :meth:`save() <fiftyone.core.clips.ClipsView.save>`,
-    :meth:`keep() <fiftyone.core.clips.ClipsView.keep>`, or
-    :meth:`keep_fields() <fiftyone.core.clips.ClipsView.keep_fields>` on a
+-   Calling :meth:`save() <tensorgrid.core.clips.ClipsView.save>`,
+    :meth:`keep() <tensorgrid.core.clips.ClipsView.keep>`, or
+    :meth:`keep_fields() <tensorgrid.core.clips.ClipsView.keep_fields>` on a
     clips view (typically one that contains additional view stages that filter
     or modify its contents) will sync any frame-level edits or deletions with
     the source dataset
@@ -1647,7 +1647,7 @@ automatically have access to any
 the frames of the source collection. By default, clip views do not retain any
 custom sample-level indexes, but you can control this by passing the optional
 `include_indexes` parameter to
-:meth:`to_clips() <fiftyone.core.collections.SampleCollection.to_clips>`:
+:meth:`to_clips() <tensorgrid.core.collections.SampleCollection.to_clips>`:
 
 .. code-block:: python
     :linenos:
@@ -1675,7 +1675,7 @@ Trajectory views
 ----------------
 
 You can use
-:meth:`to_trajectories() <fiftyone.core.collections.SampleCollection.to_trajectories>`
+:meth:`to_trajectories() <tensorgrid.core.collections.SampleCollection.to_trajectories>`
 to create views into your video datasets that contain one sample per each
 unique object trajectory defined by their ``(label, index)`` in a frame-level
 |Detections| or |Polylines| field.
@@ -1688,17 +1688,17 @@ For example, if you have frame-level
 :ref:`object detections <object-detection>` with their ``index`` attributes
 populated, then you can create a trajectories view that contains one clip for
 each object of a specific type using
-:meth:`filter_labels() <fiftyone.core.collections.SampleCollection.filter_labels>`
+:meth:`filter_labels() <tensorgrid.core.collections.SampleCollection.filter_labels>`
 and
-:meth:`to_trajectories() <fiftyone.core.collections.SampleCollection.to_trajectories>`
+:meth:`to_trajectories() <tensorgrid.core.collections.SampleCollection.to_trajectories>`
 as shown below:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -1718,21 +1718,21 @@ as shown below:
     Media type: video
     Num clips:  109
     Clip fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        sample_id:        fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        support:          fiftyone.core.fields.FrameSupportField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.VideoMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        detections:       fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.odm.embedded_document.DynamicEmbeddedDocument)
+        id:               tensorgrid.core.fields.ObjectIdField
+        sample_id:        tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        support:          tensorgrid.core.fields.FrameSupportField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.VideoMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        detections:       tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.odm.embedded_document.DynamicEmbeddedDocument)
     Frame fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        frame_number:     fiftyone.core.fields.FrameNumberField
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        detections:       fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
+        id:               tensorgrid.core.fields.ObjectIdField
+        frame_number:     tensorgrid.core.fields.FrameNumberField
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        detections:       tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
     View stages:
         1. FilterLabels(field='frames.detections', filter={'$eq': ['$$this.label', 'vehicle']}, only_matches=True, trajectories=False)
         2. ToTrajectories(field='frames.detections', config=None)
@@ -1749,14 +1749,14 @@ Frame views
 -----------
 
 You can use
-:meth:`to_frames() <fiftyone.core.collections.SampleCollection.to_frames>`
+:meth:`to_frames() <tensorgrid.core.collections.SampleCollection.to_frames>`
 to create image views into your video datasets that contain one sample per
 frame in the dataset.
 
 .. note::
 
     Did you know? Using
-    :meth:`to_frames() <fiftyone.core.collections.SampleCollection.to_frames>`
+    :meth:`to_frames() <tensorgrid.core.collections.SampleCollection.to_frames>`
     enables you to execute workflows such as
     :ref:`model evaluation <evaluating-models>` and
     :ref:`Brain methods <fiftyone-brain>` that only support image collections
@@ -1768,8 +1768,8 @@ frame of the videos in a |Dataset| or |DatasetView|:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -1792,20 +1792,20 @@ frame of the videos in a |Dataset| or |DatasetView|:
     Media type:  image
     Num samples: 1279
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        sample_id:        fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        frame_number:     fiftyone.core.fields.FrameNumberField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        detections:       fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
+        id:               tensorgrid.core.fields.ObjectIdField
+        sample_id:        tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        frame_number:     tensorgrid.core.fields.FrameNumberField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        detections:       tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
     View stages:
         1. ToFrames(config=None)
 
 The above example passes the `sample_frames=True` option to
-:meth:`to_frames() <fiftyone.core.collections.SampleCollection.to_frames>`,
+:meth:`to_frames() <tensorgrid.core.collections.SampleCollection.to_frames>`,
 which causes the necessary frames of the input video collection to be sampled
 into directories of per-frame images on disk when the view is created.
 **For large video datasets, this may take some time and require substantial
@@ -1819,7 +1819,7 @@ same dataset will become faster after the frames have been sampled.
 .. note::
 
     The recommended way to use
-    :meth:`to_frames() <fiftyone.core.collections.SampleCollection.to_frames>`
+    :meth:`to_frames() <tensorgrid.core.collections.SampleCollection.to_frames>`
     is to first populate the `filepath` field of each |Frame| of your dataset
     offline, either by running it once with the `sample_frames=True` option or
     by manually sampling the frames yourself and populating the `filepath`
@@ -1833,12 +1833,12 @@ same dataset will become faster after the frames have been sampled.
         frames = dataset.to_frames()
 
 More generally,
-:meth:`to_frames() <fiftyone.core.collections.SampleCollection.to_frames>`
+:meth:`to_frames() <tensorgrid.core.collections.SampleCollection.to_frames>`
 exposes a variety of parameters that you can use to configure the behavior of
 the video-to-image conversion process. You can also combine
-:meth:`to_frames() <fiftyone.core.collections.SampleCollection.to_frames>` with
+:meth:`to_frames() <tensorgrid.core.collections.SampleCollection.to_frames>` with
 view stages like
-:meth:`match_frames() <fiftyone.core.collections.SampleCollection.match_frames>`
+:meth:`match_frames() <tensorgrid.core.collections.SampleCollection.match_frames>`
 to achieve fine-grained control over the specific frames you want to study.
 
 For example, the snippet below creates a frames view that only contains samples
@@ -1847,7 +1847,7 @@ for frames with at least 10 objects, sampling at most one frame per second:
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     #
     # Create a frames view that only contains frames with at least 10
@@ -1879,19 +1879,19 @@ Frame views are just like any other image collection view in the sense that:
     :ref:`views API <using-views>`
 -   Any modifications to label tags that you make via the App's
     :ref:`tagging menu <app-tagging>` or via API methods like
-    :meth:`tag_labels() <fiftyone.core.collections.SampleCollection.tag_labels>`
-    and :meth:`untag_labels() <fiftyone.core.collections.SampleCollection.untag_labels>`
+    :meth:`tag_labels() <tensorgrid.core.collections.SampleCollection.tag_labels>`
+    and :meth:`untag_labels() <tensorgrid.core.collections.SampleCollection.untag_labels>`
     will be reflected on the source dataset
 -   Any edits (including additions, modifications, and deletions) to the fields
     of the samples in a frames view that you make by iterating over the
     contents of the view or calling
-    :meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`
+    :meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`
     or
-    :meth:`set_label_values() <fiftyone.core.collections.SampleCollection.set_label_values>`
+    :meth:`set_label_values() <tensorgrid.core.collections.SampleCollection.set_label_values>`
     will be reflected on the source dataset
--   Calling :meth:`save() <fiftyone.core.video.FramesView.save>`,
-    :meth:`keep() <fiftyone.core.video.FramesView.keep>`, or
-    :meth:`keep_fields() <fiftyone.core.video.FramesView.keep_fields>` on a
+-   Calling :meth:`save() <tensorgrid.core.video.FramesView.save>`,
+    :meth:`keep() <tensorgrid.core.video.FramesView.keep>`, or
+    :meth:`keep_fields() <tensorgrid.core.video.FramesView.keep_fields>` on a
     frames view (typically one that contains additional view stages that filter
     or modify its contents) will sync any changes to the frames of the
     underlying video dataset
@@ -1904,7 +1904,7 @@ By default, frame views do not retain any
 :ref:`custom indexes <app-optimizing-query-performance>` that you've created on
 the source collection, but you can control this by passing the optional
 `include_indexes` parameter to
-:meth:`to_frames() <fiftyone.core.collections.SampleCollection.to_frames>`:
+:meth:`to_frames() <tensorgrid.core.collections.SampleCollection.to_frames>`:
 
 .. code-block:: python
     :linenos:
@@ -1927,16 +1927,16 @@ Frame patches views
 
 Since frame views into video datasets behave just like any other view, you can
 chain
-:meth:`to_frames() <fiftyone.core.collections.SampleCollection.to_frames>` and
-:meth:`to_patches() <fiftyone.core.collections.SampleCollection.to_patches>`
+:meth:`to_frames() <tensorgrid.core.collections.SampleCollection.to_frames>` and
+:meth:`to_patches() <tensorgrid.core.collections.SampleCollection.to_patches>`
 to create **frame patch views** into your video datasets that contain one
 sample per object patch in the frames of the dataset!
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -1962,16 +1962,16 @@ sample per object patch in the frames of the dataset!
     Media type:  image
     Num patches: 11345
     Patch fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        sample_id:        fiftyone.core.fields.ObjectIdField
-        frame_id:         fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        frame_number:     fiftyone.core.fields.FrameNumberField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        detections:       fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detection)
+        id:               tensorgrid.core.fields.ObjectIdField
+        sample_id:        tensorgrid.core.fields.ObjectIdField
+        frame_id:         tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        frame_number:     tensorgrid.core.fields.FrameNumberField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        detections:       tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detection)
     View stages:
         1. ToFrames(config=None)
         2. ToPatches(field='detections', config=None)
@@ -1982,7 +1982,7 @@ Querying frames
 ---------------
 
 You can query for a subset of the frames in a video dataset via
-:meth:`match_frames() <fiftyone.core.collections.SampleCollection.match_frames>`.
+:meth:`match_frames() <tensorgrid.core.collections.SampleCollection.match_frames>`.
 The syntax is:
 
 .. code-block:: python
@@ -1993,7 +1993,7 @@ The syntax is:
 where ``expression`` defines the matching expression to use to decide whether
 to include a frame in the view.
 
-FiftyOne provides powerful |ViewField| and |ViewExpression| classes that allow
+TensorGrid provides powerful |ViewField| and |ViewExpression| classes that allow
 you to use native Python operators to define your match expression. Simply wrap
 the target frame field in a |ViewField| and then apply comparison, logic,
 arithmetic or array operations to it to create a |ViewExpression|. You can use
@@ -2007,9 +2007,9 @@ The snippet below demonstrates a possible workflow. See the API reference for
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -2022,8 +2022,8 @@ The snippet below demonstrates a possible workflow. See the API reference for
     print(view.count("frames"))  # 354
 
 You can also use
-:meth:`select_frames() <fiftyone.core.collections.SampleCollection.select_frames>` and
-:meth:`exclude_frames() <fiftyone.core.collections.SampleCollection.exclude_frames>`
+:meth:`select_frames() <tensorgrid.core.collections.SampleCollection.select_frames>` and
+:meth:`exclude_frames() <tensorgrid.core.collections.SampleCollection.exclude_frames>`
 to restrict attention to or exclude frames from a view by their IDs:
 
 .. code-block:: python
@@ -2048,7 +2048,7 @@ ________________
 
 If your dataset is :ref:`indexed by similarity <brain-similarity>`, then you
 can use the
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 stage to programmatically query your data by similarity to image(s) or object
 patch(es) of interest.
 
@@ -2058,16 +2058,16 @@ Image similarity
 ----------------
 
 The example below indexes a dataset by image similarity using
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` and then uses
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` and then uses
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 to sort the dataset by similarity to a chosen image:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2100,16 +2100,16 @@ Object similarity
 
 The example below indexes the objects in a |Detections| field of a dataset by
 similarity using
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` and then uses
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` and then uses
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 to retrieve the 15 most similar objects to a chosen object:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2148,7 +2148,7 @@ Text similarity
 When you create a :ref:`similarity index <brain-similarity>` powered by the
 :ref:`CLIP model <model-zoo-clip-vit-base32-torch>`, you can pass arbitrary
 natural language queries to
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 along with the `brain_key` of a compatible similarity index:
 
 .. tabs::
@@ -2158,9 +2158,9 @@ along with the `brain_key` of a compatible similarity index:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.brain as fob
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.brain as fob
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2184,9 +2184,9 @@ along with the `brain_key` of a compatible similarity index:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.brain as fob
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.brain as fob
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2232,19 +2232,19 @@ ___________
 
 If your samples have :ref:`geolocation data <geolocation>`, then you can
 use the
-:meth:`geo_near() <fiftyone.core.collections.SampleCollection.geo_near>` and
-:meth:`geo_within() <fiftyone.core.collections.SampleCollection.geo_within>`
+:meth:`geo_near() <tensorgrid.core.collections.SampleCollection.geo_near>` and
+:meth:`geo_within() <tensorgrid.core.collections.SampleCollection.geo_within>`
 stages to filter your data based on their location.
 
 For example, you can use
-:meth:`geo_near() <fiftyone.core.collections.SampleCollection.geo_near>` to
+:meth:`geo_near() <tensorgrid.core.collections.SampleCollection.geo_near>` to
 sort your samples by proximity to a location:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     TIMES_SQUARE = [-73.9855, 40.7580]
 
@@ -2255,15 +2255,15 @@ sort your samples by proximity to a location:
     view = dataset.geo_near(TIMES_SQUARE, max_distance=5000)
 
 Or, you can use
-:meth:`geo_within() <fiftyone.core.collections.SampleCollection.geo_within>` to
+:meth:`geo_within() <tensorgrid.core.collections.SampleCollection.geo_within>` to
 only include samples that lie within a longitude-latitude polygon of your
 choice:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     MANHATTAN = [
         [
@@ -2286,17 +2286,17 @@ Tagging contents
 ________________
 
 You can use the
-:meth:`tag_samples() <fiftyone.core.collections.SampleCollection.tag_samples>`
-and :meth:`untag_samples() <fiftyone.core.collections.SampleCollection.untag_samples>`
+:meth:`tag_samples() <tensorgrid.core.collections.SampleCollection.tag_samples>`
+and :meth:`untag_samples() <tensorgrid.core.collections.SampleCollection.untag_samples>`
 methods to add or remove :ref:`sample tags <using-tags>` from the samples in a
 view:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
     dataset.untag_samples("validation") # remove pre-existing tags
@@ -2309,8 +2309,8 @@ view:
     # {'train': 180, 'test': 20}
 
 You can also use the
-:meth:`tag_labels() <fiftyone.core.collections.SampleCollection.tag_labels>`
-and :meth:`untag_labels() <fiftyone.core.collections.SampleCollection.untag_labels>`
+:meth:`tag_labels() <tensorgrid.core.collections.SampleCollection.tag_labels>`
+and :meth:`untag_labels() <tensorgrid.core.collections.SampleCollection.untag_labels>`
 methods to add or remove :ref:`label tags <label-tags>` from the labels in one
 or more fields of a view:
 
@@ -2337,9 +2337,9 @@ contents and editing the samples directly:
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2354,10 +2354,10 @@ contents and editing the samples directly:
     print(dataset.bounds("random")) # (0.0005, 0.9928)
 
 However, the above pattern can be inefficient for large views because each
-:meth:`sample.save() <fiftyone.core.sample.SampleView.save>` call makes a new
+:meth:`sample.save() <tensorgrid.core.sample.SampleView.save>` call makes a new
 connection to the database.
 
-The :meth:`iter_samples() <fiftyone.core.view.DatasetView.iter_samples>` method
+The :meth:`iter_samples() <tensorgrid.core.view.DatasetView.iter_samples>` method
 provides an ``autosave=True`` option that causes all changes to samples
 emitted by the iterator to be automatically saved using an efficient batch
 update strategy:
@@ -2375,13 +2375,13 @@ update strategy:
     :ref:`selecting only <efficient-iteration-views>` the required fields.
 
 You can configure the default batching strategy that is used via your
-:ref:`FiftyOne config <configuring-fiftyone>`, or you can configure the
+:ref:`TensorGrid config <configuring-fiftyone>`, or you can configure the
 batching strategy on a per-method call basis by passing the optional
 ``batch_size`` and ``batching_strategy`` arguments to
-:meth:`iter_samples() <fiftyone.core.view.DatasetView.iter_samples>`.
+:meth:`iter_samples() <tensorgrid.core.view.DatasetView.iter_samples>`.
 
 You can also use the
-:meth:`save_context() <fiftyone.core.collections.SampleCollection.save_context>`
+:meth:`save_context() <tensorgrid.core.collections.SampleCollection.save_context>`
 method to perform batched edits using the pattern below:
 
 .. code-block:: python
@@ -2394,13 +2394,13 @@ method to perform batched edits using the pattern below:
             context.save(sample)
 
 The benefit of the above approach versus passing ``autosave=True`` to
-:meth:`iter_samples() <fiftyone.core.view.DatasetView.iter_samples>` is that
-:meth:`context.save() <fiftyone.core.collections.SaveContext.save>` allows you
+:meth:`iter_samples() <tensorgrid.core.view.DatasetView.iter_samples>` is that
+:meth:`context.save() <tensorgrid.core.collections.SaveContext.save>` allows you
 to be explicit about which samples you are editing, which avoids unnecessary
 computations if your loop only edits certain samples.
 
 Another strategy for performing efficient batch edits is to use
-:meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>` to
+:meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>` to
 set a field (or embedded field) on each sample in the collection in a single
 batch operation:
 
@@ -2420,7 +2420,7 @@ batch operation:
 .. note::
 
     When possible, using
-    :meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`
+    :meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`
     is often more efficient than performing the equivalent operation via an
     explicit iteration over the |DatasetView| because it avoids the need to
     read |SampleView| instances into memory and sequentially save them.
@@ -2445,9 +2445,9 @@ over the view and editing the necessary data:
     # {'low_confidence': 447}
 
 However, an equivalent and often more efficient approach is to use
-:meth:`values() <fiftyone.core.collections.SampleCollection.values>` to
+:meth:`values() <tensorgrid.core.collections.SampleCollection.values>` to
 extract the slice of data you wish to modify and then use
-:meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>` to
+:meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>` to
 save the updated data in a single batch operation:
 
 .. code-block:: python
@@ -2475,7 +2475,7 @@ In the particular case of updating the attributes of a |Label| field of your
 dataset, the edits may be most naturally represented as a mapping between label
 IDs and corresponding attribute values to set on each label. In such cases, you
 can use
-:meth:`set_label_values() <fiftyone.core.collections.SampleCollection.set_label_values>`
+:meth:`set_label_values() <tensorgrid.core.collections.SampleCollection.set_label_values>`
 to conveniently perform the updates:
 
 .. code-block:: python
@@ -2498,24 +2498,24 @@ ___________________
 
 In certain situations, you may wish to temporarily modify the values of sample
 fields in the context of a |DatasetView| without modifying the underlying
-dataset. FiftyOne provides the
-:meth:`set_field() <fiftyone.core.collections.SampleCollection.set_field>`,
-:meth:`map_values() <fiftyone.core.collections.SampleCollection.map_values>`,
+dataset. TensorGrid provides the
+:meth:`set_field() <tensorgrid.core.collections.SampleCollection.set_field>`,
+:meth:`map_values() <tensorgrid.core.collections.SampleCollection.map_values>`,
 and
-:meth:`map_labels() <fiftyone.core.collections.SampleCollection.map_labels>`
+:meth:`map_labels() <tensorgrid.core.collections.SampleCollection.map_labels>`
 methods for this purpose.
 
 For example, suppose you would like to rename a group of labels to a single
 category in order to run your evaluation routine. You can use
-:meth:`map_values() <fiftyone.core.collections.SampleCollection.map_values>`
+:meth:`map_values() <tensorgrid.core.collections.SampleCollection.map_values>`
 to do this:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2534,7 +2534,7 @@ to do this:
 
 Or, suppose you would like to lower bound all confidences of objects in the
 `predictions` field of a dataset. You can use
-:meth:`set_field() <fiftyone.core.collections.SampleCollection.set_field>`
+:meth:`set_field() <tensorgrid.core.collections.SampleCollection.set_field>`
 to do this:
 
 .. code-block:: python
@@ -2552,9 +2552,9 @@ to do this:
 .. note::
 
     In order to populate a *new field* using
-    :meth:`set_field() <fiftyone.core.collections.SampleCollection.set_field>`,
+    :meth:`set_field() <tensorgrid.core.collections.SampleCollection.set_field>`,
     you must first declare the new field on the dataset via
-    :meth:`add_sample_field() <fiftyone.core.dataset.Dataset.add_sample_field>`:
+    :meth:`add_sample_field() <tensorgrid.core.dataset.Dataset.add_sample_field>`:
 
     .. code-block:: python
 
@@ -2575,7 +2575,7 @@ predictions for each sample in the dataset:
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     # Extracts the 5 highest confidence predictions for each sample
     top5_preds = F("detections").sort("confidence", reverse=True)[:5]
@@ -2590,7 +2590,7 @@ predictions for each sample in the dataset:
 
 If you want to permanently save transformed view fields to the underlying
 dataset, you can do so by calling
-:meth:`save() <fiftyone.core.view.DatasetView.save>` on the view and optionally
+:meth:`save() <tensorgrid.core.view.DatasetView.save>` on the view and optionally
 passing the name(s) of specific field(s) that you want to save:
 
 .. code-block:: python
@@ -2606,15 +2606,15 @@ __________________
 
 Ordinarily, when you define a |DatasetView| that extracts a specific subset of
 a dataset and its fields, the underlying |Dataset| is not modified. However,
-you can use :meth:`save() <fiftyone.core.view.DatasetView.save>` to save the
+you can use :meth:`save() <tensorgrid.core.view.DatasetView.save>` to save the
 contents of a view you've created to the underlying dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2636,11 +2636,11 @@ contents of a view you've created to the underlying dataset:
     print(dataset.bounds("predictions.detections.confidence"))
     # (0.3001, 0.9999)
 
-Note that calling :meth:`save() <fiftyone.core.view.DatasetView.save>` on a
+Note that calling :meth:`save() <tensorgrid.core.view.DatasetView.save>` on a
 |DatasetView| will only save modifications to samples that are in the view; all
 other samples are left unchanged.
 
-You can use :meth:`keep() <fiftyone.core.view.DatasetView.keep>` to delete
+You can use :meth:`keep() <tensorgrid.core.view.DatasetView.keep>` to delete
 samples from the underlying dataset that do not appear in a view you created:
 
 .. code-block:: python
@@ -2657,7 +2657,7 @@ samples from the underlying dataset that do not appear in a view you created:
     # 94
 
 and you can use
-:meth:`keep_fields() <fiftyone.core.view.DatasetView.keep_fields>`
+:meth:`keep_fields() <tensorgrid.core.view.DatasetView.keep_fields>`
 to delete any sample/frame fields from the underlying dataset that you have
 excluded from a view you created:
 
@@ -2677,7 +2677,7 @@ excluded from a view you created:
     print(dataset)
 
 Alternatively, you can use
-:meth:`clone() <fiftyone.core.view.DatasetView.clone>` to create a new
+:meth:`clone() <tensorgrid.core.view.DatasetView.clone>` to create a new
 |Dataset| that contains a copy of (only) the contents of a |DatasetView|:
 
 .. code-block:: python
@@ -2698,7 +2698,7 @@ By default, cloned views do not retain any
 :ref:`custom indexes <app-optimizing-query-performance>` that you've created on
 the source collection, but you can control this by passing the optional
 `include_indexes` parameter to
-:meth:`clone() <fiftyone.core.view.DatasetView.clone>`:
+:meth:`clone() <tensorgrid.core.view.DatasetView.clone>`:
 
 .. code-block:: python
     :linenos:
@@ -2714,7 +2714,7 @@ the source collection, but you can control this by passing the optional
     )
 
 You can also use
-:meth:`clone_sample_field() <fiftyone.core.view.DatasetView.clone_sample_field>`
+:meth:`clone_sample_field() <tensorgrid.core.view.DatasetView.clone_sample_field>`
 to copy the contents of a view's field into a new field of the underlying
 |Dataset|:
 
@@ -2744,7 +2744,7 @@ View stages can be chained together to perform complex operations:
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     # Extract the first 5 samples with the "validation" tag, alphabetically by
     # filepath, whose images are >= 48 KB
@@ -2767,7 +2767,7 @@ Need to filter your detections by bounding box area? Use this |ViewExpression|!
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     # Bboxes are in [top-left-x, top-left-y, width, height] format
     bbox_area = F("bounding_box")[2] * F("bounding_box")[3]
@@ -2777,13 +2777,13 @@ Need to filter your detections by bounding box area? Use this |ViewExpression|!
         "predictions", (0.05 <= bbox_area) & (bbox_area < 0.5)
     )
 
-FiftyOne stores bounding box coordinates as relative values in ``[0, 1]``.
+TensorGrid stores bounding box coordinates as relative values in ``[0, 1]``.
 However, you can use the expression below to filter by absolute pixel area:
 
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     dataset.compute_metadata()
 
@@ -2822,7 +2822,7 @@ If you have a dataset with larger fields, such as |Classifications| or
 |Detections|, it can be expensive to load entire samples into memory. If, for a
 particular use case, you are only interested in a
 subset of fields, you can use
-:class:`Dataset.select_fields() <fiftyone.core.dataset.Dataset.select_fields>`
+:class:`Dataset.select_fields() <tensorgrid.core.dataset.Dataset.select_fields>`
 to load only the fields of interest.
 
 Let's say you have a dataset that looks like this:
@@ -2835,22 +2835,22 @@ Let's say you have a dataset that looks like this:
     Persistent:  True
     Tags:        []
     Sample fields:
-        id:                       fiftyone.core.fields.ObjectIdField
-        filepath:                 fiftyone.core.fields.StringField
-        tags:                     fiftyone.core.fields.ListField(StringField)
-        metadata:                 fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:               fiftyone.core.fields.DateTimeField
-        last_modified_at:         fiftyone.core.fields.DateTimeField
-        open_images_id:           fiftyone.core.fields.StringField
-        groundtruth_image_labels: fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Classifications)
-        groundtruth_detections:   fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        faster_rcnn:              fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        mAP:                      fiftyone.core.fields.FloatField
-        AP_per_class:             fiftyone.core.fields.DictField
+        id:                       tensorgrid.core.fields.ObjectIdField
+        filepath:                 tensorgrid.core.fields.StringField
+        tags:                     tensorgrid.core.fields.ListField(StringField)
+        metadata:                 tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:               tensorgrid.core.fields.DateTimeField
+        last_modified_at:         tensorgrid.core.fields.DateTimeField
+        open_images_id:           tensorgrid.core.fields.StringField
+        groundtruth_image_labels: tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Classifications)
+        groundtruth_detections:   tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        faster_rcnn:              tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        mAP:                      tensorgrid.core.fields.FloatField
+        AP_per_class:             tensorgrid.core.fields.DictField
 
 and you want to get a list of ``open_images_id``'s for all samples in the
 dataset. Loading other fields is unnecessary; in fact, using
-:class:`Dataset.select_fields() <fiftyone.core.dataset.Dataset.select_fields>`
+:class:`Dataset.select_fields() <tensorgrid.core.dataset.Dataset.select_fields>`
 to load only the ``open_images_id`` field speeds up the operation below by
 ~200X!
 

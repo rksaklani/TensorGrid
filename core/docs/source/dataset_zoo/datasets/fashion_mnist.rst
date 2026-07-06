@@ -20,8 +20,8 @@ There are 60,000 training images and 10,000 test images.
 -   Supported splits: ``train, test``
 -   ZooDataset classes:
 
-    -   :class:`FashionMNISTDataset <fiftyone.zoo.datasets.tf.FashionMNISTDataset>` (TF backend)
-    -   :class:`FashionMNISTDataset <fiftyone.zoo.datasets.torch.FashionMNISTDataset>` (Torch backend)
+    -   :class:`FashionMNISTDataset <tensorgrid.zoo.datasets.tf.FashionMNISTDataset>` (TF backend)
+    -   :class:`FashionMNISTDataset <tensorgrid.zoo.datasets.torch.FashionMNISTDataset>` (Torch backend)
 
 .. note::
 
@@ -38,8 +38,8 @@ There are 60,000 training images and 10,000 test images.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("fashion-mnist", split="test")
 
@@ -49,9 +49,9 @@ There are 60,000 training images and 10,000 test images.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load fashion-mnist --split test
+        tensorgrid zoo datasets load fashion-mnist --split test
 
-        fiftyone app launch fashion-mnist-test
+        tensorgrid app launch fashion-mnist-test
 
 .. image:: /images/dataset_zoo/fashion-mnist-test.png
    :alt: fashion-mnist-test

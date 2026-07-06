@@ -25,7 +25,7 @@ is a superset of Kinetics 700.
 -   Tags: ``video, classification, action-recognition``
 -   Supported splits: ``train, test, validation``
 -   ZooDataset class:
-    :class:`Kinetics7002020Dataset <fiftyone.zoo.datasets.base.Kinetics7002020Dataset>`
+    :class:`Kinetics7002020Dataset <tensorgrid.zoo.datasets.base.Kinetics7002020Dataset>`
 
 Original split stats:
 
@@ -47,9 +47,9 @@ Dataset size
 
 **Partial downloads**
 
-Kinetics is a massive dataset, so FiftyOne provides parameters that can be used
+Kinetics is a massive dataset, so TensorGrid provides parameters that can be used
 to efficiently download specific subsets of the dataset to suit your needs.
-When new subsets are specified, FiftyOne will use existing downloaded data
+When new subsets are specified, TensorGrid will use existing downloaded data
 first if possible before resorting to downloading additional data from the web.
 
 Kinetics videos were originally only accessible from YouTube. Over time, some
@@ -57,14 +57,14 @@ videos have become unavailable so the
 `CVDF <https://github.com/cvdfoundation>`_ have hosted the Kinetics dataset on
 AWS.
 
-If you are partially downloading the dataset through FiftyOne, the specific
+If you are partially downloading the dataset through TensorGrid, the specific
 videos of interest will be downloaded from YouTube, if necessary. However,
 when you load an entire split, the CVDF-provided files will be downloaded from
 AWS.
 
 The following parameters are available to configure a partial download of
 Kinetics by passing them to
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`:
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`:
 
 -   **split** (*None*) and **splits** (*None*): a string or list of strings,
     respectively, specifying the splits to load. Supported values are
@@ -97,8 +97,8 @@ Kinetics by passing them to
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         #
         # Load 10 random samples from the validation split
@@ -149,11 +149,11 @@ Kinetics by passing them to
         # Only the required videos will be downloaded (if necessary).
         #
 
-        fiftyone zoo datasets load kinetics-700-2020 \
+        tensorgrid zoo datasets load kinetics-700-2020 \
             --split validation \
             --kwargs max_samples=10
 
-        fiftyone app launch kinetics-700-2020-validation-10
+        tensorgrid app launch kinetics-700-2020-validation-10
 
         #
         # Download the entire validation split
@@ -162,9 +162,9 @@ Kinetics by passing them to
         # downloading any videos
         #
 
-        fiftyone zoo datasets load kinetics-700-2020 --split validation
+        tensorgrid zoo datasets load kinetics-700-2020 --split validation
 
-        fiftyone app launch kinetics-700-2020-validation
+        tensorgrid app launch kinetics-700-2020-validation
 
 .. note::
 

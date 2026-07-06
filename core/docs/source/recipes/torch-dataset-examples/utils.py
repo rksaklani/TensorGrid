@@ -1,5 +1,5 @@
-import fiftyone as fo
-from fiftyone.utils.torch import FiftyOneTorchDataset, GetItem
+import tensorgrid as tg
+from tensorgrid.utils.torch import TensorGridTorchDataset, GetItem
 
 import numpy as np
 import torch
@@ -97,7 +97,7 @@ def create_dataloader_simple(torch_dataset):
         batch_size=5,
         shuffle=True,
         num_workers=2,  # we are compatible with many workers
-        worker_init_fn=FiftyOneTorchDataset.worker_init,  # this is required for the dataloader to work
+        worker_init_fn=TensorGridTorchDataset.worker_init,  # this is required for the dataloader to work
         collate_fn=simple_collate_fn,
     )
     return dataloader
@@ -173,7 +173,7 @@ def create_dataloaders(
     """Create dataloaders for train/validation/test splits.
 
     Args:
-        dataset: FiftyOne dataset with train/validation/test tags
+        dataset: TensorGrid dataset with train/validation/test tags
         get_item: A GetItem object
         local_process_group: Process group for distributed training
         **kwargs: Additional arguments for DataLoader
@@ -197,7 +197,7 @@ def create_dataloaders(
         dataloader = torch.utils.data.DataLoader(
             split,
             shuffle=shuffle,
-            worker_init_fn=FiftyOneTorchDataset.worker_init,
+            worker_init_fn=TensorGridTorchDataset.worker_init,
             **kwargs,
         )
         dataloaders[split_tag] = dataloader
@@ -237,7 +237,7 @@ def create_dataloaders_ddp(
     """Create dataloaders for distributed training.
 
     Args:
-        dataset: FiftyOne dataset with train/validation/test tags
+        dataset: TensorGrid dataset with train/validation/test tags
         get_item: A GetItem object
         local_process_group: Process group for distributed training
         **kwargs: Additional arguments for DataLoader
@@ -260,7 +260,7 @@ def create_dataloaders_ddp(
         shuffle = True if split_tag == "train" else False
         dataloader = torch.utils.data.DataLoader(
             split,
-            worker_init_fn=FiftyOneTorchDataset.worker_init,
+            worker_init_fn=TensorGridTorchDataset.worker_init,
             sampler=torch.utils.data.DistributedSampler(
                 split, shuffle=shuffle
             ),

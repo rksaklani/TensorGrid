@@ -1,17 +1,17 @@
 .. _labs-ecosystem:
 
-FiftyOne Labs
+TensorGrid Labs
 =============
 
 .. default-role:: code
 
-`FiftyOne Labs <https://github.com/voxel51/fiftyone-labs>`_ brings research solutions and experimental features for machine
+`TensorGrid Labs <https://github.com/rksaklani/TensorGrid-labs>`_ brings research solutions and experimental features for machine
 learning. Here you'll find cutting-edge experiments, novel workflows, and
 advanced capabilities built using the
-:ref:`FiftyOne plugins ecosystem <plugins-ecosystem>`.
+:ref:`TensorGrid plugins ecosystem <plugins-ecosystem>`.
 
 Labs features are organized into two categories, machine learning experiments
-and advanced visualization tools, and are developed by the Voxel51 team.
+and advanced visualization tools, and are developed by the TensorGrid team.
 
 .. raw:: html
 
@@ -28,8 +28,8 @@ and advanced visualization tools, and are developed by the Voxel51 team.
     </div>
 
 .. customanimatedcta::
-    :button_text: Explore FiftyOne Labs on GitHub
-    :button_link: https://github.com/voxel51/fiftyone-labs
+    :button_text: Explore TensorGrid Labs on GitHub
+    :button_link: https://github.com/rksaklani/TensorGrid-labs
     :align: right
 
 .. Labs cards section ---------------------------------------------------------
@@ -74,8 +74,8 @@ and advanced visualization tools, and are developed by the Voxel51 team.
 
 .. note::
 
-   FiftyOne Labs features are experimental and may change independently of
-   FiftyOne core. Please review each feature's documentation before use.
+   TensorGrid Labs features are experimental and may change independently of
+   TensorGrid core. Please review each feature's documentation before use.
 
 .. toctree::
    :maxdepth: 1

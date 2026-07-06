@@ -5,10 +5,10 @@ Ultralytics Integration
 
 .. default-role:: code
 
-FiftyOne integrates natively with
+TensorGrid integrates natively with
 `Ultralytics <https://github.com/ultralytics/ultralytics>`_, so
 you can load, fine-tune, and run inference with your favorite Ultralytics
-models on your FiftyOne datasets with just a few lines of code!
+models on your TensorGrid datasets with just a few lines of code!
 
 .. _ultralytics-setup:
 
@@ -37,9 +37,9 @@ the following sample dataset:
     # Suppress Ultralytics logging
     import os; os.environ["YOLO_VERBOSE"] = "False"
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.utils.ultralytics as fou
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.ultralytics as fou
 
     from ultralytics import YOLO
 
@@ -53,7 +53,7 @@ Image classification
 --------------------
 
 You can directly pass Ultralytics `YOLO` classification models to
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`:
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`:
 
 
 .. code-block:: python
@@ -77,7 +77,7 @@ Object detection
 ----------------
 
 You can directly pass Ultralytics `YOLO` or `RTDETR` detection models to
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`:
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`:
 
 .. code-block:: python
     :linenos:
@@ -121,9 +121,9 @@ You can directly pass Ultralytics `YOLO` or `RTDETR` detection models to
     session = fo.launch_app(dataset)
 
 Alternatively, you can use the
-:func:`to_detections() <fiftyone.utils.ultralytics.to_detections>` utility to
+:func:`to_detections() <tensorgrid.utils.ultralytics.to_detections>` utility to
 manually convert Ultralytics predictions to
-:ref:`FiftyOne format <object-detection>`:
+:ref:`TensorGrid format <object-detection>`:
 
 .. code-block:: python
     :linenos:
@@ -138,7 +138,7 @@ manually convert Ultralytics predictions to
    :align: center
 
 You can also load any of these models directly from the
-:ref:`FiftyOne Model Zoo <model-zoo>`:
+:ref:`TensorGrid Model Zoo <model-zoo>`:
 
 .. code-block:: python
     :linenos:
@@ -156,7 +156,7 @@ You can also load any of these models directly from the
 
     session = fo.launch_app(dataset)
 
-You can use :func:`list_zoo_models() <fiftyone.zoo.list_zoo_models>` to see all
+You can use :func:`list_zoo_models() <tensorgrid.zoo.list_zoo_models>` to see all
 available YOLO models that are compatible with Ultralytics or SuperGradients:
 
 .. code-block:: python
@@ -175,7 +175,7 @@ Instance segmentation
 ---------------------
 
 You can directly pass Ultralytics YOLO segmentation models to
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`:
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`:
 
 .. code-block:: python
     :linenos:
@@ -195,10 +195,10 @@ You can directly pass Ultralytics YOLO segmentation models to
     session = fo.launch_app(dataset)
 
 Alternatively, you can use the
-:func:`to_instances() <fiftyone.utils.ultralytics.to_instances>` and
-:func:`to_polylines() <fiftyone.utils.ultralytics.to_polylines>` utilities to
+:func:`to_instances() <tensorgrid.utils.ultralytics.to_instances>` and
+:func:`to_polylines() <tensorgrid.utils.ultralytics.to_polylines>` utilities to
 manually convert Ultralytics predictions into the desired
-:ref:`FiftyOne format <instance-segmentation>`:
+:ref:`TensorGrid format <instance-segmentation>`:
 
 .. code-block:: python
     :linenos:
@@ -216,7 +216,7 @@ manually convert Ultralytics predictions into the desired
 
 
 You can also load YOLOv8, YOLOv9, and YOLO11 segmentation models from the
-:ref:`FiftyOne Model Zoo <model-zoo>`:
+:ref:`TensorGrid Model Zoo <model-zoo>`:
 
 .. code-block:: python
     :linenos:
@@ -248,7 +248,7 @@ Keypoints
 ---------
 
 You can directly pass Ultralytics YOLO pose models to
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`:
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`:
 
 .. code-block:: python
     :linenos:
@@ -278,8 +278,8 @@ You can directly pass Ultralytics YOLO pose models to
     session = fo.launch_app(dataset)
 
 Alternatively, you can use the
-:func:`to_keypoints() <fiftyone.utils.ultralytics.to_keypoints>` utility to
-manually convert Ultralytics predictions to :ref:`FiftyOne format <keypoints>`:
+:func:`to_keypoints() <tensorgrid.utils.ultralytics.to_keypoints>` utility to
+manually convert Ultralytics predictions to :ref:`TensorGrid format <keypoints>`:
 
 .. code-block:: python
     :linenos:
@@ -300,7 +300,7 @@ Oriented bounding boxes
 -----------------------
 
 You can directly pass Ultralytics YOLO oriented bounding box models to
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`:
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`:
 
 .. code-block:: python
     :linenos:
@@ -317,7 +317,7 @@ You can directly pass Ultralytics YOLO oriented bounding box models to
 
 
 You can also load YOLOv8 oriented bounding box models from the
-:ref:`FiftyOne Model Zoo <model-zoo>`:
+:ref:`TensorGrid Model Zoo <model-zoo>`:
 
 .. code-block:: python
     :linenos:
@@ -348,7 +348,7 @@ You can also load YOLOv8 oriented bounding box models from the
 Open vocabulary detection
 -------------------------
 
-FiftyOne's Ultralytics integration also supports real-time open vocabulary
+TensorGrid's Ultralytics integration also supports real-time open vocabulary
 object detection via
 `YOLO World <https://docs.ultralytics.com/models/yolo-world/>`_.
 
@@ -358,8 +358,8 @@ that you can set the classes that the model should detect:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     from ultralytics import YOLO
 
@@ -394,7 +394,7 @@ that you can set the classes that the model should detect:
    :align: center
 
 You can also load these open-vocabulary models from the
-:ref:`FiftyOne Model Zoo <model-zoo>`, optionally specifying the classes that
+:ref:`TensorGrid Model Zoo <model-zoo>`, optionally specifying the classes that
 the model should detect:
 
 .. code-block:: python
@@ -418,7 +418,7 @@ the model should detect:
 Open vocabulary segmentation
 ----------------------------
 
-FiftyOne's Ultralytics integration also supports real-time open vocabulary
+TensorGrid's Ultralytics integration also supports real-time open vocabulary
 instance segmentation via
 `YOLOE <https://docs.ultralytics.com/models/yoloe/>`_.
 
@@ -428,8 +428,8 @@ that you can set the classes that the model should segment:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     from ultralytics import YOLO
 
@@ -458,7 +458,7 @@ that you can set the classes that the model should segment:
     dataset.apply_model(model, label_field=label_field)
 
 You can also load these open-vocabulary models from the
-:ref:`FiftyOne Model Zoo <model-zoo>`, optionally specifying the classes that
+:ref:`TensorGrid Model Zoo <model-zoo>`, optionally specifying the classes that
 the model should detect:
 
 .. code-block:: python
@@ -484,7 +484,7 @@ the model should detect:
 .. note::
 
     While Ultralytics YOLOE models support `text and visual prompts <https://docs.ultralytics.com/models/yoloe/#textvisual-prompt-models>`_,
-    YOLOE in FiftyOne currently only supports text prompts.
+    YOLOE in TensorGrid currently only supports text prompts.
 
 .. _ultralytics-batch-inference:
 
@@ -492,7 +492,7 @@ Batch inference
 ---------------
 
 When using
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`,
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`,
 you can request batch inference by passing the optional `batch_size` parameter:
 
 .. code-block:: python
@@ -506,7 +506,7 @@ pattern below:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.core.utils import iter_batches
+    from tensorgrid.core.utils import iter_batches
 
     filepaths = dataset.values("filepath")
     batch_size = 16
@@ -520,7 +520,7 @@ pattern below:
 
 You can also provide overrides to the underlying Ultralytics model by passing
 them as kwargs to
-:meth:`load_zoo_model() <fiftyone.zoo.models.load_zoo_model>`:
+:meth:`load_zoo_model() <tensorgrid.zoo.models.load_zoo_model>`:
 
 .. code-block:: python
     :linenos:
@@ -532,15 +532,15 @@ them as kwargs to
 .. note::
 
     See :ref:`this section <batch-updates>` for more information about
-    performing batch updates to your FiftyOne datasets.
+    performing batch updates to your TensorGrid datasets.
 
 .. _ultralytics-training:
 
 Training
 ________
 
-You can use FiftyOne's builtin :ref:`YOLOv5 exporter <YOLOv5Dataset-export>` to
-export your FiftyOne datasets for use with Ultralytics models.
+You can use TensorGrid's builtin :ref:`YOLOv5 exporter <YOLOv5Dataset-export>` to
+export your TensorGrid datasets for use with Ultralytics models.
 
 For example, the code below prepares a random subset of the
 :ref:`Open Images v7 dataset <dataset-zoo-open-images-v7>` for fine-tuning:
@@ -548,9 +548,9 @@ For example, the code below prepares a random subset of the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.ultralytics as fou
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.utils.ultralytics as fou
+    import tensorgrid.zoo as foz
 
     # The path to export the dataset
     EXPORT_DIR = "/tmp/oiv7-yolo"

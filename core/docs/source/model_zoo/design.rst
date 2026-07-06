@@ -13,16 +13,16 @@ input and output data formats.
 
     If you write a wrapper for your custom model that implements the |Model|
     interface, then you can pass your models to built-in methods like
-    :meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+    :meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
     and
-    :meth:`compute_embeddings() <fiftyone.core.collections.SampleCollection.compute_embeddings>`
+    :meth:`compute_embeddings() <tensorgrid.core.collections.SampleCollection.compute_embeddings>`
     too!
 
-    FiftyOne provides classes that make it easy to deploy models in custom
+    TensorGrid provides classes that make it easy to deploy models in custom
     frameworks easy. For example, if you have a PyTorch model that processes
     images, you can likely use
-    :class:`TorchImageModel <fiftyone.utils.torch.TorchImageModel>` to run it
-    using FiftyOne.
+    :class:`TorchImageModel <tensorgrid.utils.torch.TorchImageModel>` to run it
+    using TensorGrid.
 
 .. _model-zoo-design-prediction:
 
@@ -30,7 +30,7 @@ Prediction
 ----------
 
 Inside built-in methods like
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`,
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`,
 predictions of a |Model| instance are generated using the following pattern:
 
 .. tabs::
@@ -43,7 +43,7 @@ predictions of a |Model| instance are generated using the following pattern:
         import numpy as np
         from PIL import Image
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         def read_rgb_image(path):
             """Utility function that loads an image as an RGB numpy array."""
@@ -52,7 +52,7 @@ predictions of a |Model| instance are generated using the following pattern:
         # Load a `Model` instance that processes images
         model = ...
 
-        # Load a FiftyOne dataset
+        # Load a TensorGrid dataset
         dataset = fo.load_dataset(...)
 
         # A sample field in which to store the predictions
@@ -78,12 +78,12 @@ predictions of a |Model| instance are generated using the following pattern:
 
         import eta.core.video as etav
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # Load a `Model` instance that processes videos
         model = ...
 
-        # Load a FiftyOne dataset
+        # Load a TensorGrid dataset
         dataset = fo.load_dataset(...)
 
         # A sample field in which to store the predictions
@@ -104,11 +104,11 @@ By convention, |Model| instances must implement the context manager interface,
 which handles any necessary setup and teardown required to use the model.
 
 Predictions are generated via the
-:meth:`Model.predict() <fiftyone.core.models.Model>` interface method, which
+:meth:`Model.predict() <tensorgrid.core.models.Model>` interface method, which
 takes an image/video as input and returns the predictions.
 
 In order to be compatible with built-in methods like
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`,
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`,
 models should support the following basic signature of running inference and
 storing the output labels:
 
@@ -189,13 +189,13 @@ names, and is defined from ``label_field`` as follows:
         label_key = lambda k: k
 
 For models that support batching, the |Model| interface also provides a
-:meth:`predict_all() <fiftyone.core.models.Model.predict_all>` method that can
+:meth:`predict_all() <tensorgrid.core.models.Model.predict_all>` method that can
 provide an efficient implementation of predicting on a batch of data.
 
 .. note::
 
     Built-in methods like
-    :meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+    :meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
     provide a ``batch_size`` parameter that can be used to control the batch
     size used when performing inference with models that support efficient
     batching.
@@ -215,14 +215,14 @@ Models that can compute embeddings for their input data can expose this
 capability by implementing the |EmbeddingsMixin| mixin.
 
 Inside built-in methods like
-:meth:`compute_embeddings() <fiftyone.core.collections.SampleCollection.compute_embeddings>`,
+:meth:`compute_embeddings() <tensorgrid.core.collections.SampleCollection.compute_embeddings>`,
 embeddings for a collection of samples are generated using an analogous pattern
 to the prediction code shown above, except that the embeddings are generated
-using :meth:`Model.embed() <fiftyone.core.models.EmbeddingsMixin.embed>` in
-place of :meth:`Model.predict() <fiftyone.core.models.Model.predict>`.
+using :meth:`Model.embed() <tensorgrid.core.models.EmbeddingsMixin.embed>` in
+place of :meth:`Model.predict() <tensorgrid.core.models.Model.predict>`.
 
 By convention,
-:meth:`Model.embed() <fiftyone.core.models.EmbeddingsMixin.embed>` should
+:meth:`Model.embed() <tensorgrid.core.models.EmbeddingsMixin.embed>` should
 return a numpy array containing the embedding.
 
 .. note::
@@ -230,7 +230,7 @@ return a numpy array containing the embedding.
     Embeddings are typically 1D vectors, but this is not strictly required.
 
 For models that support batching, the |EmbeddingsMixin| interface also provides
-a :meth:`embed_all() <fiftyone.core.models.Model.predict_all>` method that can
+a :meth:`embed_all() <tensorgrid.core.models.Model.predict_all>` method that can
 provide an efficient implementation of embedding a batch of data.
 
 .. _model-zoo-design-logits:
@@ -238,13 +238,13 @@ provide an efficient implementation of embedding a batch of data.
 Logits
 ------
 
-Models that generate logits for their predictions can expose them to FiftyOne
+Models that generate logits for their predictions can expose them to TensorGrid
 by implementing the |LogitsMixin| mixin.
 
 Inside built-in methods like
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`,
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`,
 if the user requests logits, the model's
-:meth:`store_logits <fiftyone.core.models.LogitsMixin.store_logits>`
+:meth:`store_logits <tensorgrid.core.models.LogitsMixin.store_logits>`
 property is set to indicate that the model should store logits in the |Label|
 instances that it produces during inference.
 
@@ -253,13 +253,13 @@ instances that it produces during inference.
 Custom models
 -------------
 
-FiftyOne provides a
-:class:`TorchImageModel <fiftyone.utils.torch.TorchImageModel>`
+TensorGrid provides a
+:class:`TorchImageModel <tensorgrid.utils.torch.TorchImageModel>`
 class that you can use to load your own custom Torch model and pass it to
 built-in methods like
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
 and
-:meth:`compute_embeddings() <fiftyone.core.collections.SampleCollection.compute_embeddings>`.
+:meth:`compute_embeddings() <tensorgrid.core.collections.SampleCollection.compute_embeddings>`.
 
 For example, the snippet below loads a pretrained model from `torchvision`
 and uses it both as a classifier and to generate image embeddings:
@@ -270,9 +270,9 @@ and uses it both as a classifier and to generate image embeddings:
     import os
     import eta
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.utils.torch as fout
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.torch as fout
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -283,7 +283,7 @@ and uses it both as a classifier and to generate image embeddings:
         {
             "entrypoint_fcn": "torchvision.models.mobilenet.mobilenet_v2",
             "entrypoint_args": {"weights": "MobileNet_V2_Weights.DEFAULT"},
-            "output_processor_cls": "fiftyone.utils.torch.ClassifierOutputProcessor",
+            "output_processor_cls": "tensorgrid.utils.torch.ClassifierOutputProcessor",
             "labels_path": labels_path,
             "image_min_dim": 224,
             "image_max_dim": 2048,
@@ -298,7 +298,7 @@ and uses it both as a classifier and to generate image embeddings:
     embeddings = dataset.compute_embeddings(model)
 
 The necessary configuration is provided via the
-:class:`TorchImageModelConfig <fiftyone.utils.torch.TorchImageModelConfig>`
+:class:`TorchImageModelConfig <tensorgrid.utils.torch.TorchImageModelConfig>`
 class, which exposes a number of built-in mechanisms for defining the model to
 load and any necessary preprocessing and post-processing.
 
@@ -311,17 +311,17 @@ Under the hood, the torch model is loaded via:
 which is assumed to return a :class:`torch:torch.nn.Module` whose `__call__()`
 method directly accepts Torch tensors (NCHW) as input.
 
-The :class:`TorchImageModelConfig <fiftyone.utils.torch.TorchImageModelConfig>`
+The :class:`TorchImageModelConfig <tensorgrid.utils.torch.TorchImageModelConfig>`
 class provides a number of built-in mechanisms for specifying the required
 preprocessing for your model, such as resizing and normalization. In the above
 example, `image_min_dim`, `image_max_dim`, `image_mean`, and `image_std` are
 used.
 
 The `output_processor_cls` parameter of
-:class:`TorchImageModelConfig <fiftyone.utils.torch.TorchImageModelConfig>`
+:class:`TorchImageModelConfig <tensorgrid.utils.torch.TorchImageModelConfig>`
 must be set to the fully-qualified class name of an
-:class:`OutputProcessor <fiftyone.utils.torch.OutputProcessor>` subclass that
-defines how to translate the model's raw output into the suitable FiftyOne
+:class:`OutputProcessor <tensorgrid.utils.torch.OutputProcessor>` subclass that
+defines how to translate the model's raw output into the suitable TensorGrid
 |Label| types, and is instantiated as follows:
 
 .. code-block:: python
@@ -330,21 +330,21 @@ defines how to translate the model's raw output into the suitable FiftyOne
 
 where your model's classes can be specified via any of the `classes`,
 `labels_string`, or `labels_path` parameters of
-:class:`TorchImageModelConfig <fiftyone.utils.torch.TorchImageModelConfig>`.
+:class:`TorchImageModelConfig <tensorgrid.utils.torch.TorchImageModelConfig>`.
 
 The following built-in output processors are available for use:
 
-- :class:`ClassifierOutputProcessor <fiftyone.utils.torch.ClassifierOutputProcessor>`
-- :class:`DetectorOutputProcessor <fiftyone.utils.torch.DetectorOutputProcessor>`
-- :class:`InstanceSegmenterOutputProcessor <fiftyone.utils.torch.InstanceSegmenterOutputProcessor>`
-- :class:`KeypointDetectorOutputProcessor <fiftyone.utils.torch.KeypointDetectorOutputProcessor>`
-- :class:`SemanticSegmenterOutputProcessor <fiftyone.utils.torch.SemanticSegmenterOutputProcessor>`
+- :class:`ClassifierOutputProcessor <tensorgrid.utils.torch.ClassifierOutputProcessor>`
+- :class:`DetectorOutputProcessor <tensorgrid.utils.torch.DetectorOutputProcessor>`
+- :class:`InstanceSegmenterOutputProcessor <tensorgrid.utils.torch.InstanceSegmenterOutputProcessor>`
+- :class:`KeypointDetectorOutputProcessor <tensorgrid.utils.torch.KeypointDetectorOutputProcessor>`
+- :class:`SemanticSegmenterOutputProcessor <tensorgrid.utils.torch.SemanticSegmenterOutputProcessor>`
 
 or you can write your own
-:class:`OutputProcessor <fiftyone.utils.torch.OutputProcessor>` subclass.
+:class:`OutputProcessor <tensorgrid.utils.torch.OutputProcessor>` subclass.
 
 Finally, if you would like to pass your custom model to methods like
-:meth:`compute_embeddings() <fiftyone.core.collections.SampleCollection.compute_embeddings>`,
+:meth:`compute_embeddings() <tensorgrid.core.collections.SampleCollection.compute_embeddings>`,
 set the `embeddings_layer` parameter to the name of a layer whose output to
 expose as embeddings (or prepend `<` to use the input tensor instead).
 

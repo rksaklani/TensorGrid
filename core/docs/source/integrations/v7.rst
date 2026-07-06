@@ -7,7 +7,7 @@ V7 Integration
 
 `V7 <https://www.v7labs.com>`_ is one of the leading image and video annotation
 tools available, and we've made it easy to upload your data directly from
-FiftyOne to V7 for labeling.
+TensorGrid to V7 for labeling.
 
 Create a `V7 account <https://www.v7labs.com/sign-up>`_ and follow
 these :ref:`simple setup instructions <v7-setup>` to get up and running.
@@ -15,11 +15,11 @@ these :ref:`simple setup instructions <v7-setup>` to get up and running.
 .. note::
 
     Did you know? You can request, manage, and import annotations from within
-    the FiftyOne App by installing the
-    `@voxel51/annotation <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/annotation>`_
+    the TensorGrid App by installing the
+    `@voxel51/annotation <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/annotation>`_
     plugin!
 
-FiftyOne provides an API to upload data, define label schemas,
+TensorGrid provides an API to upload data, define label schemas,
 and download annotations using V7, all programmatically in Python. All of the
 following label types are supported, for both image and video datasets:
 
@@ -37,28 +37,28 @@ following label types are supported, for both image and video datasets:
 Basic recipe
 ____________
 
-The basic workflow to use V7 to add or edit labels on your FiftyOne datasets is
+The basic workflow to use V7 to add or edit labels on your TensorGrid datasets is
 as follows:
 
-1) :ref:`Load a dataset <importing-datasets>` into FiftyOne
+1) :ref:`Load a dataset <importing-datasets>` into TensorGrid
 
 2) Explore the dataset using the :ref:`App <fiftyone-app>` or
    :ref:`dataset views <using-views>` to locate either unlabeled samples that
    you wish to annotate or labeled samples whose annotations you want to edit
 
 3) Use the
-   :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+   :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
    method on your dataset or view to upload the samples and optionally their
    existing labels to V7 by setting the parameter `backend="darwin"`
 
 4) In V7, perform the necessary annotation work
 
-5) Back in FiftyOne, load your dataset and use the
-   :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
-   method to merge the annotations back into your FiftyOne dataset
+5) Back in TensorGrid, load your dataset and use the
+   :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
+   method to merge the annotations back into your TensorGrid dataset
 
 6) If desired, delete the V7 project and the record of the annotation run from
-   your FiftyOne dataset
+   your TensorGrid dataset
 
 |br|
 The example below demonstrates this workflow.
@@ -75,11 +75,11 @@ First, we create the annotation tasks in V7:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
-    # Step 1: Load your data into FiftyOne
+    # Step 1: Load your data into TensorGrid
 
     dataset = foz.load_zoo_dataset(
         "quickstart", dataset_name="v7-annotation-example"
@@ -128,16 +128,16 @@ First, we create the annotation tasks in V7:
     # Step 4: Perform annotation in V7 and save the tasks
 
 Then, once the annotation work is complete, we merge the annotations back into
-FiftyOne:
+TensorGrid:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     anno_key = "v7_basic_recipe"
 
-    # Step 5: Merge annotations back into FiftyOne dataset
+    # Step 5: Merge annotations back into TensorGrid dataset
 
     dataset = fo.load_dataset("v7-annotation-example")
     dataset.load_annotations(anno_key)
@@ -152,7 +152,7 @@ FiftyOne:
     results = dataset.load_annotation_results(anno_key)
     results.cleanup()
 
-    # Delete run record (not the labels) from FiftyOne
+    # Delete run record (not the labels) from TensorGrid
     dataset.delete_annotation_run(anno_key)
 
 .. note::
@@ -172,20 +172,20 @@ API key.
 Installing the V7 backend
 -------------------------
 
-In order to use the V7 backend, you must install the ``darwin_fiftyone`` Python
+In order to use the V7 backend, you must install the ``darwin_tensorgrid`` Python
 package:
 
 .. code-block:: shell
 
-    pip install darwin_fiftyone
+    pip install darwin_tensorgrid
 
-and register the ``darwin`` backend with FiftyOne, which you can do either by
+and register the ``darwin`` backend with TensorGrid, which you can do either by
 setting the following environment variables:
 
 .. code-block:: shell
 
     export FIFTYONE_ANNOTATION_BACKENDS=*,darwin
-    export FIFTYONE_DARWIN_CONFIG_CLS=darwin_fiftyone.DarwinBackendConfig
+    export FIFTYONE_DARWIN_CONFIG_CLS=darwin_tensorgrid.DarwinBackendConfig
     export FIFTYONE_DARWIN_API_KEY=XXXXXXXXX
 
 or by adding the following parameters to your
@@ -197,7 +197,7 @@ or by adding the following parameters to your
     {
         "backends": {
             "darwin": {
-                "config_cls": "darwin_fiftyone.DarwinBackendConfig",
+                "config_cls": "darwin_tensorgrid.DarwinBackendConfig",
                 "api_key": "XXXXXXXXX"
             }
         }
@@ -210,11 +210,11 @@ Using the V7 backend
 --------------------
 
 By default, calling
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` will
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` will
 use the :ref:`CVAT backend <cvat-integration>`.
 
 To use the V7 backend, simply set the optional `backend` parameter of
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` to
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` to
 `"darwin"`:
 
 .. code:: python
@@ -222,7 +222,7 @@ To use the V7 backend, simply set the optional `backend` parameter of
 
     view.annotate(anno_key, backend="darwin", ...)
 
-Alternatively, you can permanently configure FiftyOne to use the V7 backend by
+Alternatively, you can permanently configure TensorGrid to use the V7 backend by
 setting the `FIFTYONE_ANNOTATION_DEFAULT_BACKEND` environment variable:
 
 .. code-block:: shell
@@ -249,13 +249,13 @@ a variety of ways.
 
 The recommended way to configure your V7 API key is to store it in the
 `FIFTYONE_DARWIN_API_KEY` environment variable. This is automatically accessed
-by FiftyOne whenever a connection to V7 is made.
+by TensorGrid whenever a connection to V7 is made.
 
 .. code-block:: shell
 
     export FIFTYONE_DARWIN_API_KEY=...
 
-**FiftyOne annotation config**
+**TensorGrid annotation config**
 
 You can also store your credentials in your
 :ref:`annotation config <annotation-config>` located at
@@ -277,8 +277,8 @@ Note that this file will not exist until you create it.
 
 You can manually provide your API key as a keyword argument each time you call
 methods like
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` and
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` and
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
 that require connections to V7:
 
 .. code:: python
@@ -298,7 +298,7 @@ Requesting annotations
 ______________________
 
 Use the
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` method
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` method
 to send the samples and optionally existing labels in a |Dataset| or
 |DatasetView| to V7 for annotation.
 
@@ -312,22 +312,22 @@ The basic syntax is:
 
 The `anno_key` argument defines a unique identifier for the annotation run, and
 you will provide it to methods like
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`,
-:meth:`get_annotation_info() <fiftyone.core.collections.SampleCollection.load_annotations>`,
-:meth:`load_annotation_results() <fiftyone.core.collections.SampleCollection.load_annotation_results>`,
-:meth:`rename_annotation_run() <fiftyone.core.collections.SampleCollection.rename_annotation_run>`, and
-:meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
+:meth:`get_annotation_info() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
+:meth:`load_annotation_results() <tensorgrid.core.collections.SampleCollection.load_annotation_results>`,
+:meth:`rename_annotation_run() <tensorgrid.core.collections.SampleCollection.rename_annotation_run>`, and
+:meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
 to manage the run in the future.
 
 .. note::
 
     Calling
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
     will upload the source media files to the V7 server.
 
 
 In addition,
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
 provides various parameters that you can use to customize the annotation tasks
 that you wish to be performed.
 
@@ -335,8 +335,8 @@ The following parameters are supported by all annotation backends:
 
 -   **backend** (*None*): the annotation backend to use. Use `"darwin"` for
     the V7 backend. The supported values are
-    `fiftyone.annotation_config.backends.keys()` and the default is
-    `fiftyone.annotation_config.default_backend`
+    `tensorgrid.annotation_config.backends.keys()` and the default is
+    `tensorgrid.annotation_config.default_backend`
 -   **media_field** (*"filepath"*): the sample field containing the path to the
     source media to upload
 -   **launch_editor** (*False*): whether to launch the annotation backend's
@@ -360,7 +360,7 @@ details:
         |Classifications| fields
     -   ``"detections"``: object detections stored in |Detections| fields
     -   ``"polygons"``: polygons stored in |Polylines| fields with their
-        :attr:`filled <fiftyone.core.labels.Polyline.filled>` attributes set to
+        :attr:`filled <tensorgrid.core.labels.Polyline.filled>` attributes set to
         `True`
     -   ``"keypoints"``: keypoints stored in |Keypoints| fields
 
@@ -398,12 +398,12 @@ Label schema
 ------------
 
 The `label_schema`, `label_field`, `label_type`, and `classes` parameters to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` allow
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` allow
 you to define the annotation schema that you wish to be used.
 
 The label schema may define new label field(s) that you wish to populate, and
 it may also include existing label field(s), in which case you can add, delete,
-or edit the existing labels on your FiftyOne dataset.
+or edit the existing labels on your TensorGrid dataset.
 
 The `label_schema` argument is the most flexible way to define how to construct
 tasks in V7. In its most verbose form, it is a dictionary that defines
@@ -452,8 +452,8 @@ the components of the label schema individually:
 
 When you are annotating existing label fields, you can omit some of these
 parameters from
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`, as
-FiftyOne can infer the appropriate values to use:
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`, as
+TensorGrid can infer the appropriate values to use:
 
 -   **label_type**: if omitted, the |Label| type of the field will be used to
     infer the appropriate value for this parameter
@@ -482,8 +482,8 @@ ___________________
 
 After your annotations tasks in the annotation backend are complete, you can
 use the
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
-method to download them and merge them back into your FiftyOne dataset.
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
+method to download them and merge them back into your TensorGrid dataset.
 
 .. code:: python
     :linenos:
@@ -492,15 +492,15 @@ method to download them and merge them back into your FiftyOne dataset.
 
 The `anno_key` parameter is the unique identifier for the annotation run that
 you provided when calling
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`. You
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`. You
 can use
-:meth:`list_annotation_runs() <fiftyone.core.collections.SampleCollection.list_annotation_runs>`
+:meth:`list_annotation_runs() <tensorgrid.core.collections.SampleCollection.list_annotation_runs>`
 to see the available keys on a dataset.
 
 .. note::
 
     By default, calling
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
     will not delete any information for the run from the annotation backend.
 
     However, you can pass `cleanup=True` to delete the V7 dataset associated
@@ -509,7 +509,7 @@ to see the available keys on a dataset.
 .. warning::
 
     The `dest_field` parameter of
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
     is not yet supported by the `darwin` backend. Check back soon!
 
 .. _v7-managing-annotation-runs:
@@ -517,11 +517,11 @@ to see the available keys on a dataset.
 Managing annotation runs
 ________________________
 
-FiftyOne provides a variety of methods that you can use to manage in-progress
+TensorGrid provides a variety of methods that you can use to manage in-progress
 or completed annotation runs.
 
 For example, you can call
-:meth:`list_annotation_runs() <fiftyone.core.collections.SampleCollection.list_annotation_runs>`
+:meth:`list_annotation_runs() <tensorgrid.core.collections.SampleCollection.list_annotation_runs>`
 to see the available annotation keys on a dataset:
 
 .. code:: python
@@ -530,7 +530,7 @@ to see the available annotation keys on a dataset:
     dataset.list_annotation_runs()
 
 Or, you can use
-:meth:`get_annotation_info() <fiftyone.core.collections.SampleCollection.get_annotation_info>`
+:meth:`get_annotation_info() <tensorgrid.core.collections.SampleCollection.get_annotation_info>`
 to retrieve information about the configuration of an annotation run:
 
 .. code:: python
@@ -539,11 +539,11 @@ to retrieve information about the configuration of an annotation run:
     info = dataset.get_annotation_info(anno_key)
     print(info)
 
-Use :meth:`load_annotation_results() <fiftyone.core.collections.SampleCollection.load_annotation_results>`
-to load the :class:`AnnotationResults <fiftyone.utils.annotations.AnnotationResults>`
+Use :meth:`load_annotation_results() <tensorgrid.core.collections.SampleCollection.load_annotation_results>`
+to load the :class:`AnnotationResults <tensorgrid.utils.annotations.AnnotationResults>`
 instance for an annotation run.
 
-All results objects provide a :class:`cleanup() <fiftyone.utils.annotations.AnnotationResults.cleanup>`
+All results objects provide a :class:`cleanup() <tensorgrid.utils.annotations.AnnotationResults.cleanup>`
 method that you can use to delete all information associated with a run from
 the annotation backend.
 
@@ -554,7 +554,7 @@ the annotation backend.
     results.cleanup()
 
 You can use
-:meth:`rename_annotation_run() <fiftyone.core.collections.SampleCollection.rename_annotation_run>`
+:meth:`rename_annotation_run() <tensorgrid.core.collections.SampleCollection.rename_annotation_run>`
 to rename the annotation key associated with an existing annotation run:
 
 .. code:: python
@@ -563,8 +563,8 @@ to rename the annotation key associated with an existing annotation run:
     dataset.rename_annotation_run(anno_key, new_anno_key)
 
 Finally, you can use
-:meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
-to delete the record of an annotation run from your FiftyOne dataset:
+:meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
+to delete the record of an annotation run from your TensorGrid dataset:
 
 .. code:: python
     :linenos:
@@ -574,10 +574,10 @@ to delete the record of an annotation run from your FiftyOne dataset:
 .. note::
 
     Calling
-    :meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
-    only deletes the **record** of the annotation run from your FiftyOne
+    :meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
+    only deletes the **record** of the annotation run from your TensorGrid
     dataset; it will not delete any annotations loaded onto your dataset via
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`,
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
     nor will it delete any associated information from the annotation backend.
 
 .. _v7-examples:
@@ -586,7 +586,7 @@ Examples
 ________
 
 This section demonstrates how to perform some common annotation workflows on a
-FiftyOne dataset using the V7 backend.
+TensorGrid dataset using the V7 backend.
 
 .. note::
 
@@ -600,14 +600,14 @@ Adding new label fields
 
 In order to annotate a new label field, you can provide the `label_field`,
 `label_type`, and `classes` parameters to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` to
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` to
 define the annotation schema for the field:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -636,8 +636,8 @@ labeling task:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -671,17 +671,17 @@ Editing existing labels
 -----------------------
 
 A common use case is to fix annotation mistakes that you discovered in your
-datasets through FiftyOne.
+datasets through TensorGrid.
 
-You can easily edit the labels in an existing field of your FiftyOne dataset
+You can easily edit the labels in an existing field of your TensorGrid dataset
 by simply passing the name of the field via the `label_field` parameter of
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`:
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)

@@ -5,21 +5,21 @@ Install Troubleshooting
 
 .. default-role:: code
 
-This page lists common issues encountered when installing FiftyOne and possible
+This page lists common issues encountered when installing TensorGrid and possible
 solutions. If you encounter an issue that this page doesn't help you resolve,
 feel free to
-`open an issue on GitHub <https://github.com/voxel51/fiftyone/issues/new?labels=bug&template=installation_issue_template.md&title=%5BSETUP-BUG%5D>`_
-or `contact us on Discord <https://community.voxel51.com>`_.
+`open an issue on GitHub <https://github.com/rksaklani/TensorGrid/issues/new?labels=bug&template=installation_issue_template.md&title=%5BSETUP-BUG%5D>`_
+or `contact us on Discord <https://github.com/rksaklani/TensorGrid/discussions>`_.
 
 .. note::
 
     Most installation issues can be fixed by upgrading some packages and then
-    rerunning the FiftyOne install. So, try this first before reading on:
+    rerunning the TensorGrid install. So, try this first before reading on:
 
     .. code-block:: shell
 
         pip install --upgrade pip setuptools wheel build
-        pip install fiftyone
+        pip install tensorgrid-platform
 
 .. _troubleshooting-pip:
 
@@ -29,13 +29,13 @@ Python/pip incompatibilities
 "No matching distribution found"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you attempt to install FiftyOne with a version of Python or pip that is too
+If you attempt to install TensorGrid with a version of Python or pip that is too
 old, you may encounter errors like these:
 
 .. code-block:: text
 
-    ERROR: Could not find a version that satisfies the requirement fiftyone (from versions: none)
-    ERROR: No matching distribution found for fiftyone
+    ERROR: Could not find a version that satisfies the requirement tensorgrid (from versions: none)
+    ERROR: No matching distribution found for tensorgrid
 
 .. code-block:: text
 
@@ -44,7 +44,7 @@ old, you may encounter errors like these:
 
 .. code-block:: text
 
-    fiftyone requires Python '>=3.10' but the running Python is 3.9.25
+    tensorgrid requires Python '>=3.10' but the running Python is 3.9.25
 
 To resolve this, you will need to use Python 3.10 or newer, and pip 21.3 or
 newer. See the :ref:`installation guide <installing-fiftyone>` for details. If
@@ -55,15 +55,15 @@ See the
 
 .. note::
 
-    FiftyOne does not support 32-bit platforms.
+    TensorGrid does not support 32-bit platforms.
 
-"Package 'fiftyone' requires a different Python"
+"Package 'tensorgrid' requires a different Python"
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This error occurs when attempting to install FiftyOne with an unsupported
+This error occurs when attempting to install TensorGrid with an unsupported
 Python version (either too old or too new). See the
 :ref:`installation guide <install-prereqs>` for details on which versions of
-Python are supported by FiftyOne.
+Python are supported by TensorGrid.
 
 If you have multiple Python installations, you may be using `pip` from an
 incompatible Python installation. Run `pip --version` to see which Python
@@ -75,7 +75,7 @@ reported, there are several possible causes, including:
 * If you are intentionally using your system Python installation instead of a
   virtual environment, your system-wide `pip` may use an unsupported Python
   version. For instance, on some Linux systems, `pip` uses Python 2, and `pip3`
-  uses Python 3. If this is the case, try installing FiftyOne with `pip3`
+  uses Python 3. If this is the case, try installing TensorGrid with `pip3`
   instead of `pip`.
 * You may not have a compatible Python version installed. See the
   :ref:`installation guide <install-prereqs>` for details.
@@ -126,10 +126,10 @@ positioned correctly.
 IPython installation
 --------------------
 
-If you are using IPython and a virtual environment for FiftyOne, IPython must
+If you are using IPython and a virtual environment for TensorGrid, IPython must
 be installed in the virtual environment, per the
 :ref:`installation guide <installing-extras>`. If you attempt to use a
-system-wide IPython installation in a virtual environment with FiftyOne, you
+system-wide IPython installation in a virtual environment with TensorGrid, you
 may encounter errors such as:
 
 .. code-block:: text
@@ -158,20 +158,20 @@ To resolve this, install IPython in your active virtual environment (see the
 Import and database issues
 --------------------------
 
-FiftyOne includes a `fiftyone-db` package wheel for your operating system and
+TensorGrid includes a `fiftyone-db` package wheel for your operating system and
 hardware. If you have not
 :ref:`configured your own database connection <configuring-mongodb-connection>`,
-then FiftyOne's database service will attempt to start up on import using the
+then TensorGrid's database service will attempt to start up on import using the
 MongoDB distribution provided by `fiftyone-db`. If the database fails to start,
-importing `fiftyone` will result in exceptions being raised.
+importing `tensorgrid` will result in exceptions being raised.
 
 .. _troubleshooting-downgrades:
 
 Downgrading to old versions
 ---------------------------
 
-The :ref:`fiftyone migrate <cli-fiftyone-migrate>` command was introduced in
-FiftyOne v0.7.3. If you would like to downgrade from a FiftyOne version
+The :ref:`tensorgrid migrate <cli-fiftyone-migrate>` command was introduced in
+TensorGrid v0.7.3. If you would like to downgrade from a TensorGrid version
 prior to v0.7.3 (to a yet older version), then you will first need to
 :ref:`upgrade <upgrading-fiftyone>` to v0.7.3 or later and then
 :ref:`downgrade <downgrading-fiftyone>`:
@@ -181,11 +181,11 @@ prior to v0.7.3 (to a yet older version), then you will first need to
   # The version that you wish to downgrade to
   VERSION=0.7.0
 
-  pip install fiftyone==0.7.3
-  fiftyone migrate --all -v $VERSION
-  pip install fiftyone==$VERSION
+  pip install tensorgrid-platform==0.7.3
+  tensorgrid migrate --all -v $VERSION
+  pip install tensorgrid-platform==$VERSION
 
-To install a FiftyOne version prior to v0.7.0, you must add ``--index``:
+To install a TensorGrid version prior to v0.7.0, you must add ``--index``:
 
 .. code-block:: shell
 
@@ -197,7 +197,7 @@ Database exits
 --------------
 
 On some UNIX systems, the default open file limit setting is too small for
-FiftyOne's MongoDB connection. The database service will exit in this case.
+TensorGrid's MongoDB connection. The database service will exit in this case.
 Running `ulimit -n 64000` should resolve the issue. 64,000 is the recommended
 open file limit.  MongoDB has full documentation on the issue
 `here <https://docs.mongodb.com/manual/reference/ulimit/>`_. 
@@ -213,7 +213,7 @@ correct MongoDB build is downloaded and installed while building the package
 wheel on your machine. 
 
 If a suitable MongoDB build is not available or otherwise does not
-work in your environment, you may encounter a `FiftyOneConfigError`.
+work in your environment, you may encounter a `TensorGridConfigError`.
 
 If you have output similar to the below, you may just need to install
 `libssl` packages.
@@ -232,7 +232,7 @@ On Ubuntu, `libssl` packages can be install with the following command:
 
 If you still face issues with imports, you can follow
 :ref:`these instructions <configuring-mongodb-connection>` to configure
-FiftyOne to use a MongoDB instance that you have installed yourself.
+TensorGrid to use a MongoDB instance that you have installed yourself.
 
 
 .. _troubleshooting-mongodb-windows:
@@ -241,7 +241,7 @@ Troubleshooting Windows imports
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If your encounter a `psutil.NoSuchProcessExists` exists when importing
-`fiftyone`, you are likely missing the C++ libraries MongoDB requires.
+`tensorgrid`, you are likely missing the C++ libraries MongoDB requires.
 
 .. code-block::
 

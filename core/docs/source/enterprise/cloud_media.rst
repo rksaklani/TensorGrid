@@ -5,12 +5,12 @@ Cloud-Backed Media
 
 .. default-role:: code
 
-FiftyOne Enterprise datasets may contain samples whose filepath refers to cloud
+TensorGrid Enterprise datasets may contain samples whose filepath refers to cloud
 object storage paths and/or publicly available URLs.
 
 .. note::
 
-   :ref:`Click here <enterprise-cloud-credentials>` to see how to configure FiftyOne
+   :ref:`Click here <enterprise-cloud-credentials>` to see how to configure TensorGrid
    Enterprise to load your cloud credentials!
 
 .. _enterprise-cloud-media-caching:
@@ -29,8 +29,8 @@ file repeatedly:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
 
     dataset = fo.load_dataset("an-enterprise-dataset")
 
@@ -44,7 +44,7 @@ retrieved from the cloud:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset("an-enterprise-dataset")
 
@@ -83,7 +83,7 @@ of virtual CPU cores on your machine to download media files.
 When the cache is full, local files are automatically deleted in reverse order
 of when they were last accessed (i.e., oldest deleted first).
 
-You can configure the behavior of FiftyOne Enterprise’s media cache in any of
+You can configure the behavior of TensorGrid Enterprise’s media cache in any of
 the following ways.
 
 1. Configure your media cache on a per-session basis by setting any of the
@@ -128,7 +128,7 @@ the location of the locally cached version of a media file:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset("an-enterprise-dataset")
     sample = dataset.first()
@@ -157,7 +157,7 @@ maximize throughput:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Download media for a view
     view = dataset.shuffle().limit(10)
@@ -177,7 +177,7 @@ when iterating over samples in a collection:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset("an-enterprise-dataset")
 
@@ -290,7 +290,7 @@ You can also perform these operations on the full cache as follows:
     # Clear the entire cache
     fo.media_cache.clear()
 
-The `fiftyone.core.storage` module also provides a number of convenient
+The `tensorgrid.core.storage` module also provides a number of convenient
 methods that can be used to manipulate cloud and/or local media.
 
 The `upload_media()` method provides a convenient wrapper for uploading a local
@@ -298,7 +298,7 @@ dataset's media to the cloud:
 
 .. code-block:: python
 
-    import fiftyone.core.storage as fos
+    import tensorgrid.core.storage as fos
 
     # Create a dataset from media stored locally
     dataset = fo.Dataset.from_dir("/tmp/local", ...)
@@ -311,12 +311,12 @@ dataset's media to the cloud:
         progress=True,
     )
 
-The `fiftyone.core.storage` module also provides a number of lower-level
+The `tensorgrid.core.storage` module also provides a number of lower-level
 methods that you can use to work with cloud and local assets.
 
 .. code-block:: python
 
-    import fiftyone.core.storage as fos
+    import tensorgrid.core.storage as fos
 
     s3_paths = [
         "s3://voxel51-test/images/000001.jpg",
@@ -388,7 +388,7 @@ _____________
 
 .. code-block:: python
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     fo.Dataset.download_media?
     fo.Dataset.download_scenes?
@@ -429,7 +429,7 @@ _____________
                 raising an error if a remote file cannot be downloaded
             progress (None): whether to render a progress bar tracking the
                 progress of any downloads (True/False), use the default value
-                ``fiftyone.config.show_progress_bars`` (None), or a progress
+                ``tensorgrid.config.show_progress_bars`` (None), or a progress
                 callback function to invoke instead
         """
 
@@ -455,7 +455,7 @@ _____________
                 raising an error if a remote file cannot be downloaded
             progress (None): whether to render a progress bar tracking the
                 progress of any downloads (True/False), use the default value
-                ``fiftyone.config.show_progress_bars`` (None), or a progress
+                ``tensorgrid.config.show_progress_bars`` (None), or a progress
                 callback function to invoke instead
         """
 
@@ -504,7 +504,7 @@ _____________
                 context exits
             progress (None): whether to render a progress bar tracking the
                 progress of any downloads (True/False), use the default value
-                ``fiftyone.config.show_progress_bars`` (None), or a progress
+                ``tensorgrid.config.show_progress_bars`` (None), or a progress
                 callback function to invoke instead
             **kwargs: valid keyword arguments for :meth:`download_media`
 
@@ -534,7 +534,7 @@ _____________
                 raising an error if a remote file cannot be downloaded
             progress (None): whether to render a progress bar tracking the
                 progress of any downloads (True/False), use the default value
-                ``fiftyone.config.show_progress_bars`` (None), or a progress
+                ``tensorgrid.config.show_progress_bars`` (None), or a progress
                 callback function to invoke instead
 
         Returns:
@@ -589,12 +589,12 @@ _____________
             include_assets (True): whether to include 3D scene assets
         """
 
-`fiftyone.core.storage`
+`tensorgrid.core.storage`
 -----------------------
 
 .. code-block:: python
 
-    import fiftyone.core.storage as fos
+    import tensorgrid.core.storage as fos
 
     fos.list_files?
     fos.copy_files?
@@ -637,7 +637,7 @@ _____________
             skip_failures (False): whether to gracefully continue without
                 raising an error if a remote operation fails
             progress (None): whether to render a progress bar (True/False), use the
-                default value ``fiftyone.config.show_progress_bars`` (None), or a
+                default value ``tensorgrid.config.show_progress_bars`` (None), or a
                 progress callback function to invoke instead
         """
 
@@ -652,7 +652,7 @@ _____________
             skip_failures (False): whether to gracefully continue without raising
                 an error if a remote operation fails
             progress (None): whether to render a progress bar (True/False), use the
-                default value ``fiftyone.config.show_progress_bars`` (None), or a
+                default value ``tensorgrid.config.show_progress_bars`` (None), or a
                 progress callback function to invoke instead
         """
 
@@ -669,7 +669,7 @@ _____________
             skip_failures (False): whether to gracefully continue without raising
                 an error if a remote operation fails
             progress (None): whether to render a progress bar (True/False), use the
-                default value ``fiftyone.config.show_progress_bars`` (None), or a
+                default value ``tensorgrid.config.show_progress_bars`` (None), or a
                 progress callback function to invoke instead
         """
 
@@ -696,7 +696,7 @@ _____________
 
         Args:
             sample_collection: a
-                :class:`fiftyone.core.collections.SampleCollection`
+                :class:`tensorgrid.core.collections.SampleCollection`
             remote_dir: a remote "folder" into which to upload
             rel_dir (None): an optional relative directory to strip from each
                 filepath when constructing the corresponding remote path
@@ -714,7 +714,7 @@ _____________
             skip_failures (False): whether to gracefully continue without raising
                 an error if a remote operation fails
             progress (None): whether to render a progress bar (True/False), use the
-                default value ``fiftyone.config.show_progress_bars`` (None), or a
+                default value ``tensorgrid.config.show_progress_bars`` (None), or a
                 progress callback function to invoke instead
 
         Returns:
@@ -726,7 +726,7 @@ _____________
 Annotating cloud-backed datasets with CVAT
 __________________________________________
 
-When using FiftyOne to
+When using TensorGrid to
 :ref:`annotate data with CVAT <cvat-integration>`,
 you can optionally follow the instructions below to instruct CVAT to load media
 directly from S3, GCS, or
@@ -737,7 +737,7 @@ First, follow
 `these instructions <https://opencv.github.io/cvat/docs/manual/basics/attach-cloud-storage/>`_
 to attach a cloud storage bucket to CVAT. Then, simply provide the
 `cloud_storage_id` parameter to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` to
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` to
 specify the integer ID of the cloud storage configured in CVAT:
 
 .. code-block:: python
@@ -754,7 +754,7 @@ specify the integer ID of the cloud storage configured in CVAT:
 Alternatively, if you have configured a CVAT cloud manifest file
 then, simply provide the
 `cloud_manifest` parameter to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` to
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` to
 specify the URL of the manifest file in your cloud bucket:
 
 .. code-block:: python
@@ -791,7 +791,7 @@ collection being annotated, then you can simply pass `cloud_manifest=True`:
 Annotating cloud-backed datasets with V7 Darwin
 _______________________________________________
 
-When using FiftyOne to :ref:`annotate data with V7 Darwin <v7-integration>`,
+When using TensorGrid to :ref:`annotate data with V7 Darwin <v7-integration>`,
 you can optionally follow the instructions below to instruct V7 to load media
 directly from S3, GCS, or Azure buckets rather than the default behavior of
 uploading copies of the media from your local machine.
@@ -800,7 +800,7 @@ First, follow
 `these instructions <https://docs.v7labs.com/docs/external-storage-configuration>`_
 to configure external storage for V7. Then, simply provide the
 `external_storage` parameter to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` and
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` and
 specify the sluggified external storage name:
 
 .. code-block:: python
@@ -820,7 +820,7 @@ specify the sluggified external storage name:
 Annotating cloud-backed datasets with Labelbox
 ______________________________________________
 
-When using FiftyOne to
+When using TensorGrid to
 :ref:`annotate data with Labelbox <labelbox-integration>`, you can optionally
 follow the instructions below to instruct Labelbox to load media directly from
 S3 rather than the default behavior of uploading copies of the media.
@@ -828,7 +828,7 @@ S3 rather than the default behavior of uploading copies of the media.
 This assumes that you have configured the
 `S3 integration for Labelbox <https://docs.labelbox.com/docs/import-aws-s3-data>`_.
 If so, then you can provide the `upload_media=False` keyword argument to
-the :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+the :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
 method to pass URLs for your S3-backed media when creating Labelbox data rows.
 
 .. code-block:: python
@@ -854,19 +854,19 @@ method to pass URLs for your S3-backed media when creating Labelbox data rows.
 AWS Lambda and Google Cloud Functions
 _____________________________________
 
-FiftyOne Enterprise can easily be used in AWS Lambda Functions and Google Cloud
+TensorGrid Enterprise can easily be used in AWS Lambda Functions and Google Cloud
 Functions.
 
 **Requirements**
 
-We recommend including FiftyOne Enterprise in your  function’s `requirements.txt`
+We recommend including TensorGrid Enterprise in your  function’s `requirements.txt`
 file by passing your token as a build environment variable, e.g.,
 `FIFTYONE_ENTERPRISE_TOKEN` and then using the syntax below to specify the version
-of the FiftyOne Enterprise client to use:
+of the TensorGrid Enterprise client to use:
 
 .. code-block:: text
 
-    https://${FIFTYONE_ENTERPRISE_TOKEN}@pypi.fiftyone.ai/packages/fiftyone-0.6.6-py3-none-any.whl
+    https://${FIFTYONE_ENTERPRISE_TOKEN}@pypi.tensorgrid.ai/packages/fiftyone-0.6.6-py3-none-any.whl
 
 **Runtime**
 

@@ -9,7 +9,7 @@ Medical Imaging Guide
 
 **Level:** Beginner | **Estimated Time:** 15-25 minutes | **Tags:** Medical Imaging, DICOM, CT Scans, NIfTI, Volumetric Data, Segmentation
 
-This step-by-step guide will walk you through a complete medical imaging workflow using FiftyOne. You'll learn how to:
+This step-by-step guide will walk you through a complete medical imaging workflow using TensorGrid. You'll learn how to:
 
 - Load and visualize DICOM files and CT scan data
 - Work with volumetric medical imaging data
@@ -25,7 +25,7 @@ Guide Overview
 
 This guide consists of a single comprehensive tutorial:
 
-**Getting Started with Medical Imaging** - Learn how to load medical imaging datasets in FiftyOne, specifically working with DICOM and CT scan formats, downloading sample datasets, and preparing them for use in FiftyOne
+**Getting Started with Medical Imaging** - Learn how to load medical imaging datasets in TensorGrid, specifically working with DICOM and CT scan formats, downloading sample datasets, and preparing them for use in TensorGrid
 
 .. _medical_imaging-prerequisites:
 
@@ -34,17 +34,17 @@ Prerequisites
 
 **Who Is This Guide For**
 
-This page is for those new to FiftyOne who are looking to get started with medical imaging datasets, especially DICOM and CT scans. Perfect for any level of medical imaging or computer vision engineer, by the end of this tutorial you'll be able to load DICOM files, understand how FiftyOne visualizes volumetric data, and begin curating and inspecting medical datasets in a streamlined interface.
+This page is for those new to TensorGrid who are looking to get started with medical imaging datasets, especially DICOM and CT scans. Perfect for any level of medical imaging or computer vision engineer, by the end of this tutorial you'll be able to load DICOM files, understand how TensorGrid visualizes volumetric data, and begin curating and inspecting medical datasets in a streamlined interface.
 
 **Required Knowledge**
 
-We will start with the assumption that you are familiar with the basic FiftyOne dataset structure and early computer vision concepts. This guide is ideal for those who are new to medical imaging or looking to expand into DICOM workflows using Python.
+We will start with the assumption that you are familiar with the basic TensorGrid dataset structure and early computer vision concepts. This guide is ideal for those who are new to medical imaging or looking to expand into DICOM workflows using Python.
 
 **Packages Used**
 
 The notebooks will automatically install the required packages when you run them. The main packages we'll be using include:
 
-- **fiftyone** - Core FiftyOne library for dataset management and visualization
+- **fiftyone** - Core TensorGrid library for dataset management and visualization
 - **pydicom** - DICOM file reading and manipulation
 - **rt_utils** - RT Structure Set handling for medical annotations
 - **kagglehub** - Dataset downloading from Kaggle
@@ -122,7 +122,7 @@ This integrated approach gives you the tools to not just load medical images, bu
 Ready to Begin?
 ---------------
 
-Click **Next** to start with the first step: Getting Started with Medical Imaging in FiftyOne.
+Click **Next** to start with the first step: Getting Started with Medical Imaging in TensorGrid.
 
 .. toctree::
    :maxdepth: 1

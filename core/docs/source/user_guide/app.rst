@@ -1,11 +1,11 @@
 .. _fiftyone-app:
 
-Using the FiftyOne App
+Using the TensorGrid App
 ======================
 
 .. default-role:: code
 
-The FiftyOne App is a powerful graphical user interface that enables you to
+The TensorGrid App is a powerful graphical user interface that enables you to
 visualize, browse, and interact directly with your
 :ref:`datasets <using-datasets>`.
 
@@ -15,14 +15,14 @@ visualize, browse, and interact directly with your
 
 .. note::
 
-    Did you know? You can use FiftyOne's
+    Did you know? You can use TensorGrid's
     :ref:`plugin framework <fiftyone-plugins>` to customize and extend the
     behavior of the App!
 
 App environments
 ________________
 
-The FiftyOne App can be used in any environment that you're working in, from
+The TensorGrid App can be used in any environment that you're working in, from
 a local IPython shell, to a remote machine or cloud instance, to a Jupyter or
 Colab notebook. Check out the :ref:`environments guide <environments>` for best
 practices when working in each environment.
@@ -32,8 +32,8 @@ practices when working in each environment.
 Sessions
 ________
 
-The basic FiftyOne workflow is to open a Python shell and load a |Dataset|.
-From there you can launch the FiftyOne App and interact with it
+The basic TensorGrid workflow is to open a Python shell and load a |Dataset|.
+From there you can launch the TensorGrid App and interact with it
 programmatically via a *session*.
 
 .. _creating-an-app-session:
@@ -42,14 +42,14 @@ Creating a session
 ------------------
 
 You can launch an instance of the App by calling
-:func:`launch_app() <fiftyone.core.session.launch_app>`. This method returns a
+:func:`launch_app() <tensorgrid.core.session.launch_app>`. This method returns a
 |Session| instance, which you can subsequently use to interact programmatically
 with the App!
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     session = fo.launch_app()
 
@@ -67,12 +67,12 @@ opened in a new tab of your web browser. See
 
 .. note::
 
-    :func:`fo.launch_app() <fiftyone.core.session.launch_app>` will launch the
+    :func:`fo.launch_app() <tensorgrid.core.session.launch_app>` will launch the
     App asynchronously and return control to your Python process. The App will
     then remain connected until the process exits.
 
     Therefore, if you are using the App in a script, you should use
-    :meth:`session.wait() <fiftyone.core.session.Session.wait>` to block
+    :meth:`session.wait() <tensorgrid.core.session.Session.wait>` to block
     execution until you close it manually:
 
     .. code-block:: python
@@ -90,7 +90,7 @@ opened in a new tab of your web browser. See
 
 .. note::
 
-    When working inside a Docker container, FiftyOne should automatically
+    When working inside a Docker container, TensorGrid should automatically
     detect and appropriately configure networking. However, if you are unable
     to load the App in your browser, you many need to manually
     :ref:`set the App address <restricting-app-address>` to `0.0.0.0`:
@@ -100,7 +100,7 @@ opened in a new tab of your web browser. See
         session = fo.launch_app(..., address="0.0.0.0")
 
     See :ref:`this page <docker>` for more information about working with
-    FiftyOne inside Docker.
+    TensorGrid inside Docker.
 
 .. note::
 
@@ -111,7 +111,7 @@ opened in a new tab of your web browser. See
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.load_dataset(...)
 
@@ -124,13 +124,13 @@ Updating a session's dataset
 ----------------------------
 
 Sessions can be updated to show a new |Dataset| by updating the
-:meth:`Session.dataset <fiftyone.core.session.Session.dataset>` property of the
+:meth:`Session.dataset <tensorgrid.core.session.Session.dataset>` property of the
 session object:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("cifar10")
 
@@ -146,7 +146,7 @@ Updating a session's view
 
 You can also show a specific :ref:`view <using-views>` into the current dataset
 in the App by setting the
-:meth:`Session.view <fiftyone.core.session.Session.view>` property of the
+:meth:`Session.view <tensorgrid.core.session.Session.view>` property of the
 session.
 
 For example, the command below loads a |DatasetView| in the App that shows the
@@ -173,8 +173,8 @@ providing its ID via the `sample_id` parameter:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     sample_id = dataset.last().id
@@ -183,7 +183,7 @@ providing its ID via the `sample_id` parameter:
 
 You can also programmatically load a sample in the modal on an existing session
 by setting its
-:meth:`session.sample_id <fiftyone.core.session.Session.sample_id>` property:
+:meth:`session.sample_id <tensorgrid.core.session.Session.sample_id>` property:
 
 .. code-block:: python
     :linenos:
@@ -204,8 +204,8 @@ via the `group_id` parameter:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-groups")
     group_id = dataset.last().group.id
@@ -214,7 +214,7 @@ via the `group_id` parameter:
 
 You can also programmatically load a group in the modal on an existing session
 by setting its
-:meth:`session.group_id <fiftyone.core.session.Session.group_id>` property:
+:meth:`session.group_id <tensorgrid.core.session.Session.group_id>` property:
 
 .. code-block:: python
     :linenos:
@@ -251,7 +251,7 @@ using either the Python library or the CLI.
   .. group-tab:: Python
 
     Load a |Dataset| and call
-    :meth:`launch_app() <fiftyone.core.session.launch_app>` with the
+    :meth:`launch_app() <tensorgrid.core.session.launch_app>` with the
     ``remote=True`` argument.
 
     .. code-block:: python
@@ -259,7 +259,7 @@ using either the Python library or the CLI.
 
         # On remote machine
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.load_dataset("<dataset-name>")
 
@@ -268,7 +268,7 @@ using either the Python library or the CLI.
     You can use the optional ``port`` parameter to choose the port of your
     remote machine on which to serve the App. The default is ``5151``, which
     can also be customized via the ``default_app_port`` parameter of your
-    :ref:`FiftyOne config <configuring-fiftyone>`.
+    :ref:`TensorGrid config <configuring-fiftyone>`.
 
     You can also provide the optional ``address`` parameter to restrict the
     hostnames/IP addresses that can connect to your remote session. See
@@ -280,19 +280,19 @@ using either the Python library or the CLI.
 
   .. group-tab:: CLI
 
-    Run the :ref:`fiftyone app launch <cli-fiftyone-app-launch>` command in a
+    Run the :ref:`tensorgrid app launch <cli-fiftyone-app-launch>` command in a
     terminal:
 
     .. code-block:: shell
 
         # On remote machine
 
-        fiftyone app launch <dataset-name> --remote  # optional: --port XXXX
+        tensorgrid app launch <dataset-name> --remote  # optional: --port XXXX
 
     You can use the optional ``--port`` flag to choose the port of your
     remote machine on which to serve the App. The default is ``5151``, which
     can also be customized via the ``default_app_port`` parameter of your
-    :ref:`FiftyOne config <configuring-fiftyone>`.
+    :ref:`TensorGrid config <configuring-fiftyone>`.
 
 .. _remote-app-local-machine:
 
@@ -300,7 +300,7 @@ Local machine
 -------------
 
 On the local machine, you can access an App instance connected to the remote
-session by either manually configuring port forwarding or via the FiftyOne CLI:
+session by either manually configuring port forwarding or via the TensorGrid CLI:
 
 .. tabs::
 
@@ -322,16 +322,16 @@ session by either manually configuring port forwarding or via the FiftyOne CLI:
     session on your remote machine (the default is 5151), and `5151` specifies
     the local port to use to connect to the App (and can be customized).
 
-  .. group-tab:: FiftyOne
+  .. group-tab:: TensorGrid
 
-    If you have FiftyOne installed on your local machine, you can
+    If you have TensorGrid installed on your local machine, you can
     :ref:`use the CLI <cli-fiftyone-app-connect>` to automatically configure
     port forwarding and open the App in your browser as follows:
 
     .. code-block:: shell
 
         # On local machine
-        fiftyone app connect --destination [<username>@]<hostname>
+        tensorgrid app connect --destination [<username>@]<hostname>
 
     If you choose a custom port `XXXX` on the remote machine, add a
     ``--port XXXX`` flag to the above command.
@@ -362,7 +362,7 @@ By default, only label fields (excluding :ref:`heatmaps <heatmaps>` and
 :ref:`semantic segmentations <semantic-segmentation>`) are visible by default,
 but you can programmatically define a dataset's a default configuration for
 these checkboxes by setting the
-:class:`active_fields <fiftyone.core.odm.dataset.DatasetAppConfig>` property
+:class:`active_fields <tensorgrid.core.odm.dataset.DatasetAppConfig>` property
 of the :ref:`dataset's App config <dataset-app-config>`:
 
 .. code-block:: python
@@ -384,7 +384,7 @@ of the :ref:`dataset's App config <dataset-app-config>`:
     session = fo.launch_app(dataset)
 
 You can conveniently reset the active fields to their default state by setting
-:class:`active_fields <fiftyone.core.odm.dataset.DatasetAppConfig>` to `None`:
+:class:`active_fields <tensorgrid.core.odm.dataset.DatasetAppConfig>` to `None`:
 
 .. code-block:: python
     :linenos:
@@ -491,8 +491,8 @@ The above GIF shows query performance in action on the train split of the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # The path to the source files that you manually downloaded
     source_dir = "/path/to/dir-with-bdd100k-files"
@@ -515,18 +515,18 @@ The above GIF shows query performance in action on the train split of the
 The SDK provides a number of useful utilities for managing indexes on your
 datasets:
 
--   :meth:`list_indexes() <fiftyone.core.collections.SampleCollection.list_indexes>` -
+-   :meth:`list_indexes() <tensorgrid.core.collections.SampleCollection.list_indexes>` -
     list all existing indexes
--   :meth:`create_index() <fiftyone.core.collections.SampleCollection.create_index>` -
+-   :meth:`create_index() <tensorgrid.core.collections.SampleCollection.create_index>` -
     create a new index
--   :meth:`drop_index() <fiftyone.core.collections.SampleCollection.drop_index>` -
+-   :meth:`drop_index() <tensorgrid.core.collections.SampleCollection.drop_index>` -
     drop an existing index
--   :meth:`get_index_information() <fiftyone.core.collections.SampleCollection.get_index_information>` -
+-   :meth:`get_index_information() <tensorgrid.core.collections.SampleCollection.get_index_information>` -
     get information about the existing indexes
 
 .. note::
 
-    Did you know? With :ref:`FiftyOne Enterprise <fiftyone-enterprise>` you can manage
+    Did you know? With :ref:`TensorGrid Enterprise <fiftyone-enterprise>` you can manage
     indexes natively in the App via the
     :ref:`Query Performance panel <query-performance>`.
 
@@ -536,7 +536,7 @@ perform initial filters on:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -574,8 +574,8 @@ filtering by that field and matching on the active `slice`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-groups")
 
@@ -592,8 +592,8 @@ a single
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     dataset.create_index("$**")
@@ -639,7 +639,7 @@ sufficiently small working set. Consider the following example:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset("big-image-ds")
 
@@ -680,15 +680,15 @@ In addition to the full dataset,
 (lightning bolts visible in the sidebar) when you add the view stages listed
 below to your view.
 
-For :class:`ExcludeFields <fiftyone.core.stages.ExcludeFields>` and
-:class:`SelectFields <fiftyone.core.stages.SelectFields>`, index performance
+For :class:`ExcludeFields <tensorgrid.core.stages.ExcludeFields>` and
+:class:`SelectFields <tensorgrid.core.stages.SelectFields>`, index performance
 applies to all fields still present in the schema.
 
-:class:`SelectGroupSlices <fiftyone.core.stages.SelectGroupSlices>` is query
+:class:`SelectGroupSlices <tensorgrid.core.stages.SelectGroupSlices>` is query
 performant. Expect optimal performance when all slices are included in the
 flattened view.
 
-The :class:`GroupBy <fiftyone.core.stages.GroupBy>` stage is a query performant
+The :class:`GroupBy <tensorgrid.core.stages.GroupBy>` stage is a query performant
 stage when ``order_by`` and ``order_by_key`` values are provided and a compound
 index exists on the ``group_by`` and ``order_by`` fields with a unique
 constraint and at least one index exists that begins with the ``order_by``
@@ -698,7 +698,7 @@ a compound index.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset("frames-as-video")
     dataset.create_index([("video", 1), ("frame_number", 1)], unique=True)
@@ -723,7 +723,7 @@ metadata is stored on the key sample to efficiently filter on large datasets.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
     import random
 
     dataset = fo.load_dataset("frames-as-video")
@@ -771,7 +771,7 @@ the following indexes:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset("big-image-ds")
 
@@ -821,8 +821,8 @@ groups and dragging fields between groups directly in the App:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     session = fo.launch_app(dataset)
@@ -837,7 +837,7 @@ groups and dragging fields between groups directly in the App:
     the dataset and will persist between sessions.
 
 You can also programmatically modify a dataset's sidebar groups by editing the
-:class:`sidebar_groups <fiftyone.core.odm.dataset.DatasetAppConfig>` property
+:class:`sidebar_groups <tensorgrid.core.odm.dataset.DatasetAppConfig>` property
 of the :ref:`dataset's App config <dataset-app-config>`:
 
 .. code-block:: python
@@ -860,7 +860,7 @@ of the :ref:`dataset's App config <dataset-app-config>`:
     session = fo.launch_app(dataset)
 
 You can conveniently reset the sidebar groups to their default state by setting
-:class:`sidebar_groups <fiftyone.core.odm.dataset.DatasetAppConfig>` to `None`:
+:class:`sidebar_groups <tensorgrid.core.odm.dataset.DatasetAppConfig>` to `None`:
 
 .. code-block:: python
     :linenos:
@@ -874,7 +874,7 @@ You can conveniently reset the sidebar groups to their default state by setting
 .. note::
 
     If a dataset has fields that do not appear in the dataset's
-    :class:`sidebar_groups <fiftyone.core.odm.dataset.DatasetAppConfig>`
+    :class:`sidebar_groups <tensorgrid.core.odm.dataset.DatasetAppConfig>`
     property, these fields will be dynamically assigned to default groups in
     the App at runtime.
 
@@ -891,7 +891,7 @@ the App.
 
     Any changes to the current view that you make in the view bar are
     automatically reflected in the |DatasetView| exposed by the
-    :meth:`Session.view <fiftyone.core.session.Session.view>` property of the
+    :meth:`Session.view <tensorgrid.core.session.Session.view>` property of the
     App's session object.
 
 .. image:: /images/app/app-views2.gif
@@ -941,8 +941,8 @@ Consider the following example:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
     from datetime import datetime
 
     dataset = foz.load_zoo_dataset("quickstart")
@@ -1033,8 +1033,8 @@ Consider the following example:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     dataset.evaluate_detections(
@@ -1070,7 +1070,7 @@ The GIF below demonstrates how to:
     To persist a color scheme, you can press `Save as default` to save the
     color scheme as the dataset's default scheme, copy it via the modal's JSON
     viewer, or access it programmatically via
-    :meth:`session.color_scheme <fiftyone.core.session.Session.color_scheme>`
+    :meth:`session.color_scheme <tensorgrid.core.session.Session.color_scheme>`
     as described below.
 
 The following table describes the available color scheme customization options
@@ -1121,11 +1121,11 @@ in detail:
     |                 |                               | that it takes. In the case of embedded document fields,you    |
     |                 |                               | must also specify an attribute of each object. For example,   |
     |                 |                               | color all                                                     |
-    |                 |                               | :class:`Classification <fiftyone.core.labels.Classification>` |
+    |                 |                               | :class:`Classification <tensorgrid.core.labels.Classification>` |
     |                 |                               | instances whose `label` is `"car"` in `#FF0000`;              |
-    |                 |                               | :class:`Segmentation <fiftyone.core.labels.Segmentation>`     |
+    |                 |                               | :class:`Segmentation <tensorgrid.core.labels.Segmentation>`     |
     |                 |                               | instances whose `mask target integer` is `12` in `#FF0000`;   |
-    |                 |                               | :class:`Heatmap <fiftyone.core.labels.Heatmap>`               |
+    |                 |                               | :class:`Heatmap <tensorgrid.core.labels.Heatmap>`               |
     |                 |                               | instances using `hsv` colorscale.                             |
     +-----------------+-------------------------------+---------------------------------------------------------------+
 
@@ -1199,7 +1199,7 @@ You can also programmatically configure a session's color scheme by creating
 
 You can launch the App with a custom color scheme by passing the optional
 `color_scheme` parameter to
-:func:`launch_app() <fiftyone.core.session.launch_app>`:
+:func:`launch_app() <tensorgrid.core.session.launch_app>`:
 
 .. code-block:: python
     :linenos:
@@ -1209,7 +1209,7 @@ You can launch the App with a custom color scheme by passing the optional
 
 Once the App is launched, you can retrieve your current color scheme at any
 time via the
-:meth:`session.color_scheme <fiftyone.core.session.Session.color_scheme>`
+:meth:`session.color_scheme <tensorgrid.core.session.Session.color_scheme>`
 property:
 
 .. code-block:: python
@@ -1467,7 +1467,7 @@ the full colormap using the same strategy.
 Dynamic point cloud coloring
 ----------------------------
 
-FiftyOne supports dynamic coloring of point clouds based on any attribute
+TensorGrid supports dynamic coloring of point clouds based on any attribute
 in your PCD file. This allows you to visualize and analyze point cloud data in
 powerful ways, such as:
 
@@ -1522,7 +1522,7 @@ the path should be `::fo3d::pcd::lidar_id`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset(...)
 
@@ -1591,9 +1591,9 @@ dataset, the projection images will be rendered for each sample in the grid:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.utils3d as fou3d
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.utils.utils3d as fou3d
+    import tensorgrid.zoo as foz
 
     # Load an example 3D dataset
     dataset = (
@@ -1666,10 +1666,10 @@ Annotating a sample __SUB_NEW__
 __________________________
 
 When visualizing images or 3D samples in the expanded view, you can click the
-"Annotate" tab located in the right sidebar to access FiftyOne's in-App
+"Annotate" tab located in the right sidebar to access TensorGrid's in-App
 annotation features.
 
-FiftyOne's in-App annotation features extend the existing data visualization UI,
+TensorGrid's in-App annotation features extend the existing data visualization UI,
 allowing you to edit metadata on a sample-by-sample basis directly within the
 App. The label types currently supported are: |Classification|, |Detections|,
 |Polylines|, and |Cuboids|. You can also edit non-label primitive fields,
@@ -1683,17 +1683,17 @@ You can also create new fields on your dataset via the Schema Manager, as well.
 
 .. note::
 
-    In FiftyOne Enterprise, only users with
+    In TensorGrid Enterprise, only users with
     :ref:`Can manage <enterprise-can-manage>` dataset access can access the
     Schema Manager.
 
-For more information on FiftyOne’s in-App annotation features,
+For more information on TensorGrid’s in-App annotation features,
 :ref:`visit this User Guide! <in-app-annotation>`
 
 Linking labels
 ______________
 
-FiftyOne provides a mechanism to link related labels together, such as the same
+TensorGrid provides a mechanism to link related labels together, such as the same
 object instance observed across multiple frames of a video or across different
 slices of a grouped dataset.
 
@@ -1703,7 +1703,7 @@ attribute of the relevant |Detection|, |Keypoint|, or |Polyline| objects:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Create instance representing a logical object
     person_instance = fo.Instance()
@@ -1770,7 +1770,7 @@ ______
 Spaces provide a customizable framework for organizing interactive Panels of
 information within the App.
 
-FiftyOne natively includes the following Panels:
+TensorGrid natively includes the following Panels:
 
 -   :ref:`Samples panel <app-samples-panel>`: the media grid that loads by
     default when you launch the App
@@ -1801,9 +1801,9 @@ Consider the following example dataset:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     fob.compute_visualization(dataset, brain_key="img_viz")
@@ -1871,25 +1871,25 @@ below:
         orientation="vertical",
     )
 
-The :meth:`children <fiftyone.core.spaces.Space.children>` property of each
+The :meth:`children <tensorgrid.core.spaces.Space.children>` property of each
 |Space| describes what the Space contains, which can be either:
 
 -   A list of |Space| instances. In this case, the Space contains a nested list
     of Spaces, arranged either horizontally or vertically, as per the
-    :meth:`orientation <fiftyone.core.spaces.Space.children>` property of the
+    :meth:`orientation <tensorgrid.core.spaces.Space.children>` property of the
     parent Space
 -   A list of |Panel| instances describing the Panels that should be available
     as tabs within the Space
 
-Set a Panel's :meth:`pinned <fiftyone.core.spaces.Panel.pinned>` property to
+Set a Panel's :meth:`pinned <tensorgrid.core.spaces.Panel.pinned>` property to
 `True` if you do not want a Panel's tab to have a close icon `x` in the App.
-Each |Panel| also has a :meth:`state <fiftyone.core.spaces.Panel.state>` dict
+Each |Panel| also has a :meth:`state <tensorgrid.core.spaces.Panel.state>` dict
 that can be used to configure the specific state of the Panel to load. Refer to
 the sections below for each Panel's available state.
 
 You can launch the App with an initial spaces layout by passing the optional
 `spaces` parameter to
-:func:`launch_app() <fiftyone.core.session.launch_app>`:
+:func:`launch_app() <tensorgrid.core.session.launch_app>`:
 
 .. code-block:: python
     :linenos:
@@ -1898,7 +1898,7 @@ You can launch the App with an initial spaces layout by passing the optional
     session = fo.launch_app(dataset, spaces=spaces)
 
 Once the App is launched, you can retrieve your current layout at any time via
-the :meth:`session.spaces <fiftyone.core.session.Session.spaces>` property:
+the :meth:`session.spaces <tensorgrid.core.session.Session.spaces>` property:
 
 .. code-block:: python
     :linenos:
@@ -1906,7 +1906,7 @@ the :meth:`session.spaces <fiftyone.core.session.Session.spaces>` property:
     print(session.spaces)
 
 You can also programmatically configure the App's current layout by setting
-:meth:`session.spaces <fiftyone.core.session.Session.spaces>` to any valid
+:meth:`session.spaces <tensorgrid.core.session.Session.spaces>` to any valid
 |Space| instance:
 
 .. code-block:: python
@@ -1917,12 +1917,12 @@ You can also programmatically configure the App's current layout by setting
 
 .. note::
 
-    Inspecting :meth:`session.spaces <fiftyone.core.session.Session.spaces>` of
+    Inspecting :meth:`session.spaces <tensorgrid.core.session.Session.spaces>` of
     a session whose Spaces layout you've configured in the App is a convenient
     way to discover the available state options for each Panel type!
 
 You can reset your spaces to their default state by setting
-:meth:`session.spaces <fiftyone.core.session.Session.spaces>` to None:
+:meth:`session.spaces <tensorgrid.core.session.Session.spaces>` to None:
 
 .. code-block:: python
     :linenos:
@@ -1985,14 +1985,14 @@ Saving workspaces in Python
 
 You can also programmatically create and manage saved workspaces!
 
-Use :meth:`save_workspace() <fiftyone.core.dataset.Dataset.save_workspace>`
+Use :meth:`save_workspace() <tensorgrid.core.dataset.Dataset.save_workspace>`
 to create a new saved workspace with a name of your choice:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2032,7 +2032,7 @@ to create a new saved workspace with a name of your choice:
 .. note::
 
     Pro tip! You can save your current spaces layout in the App via
-    :meth:`session.spaces <fiftyone.core.session.Session.spaces>`:
+    :meth:`session.spaces <tensorgrid.core.session.Session.spaces>`:
 
     .. code-block:: python
 
@@ -2040,12 +2040,12 @@ to create a new saved workspace with a name of your choice:
         dataset.save_workspace("my-workspace", workspace, ...)
 
 Then in a future session you can load the workspace by name with
-:meth:`load_workspace() <fiftyone.core.dataset.Dataset.load_workspace>`:
+:meth:`load_workspace() <tensorgrid.core.dataset.Dataset.load_workspace>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset("quickstart")
 
@@ -2058,9 +2058,9 @@ Then in a future session you can load the workspace by name with
 
 Saved workspaces have certain editable metadata such as a name, description,
 and color that you can view via
-:meth:`get_workspace_info() <fiftyone.core.dataset.Dataset.get_workspace_info>`
+:meth:`get_workspace_info() <tensorgrid.core.dataset.Dataset.get_workspace_info>`
 and update via
-:meth:`update_workspace_info() <fiftyone.core.dataset.Dataset.get_workspace_info>`:
+:meth:`update_workspace_info() <tensorgrid.core.dataset.Dataset.get_workspace_info>`:
 
 .. code-block:: python
     :linenos:
@@ -2084,10 +2084,10 @@ and update via
     # }
 
 You can also use
-:meth:`list_workspaces() <fiftyone.core.dataset.Dataset.list_workspaces>`,
-:meth:`has_workspace() <fiftyone.core.dataset.Dataset.has_workspace()>`,
+:meth:`list_workspaces() <tensorgrid.core.dataset.Dataset.list_workspaces>`,
+:meth:`has_workspace() <tensorgrid.core.dataset.Dataset.has_workspace()>`,
 and
-:meth:`delete_workspace() <fiftyone.core.dataset.Dataset.delete_workspace>`
+:meth:`delete_workspace() <tensorgrid.core.dataset.Dataset.delete_workspace>`
 to manage your saved workspaces.
 
 .. _app-samples-panel:
@@ -2123,9 +2123,9 @@ the embeddings in the App:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2142,7 +2142,7 @@ the embeddings in the App:
 Use the two menus in the upper-left corner of the Panel to configure your plot:
 
 -   **Brain key**: the brain key associated with the
-    :func:`compute_visualization() <fiftyone.brain.compute_visualization>` run
+    :func:`compute_visualization() <tensorgrid.brain.compute_visualization>` run
     to display
 -   **Color by**: an optional sample field (or label attribute, for patches
     embeddings) to color the points by
@@ -2156,7 +2156,7 @@ samples/patches in the Samples panel:
 
 .. note::
 
-    Did you know? With :ref:`FiftyOne Enterprise <fiftyone-enterprise>` you can generate
+    Did you know? With :ref:`TensorGrid Enterprise <fiftyone-enterprise>` you can generate
     embeddings visualizations natively from the App
     :ref:`in the background <delegated-operations>` while you work.
 
@@ -2195,7 +2195,7 @@ Embeddings panel as follows:
 The Embeddings panel supports the following `state` parameters:
 
 -   **brainResult**: the brain key associated with the
-    :func:`compute_visualization() <fiftyone.brain.compute_visualization>` run
+    :func:`compute_visualization() <tensorgrid.brain.compute_visualization>` run
     to display
 -   **colorByField**: an optional sample field (or label attribute, for patches
     embeddings) to color the points by
@@ -2210,14 +2210,14 @@ When you load a dataset in the App that has one or more
 Search panel to create, manage, and revisit similarity searches on the dataset.
 
 To get started, compute a similarity index on your dataset using
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`:
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2258,7 +2258,7 @@ You can filter the run list by:
 -   **Date range**: Today, Last 7 days, Last 30 days, or Older
 -   **Search text**: filter by query content or run name
 -   **Owner**: show all runs or only your own (Enterprise only, for users with
-    `Can manage <https://docs.voxel51.com/enterprise/roles_and_permissions.html#can-manage>`_
+    `Can manage </docs/enterprise/roles_and_permissions.html#can-manage>`_
     dataset access)
 
 Managing runs
@@ -2432,8 +2432,8 @@ to visualize and interactively explore the evaluation results in the App:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2458,7 +2458,7 @@ that dives into various aspects of the model's performance:
 
 .. note::
 
-    Did you know? With :ref:`FiftyOne Enterprise <fiftyone-enterprise>` you can execute
+    Did you know? With :ref:`TensorGrid Enterprise <fiftyone-enterprise>` you can execute
     model evaluations natively from the App
     :ref:`in the background <delegated-operations>` while you work.
 
@@ -2584,9 +2584,9 @@ The rest of the content in this section is applied to the following dataset:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     # Load a dataset with `ground_truth` and `predictions` fields
     dataset = foz.load_zoo_dataset("quickstart")
@@ -2644,7 +2644,7 @@ example when switching between scenarios.
 
 Each scenario is composed of multiple subsets that partition the
 **ground truth labels** involved in the evaluation into different semantically
-meaningful sets of interest. FiftyOne supports four methods to define subsets:
+meaningful sets of interest. TensorGrid supports four methods to define subsets:
 
 -   **Sample field:** partition at the sample-level by defining subsets based
     on the values that a particular sample field takes
@@ -2770,7 +2770,7 @@ relative to the image in which they reside:
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     bbox_area = F("bounding_box")[2] * F("bounding_box")[3]
     subsets = {
@@ -2789,7 +2789,7 @@ following subset definitions like so:
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     bbox_area = (
         F("bounding_box")[2] * F("$metadata.frame_height")
@@ -2809,7 +2809,7 @@ definitions:
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     subsets = {
         "<subset_name>": subset_def,
@@ -3022,15 +3022,15 @@ Map panel
 _________
 
 When you load a dataset in the App that contains a |GeoLocation| field with
-:attr:`point <fiftyone.core.labels.GeoLocation.point>` data populated, you can
+:attr:`point <tensorgrid.core.labels.GeoLocation.point>` data populated, you can
 open the Map panel to visualize and interactively explore a scatterplot of the
 location data:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-geo")
 
@@ -3042,7 +3042,7 @@ location data:
     `Mapbox access token <https://docs.mapbox.com/help/getting-started/access-tokens>`_
     in order to use the Map UI. See below for instructions.
 
-    FiftyOne uses the Mapbox GL JS API,
+    TensorGrid uses the Mapbox GL JS API,
     `which is free <https://www.mapbox.com/pricing/#maps>`_ up to 50,000 map
     loads each month.
 
@@ -3223,7 +3223,7 @@ Tagging also automatically applies to selected samples or their labels when any
 samples are selected. See :ref:`tagging <app-tagging>` for more details.
 
 You can also access the
-:meth:`Session.selected <fiftyone.core.session.Session.selected>` property of
+:meth:`Session.selected <tensorgrid.core.session.Session.selected>` property of
 your session to retrieve the IDs of the currently selected samples in the App:
 
 .. code-block:: python
@@ -3272,7 +3272,7 @@ options in the upper-right (the orange checkmark button) to hide these labels
 from view or exclude all other labels.
 
 You can also access the
-:meth:`Session.selected_labels <fiftyone.core.session.Session.selected_labels>`
+:meth:`Session.selected_labels <tensorgrid.core.session.Session.selected_labels>`
 property of your session to retrieve information about the currently selected
 labels in the App:
 
@@ -3311,9 +3311,9 @@ slices of the dataset:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.utils.labels as foul
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.labels as foul
 
     dataset = foz.load_zoo_dataset("quickstart-video")
     foul.index_to_instance(dataset, "frames.detections", clear_index=True)
@@ -3375,14 +3375,14 @@ When in expanded sample mode:
 Tags and tagging
 ________________
 
-Tagging is a first-class citizen in FiftyOne, as both |Sample| and |Label|
+Tagging is a first-class citizen in TensorGrid, as both |Sample| and |Label|
 instances have a ``tags`` attribute that you can use to store arbitrary string
 tags for your data.
 
-The FiftyOne API provides methods like
-:meth:`tag_samples() <fiftyone.core.collections.SampleCollection.tag_samples>`
+The TensorGrid API provides methods like
+:meth:`tag_samples() <tensorgrid.core.collections.SampleCollection.tag_samples>`
 and
-:meth:`tag_labels() <fiftyone.core.collections.SampleCollection.tag_labels>`
+:meth:`tag_labels() <tensorgrid.core.collections.SampleCollection.tag_labels>`
 that you can use to programmatically manage the tags on your dataset. However,
 the App also provides a convenient UI for interactively adding, removing, and
 filtering by |Sample| and |Label| tags.
@@ -3554,7 +3554,7 @@ opposed to their labels) will not affect the sample tags of the underlying
 
     If you would like to see patches for the exact view on which an
     evaluation was performed, first call
-    :meth:`load_evaluation_view() <fiftyone.core.collections.SampleCollection.load_evaluation_view>`
+    :meth:`load_evaluation_view() <tensorgrid.core.collections.SampleCollection.load_evaluation_view>`
     to load the view and then convert to patches.
 
 .. _app-video-clips:
@@ -3633,7 +3633,7 @@ with each sample in your dataset, such as:
 -   Thumbnail images
 -   Anonymized (e.g., blurred) versions of the images
 
-You can work with multiple media sources in FiftyOne by simply adding extra
+You can work with multiple media sources in TensorGrid by simply adding extra
 field(s) to your dataset containing the paths to each media source and then
 configuring your dataset to expose these multiple media fields in the App.
 
@@ -3643,9 +3643,9 @@ store their paths in a `thumbnail_path` field:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.image as foui
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.utils.image as foui
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -3667,16 +3667,16 @@ store their paths in a `thumbnail_path` field:
     Persistent:  False
     Tags:        []
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        ground_truth:     fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        uniqueness:       fiftyone.core.fields.FloatField
-        predictions:      fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        thumbnail_path:   fiftyone.core.fields.StringField
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        ground_truth:     tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        uniqueness:       tensorgrid.core.fields.FloatField
+        predictions:      tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        thumbnail_path:   tensorgrid.core.fields.StringField
 
 We can expose the thumbnail images to the App by modifying the
 :ref:`dataset's App config <dataset-app-config>`:
@@ -3692,10 +3692,10 @@ We can expose the thumbnail images to the App by modifying the
     session = fo.launch_app(dataset)
 
 Adding `thumbnail_path` to the
-:class:`media_fields <fiftyone.core.odm.dataset.DatasetAppConfig>` property
+:class:`media_fields <tensorgrid.core.odm.dataset.DatasetAppConfig>` property
 adds it to the `Media Field` selector under the App's settings menu, and
 setting the
-:meth:`grid_media_field <fiftyone.core.odm.dataset.DatasetAppConfig>` property
+:meth:`grid_media_field <tensorgrid.core.odm.dataset.DatasetAppConfig>` property
 to `thumbnail_path` instructs the App to use the thumbnail images by default in
 the grid view:
 
@@ -3721,10 +3721,10 @@ basis.
 The order of precedence is:
 
 1.  Any changes that you make to the
-    :meth:`session.config <fiftyone.core.session.Session.config>` of a live
+    :meth:`session.config <tensorgrid.core.session.Session.config>` of a live
     session
 2.  Any settings stored in a dataset's
-    :meth:`app_config <fiftyone.core.dataset.Dataset.app_config>`
+    :meth:`app_config <tensorgrid.core.dataset.Dataset.app_config>`
 3.  Settings from your :ref:`global App config <configuring-fiftyone-app>`
 
 Any settings or changes made at higher levels of precedence will override any
@@ -3733,7 +3733,7 @@ lower priority settings the next time you load/refresh the App.
 Global App config
 -----------------
 
-FiftyOne provides a :ref:`global App config <configuring-fiftyone-app>` that
+TensorGrid provides a :ref:`global App config <configuring-fiftyone-app>` that
 you can use to customize the default App behavior for all sessions and datasets
 on your machine.
 
@@ -3742,8 +3742,8 @@ You can also customize the global App config on a per-session basis:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -3764,8 +3764,8 @@ Modifying your session
 ----------------------
 
 You can configure a live |Session| by editing its
-:meth:`session.config <fiftyone.core.session.Session.config>` property and
-calling :meth:`session.refresh() <fiftyone.core.session.Session.refresh>` to
+:meth:`session.config <tensorgrid.core.session.Session.config>` property and
+calling :meth:`session.refresh() <tensorgrid.core.session.Session.refresh>` to
 apply the changes:
 
 .. code-block:: python
@@ -3787,9 +3787,9 @@ you can use to customize the behavior of the App for that particular dataset:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.image as foui
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.utils.image as foui
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -3814,6 +3814,6 @@ you can use to customize the behavior of the App for that particular dataset:
 .. note::
 
     Any settings stored in a dataset's
-    :meth:`app_config <fiftyone.core.dataset.Dataset.app_config>` will override
+    :meth:`app_config <tensorgrid.core.dataset.Dataset.app_config>` will override
     the corresponding settings from your
     :ref:`global App config <configuring-fiftyone-app>`.

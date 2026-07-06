@@ -5,7 +5,7 @@ ActivityNet Integration
 
 .. default-role:: code
 
-With FiftyOne, you can easily download, visualize, and evaluate on the
+With TensorGrid, you can easily download, visualize, and evaluate on the
 `ActivityNet dataset <http://activity-net.org/index.html>`_!
 
 .. image:: /images/dataset_zoo/activitynet-200-validation.png
@@ -17,19 +17,19 @@ With FiftyOne, you can easily download, visualize, and evaluate on the
 Loading the ActivityNet dataset
 _______________________________
 
-The FiftyOne Dataset Zoo provides support for loading both the
+The TensorGrid Dataset Zoo provides support for loading both the
 :ref:`ActivityNet 100 <dataset-zoo-activitynet-100>` and
 :ref:`ActivityNet 200 <dataset-zoo-activitynet-200>` datasets.
 
 Like all other zoo datasets, you can use
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>` to download
-and load an ActivityNet split into FiftyOne:
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>` to download
+and load an ActivityNet split into TensorGrid:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Download and load 10 samples from the validation split of ActivityNet 200
     dataset = foz.load_zoo_dataset(
@@ -51,18 +51,18 @@ and load an ActivityNet split into FiftyOne:
 Partial Downloads
 ~~~~~~~~~~~~~~~~~
 
-In addition, FiftyOne provides parameters that can be used to efficiently
+In addition, TensorGrid provides parameters that can be used to efficiently
 download specific subsets of the ActivityNet dataset, allowing you to quickly
 explore different slices of the dataset without downloading the entire split.
 
-When performing partial downloads, FiftyOne will use existing downloaded data
+When performing partial downloads, TensorGrid will use existing downloaded data
 first if possible before resorting to downloading additional data from YouTube.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     #
     # Load 10 random samples from the validation split
@@ -104,7 +104,7 @@ first if possible before resorting to downloading additional data from YouTube.
 
 The following parameters are available to configure partial downloads of both
 ActivityNet 100 and ActivityNet 200 by passing them to
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`:
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`:
 
 -   **split** (*None*) and **splits** (*None*): a string or list of strings,
     respectively, specifying the splits to load. Supported values are
@@ -146,22 +146,22 @@ Full Split Downloads
 
 Many videos have been removed from YouTube since the creation of ActivityNet.
 As a result, you must first download the official source files from the
-ActivityNet maintainers in order to load a full split into FiftyOne.
+ActivityNet maintainers in order to load a full split into TensorGrid.
 
 To download the source files, you must fill out
 `this form <https://docs.google.com/forms/d/e/1FAIpQLSeKaFq9ZfcmZ7W0B0PbEhfbTHY41GeEgwsa7WobJgGUhn4DTQ/viewform>`_.
 
-After downloading the source files, they can be loaded into FiftyOne like so:
+After downloading the source files, they can be loaded into TensorGrid like so:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     source_dir = "/path/to/dir-with-activitynet-files"
 
-    # Load the entire ActivityNet 200 dataset into FiftyOne
+    # Load the entire ActivityNet 200 dataset into TensorGrid
     dataset = foz.load_zoo_dataset("activitynet-200", source_dir=source_dir)
 
     session = fo.launch_app(dataset)
@@ -209,17 +209,17 @@ If you have already decompressed the archives, that is okay too:
             test/
                 ...
 
-If you are only interested in loading specific splits into FiftyOne, the files
+If you are only interested in loading specific splits into TensorGrid, the files
 for the other splits do not need to be present.
 
 .. note::
 
-    When :func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`
+    When :func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`
     is called with the ``source_dir`` parameter, the contents are copied (or
     moved, if ``copy_files=False``) into the zoo dataset's backing directory.
 
     Therefore, future use of the loaded dataset or future calls to
-    :func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`
+    :func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`
     will not require the ``source_dir`` parameter.
 
 .. _activitynet-evaluation:
@@ -227,7 +227,7 @@ for the other splits do not need to be present.
 ActivityNet-style evaluation
 ____________________________
 
-The :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+The :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 method provides builtin support for running
 `ActivityNet-style evaluation <https://github.com/activitynet/ActivityNet/tree/master/Evaluation>`_.
 
@@ -237,7 +237,7 @@ the ``method`` parameter to ``"activitynet"``.
 
 .. note::
 
-    FiftyOne's implementation of ActivityNet-style evaluation matches the
+    TensorGrid's implementation of ActivityNet-style evaluation matches the
     reference implementation available via the
     `ActivityNet API <https://github.com/activitynet/ActivityNet/tree/master/Evaluation>`_.
 
@@ -245,7 +245,7 @@ Overview
 ~~~~~~~~
 
 When running ActivityNet-style evaluation using
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`:
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`:
 
 -   Predicted and ground truth segments are matched using a specified IoU
     threshold (default = 0.50). This threshold can be customized via the
@@ -279,7 +279,7 @@ populated on each sample and its predicted/ground truth segments:
 
     See |ActivityNetEvaluationConfig| for complete descriptions of the optional
     keyword arguments that you can pass to
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
     when running ActivityNet-style evaluation.
 
 Example evaluation
@@ -293,9 +293,9 @@ on the :ref:`ActivityNet 200 dataset <dataset-zoo-activitynet-200>`:
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     # Load subset of ActivityNet 200
     classes = ["Bathing dog", "Walking the dog"]
@@ -368,7 +368,7 @@ mAP and PR curves
 
 You can compute mean average precision (mAP) and precision-recall (PR) curves
 for your segments by passing the ``compute_mAP=True`` flag to
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`:
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`:
 
 .. note::
 
@@ -380,8 +380,8 @@ for your segments by passing the ``compute_mAP=True`` flag to
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Load subset of ActivityNet 200
     classes = ["Bathing dog", "Walking the dog"]
@@ -433,7 +433,7 @@ the results of ActivityNet-style evaluations.
 
 In order for the confusion matrix to capture anything other than false
 positive/negative counts, you will likely want to set the
-:class:`classwise <fiftyone.utils.eval.coco.ActivityNetEvaluationConfig>`
+:class:`classwise <tensorgrid.utils.eval.coco.ActivityNetEvaluationConfig>`
 parameter to ``False`` during evaluation so that predicted segments can be
 matched with ground truth segments of different classes.
 
@@ -442,8 +442,8 @@ matched with ground truth segments of different classes.
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Load subset of ActivityNet 200
     classes = ["Bathing dog", "Grooming dog", "Grooming horse", "Walking the dog"]
@@ -485,7 +485,7 @@ matched with ground truth segments of different classes.
 .. note::
 
     Did you know? :ref:`Confusion matrices <confusion-matrices>` can be
-    attached to your |Session| object and dynamically explored using FiftyOne's
+    attached to your |Session| object and dynamically explored using TensorGrid's
     :ref:`interactive plotting features <interactive-plots>`!
 
 .. _activitynet-challenge:
@@ -493,15 +493,15 @@ matched with ground truth segments of different classes.
 ActivityNet Challenge
 _____________________
 
-Since FiftyOne's implementation of ActivityNet-style evaluation matches the
+Since TensorGrid's implementation of ActivityNet-style evaluation matches the
 reference implementation from the
 `ActivityNet API <https://github.com/activitynet/ActivityNet/tree/master/Evaluation>`_
 used in the
 `ActivityNet challenges <http://activity-net.org/challenges/2021/index.html>`_.
 you can use it to compute the official mAP for your model while also enjoying
-the benefits of working in the FiftyOne ecosystem, including
+the benefits of working in the TensorGrid ecosystem, including
 :ref:`using views <using-views>` to manipulate your dataset and visually
-exploring your model's predictions in the :ref:`FiftyOne App <fiftyone-app>`!
+exploring your model's predictions in the :ref:`TensorGrid App <fiftyone-app>`!
 
 The example snippet below loads the
 :ref:`ActivityNet 200<dataset-zoo-activitynet-200>` dataset and runs the
@@ -512,8 +512,8 @@ official ActivityNet evaluation protocol on some mock model predictions:
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Load subset of ActivityNet 200
     classes = ["Bathing dog", "Walking the dog"]
@@ -551,7 +551,7 @@ official ActivityNet evaluation protocol on some mock model predictions:
 .. note::
 
     Check out :doc:`this recipe </recipes/adding_detections>` to learn how to
-    add your model's predictions to a FiftyOne Dataset.
+    add your model's predictions to a TensorGrid Dataset.
 
 .. _activitynet-map:
 
@@ -610,7 +610,7 @@ to compute true positives, false positives, and false negatives:
 -   Ensure that precision is a non-increasing array
 
 -   (Unlike COCO) DO NOT interpolate precision values onto an 101 evenly spaced
-    recall values.  In FiftyOne, this step is performed anyway with the results
+    recall values.  In TensorGrid, this step is performed anyway with the results
     stored separately for the purpose of plotting PR curves. It is not factored
     into mAP calculation
 

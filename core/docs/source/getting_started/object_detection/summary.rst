@@ -12,19 +12,19 @@ Step-by-Step Recap
 
 **Step 1: Loading Detection Datasets**
 
-You learned how to load detection datasets into FiftyOne using both built-in datasets from the zoo and custom datasets. This included working with COCO format data and understanding FiftyOne's detection data structures.
+You learned how to load detection datasets into TensorGrid using both built-in datasets from the zoo and custom datasets. This included working with COCO format data and understanding TensorGrid's detection data structures.
 
 **Step 2: Adding Object Detections**
 
-You mastered adding object detection predictions to your datasets using both pre-trained models from the model zoo and custom models like YOLOv8. This step showed you how to integrate model inference into your FiftyOne workflow.
+You mastered adding object detection predictions to your datasets using both pre-trained models from the model zoo and custom models like YOLOv8. This step showed you how to integrate model inference into your TensorGrid workflow.
 
 **Step 3: Finding Detection Mistakes**
 
-You explored FiftyOne Brain's advanced capabilities for identifying detection mistakes, including erroneous boxes, class mistakes, and overlapping detections. This automated quality assurance saves hours of manual review.
+You explored TensorGrid Brain's advanced capabilities for identifying detection mistakes, including erroneous boxes, class mistakes, and overlapping detections. This automated quality assurance saves hours of manual review.
 
 **Step 4: Evaluating Detections**
 
-You performed comprehensive evaluation of detection models using FiftyOne's evaluation API, analyzing performance metrics and identifying the best and worst performing samples in your dataset.
+You performed comprehensive evaluation of detection models using TensorGrid's evaluation API, analyzing performance metrics and identifying the best and worst performing samples in your dataset.
 
 .. _summary-exercises:
 
@@ -46,13 +46,13 @@ Suggested Exercises
 Resources and Further Reading
 ----------------------------
 
-* `FiftyOne Documentation <https://docs.voxel51.com/>`_
+* `TensorGrid Documentation </docs/>`_
 
-* `FiftyOne Detection Tutorial <../../tutorials/detection_mistakes.html>`_
+* `TensorGrid Detection Tutorial <../../tutorials/detection_mistakes.html>`_
 
-* `FiftyOne Model Zoo <../../user_guide/model_zoo/index.html>`_
+* `TensorGrid Model Zoo <../../user_guide/model_zoo/index.html>`_
 
-* `FiftyOne Dataset Zoo <../../user_guide/dataset_zoo/index.html>`_
+* `TensorGrid Dataset Zoo <../../user_guide/dataset_zoo/index.html>`_
 
 * `Object Detection Evaluation Guide <../../tutorials/evaluate_detections.html>`_
 
@@ -66,15 +66,15 @@ Resources and Further Reading
 What to Do Next
 ---------------
 
-Now that you've mastered object detection with FiftyOne, here are some suggested next steps:
+Now that you've mastered object detection with TensorGrid, here are some suggested next steps:
 
-* **Explore Segmentation Models** - Learn how to work with instance and semantic segmentation using FiftyOne's segmentation support
+* **Explore Segmentation Models** - Learn how to work with instance and semantic segmentation using TensorGrid's segmentation support
 
 * **Try 3D Object Detection** - Extend your skills to 3D point cloud data and lidar-based detection
 
-* **Build Custom Plugins** - Create your own FiftyOne plugins to extend detection workflows for your specific needs
+* **Build Custom Plugins** - Create your own TensorGrid plugins to extend detection workflows for your specific needs
 
-* **Join the Community** - Connect with other FiftyOne users to share insights and learn advanced techniques
+* **Join the Community** - Connect with other TensorGrid users to share insights and learn advanced techniques
 
 * **Apply to Real Projects** - Use these skills on your production detection systems to improve model performance and data quality
 
@@ -84,13 +84,13 @@ Now that you've mastered object detection with FiftyOne, here are some suggested
 We'd Love Your Feedback
 -----------------------
 
-Your feedback helps us improve FiftyOne and create better learning experiences. Please let us know:
+Your feedback helps us improve TensorGrid and create better learning experiences. Please let us know:
 
 * What aspects of this detection guide were most helpful?
 * What could be improved or clarified?
 * What detection-specific topics would you like to see covered in future guides?
 * Any issues or bugs you encountered?
 
-You can reach us at `support@voxel51.com` or join our `Discord community <https://community.voxel51.com>`_.
+You can reach us at `support@voxel51.com` or join our `Discord community <https://github.com/rksaklani/TensorGrid/discussions>`_.
 
 Thank you for completing the Object Detection Guide! We hope you're excited to apply these detection skills to your own computer vision projects. 

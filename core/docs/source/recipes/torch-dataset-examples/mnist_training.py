@@ -1,4 +1,4 @@
-import fiftyone as fo
+import tensorgrid as tg
 
 import torch
 from tqdm import tqdm

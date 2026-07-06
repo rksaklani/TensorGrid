@@ -5,13 +5,13 @@ Evaluating Models
 
 .. default-role:: code
 
-FiftyOne provides a variety of builtin methods for evaluating your model
+TensorGrid provides a variety of builtin methods for evaluating your model
 predictions, including regressions, classifications, detections, polygons,
 instance and semantic segmentations, on both image and video datasets.
 
-When you evaluate a model in FiftyOne, you get access to the standard aggregate
+When you evaluate a model in TensorGrid, you get access to the standard aggregate
 metrics such as classification reports, confusion matrices, and PR curves
-for your model. In addition, FiftyOne can also record fine-grained statistics
+for your model. In addition, TensorGrid can also record fine-grained statistics
 like accuracy and false positive counts at the sample-level, which you can
 :ref:`interactively explore <app-model-evaluation-panel>` in the App to diagnose
 the strengths and weaknesses of your models on individual data samples.
@@ -21,32 +21,32 @@ improve your datasets and models. For example, viewing the samples with the
 most false positive predictions can reveal errors in your annotation schema.
 Or, viewing the cluster of samples with the lowest accuracy can reveal gaps in
 your training dataset that you need to address in order to improve your model's
-performance. A key goal of FiftyOne is to help you uncover these insights on
+performance. A key goal of TensorGrid is to help you uncover these insights on
 your data!
 
 .. note::
 
      Check out the :ref:`tutorials page <tutorials>` for in-depth walkthroughs
-     of evaluating various types of models with FiftyOne.
+     of evaluating various types of models with TensorGrid.
 
 Overview
 ________
 
-FiftyOne's evaluation methods are conveniently exposed as methods on all
+TensorGrid's evaluation methods are conveniently exposed as methods on all
 |Dataset| and |DatasetView| objects, which means that you can evaluate entire
 datasets or specific views into them via the same syntax.
 
 Let's illustrate the basic workflow by loading the
 :ref:`quickstart dataset <dataset-zoo-quickstart>` and analyzing the object
 detections in its `predictions` field using the
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 method:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -107,20 +107,20 @@ Per-sample metrics
 ------------------
 
 In addition to standard aggregate metrics, when you pass an ``eval_key``
-parameter to the evaluation routine, FiftyOne will populate helpful
+parameter to the evaluation routine, TensorGrid will populate helpful
 task-specific information about your model's predictions on each sample, such
 as false negative/positive counts and per-sample accuracies.
 
 Continuing with our example, let's use :ref:`dataset views <using-views>` and
-the :ref:`FiftyOne App <fiftyone-app>` to leverage these sample metrics to
+the :ref:`TensorGrid App <fiftyone-app>` to leverage these sample metrics to
 investigate the samples with the most false positive predictions in the
 dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    from tensorgrid import ViewField as F
 
     # Create a view that has samples with the most false positives first, and
     # only includes false positive boxes in the `predictions` field
@@ -144,7 +144,7 @@ truth while the model is generating predictions for individual carrots!
 
 If you're familiar with `COCO format <https://cocodataset.org/#format-data>`_
 (which is recognized by
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 by default), you'll notice that the issue here is that the ``iscrowd``
 attribute of this ground truth annotation has been incorrectly set to ``0``.
 Resolving mistakes like these will provide a much more accurate picture of the
@@ -157,13 +157,13 @@ Confusion matrices
 
 .. note::
 
-    The easiest way to work with confusion matrices in FiftyOne is via the
+    The easiest way to work with confusion matrices in TensorGrid is via the
     :ref:`Model Evaluation panel <app-model-evaluation-panel>`!
 
 When you use evaluation methods such as
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 that support confusion matrices, you can use the
-:meth:`plot_confusion_matrix() <fiftyone.utils.eval.detection.DetectionResults.plot_confusion_matrix>`
+:meth:`plot_confusion_matrix() <tensorgrid.utils.eval.detection.DetectionResults.plot_confusion_matrix>`
 method to render responsive plots that can be attached to App instances to
 interactively explore specific cases of your model's performance:
 
@@ -188,7 +188,7 @@ see the true positive examples of that class in the App.
 
 Likewise, whenever you modify the Session's view, either in the App or by
 programmatically setting
-:meth:`session.view <fiftyone.core.session.Session.view>`, the confusion matrix
+:meth:`session.view <tensorgrid.core.session.Session.view>`, the confusion matrix
 is automatically updated to show the cell counts for only those objects that
 are included in the current view.
 
@@ -202,7 +202,7 @@ Analyzing scenarios  __SUB_NEW__
     Did you know? You can create and analyze model evaluation scenarios in the
     App via the :ref:`Scenario Analysis tab <app-scenario-analysis>`.
 
-The :meth:`use_subset() <fiftyone.utils.eval.base.BaseClassificationResults.use_subset>`
+The :meth:`use_subset() <tensorgrid.utils.eval.base.BaseClassificationResults.use_subset>`
 method allows you to evaluate the performance of your model under specific
 scenarios, i.e., subsets of the overall dataset on which evaluation was
 performed.
@@ -212,10 +212,10 @@ Consider the following example:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.utils.random as four
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.random as four
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -256,7 +256,7 @@ statistics across the entire evaluation:
     weighted avg       0.51      0.90      0.64      1074
 
 However, you can use
-:meth:`use_subset() <fiftyone.utils.eval.base.BaseClassificationResults.use_subset>`
+:meth:`use_subset() <tensorgrid.utils.eval.base.BaseClassificationResults.use_subset>`
 to analyze the performance of the model on specific subsets of interest:
 
 .. tabs::
@@ -363,9 +363,9 @@ to analyze the performance of the model on specific subsets of interest:
         weighted avg       1.00      0.79      0.87       377
 
 Refer to
-:meth:`use_subset() <fiftyone.utils.eval.base.BaseClassificationResults.use_subset>`
+:meth:`use_subset() <tensorgrid.utils.eval.base.BaseClassificationResults.use_subset>`
 and
-:func:`get_subset_view() <fiftyone.utils.eval.base.get_subset_view>` for a
+:func:`get_subset_view() <tensorgrid.utils.eval.base.get_subset_view>` for a
 complete description of the supported syntax for defining subsets to analyze.
 
 .. _managing-evaluations:
@@ -379,12 +379,12 @@ it, delete it (along with any modifications to your dataset that were performed
 by it), and :ref:`retrieve the view <load-evaluation-view>` that you evaluated
 on using the following methods on your dataset:
 
--   :meth:`list_evaluations() <fiftyone.core.collections.SampleCollection.list_evaluations>`
--   :meth:`get_evaluation_info() <fiftyone.core.collections.SampleCollection.get_evaluation_info>`
--   :meth:`load_evaluation_results() <fiftyone.core.collections.SampleCollection.load_evaluation_results>`
--   :meth:`load_evaluation_view() <fiftyone.core.collections.SampleCollection.load_evaluation_view>`
--   :meth:`rename_evaluation() <fiftyone.core.collections.SampleCollection.rename_evaluation>`
--   :meth:`delete_evaluation() <fiftyone.core.collections.SampleCollection.delete_evaluation>`
+-   :meth:`list_evaluations() <tensorgrid.core.collections.SampleCollection.list_evaluations>`
+-   :meth:`get_evaluation_info() <tensorgrid.core.collections.SampleCollection.get_evaluation_info>`
+-   :meth:`load_evaluation_results() <tensorgrid.core.collections.SampleCollection.load_evaluation_results>`
+-   :meth:`load_evaluation_view() <tensorgrid.core.collections.SampleCollection.load_evaluation_view>`
+-   :meth:`rename_evaluation() <tensorgrid.core.collections.SampleCollection.rename_evaluation>`
+-   :meth:`delete_evaluation() <tensorgrid.core.collections.SampleCollection.delete_evaluation>`
 
 The example below demonstrates the basic interface:
 
@@ -426,7 +426,7 @@ interactively explore the evaluation results in the App:
 
 .. note::
 
-    Did you know? With :ref:`FiftyOne Enterprise <fiftyone-enterprise>` you can execute
+    Did you know? With :ref:`TensorGrid Enterprise <fiftyone-enterprise>` you can execute
     model evaluations natively from the App
     :ref:`in the background <delegated-operations>` while you work.
 
@@ -436,25 +436,25 @@ Regressions
 ___________
 
 You can use the
-:meth:`evaluate_regressions() <fiftyone.core.collections.SampleCollection.evaluate_regressions>`
+:meth:`evaluate_regressions() <tensorgrid.core.collections.SampleCollection.evaluate_regressions>`
 method to evaluate the predictions of a regression model stored in a
 |Regression| field of your dataset.
 
 Invoking
-:meth:`evaluate_regressions() <fiftyone.core.collections.SampleCollection.evaluate_regressions>`
+:meth:`evaluate_regressions() <tensorgrid.core.collections.SampleCollection.evaluate_regressions>`
 returns a |RegressionResults| instance that provides a variety of methods for
 evaluating your model.
 
 In addition, when you specify an ``eval_key`` parameter, helpful fields will be
 populated on each sample that you can leverage via the
-:ref:`FiftyOne App <fiftyone-app>` to interactively explore the strengths and
+:ref:`TensorGrid App <fiftyone-app>` to interactively explore the strengths and
 weaknesses of your model on individual samples.
 
 Simple evaluation (default)
 ---------------------------
 
 By default,
-:meth:`evaluate_regressions() <fiftyone.core.collections.SampleCollection.evaluate_regressions>`
+:meth:`evaluate_regressions() <tensorgrid.core.collections.SampleCollection.evaluate_regressions>`
 will evaluate each prediction by directly comparing its ``value`` to the
 associated ground truth value.
 
@@ -465,9 +465,9 @@ When you specify an ``eval_key`` parameter, a float ``eval_key`` field will be
 populated on each sample that records the error of that sample's prediction
 with respect to its ground truth value. By default, the squared error will be
 computed, but you can customize this via the optional ``metric`` argument to
-:meth:`evaluate_regressions() <fiftyone.core.collections.SampleCollection.evaluate_regressions>`,
+:meth:`evaluate_regressions() <tensorgrid.core.collections.SampleCollection.evaluate_regressions>`,
 which can take any value supported by
-:class:`SimpleEvaluationConfig <fiftyone.utils.eval.regression.SimpleEvaluationConfig>`.
+:class:`SimpleEvaluationConfig <tensorgrid.utils.eval.regression.SimpleEvaluationConfig>`.
 
 The example below demonstrates simple evaluation on the
 :ref:`quickstart dataset <dataset-zoo-quickstart>` with some fake regression
@@ -479,9 +479,9 @@ data added to it to demonstrate the workflow:
     import random
     import numpy as np
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart").select_fields().clone()
 
@@ -550,7 +550,7 @@ Classifications
 _______________
 
 You can use the
-:meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`
+:meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`
 method to evaluate the predictions of a classifier stored in a
 |Classification| field of your dataset.
 
@@ -559,20 +559,20 @@ classification task, but you can specify other evaluation strategies such as
 top-k accuracy or binary evaluation via the ``method`` parameter.
 
 Invoking
-:meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`
+:meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`
 returns a |ClassificationResults| instance that provides a variety of methods
 for generating various aggregate evaluation reports about your model.
 
 In addition, when you specify an ``eval_key`` parameter, a number of helpful
 fields will be populated on each sample that you can leverage via the
-:ref:`FiftyOne App <fiftyone-app>` to interactively explore the strengths and
+:ref:`TensorGrid App <fiftyone-app>` to interactively explore the strengths and
 weaknesses of your model on individual samples.
 
 Simple evaluation (default)
 ---------------------------
 
 By default,
-:meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`
+:meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`
 will treat your classifications as generic multiclass predictions, and it will
 evaluate each prediction by directly comparing its ``label`` to the associated
 ground truth prediction.
@@ -593,9 +593,9 @@ to it to demonstrate the workflow:
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset(
         "cifar10",
@@ -672,14 +672,14 @@ to it to demonstrate the workflow:
 
 .. note::
 
-    The easiest way to analyze models in FiftyOne is via the
+    The easiest way to analyze models in TensorGrid is via the
     :ref:`Model Evaluation panel <app-model-evaluation-panel>`!
 
 Top-k evaluation
 ----------------
 
 Set the ``method`` parameter of
-:meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`
+:meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`
 to ``top-k`` in order to use top-k matching to evaluate your classifications.
 
 Under this strategy, predictions are deemed to be correct if the corresponding
@@ -694,7 +694,7 @@ correct.
     In order to use top-k evaluation, you must populate the ``logits`` field
     of your predictions, and you must provide the list of corresponding class
     labels via the ``classes`` parameter of
-    :meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`.
+    :meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`.
 
     Did you know? Many models from the :ref:`Model Zoo <model-zoo>`
     provide support for storing logits for their predictions!
@@ -706,9 +706,9 @@ from a pre-trained model from the :ref:`Model Zoo <model-zoo>`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset(
         "imagenet-sample", dataset_name="top-k-eval-demo"
@@ -758,14 +758,14 @@ from a pre-trained model from the :ref:`Model Zoo <model-zoo>`:
 
 .. note::
 
-    The easiest way to analyze models in FiftyOne is via the
+    The easiest way to analyze models in TensorGrid is via the
     :ref:`Model Evaluation panel <app-model-evaluation-panel>`!
 
 Binary evaluation
 -----------------
 
 If your classifier is binary, set the ``method`` parameter of
-:meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`
+:meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`
 to ``"binary"`` in order to access binary-specific evaluation information such
 as precision-recall curves for your model.
 
@@ -777,7 +777,7 @@ false positive, true negative, or false negative.
 
     In order to use binary evaluation, you must provide the
     ``(neg_label, pos_label)`` for your model via the ``classes`` parameter of
-    :meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`.
+    :meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`.
 
 The example below demonstrates binary evaluation on the
 :ref:`CIFAR-10 dataset <dataset-zoo-cifar10>` with some fake binary predictions
@@ -788,8 +788,8 @@ added to it to demonstrate the workflow:
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Load a small sample from the ImageNet dataset
     dataset = foz.load_zoo_dataset(
@@ -858,7 +858,7 @@ added to it to demonstrate the workflow:
 
 .. note::
 
-    The easiest way to analyze models in FiftyOne is via the
+    The easiest way to analyze models in TensorGrid is via the
     :ref:`Model Evaluation panel <app-model-evaluation-panel>`!
 
 .. _evaluating-detections:
@@ -867,26 +867,26 @@ Detections
 __________
 
 You can use the
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 method to evaluate the predictions of an object detection model stored in a
 |Detections|, |Polylines|, or |Keypoints| field of your dataset or of a
 temporal detection model stored in a |TemporalDetections| field of your
 dataset.
 
 Invoking
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 returns a |DetectionResults| instance that provides a variety of methods for
 generating various aggregate evaluation reports about your model.
 
 In addition, when you specify an ``eval_key`` parameter, a number of helpful
 fields will be populated on each sample and its predicted/ground truth
-objects that you can leverage via the :ref:`FiftyOne App <fiftyone-app>` to
+objects that you can leverage via the :ref:`TensorGrid App <fiftyone-app>` to
 interactively explore the strengths and weaknesses of your model on individual
 samples.
 
 .. note::
 
-    FiftyOne uses the :ref:`COCO-style <evaluating-detections-coco>` evaluation
+    TensorGrid uses the :ref:`COCO-style <evaluating-detections-coco>` evaluation
     by default, but
     :ref:`Open Images-style <evaluating-detections-open-images>` evaluation is
     also natively supported.
@@ -896,7 +896,7 @@ samples.
 Supported types
 ---------------
 
-The :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+The :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 method supports all of the following task types:
 
 -   :ref:`Object detection <object-detection>`
@@ -932,11 +932,11 @@ mask populated to define the extent of the object within its bounding box.
 .. note::
 
     In order to use instance masks for IoU calculations, pass ``use_masks=True``
-    to :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`.
+    to :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`.
 
 For polygon detection tasks, the ground truth and predicted objects should be
 stored in |Polylines| format with their
-:attr:`filled <fiftyone.core.labels.Polyline.filled>` attribute set to
+:attr:`filled <tensorgrid.core.labels.Polyline.filled>` attribute set to
 ``True`` to indicate that they represent closed polygons (as opposed to
 polylines).
 
@@ -945,7 +945,7 @@ polylines).
     If you are evaluating polygons but would rather use bounding boxes rather
     than the actual polygonal geometries for IoU calculations, you can pass
     ``use_boxes=True`` to
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`.
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`.
 
 For keypoint tasks, each |Keypoint| instance must contain point arrays of equal
 length and semantic ordering.
@@ -965,9 +965,9 @@ Evaluation patches views
 ------------------------
 
 Once you have run
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 on a dataset, you can use
-:meth:`to_evaluation_patches() <fiftyone.core.collections.SampleCollection.to_evaluation_patches>`
+:meth:`to_evaluation_patches() <tensorgrid.core.collections.SampleCollection.to_evaluation_patches>`
 to transform the dataset (or a view into it) into a new view that contains one
 sample for each true positive, false positive, and false negative example.
 
@@ -994,7 +994,7 @@ field if the evaluation protocol defines a crowd attribute.
 
     If you would like to see patches for the exact view on which an
     evaluation was performed, first call
-    :meth:`load_evaluation_view() <fiftyone.core.collections.SampleCollection.load_evaluation_view>`
+    :meth:`load_evaluation_view() <tensorgrid.core.collections.SampleCollection.load_evaluation_view>`
     to load the view and then convert to patches.
 
 The example below demonstrates loading an evaluation patches view for the
@@ -1004,8 +1004,8 @@ results of an evaluation on the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1032,15 +1032,15 @@ results of an evaluation on the
     Media type:  image
     Num patches: 5363
     Patch fields:
-        filepath:     fiftyone.core.fields.StringField
-        tags:         fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:     fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        predictions:  fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        ground_truth: fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        sample_id:    fiftyone.core.fields.StringField
-        type:         fiftyone.core.fields.StringField
-        iou:          fiftyone.core.fields.FloatField
-        crowd:        fiftyone.core.fields.BooleanField
+        filepath:     tensorgrid.core.fields.StringField
+        tags:         tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:     tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        predictions:  tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        ground_truth: tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        sample_id:    tensorgrid.core.fields.StringField
+        type:         tensorgrid.core.fields.StringField
+        iou:          tensorgrid.core.fields.FloatField
+        crowd:        tensorgrid.core.fields.BooleanField
     View stages:
         1. ToEvaluationPatches(eval_key='eval', config=None)
 
@@ -1061,15 +1061,15 @@ Evaluation patches views are just like any other
     :ref:`views API <using-views>`
 -   Any modifications to ground truth or predicted label tags that you make via
     the App's :ref:`tagging menu <app-tagging>` or via API methods like
-    :meth:`tag_labels() <fiftyone.core.collections.SampleCollection.tag_labels>`
-    and :meth:`untag_labels() <fiftyone.core.collections.SampleCollection.untag_labels>`
+    :meth:`tag_labels() <tensorgrid.core.collections.SampleCollection.tag_labels>`
+    and :meth:`untag_labels() <tensorgrid.core.collections.SampleCollection.untag_labels>`
     will be reflected on the source dataset
 -   Any modifications to the predicted or ground truth |Label| elements in the
     patches view that you make by iterating over the contents of the view or
     calling
-    :meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`
+    :meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`
     will be reflected on the source dataset
--   Calling :meth:`save() <fiftyone.core.patches.EvaluationPatchesView.save>`
+-   Calling :meth:`save() <tensorgrid.core.patches.EvaluationPatchesView.save>`
     on an evaluation patches view (typically one that contains additional view
     stages that filter or modify its contents) will sync any |Label| edits or
     deletions with the source dataset
@@ -1089,7 +1089,7 @@ COCO-style evaluation (default spatial)
 ---------------------------------------
 
 By default,
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 will use `COCO-style evaluation <https://cocodataset.org/#detection-eval>`_ to
 analyze predictions when the specified label fields are |Detections| or
 |Polylines|.
@@ -1099,7 +1099,7 @@ the ``method`` parameter to ``"coco"``.
 
 .. note::
 
-    FiftyOne's implementation of COCO-style evaluation matches the reference
+    TensorGrid's implementation of COCO-style evaluation matches the reference
     implementation available via
     `pycocotools <https://github.com/cocodataset/cocoapi>`_.
 
@@ -1107,7 +1107,7 @@ Overview
 ~~~~~~~~
 
 When running COCO-style evaluation using
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`:
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`:
 
 -   Predicted and ground truth objects are matched using a specified IoU
     threshold (default = 0.50). This threshold can be customized via the
@@ -1121,7 +1121,7 @@ When running COCO-style evaluation using
     can be matched to crowd ground truth objects. The name of this attribute
     can be customized by passing the optional ``iscrowd`` attribute of
     |COCOEvaluationConfig| to
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 
 When you specify an ``eval_key`` parameter, a number of helpful fields will be
 populated on each sample and its predicted/ground truth objects:
@@ -1145,7 +1145,7 @@ populated on each sample and its predicted/ground truth objects:
 
     See |COCOEvaluationConfig| for complete descriptions of the optional
     keyword arguments that you can pass to
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
     when running COCO-style evaluation.
 
 Example evaluation
@@ -1157,9 +1157,9 @@ The example below demonstrates COCO-style detection evaluation on the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
     print(dataset)
@@ -1220,7 +1220,7 @@ The example below demonstrates COCO-style detection evaluation on the
 
 .. note::
 
-    The easiest way to analyze models in FiftyOne is via the
+    The easiest way to analyze models in TensorGrid is via the
     :ref:`Model Evaluation panel <app-model-evaluation-panel>`!
 
 mAP, mAR and PR curves
@@ -1229,7 +1229,7 @@ mAP, mAR and PR curves
 You can compute mean average precision (mAP), mean average recall (mAR), and
 precision-recall (PR) curves for your predictions by passing the
 ``compute_mAP=True`` flag to
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`:
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`:
 
 .. note::
 
@@ -1239,8 +1239,8 @@ precision-recall (PR) curves for your predictions by passing the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     print(dataset)
@@ -1273,15 +1273,15 @@ the results of COCO-style evaluations.
 
 In order for the confusion matrix to capture anything other than false
 positive/negative counts, you will likely want to set the
-:class:`classwise <fiftyone.utils.eval.coco.COCOEvaluationConfig>` parameter
+:class:`classwise <tensorgrid.utils.eval.coco.COCOEvaluationConfig>` parameter
 to ``False`` during evaluation so that predicted objects can be matched with
 ground truth objects of different classes.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1303,7 +1303,7 @@ ground truth objects of different classes.
 Open Images-style evaluation
 ----------------------------
 
-The :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+The :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 method also supports
 `Open Images-style evaluation <https://storage.googleapis.com/openimages/web/evaluation.html>`_.
 
@@ -1312,7 +1312,7 @@ parameter to ``"open-images"``.
 
 .. note::
 
-    FiftyOne's implementation of Open Images-style evaluation matches the
+    TensorGrid's implementation of Open Images-style evaluation matches the
     reference implementation available via the
     `TF Object Detection API <https://github.com/tensorflow/models/tree/master/research/object_detection>`_.
 
@@ -1377,7 +1377,7 @@ populated on each sample and its predicted/ground truth objects:
 
     See |OpenImagesEvaluationConfig| for complete descriptions of the optional
     keyword arguments that you can pass to
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
     when running Open Images-style evaluation.
 
 Example evaluation
@@ -1389,9 +1389,9 @@ The example below demonstrates Open Images-style detection evaluation on the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
     print(dataset)
@@ -1453,7 +1453,7 @@ The example below demonstrates Open Images-style detection evaluation on the
 
 .. note::
 
-    The easiest way to analyze models in FiftyOne is via the
+    The easiest way to analyze models in TensorGrid is via the
     :ref:`Model Evaluation panel <app-model-evaluation-panel>`!
 
 mAP and PR curves
@@ -1461,19 +1461,19 @@ mAP and PR curves
 
 You can easily compute mean average precision (mAP) and precision-recall (PR)
 curves using the results object returned by
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`:
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`:
 
 .. note::
 
-    FiftyOne's implementation of Open Images-style evaluation matches the
+    TensorGrid's implementation of Open Images-style evaluation matches the
     reference implementation available via the
     `TF Object Detection API <https://github.com/tensorflow/models/tree/master/research/object_detection>`_.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     print(dataset)
@@ -1502,15 +1502,15 @@ the results of Open Images-style evaluations.
 
 In order for the confusion matrix to capture anything other than false
 positive/negative counts, you will likely want to set the
-:class:`classwise <fiftyone.utils.eval.openimages.OpenImagesEvaluationConfig>`
+:class:`classwise <tensorgrid.utils.eval.openimages.OpenImagesEvaluationConfig>`
 parameter to ``False`` during evaluation so that predicted objects can be
 matched with ground truth objects of different classes.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1536,7 +1536,7 @@ ActivityNet-style evaluation (default temporal)
 -----------------------------------------------
 
 By default,
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 will use 
 `ActivityNet-style temporal detection evaluation <https://github.com/activitynet/ActivityNet/tree/master/Evaluation>`_.
 to analyze predictions when the specified label fields are |TemporalDetections|.
@@ -1546,7 +1546,7 @@ the ``method`` parameter to ``"activitynet"``.
 
 .. note::
 
-    FiftyOne's implementation of ActivityNet-style evaluation matches the
+    TensorGrid's implementation of ActivityNet-style evaluation matches the
     reference implementation available via the
     `ActivityNet API <https://github.com/activitynet/ActivityNet/tree/master/Evaluation>`_.
 
@@ -1554,7 +1554,7 @@ Overview
 ~~~~~~~~
 
 When running ActivityNet-style evaluation using
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`:
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`:
 
 -   Predicted and ground truth segments are matched using a specified IoU
     threshold (default = 0.50). This threshold can be customized via the
@@ -1588,7 +1588,7 @@ populated on each sample and its predicted/ground truth segments:
 
     See |ActivityNetEvaluationConfig| for complete descriptions of the optional
     keyword arguments that you can pass to
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
     when running ActivityNet-style evaluation.
 
 Example evaluation
@@ -1600,9 +1600,9 @@ on the :ref:`ActivityNet 200 dataset <dataset-zoo-activitynet-200>`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     import random
 
@@ -1674,7 +1674,7 @@ on the :ref:`ActivityNet 200 dataset <dataset-zoo-activitynet-200>`:
 
 .. note::
 
-    The easiest way to analyze models in FiftyOne is via the
+    The easiest way to analyze models in TensorGrid is via the
     :ref:`Model Evaluation panel <app-model-evaluation-panel>`!
 
 mAP and PR curves
@@ -1682,7 +1682,7 @@ mAP and PR curves
 
 You can compute mean average precision (mAP) and precision-recall (PR) curves
 for your segments by passing the ``compute_mAP=True`` flag to
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`:
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`:
 
 .. note::
 
@@ -1694,8 +1694,8 @@ for your segments by passing the ``compute_mAP=True`` flag to
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Load subset of ActivityNet 200
     classes = ["Bathing dog", "Walking the dog"]
@@ -1747,7 +1747,7 @@ the results of ActivityNet-style evaluations.
 
 In order for the confusion matrix to capture anything other than false
 positive/negative counts, you will likely want to set the
-:class:`classwise <fiftyone.utils.eval.coco.ActivityNetEvaluationConfig>`
+:class:`classwise <tensorgrid.utils.eval.coco.ActivityNetEvaluationConfig>`
 parameter to ``False`` during evaluation so that predicted segments can be
 matched with ground truth segments of different classes.
 
@@ -1756,8 +1756,8 @@ matched with ground truth segments of different classes.
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Load subset of ActivityNet 200
     classes = ["Bathing dog", "Grooming dog", "Grooming horse", "Walking the dog"]
@@ -1802,7 +1802,7 @@ Semantic segmentations
 ______________________
 
 You can use the
-:meth:`evaluate_segmentations() <fiftyone.core.collections.SampleCollection.evaluate_segmentations>`
+:meth:`evaluate_segmentations() <tensorgrid.core.collections.SampleCollection.evaluate_segmentations>`
 method to evaluate the predictions of a semantic segmentation model stored in a
 |Segmentation| field of your dataset.
 
@@ -1811,13 +1811,13 @@ you can specify other evaluation strategies such as evaluating only boundary
 pixels (see below for details).
 
 Invoking
-:meth:`evaluate_segmentations() <fiftyone.core.collections.SampleCollection.evaluate_segmentations>`
+:meth:`evaluate_segmentations() <tensorgrid.core.collections.SampleCollection.evaluate_segmentations>`
 returns a |SegmentationResults| instance that provides a variety of methods for
 generating various aggregate evaluation reports about your model.
 
 In addition, when you specify an ``eval_key`` parameter, a number of helpful
 fields will be populated on each sample that you can leverage via the
-:ref:`FiftyOne App <fiftyone-app>` to interactively explore the strengths and
+:ref:`TensorGrid App <fiftyone-app>` to interactively explore the strengths and
 weaknesses of your model on individual samples.
 
 .. note::
@@ -1826,14 +1826,14 @@ weaknesses of your model on individual samples.
     |Segmentation| fields on your dataset so that you can view semantic labels
     in the App and avoid having to manually specify the set of mask targets
     each time you run
-    :meth:`evaluate_segmentations() <fiftyone.core.collections.SampleCollection.evaluate_segmentations>`
+    :meth:`evaluate_segmentations() <tensorgrid.core.collections.SampleCollection.evaluate_segmentations>`
     on a dataset.
 
 Simple evaluation (default)
 ---------------------------
 
 By default,
-:meth:`evaluate_segmentations() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_segmentations() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 will perform pixelwise evaluation of the segmentation masks, treating each
 pixel as a multiclass classification.
 
@@ -1871,8 +1871,8 @@ masks generated by two DeepLabv3 models (with
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Load a few samples from COCO-2017
     dataset = foz.load_zoo_dataset(
@@ -1927,7 +1927,7 @@ masks generated by two DeepLabv3 models (with
 
 .. note::
 
-    The easiest way to analyze models in FiftyOne is via the
+    The easiest way to analyze models in TensorGrid is via the
     :ref:`Model Evaluation panel <app-model-evaluation-panel>`!
 
 .. _evaluation-advanced:
@@ -1950,9 +1950,9 @@ dataset:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart", dataset_name="eval-demo")
     dataset.compute_metadata()
@@ -1999,17 +1999,17 @@ Loading a previous evaluation result
 
 You can view a list of evaluation keys for evaluations that you have previously
 run on a dataset via
-:meth:`list_evaluations() <fiftyone.core.collections.SampleCollection.list_evaluations>`.
+:meth:`list_evaluations() <tensorgrid.core.collections.SampleCollection.list_evaluations>`.
 
 Evaluation keys are stored at the dataset-level, but if a particular evaluation
 was run on a view into your dataset, you can use
-:meth:`load_evaluation_view() <fiftyone.core.collections.SampleCollection.load_evaluation_view>`
+:meth:`load_evaluation_view() <tensorgrid.core.collections.SampleCollection.load_evaluation_view>`
 to retrieve the exact view on which you evaluated:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset(...)
 
@@ -2024,14 +2024,14 @@ to retrieve the exact view on which you evaluated:
 
     If you have run multiple evaluations on a dataset, you can use the
     `select_fields` parameter of the
-    :meth:`load_evaluation_view() <fiftyone.core.collections.SampleCollection.load_evaluation_view>`
+    :meth:`load_evaluation_view() <tensorgrid.core.collections.SampleCollection.load_evaluation_view>`
     method to hide any fields that were populated by other evaluation runs,
     allowing you to, for example, focus on a specific set of evaluation results
     in the App:
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         dataset = fo.load_dataset(...)
 
@@ -2067,8 +2067,8 @@ Dataset Zoo:
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset(
         "quickstart-video", dataset_name="video-eval-demo"
@@ -2157,20 +2157,20 @@ You can also view frame-level evaluation results as
     Media type:  image
     Num patches: 12112
     Patch fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        sample_id:        fiftyone.core.fields.ObjectIdField
-        frame_id:         fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        frame_number:     fiftyone.core.fields.FrameNumberField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        predictions:      fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        detections:       fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        type:             fiftyone.core.fields.StringField
-        iou:              fiftyone.core.fields.FloatField
-        crowd:            fiftyone.core.fields.BooleanField
+        id:               tensorgrid.core.fields.ObjectIdField
+        sample_id:        tensorgrid.core.fields.ObjectIdField
+        frame_id:         tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        frame_number:     tensorgrid.core.fields.FrameNumberField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        predictions:      tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        detections:       tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        type:             tensorgrid.core.fields.StringField
+        iou:              tensorgrid.core.fields.FloatField
+        crowd:            tensorgrid.core.fields.BooleanField
     View stages:
         1. ToFrames(config=None)
         2. ToEvaluationPatches(eval_key='eval', config=None)
@@ -2180,32 +2180,32 @@ You can also view frame-level evaluation results as
 Custom evaluation metrics
 _________________________
 
-You can add custom metrics to your evaluation runs in FiftyOne.
+You can add custom metrics to your evaluation runs in TensorGrid.
 
-Custom metrics are supported by all FiftyOne evaluation methods, and you can
+Custom metrics are supported by all TensorGrid evaluation methods, and you can
 compute them via the SDK, or directly
 :ref:`from the App <model-evaluation-panel>` if you're running
-:ref:`FiftyOne Enterprise <fiftyone-enterprise>`.
+:ref:`TensorGrid Enterprise <fiftyone-enterprise>`.
 
 Using custom metrics
 --------------------
 
 The example below shows how to compute a custom metric from the
-`metric-examples <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/metric-examples>`_
+`metric-examples <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/metric-examples>`_
 plugin when evaluating object detections:
 
 .. code-block:: shell
 
     # Install the example metrics plugin
-    fiftyone plugins download \
-        https://github.com/voxel51/fiftyone-plugins \
+    tensorgrid plugins download \
+        https://github.com/rksaklani/TensorGrid-plugins \
         --plugin-names @voxel51/metric-examples
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2273,7 +2273,7 @@ of operator URI's to the `custom_metrics` parameter:
     )
 
 You can also add custom metrics to an existing evaluation at any time via
-:meth:`add_custom_metrics() <fiftyone.utils.eval.base.BaseEvaluationResults.add_custom_metrics>`:
+:meth:`add_custom_metrics() <tensorgrid.utils.eval.base.BaseEvaluationResults.add_custom_metrics>`:
 
 .. code-block:: python
     :linenos:
@@ -2294,7 +2294,7 @@ Developing custom metrics
 
 Each custom metric is implemented as an :ref:`operator <developing-operators>`
 that implements the
-:class:`EvaluationMetric <fiftyone.operators.evaluation_metric.EvaluationMetric>`
+:class:`EvaluationMetric <tensorgrid.operators.evaluation_metric.EvaluationMetric>`
 interface.
 
 Let's look at an example evaluation metric operator:
@@ -2302,8 +2302,8 @@ Let's look at an example evaluation metric operator:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.operators as foo
-    from fiftyone.operators import types
+    import tensorgrid.operators as foo
+    from tensorgrid.operators import types
 
     class ExampleMetric(foo.EvaluationMetric):
         @property
@@ -2339,7 +2339,7 @@ Let's look at an example evaluation metric operator:
             for the metric's parameters in the App.
 
             Returns:
-                a :class:`fiftyone.operators.types.Property`, or None
+                a :class:`tensorgrid.operators.types.Property`, or None
             """
             inputs = types.Object()
             inputs.str(
@@ -2379,9 +2379,9 @@ Let's look at an example evaluation metric operator:
     By convention, evaluation metrics should include `f"{eval_key}"` in any
     sample fields that they populate. If your metric populates fields whose
     names do not contain the evaluation key, then you must also implement
-    :meth:`rename() <fiftyone.operators.evaluation_metric.EvaluationMetric.rename>`
+    :meth:`rename() <tensorgrid.operators.evaluation_metric.EvaluationMetric.rename>`
     and
-    :meth:`cleanup() <fiftyone.operators.evaluation_metric.EvaluationMetric.cleanup>`
+    :meth:`cleanup() <tensorgrid.operators.evaluation_metric.EvaluationMetric.cleanup>`
     so that they are properly handled when renaming/deleting evaluation runs.
 
 .. _custom-evaluation-backends:
@@ -2390,8 +2390,8 @@ Custom evaluation backends
 __________________________
 
 If you would like to use an evaluation protocol that is not natively supported
-by FiftyOne, you can follow the instructions below to implement an interface
-for your protocol and then configure your environment so that FiftyOne's
+by TensorGrid, you can follow the instructions below to implement an interface
+for your protocol and then configure your environment so that TensorGrid's
 evaluation methods will use it.
 
 .. tabs::
@@ -2400,7 +2400,7 @@ evaluation methods will use it.
 
     You can define custom regression evaluation backends that can be used by
     passing the `method` parameter to
-    :meth:`evaluate_regressions() <fiftyone.core.collections.SampleCollection.evaluate_regressions>`:
+    :meth:`evaluate_regressions() <tensorgrid.core.collections.SampleCollection.evaluate_regressions>`:
 
     .. code:: python
         :linenos:
@@ -2410,22 +2410,22 @@ evaluation methods will use it.
     Regression evaluation backends are defined by writing subclasses of the
     following two classes:
 
-    -   :class:`RegressionEvaluation <fiftyone.utils.eval.regression.RegressionEvaluation>`:
+    -   :class:`RegressionEvaluation <tensorgrid.utils.eval.regression.RegressionEvaluation>`:
         this class implements the evaluation protocol itself. Specifically you
         should implement
-        :meth:`evaluate_samples() <fiftyone.utils.eval.regression.RegressionEvaluation.evaluate_samples>`,
+        :meth:`evaluate_samples() <tensorgrid.utils.eval.regression.RegressionEvaluation.evaluate_samples>`,
         which accepts a sample collection to evaluate as input and returns a
-        :class:`RegressionResults <fiftyone.utils.eval.regression.RegressionResults>`
+        :class:`RegressionResults <tensorgrid.utils.eval.regression.RegressionResults>`
         instance that contains the results of the evaluation
 
-    -   :class:`RegressionEvaluationConfig <fiftyone.utils.eval.regression.RegressionEvaluationConfig>`:
+    -   :class:`RegressionEvaluationConfig <tensorgrid.utils.eval.regression.RegressionEvaluationConfig>`:
         this class defines the available parameters that users can pass as
         keyword arguments to
-        :meth:`evaluate_regressions() <fiftyone.core.collections.SampleCollection.evaluate_regressions>`
+        :meth:`evaluate_regressions() <tensorgrid.core.collections.SampleCollection.evaluate_regressions>`
         to customize the behavior of the evaluation run
 
     If desired, you can also implement and return a custom
-    :class:`RegressionResults <fiftyone.utils.eval.regression.RegressionResults>`
+    :class:`RegressionResults <tensorgrid.utils.eval.regression.RegressionResults>`
     subclass. This is useful if you want to expose custom methods that users
     can call to view and/or interact with the evaluation results
     programmatically.
@@ -2448,21 +2448,21 @@ evaluation methods will use it.
 
     In the above, `<backend>` defines the name of your custom backend, which
     you can henceforward pass as the `method` parameter to
-    :meth:`evaluate_regressions() <fiftyone.core.collections.SampleCollection.evaluate_regressions>`,
+    :meth:`evaluate_regressions() <tensorgrid.core.collections.SampleCollection.evaluate_regressions>`,
     and the `config_cls` parameter specifies the fully-qualified name of the
-    :class:`RegressionEvaluationConfig <fiftyone.utils.eval.regression.RegressionEvaluationConfig>`
+    :class:`RegressionEvaluationConfig <tensorgrid.utils.eval.regression.RegressionEvaluationConfig>`
     subclass for your evaluation backend.
 
     With the optional `default_regression_backend` parameter set to your custom
     backend as shown above, calling
-    :meth:`evaluate_regressions() <fiftyone.core.collections.SampleCollection.evaluate_regressions>`
+    :meth:`evaluate_regressions() <tensorgrid.core.collections.SampleCollection.evaluate_regressions>`
     will automatically use your backend.
 
   .. group-tab:: Classification
 
     You can define custom classification evaluation backends that can be used
     by passing the `method` parameter to
-    :meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`:
+    :meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`:
 
     .. code:: python
         :linenos:
@@ -2472,22 +2472,22 @@ evaluation methods will use it.
     Classification evaluation backends are defined by writing subclasses of the
     following two classes:
 
-    -   :class:`ClassificationEvaluation <fiftyone.utils.eval.classification.ClassificationEvaluation>`:
+    -   :class:`ClassificationEvaluation <tensorgrid.utils.eval.classification.ClassificationEvaluation>`:
         this class implements the evaluation protocol itself. Specifically you
         should implement
-        :meth:`evaluate_samples() <fiftyone.utils.eval.classification.ClassificationEvaluation.evaluate_samples>`,
+        :meth:`evaluate_samples() <tensorgrid.utils.eval.classification.ClassificationEvaluation.evaluate_samples>`,
         which accepts a sample collection to evaluate as input and returns a
-        :class:`ClassificationResults <fiftyone.utils.eval.classification.ClassificationResults>`
+        :class:`ClassificationResults <tensorgrid.utils.eval.classification.ClassificationResults>`
         instance that contains the results of the evaluation
 
-    -   :class:`ClassificationEvaluationConfig <fiftyone.utils.eval.classification.ClassificationEvaluationConfig>`:
+    -   :class:`ClassificationEvaluationConfig <tensorgrid.utils.eval.classification.ClassificationEvaluationConfig>`:
         this class defines the available parameters that users can pass as
         keyword arguments to
-        :meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`
+        :meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`
         to customize the behavior of the evaluation run
 
     If desired, you can also implement and return a custom
-    :class:`ClassificationResults <fiftyone.utils.eval.classification.ClassificationResults>`
+    :class:`ClassificationResults <tensorgrid.utils.eval.classification.ClassificationResults>`
     subclass. This is useful if you want to expose custom methods that users
     can call to view and/or interact with the evaluation results
     programmatically.
@@ -2510,21 +2510,21 @@ evaluation methods will use it.
 
     In the above, `<backend>` defines the name of your custom backend, which
     you can henceforward pass as the `method` parameter to
-    :meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`,
+    :meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`,
     and the `config_cls` parameter specifies the fully-qualified name of the
-    :class:`ClassificationEvaluationConfig <fiftyone.utils.eval.classification.ClassificationEvaluationConfig>`
+    :class:`ClassificationEvaluationConfig <tensorgrid.utils.eval.classification.ClassificationEvaluationConfig>`
     subclass for your evaluation backend.
 
     With the optional `default_classification_backend` parameter set to your
     custom backend as shown above, calling
-    :meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`
+    :meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`
     will automatically use your backend.
 
   .. group-tab:: Detection
 
     You can define custom detection evaluation backends that can be used by
     passing the `method` parameter to
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`:
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`:
 
     .. code:: python
         :linenos:
@@ -2534,27 +2534,27 @@ evaluation methods will use it.
     Detection evaluation backends are defined by writing subclasses of the
     following two classes:
 
-    -   :class:`DetectionEvaluation <fiftyone.utils.eval.detection.DetectionEvaluation>`:
+    -   :class:`DetectionEvaluation <tensorgrid.utils.eval.detection.DetectionEvaluation>`:
         this class implements the evaluation protocol itself. Specifically you
         should implement
-        :meth:`evaluate() <fiftyone.utils.eval.detection.DetectionEvaluation.evaluate>`,
+        :meth:`evaluate() <tensorgrid.utils.eval.detection.DetectionEvaluation.evaluate>`,
         which accepts a sample to evaluate as input and returns a list of
         matched ground truth/predicted object pairs, and you can optionally
         implement
-        :meth:`generate_results() <fiftyone.utils.eval.detection.DetectionEvaluation.generate_results>`,
+        :meth:`generate_results() <tensorgrid.utils.eval.detection.DetectionEvaluation.generate_results>`,
         to compute aggregate evaluation results (e.g., mAP or PR curves) for
         the sample collection and return them in a
-        :class:`DetectionResults <fiftyone.utils.eval.detection.DetectionResults>`
+        :class:`DetectionResults <tensorgrid.utils.eval.detection.DetectionResults>`
         instance
 
-    -   :class:`DetectionEvaluationConfig <fiftyone.utils.eval.detection.DetectionEvaluationConfig>`:
+    -   :class:`DetectionEvaluationConfig <tensorgrid.utils.eval.detection.DetectionEvaluationConfig>`:
         this class defines the available parameters that users can pass as
         keyword arguments to
-        :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+        :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
         to customize the behavior of the evaluation run
 
     If desired, you can also implement and return a custom
-    :class:`DetectionResults <fiftyone.utils.eval.detection.DetectionResults>`
+    :class:`DetectionResults <tensorgrid.utils.eval.detection.DetectionResults>`
     subclass. This is useful if you want to expose custom methods that users
     can call to view and/or interact with the evaluation results
     programmatically.
@@ -2577,21 +2577,21 @@ evaluation methods will use it.
 
     In the above, `<backend>` defines the name of your custom backend, which
     you can henceforward pass as the `method` parameter to
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`,
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`,
     and the `config_cls` parameter specifies the fully-qualified name of the
-    :class:`DetectionEvaluationConfig <fiftyone.utils.eval.detection.DetectionEvaluationConfig>`
+    :class:`DetectionEvaluationConfig <tensorgrid.utils.eval.detection.DetectionEvaluationConfig>`
     subclass for your evaluation backend.
 
     With the optional `default_detection_backend` parameter set to your
     custom backend as shown above, calling
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
     will automatically use your backend.
 
   .. group-tab:: Segmentation
 
     You can define custom segmentation evaluation backends that can be used by
     passing the `method` parameter to
-    :meth:`evaluate_segmentations() <fiftyone.core.collections.SampleCollection.evaluate_segmentations>`:
+    :meth:`evaluate_segmentations() <tensorgrid.core.collections.SampleCollection.evaluate_segmentations>`:
 
     .. code:: python
         :linenos:
@@ -2601,22 +2601,22 @@ evaluation methods will use it.
     Segmentation evaluation backends are defined by writing subclasses of the
     following two classes:
 
-    -   :class:`SegmentationEvaluation <fiftyone.utils.eval.segmentation.SegmentationEvaluation>`:
+    -   :class:`SegmentationEvaluation <tensorgrid.utils.eval.segmentation.SegmentationEvaluation>`:
         this class implements the evaluation protocol itself. Specifically you
         should implement
-        :meth:`evaluate_samples() <fiftyone.utils.eval.segmentation.SegmentationEvaluation.evaluate_samples>`,
+        :meth:`evaluate_samples() <tensorgrid.utils.eval.segmentation.SegmentationEvaluation.evaluate_samples>`,
         which accepts a sample collection to evaluate as input and returns a
-        :class:`SegmentationResults <fiftyone.utils.eval.segmentation.SegmentationResults>`
+        :class:`SegmentationResults <tensorgrid.utils.eval.segmentation.SegmentationResults>`
         instance that contains the results of the evaluation
 
-    -   :class:`SegmentationEvaluationConfig <fiftyone.utils.eval.segmentation.SegmentationEvaluationConfig>`:
+    -   :class:`SegmentationEvaluationConfig <tensorgrid.utils.eval.segmentation.SegmentationEvaluationConfig>`:
         this class defines the available parameters that users can pass as
         keyword arguments to
-        :meth:`evaluate_segmentations() <fiftyone.core.collections.SampleCollection.evaluate_segmentations>`
+        :meth:`evaluate_segmentations() <tensorgrid.core.collections.SampleCollection.evaluate_segmentations>`
         to customize the behavior of the evaluation run
 
     If desired, you can also implement and return a custom
-    :class:`SegmentationResults <fiftyone.utils.eval.segmentation.SegmentationResults>`
+    :class:`SegmentationResults <tensorgrid.utils.eval.segmentation.SegmentationResults>`
     subclass. This is useful if you want to expose custom methods that users
     can call to view and/or interact with the evaluation results
     programmatically.
@@ -2639,14 +2639,14 @@ evaluation methods will use it.
 
     In the above, `<backend>` defines the name of your custom backend, which
     you can henceforward pass as the `method` parameter to
-    :meth:`evaluate_segmentations() <fiftyone.core.collections.SampleCollection.evaluate_segmentations>`,
+    :meth:`evaluate_segmentations() <tensorgrid.core.collections.SampleCollection.evaluate_segmentations>`,
     and the `config_cls` parameter specifies the fully-qualified name of the
-    :class:`SegmentationEvaluationConfig <fiftyone.utils.eval.segmentation.SegmentationEvaluationConfig>`
+    :class:`SegmentationEvaluationConfig <tensorgrid.utils.eval.segmentation.SegmentationEvaluationConfig>`
     subclass for your evaluation backend.
 
     With the optional `default_segmentation_backend` parameter set to your
     custom backend as shown above, calling
-    :meth:`evaluate_segmentations() <fiftyone.core.collections.SampleCollection.evaluate_segmentations>`
+    :meth:`evaluate_segmentations() <tensorgrid.core.collections.SampleCollection.evaluate_segmentations>`
     will automatically use your backend.
 
 .. _evaluation-config:
@@ -2654,7 +2654,7 @@ evaluation methods will use it.
 Evaluation config
 _________________
 
-FiftyOne provides an evaluation config that you can use to either temporarily
+TensorGrid provides an evaluation config that you can use to either temporarily
 or permanently configure the behavior of the evaluation API.
 
 Viewing your config
@@ -2669,7 +2669,7 @@ and the CLI:
 
     .. code-block:: python
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # Print your current evaluation config
         print(fo.evaluation_config)
@@ -2683,34 +2683,34 @@ and the CLI:
             "default_segmentation_backend": "simple",
             "regression_backends": {
                 "simple": {
-                    "config_cls": "fiftyone.utils.eval.regression.SimpleEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.regression.SimpleEvaluationConfig"
                 }
             },
             "classification_backends": {
                 "binary": {
-                    "config_cls": "fiftyone.utils.eval.classification.BinaryEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.classification.BinaryEvaluationConfig"
                 },
                 "simple": {
-                    "config_cls": "fiftyone.utils.eval.classification.SimpleEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.classification.SimpleEvaluationConfig"
                 },
                 "top-k": {
-                    "config_cls": "fiftyone.utils.eval.classification.TopKEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.classification.TopKEvaluationConfig"
                 }
             },
             "detection_backends": {
                 "activitynet": {
-                    "config_cls": "fiftyone.utils.eval.activitynet.ActivityNetEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.activitynet.ActivityNetEvaluationConfig"
                 },
                 "coco": {
-                    "config_cls": "fiftyone.utils.eval.coco.COCOEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.coco.COCOEvaluationConfig"
                 },
                 "open-images": {
-                    "config_cls": "fiftyone.utils.eval.openimages.OpenImagesEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.openimages.OpenImagesEvaluationConfig"
                 }
             },
             "segmentation_backends": {
                 "simple": {
-                    "config_cls": "fiftyone.utils.eval.segmentation.SimpleEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.segmentation.SimpleEvaluationConfig"
                 }
             }
         }
@@ -2720,7 +2720,7 @@ and the CLI:
     .. code-block:: shell
 
         # Print your current evaluation config
-        fiftyone evaluation config
+        tensorgrid evaluation config
 
     .. code-block:: text
 
@@ -2731,34 +2731,34 @@ and the CLI:
             "default_segmentation_backend": "simple",
             "regression_backends": {
                 "simple": {
-                    "config_cls": "fiftyone.utils.eval.regression.SimpleEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.regression.SimpleEvaluationConfig"
                 }
             },
             "classification_backends": {
                 "binary": {
-                    "config_cls": "fiftyone.utils.eval.classification.BinaryEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.classification.BinaryEvaluationConfig"
                 },
                 "simple": {
-                    "config_cls": "fiftyone.utils.eval.classification.SimpleEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.classification.SimpleEvaluationConfig"
                 },
                 "top-k": {
-                    "config_cls": "fiftyone.utils.eval.classification.TopKEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.classification.TopKEvaluationConfig"
                 }
             },
             "detection_backends": {
                 "activitynet": {
-                    "config_cls": "fiftyone.utils.eval.activitynet.ActivityNetEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.activitynet.ActivityNetEvaluationConfig"
                 },
                 "coco": {
-                    "config_cls": "fiftyone.utils.eval.coco.COCOEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.coco.COCOEvaluationConfig"
                 },
                 "open-images": {
-                    "config_cls": "fiftyone.utils.eval.openimages.OpenImagesEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.openimages.OpenImagesEvaluationConfig"
                 }
             },
             "segmentation_backends": {
                 "simple": {
-                    "config_cls": "fiftyone.utils.eval.segmentation.SimpleEvaluationConfig"
+                    "config_cls": "tensorgrid.utils.eval.segmentation.SimpleEvaluationConfig"
                 }
             }
         }
@@ -2782,7 +2782,7 @@ The following order of precedence is used to assign values to your evaluation
 config settings as runtime:
 
 1. Config settings applied at runtime by directly editing
-   `fiftyone.evaluation_config`
+   `tensorgrid.evaluation_config`
 2. `FIFTYONE_XXX` environment variables
 3. Settings in your JSON config (`~/.fiftyone/evaluation_config.json`)
 4. The default config values
@@ -2808,7 +2808,7 @@ evaluation backend without changing any other default config settings:
         }
     }
 
-When `fiftyone` is imported, any options from your JSON config are merged into
+When `tensorgrid` is imported, any options from your JSON config are merged into
 the default config, as per the order of precedence described above.
 
 .. note::
@@ -2835,7 +2835,7 @@ You can declare parameters for specific evaluation backends by setting
 environment variables of the form `FIFTYONE_<TYPE>_<BACKEND>_<PARAMETER>`. Any
 settings that you declare in this way will be passed as keyword arguments to
 methods like
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 whenever the corresponding backend is in use:
 
 .. code-block:: shell
@@ -2864,15 +2864,15 @@ Modifying your config in code
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 You can dynamically modify your evaluation config at runtime by directly
-editing the `fiftyone.evaluation_config` object.
+editing the `tensorgrid.evaluation_config` object.
 
 Any changes to your evaluation config applied via this manner will immediately
-take effect in all subsequent calls to `fiftyone.evaluation_config` during your
+take effect in all subsequent calls to `tensorgrid.evaluation_config` during your
 current session.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     fo.evaluation_config.default_detection_backend = "custom"

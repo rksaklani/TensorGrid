@@ -12,7 +12,7 @@ Step-by-Step Recap
 
 **Step 1: Getting Started with Manufacturing Datasets**
 
-You learned how to load and explore manufacturing datasets in FiftyOne, specifically working with MVTec Anomaly Detection dataset. This included understanding defect patterns, preparing data for analysis, and exploring different object categories in manufacturing environments.
+You learned how to load and explore manufacturing datasets in TensorGrid, specifically working with MVTec Anomaly Detection dataset. This included understanding defect patterns, preparing data for analysis, and exploring different object categories in manufacturing environments.
 
 **Step 2: Understanding and Using Embeddings**
 
@@ -20,7 +20,7 @@ You mastered generating embeddings for anomaly detection tasks, understanding th
 
 **Step 3: Clustering and Labeling with Embeddings**
 
-You learned how to perform clustering analysis to group anomalies and normal samples, use embeddings for automatic dataset labeling and cleanup, and leverage FiftyOne's clustering plugins.
+You learned how to perform clustering analysis to group anomalies and normal samples, use embeddings for automatic dataset labeling and cleanup, and leverage TensorGrid's clustering plugins.
 
 **Step 4: Custom Embeddings for Industrial Data**
 
@@ -28,7 +28,7 @@ You gained experience using custom feature extractors to compute embeddings tail
 
 **Step 5: Model Evaluation and Integration**
 
-You explored FiftyOne's integration capabilities, plugin system, and model evaluation tools, learning how to assess model performance and integrate with external frameworks.
+You explored TensorGrid's integration capabilities, plugin system, and model evaluation tools, learning how to assess model performance and integrate with external frameworks.
 
 **Step 6: Data Augmentation for Manufacturing**
 
@@ -76,7 +76,7 @@ Suggested Exercises
 Resources and Further Reading
 ----------------------------
 
-* `FiftyOne Documentation <https://docs.voxel51.com/>`_
+* `TensorGrid Documentation </docs/>`_
 
 * `MVTec Anomaly Detection Dataset <https://www.mvtec.com/company/research/datasets/mvtec-ad>`_
 
@@ -95,15 +95,15 @@ Resources and Further Reading
 What to Do Next
 ---------------
 
-Now that you've mastered manufacturing AI with FiftyOne, here are some suggested next steps:
+Now that you've mastered manufacturing AI with TensorGrid, here are some suggested next steps:
 
 * **Explore Model Evaluation** - Learn how to evaluate segmentation models by comparing predictions against ground truth, and identifying failure cases in your manufacturing dataset
 
-* **Try Out FiftyOne Plugins** - Extend your workflow with powerful plugins like video embeddings, active learning tools, and integrations with manufacturing annotation platforms
+* **Try Out TensorGrid Plugins** - Extend your workflow with powerful plugins like video embeddings, active learning tools, and integrations with manufacturing annotation platforms
 
 * **Build Custom Workflows** - Create domain-specific workflows for your particular manufacturing use case (automotive, electronics, food processing, etc.)
 
-* **Join the Community** - Connect with other FiftyOne users to share insights and learn advanced manufacturing AI techniques
+* **Join the Community** - Connect with other TensorGrid users to share insights and learn advanced manufacturing AI techniques
 
 * **Apply to Real Projects** - Use these skills on your production manufacturing datasets to improve quality control and safety monitoring
 
@@ -112,13 +112,13 @@ Now that you've mastered manufacturing AI with FiftyOne, here are some suggested
 We'd Love Your Feedback
 -----------------------
 
-Your feedback helps us improve FiftyOne and create better learning experiences. Please let us know:
+Your feedback helps us improve TensorGrid and create better learning experiences. Please let us know:
 
 * What aspects of this manufacturing guide were most helpful?
 * What could be improved or clarified?
 * What manufacturing-specific topics would you like to see covered in future guides?
 * Any issues or bugs you encountered?
 
-You can reach us at `support@voxel51.com` or join our `Discord community <https://community.voxel51.com>`_.
+You can reach us at `support@voxel51.com` or join our `Discord community <https://github.com/rksaklani/TensorGrid/discussions>`_.
 
 Thank you for completing the Manufacturing Guide! We hope you're excited to apply these manufacturing AI skills to improve industrial processes and worker safety.

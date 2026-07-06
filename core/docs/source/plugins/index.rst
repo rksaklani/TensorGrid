@@ -5,15 +5,15 @@ Plugins Ecosystem
 
 .. default-role:: code
 
-Welcome to the FiftyOne Plugins ecosystem! 🚀
+Welcome to the TensorGrid Plugins ecosystem! 🚀
 
 Here you'll discover cutting-edge research, state-of-the-art models, and
-powerful add-ons that unlock new FiftyOne workflows.
+powerful add-ons that unlock new TensorGrid workflows.
 
-FiftyOne plugins allow you to extend and customize the functionality of the
+TensorGrid plugins allow you to extend and customize the functionality of the
 core tool to suit your specific needs. From advanced computer vision models to
 integrations with other popular AI tools, this curated collection of plugins
-will transform FiftyOne into your bespoke visual AI development workbench.
+will transform TensorGrid into your bespoke visual AI development workbench.
 
 .. raw:: html
 
@@ -31,7 +31,7 @@ will transform FiftyOne into your bespoke visual AI development workbench.
 
 .. customanimatedcta::
     :button_text: Showcase your own plugin
-    :button_link: https://github.com/voxel51/fiftyone-plugins?tab=readme-ov-file#contributing
+    :button_link: https://github.com/rksaklani/TensorGrid-plugins?tab=readme-ov-file#contributing
     :align: right
     
 .. Plugins cards section -----------------------------------------------------
@@ -79,7 +79,7 @@ will transform FiftyOne into your bespoke visual AI development workbench.
 .. note::
 
    Community plugins are external projects maintained by their respective authors.
-   They are not part of FiftyOne core and may change independently.
+   They are not part of TensorGrid core and may change independently.
    Please review each plugin's documentation and license before use.
 
 .. toctree::

@@ -5,12 +5,12 @@ Step 4: Assess Labels with Embeddings
 
 .. default-role:: code
 
-The sample grid is useful for visually identifying true and false positives. However, identifying false positives in bulk can be challenging, and false negatives are even harder to spot. Using FiftyOne's patch embeddings can assist in identifying collections of outlying samples that can be tagged for relabeling, or removed from consideration altogether.  
+The sample grid is useful for visually identifying true and false positives. However, identifying false positives in bulk can be challenging, and false negatives are even harder to spot. Using TensorGrid's patch embeddings can assist in identifying collections of outlying samples that can be tagged for relabeling, or removed from consideration altogether.  
 
 Compute Patch Embeddings
 -------------------------
 
-In the previous step, you generated patch views that showed one detection label per sample. You can similarly compute and visualize patch embeddings directly within the FiftyOne App.
+In the previous step, you generated patch views that showed one detection label per sample. You can similarly compute and visualize patch embeddings directly within the TensorGrid App.
 
 In the toolbar above the sample grid, select **Browse operations > Compute visualization**.
 

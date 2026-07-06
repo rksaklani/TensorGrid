@@ -1,35 +1,35 @@
 .. _fiftyone-basics:
 
-FiftyOne Basics
+TensorGrid Basics
 ===============
 
 .. default-role:: code
 
-This page provides a brief overview of FiftyOne's basic concepts.
+This page provides a brief overview of TensorGrid's basic concepts.
 
 .. _basics-datasets:
 
 Datasets
 --------
 
-The |Dataset| class is the core data structure in FiftyOne, allowing you to
+The |Dataset| class is the core data structure in TensorGrid, allowing you to
 represent your data and manipulate it through the Python library and the
-:ref:`FiftyOne App <fiftyone-app>`.
+:ref:`TensorGrid App <fiftyone-app>`.
 
-FiftyOne Datasets allow you to easily :ref:`load <importing-datasets>`,
+TensorGrid Datasets allow you to easily :ref:`load <importing-datasets>`,
 :ref:`modify <using-datasets>`, :ref:`visualize <fiftyone-app>`, and
 :ref:`evaluate <evaluating-models>` your data along with any related labels
 (classifications, detections, etc). They provide a consistent interface for
 loading images, videos, annotations, and model predictions into a format that
-can be visualized in the :ref:`FiftyOne App <fiftyone-app>`, synced with your
+can be visualized in the :ref:`TensorGrid App <fiftyone-app>`, synced with your
 annotation source, and shared with others.
 
 If you have your own collection of data, loading it as a |Dataset| will allow
-you to easily search and sort your samples. You can use FiftyOne to identify
+you to easily search and sort your samples. You can use TensorGrid to identify
 unique samples as well as possible mistakes in your labels.
 
 If you are training a model, its predictions and associated data such as
-embeddings and logits can be loaded into your |Dataset|. The FiftyOne App makes
+embeddings and logits can be loaded into your |Dataset|. The TensorGrid App makes
 it easy to visually debug what your model has learned, even for complex label
 types like polygons and segmentation masks. With this knowledge, you can update
 your |Dataset| to include more representative samples and samples that your
@@ -38,11 +38,11 @@ model found difficult into your training set.
 .. note::
 
     Check out :ref:`importing datasets <importing-datasets>` for more
-    information about loading your data into FiftyOne.
+    information about loading your data into TensorGrid.
 
 A |Dataset| is composed of multiple |Sample| objects which contain |Field|
 attributes, all of which can be dynamically created, modified and deleted.
-FiftyOne uses a lightweight non-relational database to store datasets, so you
+TensorGrid uses a lightweight non-relational database to store datasets, so you
 can easily scale to datasets of any size without worrying about RAM
 constraints on your machine.
 
@@ -62,7 +62,7 @@ obtain a desired subset of the samples.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Create an empty dataset
     dataset = fo.Dataset("test-dataset")
@@ -77,12 +77,12 @@ obtain a desired subset of the samples.
     Persistent:     False
     Tags:           []
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.Metadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.Metadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
 
 .. _basics-samples:
 
@@ -103,7 +103,7 @@ store additional custom information about the sample.
 .. code-block:: python
    :linenos:
 
-   import fiftyone as fo
+   import tensorgrid as tg
 
    # An image sample
    sample = fo.Sample(filepath="/path/to/image.png")
@@ -128,7 +128,7 @@ that store common information:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -174,7 +174,7 @@ schema and thus accessible on all other samples in the dataset.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -199,15 +199,15 @@ schema and thus accessible on all other samples in the dataset.
     Persistent:     False
     Tags:           []
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        quality:          fiftyone.core.fields.FloatField
-        keypoints:        fiftyone.core.fields.ListField
-        geo_json:         fiftyone.core.fields.DictField
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        quality:          tensorgrid.core.fields.FloatField
+        keypoints:        tensorgrid.core.fields.ListField
+        geo_json:         tensorgrid.core.fields.DictField
 
 .. customanimatedcta::
     :button_text: Learn more about sample fields
@@ -245,7 +245,7 @@ like.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png", tags=["train"])
     sample.tags.append("my_favorite_samples")
@@ -268,7 +268,7 @@ metadata about the source media of the sample.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -306,7 +306,7 @@ Labels
 Labels store semantic information about the sample, such as ground annotations
 or model predictions.
 
-FiftyOne provides label classes for many common tasks:
+TensorGrid provides label classes for many common tasks:
 
 - :ref:`Regression <regression>`: a regression value
 - :ref:`Classification <classification>`: a classification label
@@ -330,7 +330,7 @@ FiftyOne provides label classes for many common tasks:
 - :ref:`GeoLocation <geolocation>`: geolocation point(s), line(s), or
   polygon(s)
 
-Using FiftyOne's |Label| types enables you to visualize your labels in the
+Using TensorGrid's |Label| types enables you to visualize your labels in the
 :ref:`the App <fiftyone-app>`.
 
 .. customanimatedcta::
@@ -340,7 +340,7 @@ Using FiftyOne's |Label| types enables you to visualize your labels in the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -397,10 +397,10 @@ datasets to perform the analysis that you need.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.brain as fob
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.brain as fob
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("cifar10", split="test")
 
@@ -425,7 +425,7 @@ their contents. Complementary to this, one is often interested in computing
 aggregate statistics about a dataset or view, such as label counts,
 distributions, and ranges.
 
-FiftyOne provides a powerful :ref:`aggregations framework <using-aggregations>`
+TensorGrid provides a powerful :ref:`aggregations framework <using-aggregations>`
 that provides a highly-efficient approach to computing statistics about your
 data.
 
@@ -436,9 +436,9 @@ data.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 

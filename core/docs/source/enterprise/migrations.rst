@@ -5,35 +5,35 @@ Migrations
 
 .. default-role:: code
 
-This page describes how to migrate between FiftyOne Enterprise versions, both
-for :ref:`admins <enterprise-upgrading>` migrating the core FiftyOne Enterprise
+This page describes how to migrate between TensorGrid Enterprise versions, both
+for :ref:`admins <enterprise-upgrading>` migrating the core TensorGrid Enterprise
 infrastructure and :ref:`individual users <enterprise-upgrade-python-sdk>` who
-need to install a new version of the FiftyOne Enterprise Python SDK.
+need to install a new version of the TensorGrid Enterprise Python SDK.
 
 Refer to :ref:`this section <enterprise-migrating-datasets>` to see how to
-migrate existing datasets from FiftyOne Open Source to FiftyOne Enterprise.
+migrate existing datasets from TensorGrid Open Source to TensorGrid Enterprise.
 
 .. _enterprise-upgrade-python-sdk:
 
 Upgrading your Python SDK
 _________________________
 
-Users can upgrade their FiftyOne Enterprise Python client to the latest version
+Users can upgrade their TensorGrid Enterprise Python client to the latest version
 as follows:
 
 .. code-block:: shell
 
-    pip install --index-url https://${TOKEN}@pypi.fiftyone.ai --upgrade fiftyone
+    pip install --index-url https://${TOKEN}@pypi.tensorgrid.ai --upgrade tensorgrid
 
-A specific FiftyOne Enterprise client version can be installed like so:
+A specific TensorGrid Enterprise client version can be installed like so:
 
 .. code-block:: shell
 
-    pip install --index-url https://${TOKEN}@pypi.fiftyone.ai fiftyone==${VERSION}
+    pip install --index-url https://${TOKEN}@pypi.tensorgrid.ai fiftyone==${VERSION}
 
 .. note::
 
-    You can find your `TOKEN` by logging into the FiftyOne Enterprise App and
+    You can find your `TOKEN` by logging into the TensorGrid Enterprise App and
     clicking on the :ref:`account icon <enterprise-python-sdk>` in the upper
     right.
 
@@ -42,22 +42,22 @@ A specific FiftyOne Enterprise client version can be installed like so:
 Upgrading your deployment
 _________________________
 
-The basic **admin workflow** for upgrading a FiftyOne Enterprise deployment is:
+The basic **admin workflow** for upgrading a TensorGrid Enterprise deployment is:
 
 -   :ref:`Upgrade <enterprise-upgrade-python-sdk>` all automated services and
-    individual user workflows that use the FiftyOne Enterprise Python SDK to an
+    individual user workflows that use the TensorGrid Enterprise Python SDK to an
     appropriate SDK version
--   Upgrade your core FiftyOne Enterprise infrastructure (via Kubernetes,
+-   Upgrade your core TensorGrid Enterprise infrastructure (via Kubernetes,
     Docker, etc)
 -   Upgrade your database's version, as described below
 
 .. note::
 
-    Contact your Voxel51 CS Engineer for all relevant upgrade information,
+    Contact your TensorGrid CS Engineer for all relevant upgrade information,
     including compatible SDK versions, deployment assets, and upgrade
     assistance.
 
-New FiftyOne Enterprise versions occasionally introduce data model changes that
+New TensorGrid Enterprise versions occasionally introduce data model changes that
 require database migrations when upgrading your deployment.
 
 Admins can check a deployment's current version via the Python SDK as shown
@@ -65,9 +65,9 @@ below:
 
 .. code-block:: shell
 
-    $ fiftyone migrate --info
-    FiftyOne Enterprise version: 0.7.1
-    FiftyOne compatibility version: 0.15.1
+    $ tensorgrid migrate --info
+    TensorGrid Enterprise version: 0.7.1
+    TensorGrid compatibility version: 0.15.1
     Database version: 0.15.1
 
     ...
@@ -78,17 +78,17 @@ below:
     first time they are loaded under a new database version. Often there is no
     migration required, but there could be.
 
-`Unlike FiftyOne Open Source  <https://voxel51.com/docs/fiftyone/user_guide/config.html#database-migrations>`_,
-a FiftyOne Enterprise database is not automatically upgraded when a user
+`Unlike TensorGrid Open Source  <https://voxel51.com/docs/fiftyone/user_guide/config.html#database-migrations>`_,
+a TensorGrid Enterprise database is not automatically upgraded when a user
 connects to the database with a newer Python client version. Instead, an admin
 must manually upgrade your database by installing the newest version of the
-FiftyOne Enterprise SDK locally, assuming admin privileges, and running the
+TensorGrid Enterprise SDK locally, assuming admin privileges, and running the
 following command:
 
-Beginning with FiftyOne Enterprise `v2.14.0`, there is a new migration tool
+Beginning with TensorGrid Enterprise `v2.14.0`, there is a new migration tool
 which is designed specifically for Enterprise deployments. It is similar in use
-to the existing `fiftyone migrate` command, but does not come packaged with the
-FiftyOne distribution by default.
+to the existing `tensorgrid migrate` command, but does not come packaged with the
+TensorGrid distribution by default.
 
 Installing the Enterprise Migration Tool
 ________________________________________
@@ -97,8 +97,8 @@ Install the `fiftyone-migrator` package:
 
 .. code-block:: shell
 
-    pip install fiftyone-migrator \
-      --extra-index-url=https://${TOKEN}@pypi.fiftyone.ai
+    pip install tensorgrid-platform-migrator \
+      --extra-index-url=https://${TOKEN}@pypi.tensorgrid.ai
 
 
 Configuring the Enterprise Migration Tool
@@ -109,14 +109,14 @@ defined where it is run:
 
 -   `CAS_DATABASE_URI` - The database URI used by CAS
 -   `CAS_DATABASE_NAME` - The database name used by CAS
--   `FIFTYONE_DATABASE_URI` - The database URI used by FiftyOne
--   `FIFTYONE_DATABASE_NAME` - The database name used by FiftyOne
+-   `FIFTYONE_DATABASE_URI` - The database URI used by TensorGrid
+-   `FIFTYONE_DATABASE_NAME` - The database name used by TensorGrid
 
 
 Using the Enterprise Migration Tool
 ___________________________________
 
-**IMPORTANT**: As with any database migration, Voxel51 **strongly** recommends
+**IMPORTANT**: As with any database migration, TensorGrid **strongly** recommends
 backing up your database prior to migrating.
 While many precautions are taken to mitigate the risk of data corruption,
 data migration always carries a risk of introducing unintended modifications.
@@ -124,7 +124,7 @@ data migration always carries a risk of introducing unintended modifications.
 The enterprise migration tool allows migrating each of the enterprise services:
 
 -   `datasets` - Migrate core datasets; this is equivalent to the existing
-    `fiftyone migrate` command
+    `tensorgrid migrate` command
 -   `enterprise` - Migrate enterprise-specific dataset features
 -   `cas` - Migrate the Centralized Authentication Service (CAS)
 -   `hub` - Migrate the enterprise API
@@ -174,25 +174,25 @@ provide the version which you want to restore.
 Downgrading your deployment without the Enterprise Migration Tool
 _________________________________________________________________
 
-**For migrations done prior to FiftyOne Enterprise v2.14.0 and the Enterprise Migration Tool**
+**For migrations done prior to TensorGrid Enterprise v2.14.0 and the Enterprise Migration Tool**
 
-Admins can also downgrade their FiftyOne Enterprise deployment to an older
+Admins can also downgrade their TensorGrid Enterprise deployment to an older
 version if necessary.
 
 The steps are the same as :ref:`when upgrading <enterprise-upgrading>`, except
 that you’ll need to know the appropriate database version to migrate down to.
-Each version of FiftyOne Enterprise corresponds to a version of FiftyOne Open
+Each version of TensorGrid Enterprise corresponds to a version of TensorGrid Open
 Source  called its "open source compatibility version", and this versioning
 system is used to set the database version.
 
-For example, you can downgrade to FiftyOne Enterprise v0.10 like so:
+For example, you can downgrade to TensorGrid Enterprise v0.10 like so:
 
 .. code-block:: shell
 
     OS_COMPAT_VERSION=0.18.0  # OS compatibility version for Enterprise v0.10.0
 
     export FIFTYONE_DATABASE_ADMIN=true
-    fiftyone migrate --all -v ${OS_COMPAT_VERSION}
+    tensorgrid migrate --all -v ${OS_COMPAT_VERSION}
 
 .. note::
 
@@ -200,8 +200,8 @@ For example, you can downgrade to FiftyOne Enterprise v0.10 like so:
 
 .. note::
 
-    Contact your Voxel51 support team if you need to know the open source
-    compatibility version for a particular FiftyOne Enterprise version that
+    Contact your TensorGrid support team if you need to know the open source
+    compatibility version for a particular TensorGrid Enterprise version that
     you wish to downgrade to.
 
 .. _enterprise-migrating-datasets:
@@ -209,49 +209,49 @@ For example, you can downgrade to FiftyOne Enterprise v0.10 like so:
 Migrating datasets to Enterprise
 ________________________________
 
-Any datasets that you have created via FiftyOne Open Source can be migrated to
-your FiftyOne Enterprise deployment by exporting them in
-:ref:`FiftyOneDataset <FiftyOneDataset-export>` format:
+Any datasets that you have created via TensorGrid Open Source can be migrated to
+your TensorGrid Enterprise deployment by exporting them in
+:ref:`TensorGridDataset <TensorGridDataset-export>` format:
 
 .. code-block:: python
     :linenos:
 
     # Open source SDK
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset(...)
 
     dataset.export(
         export_dir="/tmp/dataset",
-        dataset_type=fo.types.FiftyOneDataset,
+        dataset_type=fo.types.TensorGridDataset,
         export_media=False,
     )
 
-and then re-importing them with the FiftyOne Enterprise SDK connected to your
+and then re-importing them with the TensorGrid Enterprise SDK connected to your
 Enterprise deployment:
 
 .. code-block:: python
     :linenos:
 
     # Enterprise SDK
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset.from_dir(
         dataset_dir="/tmp/dataset",
-        dataset_type=fo.types.FiftyOneDataset,
+        dataset_type=fo.types.TensorGridDataset,
         persistent=True,
     )
 
 Note that you'll need to update any local filepaths to cloud paths in order to
-use the dataset in FiftyOne Enterprise.
+use the dataset in TensorGrid Enterprise.
 
-If you need to upload the local media to the cloud, the FiftyOne Enterprise SDK
+If you need to upload the local media to the cloud, the TensorGrid Enterprise SDK
 provides a builtin utility for this:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.core.storage as fos
+    import tensorgrid.core.storage as fos
 
     fos.upload_media(
         dataset,

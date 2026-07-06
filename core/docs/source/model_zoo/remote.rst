@@ -44,18 +44,18 @@ Here's the basic recipe for working with remotely-sourced zoo models:
 
   .. group-tab:: Python
 
-    Use :meth:`register_zoo_model_source() <fiftyone.zoo.models.register_zoo_model_source>`
+    Use :meth:`register_zoo_model_source() <tensorgrid.zoo.models.register_zoo_model_source>`
     to register a remote source of zoo models:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         foz.register_zoo_model_source("https://github.com/voxel51/openai-clip")
 
-    Use :meth:`list_zoo_model_sources() <fiftyone.zoo.models.list_zoo_model_sources>`
+    Use :meth:`list_zoo_model_sources() <tensorgrid.zoo.models.list_zoo_model_sources>`
     to list all remote sources that have been registered locally:
 
     .. code-block:: python
@@ -69,7 +69,7 @@ Here's the basic recipe for working with remotely-sourced zoo models:
     Once you've registered a remote source, any models that it
     :ref:`declares <model-zoo-remote-manifest>` will subsequently appear as
     available zoo models when you call
-    :meth:`list_zoo_models() <fiftyone.zoo.models.list_zoo_models>`:
+    :meth:`list_zoo_models() <tensorgrid.zoo.models.list_zoo_models>`:
 
     .. code-block:: python
         :linenos:
@@ -80,7 +80,7 @@ Here's the basic recipe for working with remotely-sourced zoo models:
         # [..., "voxel51/clip-vit-base32-torch", ...]
 
     You can download a remote zoo model by calling
-    :meth:`download_zoo_model() <fiftyone.zoo.models.download_zoo_model>`:
+    :meth:`download_zoo_model() <tensorgrid.zoo.models.download_zoo_model>`:
 
     .. code-block:: python
         :linenos:
@@ -99,8 +99,8 @@ Here's the basic recipe for working with remotely-sourced zoo models:
         )
 
     You can load a remote zoo model and apply it to a dataset or view via
-    :meth:`load_zoo_model() <fiftyone.zoo.models.load_zoo_model>` and
-    :meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`:
+    :meth:`load_zoo_model() <tensorgrid.zoo.models.load_zoo_model>` and
+    :meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`:
 
     .. code-block:: python
         :linenos:
@@ -111,7 +111,7 @@ Here's the basic recipe for working with remotely-sourced zoo models:
         dataset.apply_model(model, label_field="clip")
 
     You can delete the local copy of a remotely-sourced zoo model via
-    :meth:`delete_zoo_model() <fiftyone.zoo.models.delete_zoo_model>`:
+    :meth:`delete_zoo_model() <tensorgrid.zoo.models.delete_zoo_model>`:
 
     .. code-block:: python
         :linenos:
@@ -120,7 +120,7 @@ Here's the basic recipe for working with remotely-sourced zoo models:
 
     You can unregister a remote source of zoo models and delete any local
     copies of models that it declares via
-    :meth:`delete_zoo_model_source() <fiftyone.zoo.models.delete_zoo_model_source>`:
+    :meth:`delete_zoo_model_source() <tensorgrid.zoo.models.delete_zoo_model_source>`:
 
     .. code-block:: python
         :linenos:
@@ -129,52 +129,52 @@ Here's the basic recipe for working with remotely-sourced zoo models:
 
   .. group-tab:: CLI
 
-    Use :ref:`fiftyone zoo models register-source <cli-fiftyone-zoo-models-register-source>`
+    Use :ref:`tensorgrid zoo models register-source <cli-fiftyone-zoo-models-register-source>`
     to register a remote source of zoo models:
 
     .. code-block:: shell
 
-        fiftyone zoo models register-source \
+        tensorgrid zoo models register-source \
             https://github.com/voxel51/openai-clip
 
-    Use :ref:`fiftyone zoo models list-sources <cli-fiftyone-zoo-models-list-sources>`
+    Use :ref:`tensorgrid zoo models list-sources <cli-fiftyone-zoo-models-list-sources>`
     to list all remote sources that have been registered locally:
 
     .. code-block:: shell
 
-        fiftyone zoo models list-sources
+        tensorgrid zoo models list-sources
 
         # contains a row for 'https://github.com/voxel51/openai-clip'
 
     Once you've registered a remote source, any models that it
     :ref:`declares <model-zoo-remote-manifest>` will subsequently appear as
     available zoo models when you call
-    :ref:`fiftyone zoo models list <cli-fiftyone-zoo-models-list>`:
+    :ref:`tensorgrid zoo models list <cli-fiftyone-zoo-models-list>`:
 
     .. code-block:: shell
 
-        fiftyone zoo models list
+        tensorgrid zoo models list
 
         # contains a row for 'voxel51/clip-vit-base32-torch'
 
     You can download a remote zoo model by calling
-    :ref:`fiftyone zoo models download <cli-fiftyone-zoo-models-download>`:
+    :ref:`tensorgrid zoo models download <cli-fiftyone-zoo-models-download>`:
 
     .. code-block:: shell
 
-        fiftyone zoo models download voxel51/clip-vit-base32-torch
+        tensorgrid zoo models download voxel51/clip-vit-base32-torch
 
     You can also directly download a remote zoo model and implicitly register
     its source via the following syntax:
 
     .. code-block:: shell
 
-        fiftyone zoo models \
+        tensorgrid zoo models \
             download https://github.com/voxel51/openai-clip \
             --model-name voxel51/clip-vit-base32-torch
 
     You can load a remote zoo model and apply it to a dataset via
-    :ref:`fiftyone zoo models apply <cli-fiftyone-zoo-models-apply>`:
+    :ref:`tensorgrid zoo models apply <cli-fiftyone-zoo-models-apply>`:
 
     .. code-block:: shell
 
@@ -182,22 +182,22 @@ Here's the basic recipe for working with remotely-sourced zoo models:
         DATASET_NAME=quickstart
         LABEL_FIELD=clip
 
-        fiftyone zoo models apply $MODEL_NAME $DATASET_NAME $LABEL_FIELD
+        tensorgrid zoo models apply $MODEL_NAME $DATASET_NAME $LABEL_FIELD
 
     You can delete the local copy of a remotely-sourced zoo model via
-    :ref:`fiftyone zoo models delete <cli-fiftyone-zoo-models-delete>`:
+    :ref:`tensorgrid zoo models delete <cli-fiftyone-zoo-models-delete>`:
 
     .. code-block:: shell
 
-        fiftyone zoo models delete voxel51/clip-vit-base32-torch
+        tensorgrid zoo models delete voxel51/clip-vit-base32-torch
 
     You can unregister a remote source of zoo models and delete any local
     copies of models that it declares via
-    :ref:`fiftyone zoo models delete-source <cli-fiftyone-zoo-models-delete-source>`:
+    :ref:`tensorgrid zoo models delete-source <cli-fiftyone-zoo-models-delete-source>`:
 
     .. code-block:: shell
 
-        fiftyone zoo models delete-source https://github.com/voxel51/openai-clip
+        tensorgrid zoo models delete-source https://github.com/voxel51/openai-clip
 
 .. _model-zoo-remote-creation:
 
@@ -249,8 +249,8 @@ model(s) that it contains:
     | `base_filename`                  |           | The base filename or directory of the model (no version info), if applicable.             |
     |                                  |           |                                                                                           |
     |                                  |           | This is required in order for                                                             |
-    |                                  |           | :meth:`list_downloaded_zoo_models() <fiftyone.zoo.models.list_downloaded_zoo_models>`     |
-    |                                  |           | to detect the model and :meth:`delete_zoo_model() <fiftyone.zoo.models.delete_zoo_model>` |
+    |                                  |           | :meth:`list_downloaded_zoo_models() <tensorgrid.zoo.models.list_downloaded_zoo_models>`     |
+    |                                  |           | to detect the model and :meth:`delete_zoo_model() <tensorgrid.zoo.models.delete_zoo_model>` |
     |                                  |           | to delete the local copy if it is downloaded                                              |
     +----------------------------------+-----------+-------------------------------------------------------------------------------------------+
     | `author`                         |           | The author of the model                                                                   |
@@ -259,7 +259,7 @@ model(s) that it contains:
     |                                  |           |                                                                                           |
     |                                  |           | If a version is provided, then users can refer to a specific version of the model by      |
     |                                  |           | appending ``@<ver>`` to its name when using methods like                                  |
-    |                                  |           | :meth:`load_zoo_model() <fiftyone.zoo.models.load_zoo_model>`, otherwise the latest       |
+    |                                  |           | :meth:`load_zoo_model() <tensorgrid.zoo.models.load_zoo_model>`, otherwise the latest       |
     |                                  |           | version of the model is loaded by default                                                 |
     +----------------------------------+-----------+-------------------------------------------------------------------------------------------+
     | `url`                            |           | The URL at which the model is hosted                                                      |
@@ -271,7 +271,7 @@ model(s) that it contains:
     | `description`                    |           | A brief description of the model                                                          |
     +----------------------------------+-----------+-------------------------------------------------------------------------------------------+
     | `tags`                           |           | A list of tags for the model. Useful in conjunction with                                  |
-    |                                  |           | :meth:`list_zoo_models() <fiftyone.zoo.models.list_zoo_models>`                           |
+    |                                  |           | :meth:`list_zoo_models() <tensorgrid.zoo.models.list_zoo_models>`                           |
     +----------------------------------+-----------+-------------------------------------------------------------------------------------------+
     | `size_bytes`                     |           | The size of the model on disk                                                             |
     +----------------------------------+-----------+-------------------------------------------------------------------------------------------+
@@ -279,11 +279,11 @@ model(s) that it contains:
     +----------------------------------+-----------+-------------------------------------------------------------------------------------------+
     | `requirements`                   |           | JSON description of the model's package/runtime requirements                              |
     +----------------------------------+-----------+-------------------------------------------------------------------------------------------+
-    | `manager`                        |           | A :class:`fiftyone.core.models.ModelManagerConfig` dict that describes the remote         |
+    | `manager`                        |           | A :class:`tensorgrid.core.models.ModelManagerConfig` dict that describes the remote         |
     |                                  |           | location of the model and how to download it. If this is not provided, then a             |
     |                                  |           | :ref:`download_model() <model-zoo-remote-download-model>` function must be provided       |
     +----------------------------------+-----------+-------------------------------------------------------------------------------------------+
-    | `default_deployment_config_dict` |           | A :class:`fiftyone.core.models.ModelConfig` dict describing how to load the model. If     |
+    | `default_deployment_config_dict` |           | A :class:`tensorgrid.core.models.ModelConfig` dict describing how to load the model. If     |
     |                                  |           | this is not provided, then a :ref:`load_model() <model-zoo-remote-load-model>` function   |
     |                                  |           | must be provided                                                                          |
     +----------------------------------+-----------+-------------------------------------------------------------------------------------------+
@@ -369,8 +369,8 @@ signature below:
         ...
 
 This method is called under-the-hood when a user calls
-:meth:`download_zoo_model() <fiftyone.zoo.models.download_zoo_model>` or
-:meth:`load_zoo_model() <fiftyone.zoo.models.load_zoo_model>`, and its job is
+:meth:`download_zoo_model() <tensorgrid.zoo.models.download_zoo_model>` or
+:meth:`load_zoo_model() <tensorgrid.zoo.models.load_zoo_model>`, and its job is
 to download any relevant files from the web and organize and/or prepare
 them as necessary at the provided path.
 
@@ -401,7 +401,7 @@ below:
                 is loaded
 
         Returns:
-            a :class:`fiftyone.core.models.Model`
+            a :class:`tensorgrid.core.models.Model`
         """
 
         # The directory containing this file
@@ -425,7 +425,7 @@ Remotely-sourced models can optionally support customized loading by accepting
 optional keyword arguments to their ``load_model()`` method.
 
 When
-:meth:`load_zoo_model(name_or_url, ..., **kwargs) <fiftyone.zoo.models.load_zoo_model>`
+:meth:`load_zoo_model(name_or_url, ..., **kwargs) <tensorgrid.zoo.models.load_zoo_model>`
 is called, any `kwargs` are passed through to ``load_model(..., **kwargs)``.
 
 .. _model-zoo-remote-resolve-input:
@@ -442,7 +442,7 @@ custom parameters from a user when the model is invoked
 .. code-block:: python
     :linenos:
 
-    from fiftyone.operators import types
+    from tensorgrid.operators import types
 
     def resolve_input(model_name, ctx):
         """Defines any necessary properties to collect the model's custom
@@ -451,10 +451,10 @@ custom parameters from a user when the model is invoked
         Args:
             model_name: the name of the model, as declared by the ``base_name`` and
                 optional ``version`` fields of the manifest
-            ctx: an :class:`fiftyone.operators.ExecutionContext`
+            ctx: an :class:`tensorgrid.operators.ExecutionContext`
 
         Returns:
-            a :class:`fiftyone.operators.types.Property`, or None
+            a :class:`tensorgrid.operators.types.Property`, or None
         """
         inputs = types.Object()
         inputs.list(
@@ -495,7 +495,7 @@ custom parameters when the model is invoked
         Args:
             model_name: the name of the model, as declared by the ``base_name`` and
                 optional ``version`` fields of the manifest
-            ctx: an :class:`fiftyone.operators.ExecutionContext`
+            ctx: an :class:`tensorgrid.operators.ExecutionContext`
             params: a params dict
         """
         classes = params.get("classes", None)

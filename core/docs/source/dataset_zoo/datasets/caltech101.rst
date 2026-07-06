@@ -24,7 +24,7 @@ pixels. This version contains image-level labels only.
 -   Tags: ``image, classification``
 -   Supported splits: ``N/A``
 -   ZooDataset class:
-    :class:`Caltech101Dataset <fiftyone.zoo.datasets.base.Caltech101Dataset>`
+    :class:`Caltech101Dataset <tensorgrid.zoo.datasets.base.Caltech101Dataset>`
 
 **Example usage**
 
@@ -35,8 +35,8 @@ pixels. This version contains image-level labels only.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("caltech101")
 
@@ -46,9 +46,9 @@ pixels. This version contains image-level labels only.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load caltech101
+        tensorgrid zoo datasets load caltech101
 
-        fiftyone app launch caltech101
+        tensorgrid app launch caltech101
 
 .. image:: /images/dataset_zoo/caltech101.png
    :alt: caltech101

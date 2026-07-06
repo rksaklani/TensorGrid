@@ -5,8 +5,8 @@ PyTorch Hub Integration
 
 .. default-role:: code
 
-FiftyOne integrates natively with `PyTorch Hub <https://pytorch.org/hub>`_, so
-you can load any Hub model and run inference on your FiftyOne datasets with
+TensorGrid integrates natively with `PyTorch Hub <https://pytorch.org/hub>`_, so
+you can load any Hub model and run inference on your TensorGrid datasets with
 just a few lines of code!
 
 .. _pytorch-hub-load-model:
@@ -18,13 +18,13 @@ Image models
 ------------
 
 You can use the builtin
-:func:`load_torch_hub_image_model() <fiftyone.utils.torch.load_torch_hub_image_model>`
+:func:`load_torch_hub_image_model() <tensorgrid.utils.torch.load_torch_hub_image_model>`
 utility to load models from the PyTorch Hub:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.utils.torch as fout
+    import tensorgrid.utils.torch as fout
 
     model = fout.load_torch_hub_image_model(
         "pytorch/vision",
@@ -33,20 +33,20 @@ utility to load models from the PyTorch Hub:
     )
 
 The function returns a
-:class:`TorchImageModel <fiftyone.utils.torch.TorchImageModel>` instance that
-wraps the raw Torch model in FiftyOne's
+:class:`TorchImageModel <tensorgrid.utils.torch.TorchImageModel>` instance that
+wraps the raw Torch model in TensorGrid's
 :ref:`Model interface <model-zoo-design-overview>`, which means that you can
 directly pass the model to builtin methods like
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`,
-:meth:`compute_embeddings() <fiftyone.core.collections.SampleCollection.compute_embeddings>`,
-:meth:`compute_patch_embeddings() <fiftyone.core.collections.SampleCollection.compute_patch_embeddings>`,
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>`, and
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`.
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`,
+:meth:`compute_embeddings() <tensorgrid.core.collections.SampleCollection.compute_embeddings>`,
+:meth:`compute_patch_embeddings() <tensorgrid.core.collections.SampleCollection.compute_patch_embeddings>`,
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>`, and
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -59,19 +59,19 @@ directly pass the model to builtin methods like
 
     In the above example, the `resnet18` field is populated with raw logits.
     Refer to :ref:`this page <model-zoo-custom-models>` to see how to configure
-    output processors to automatically parse model outputs into FiftyOne
+    output processors to automatically parse model outputs into TensorGrid
     :ref:`label types <using-labels>`.
 
 Utilities
 ---------
 
-FiftyOne also provides lower-level utilities for direct access to information
+TensorGrid also provides lower-level utilities for direct access to information
 about PyTorch Hub models:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.utils.torch as fout
+    import tensorgrid.utils.torch as fout
 
     # Load a raw Hub model
     model = fout.load_torch_hub_raw_model(
@@ -103,12 +103,12 @@ and use it to generate object detections:
     from PIL import Image
     import numpy as np
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.utils.torch as fout
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.torch as fout
 
     class YOLOv5OutputProcessor(fout.OutputProcessor):
-        """Transforms ``ultralytics/yolov5`` outputs to FiftyOne format."""
+        """Transforms ``ultralytics/yolov5`` outputs to TensorGrid format."""
 
         def __call__(self, result, frame_size, confidence_thresh=None):
             batch = []
@@ -159,7 +159,7 @@ and use it to generate object detections:
 .. note::
 
     Did you know? Ultralytics YOLOv5 is natively available in the
-    :ref:`FiftyOne Model Zoo <model-zoo-yolov5m-coco-torch>`. You should also
+    :ref:`TensorGrid Model Zoo <model-zoo-yolov5m-coco-torch>`. You should also
     check out the :ref:`Ultralytics integration <ultralytics-integration>`!
 
 .. _dinov2-example:
@@ -176,9 +176,9 @@ use it to compute embeddings:
     from PIL import Image
     import numpy as np
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.utils.torch as fout
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.torch as fout
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -202,7 +202,7 @@ use it to compute embeddings:
 .. note::
 
     Did you know? DINOv2 is natively available in the
-    :ref:`FiftyOne Model Zoo <model-zoo-dinov2-vitb14-torch>`!
+    :ref:`TensorGrid Model Zoo <model-zoo-dinov2-vitb14-torch>`!
 
 .. _pytorch-hub-load-model:
 
@@ -210,15 +210,15 @@ Adding Hub models to your local zoo
 ___________________________________
 
 You can add PyTorch Hub models to your :ref:`local model zoo <model-zoo-add>`
-and then load and use them via the :mod:`fiftyone.zoo` package and the CLI
+and then load and use them via the :mod:`tensorgrid.zoo` package and the CLI
 using the same syntax that you would with the
 :ref:`publicly available models <model-zoo>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = fo.load_dataset("...")
     model = foz.load_zoo_model("your-custom-model")
@@ -243,9 +243,9 @@ your local model zoo and then load it to compute embeddings.
                 "description": "DINOv2: Learning Robust Visual Features without Supervision. Model: ViT-S/14 distilled",
                 "source": "https://github.com/facebookresearch/dinov2",
                 "default_deployment_config_dict": {
-                    "type": "fiftyone.utils.torch.TorchImageModel",
+                    "type": "tensorgrid.utils.torch.TorchImageModel",
                     "config": {
-                        "entrypoint_fcn": "fiftyone.utils.torch.load_torch_hub_raw_model",
+                        "entrypoint_fcn": "tensorgrid.utils.torch.load_torch_hub_raw_model",
                         "entrypoint_args": {
                             "repo_or_dir": "facebookresearch/dinov2",
                             "model": "dinov2_vits14"
@@ -258,14 +258,14 @@ your local model zoo and then load it to compute embeddings.
         ]
     }
 
-2.  Expose your manifest to FiftyOne by setting this environment variable:
+2.  Expose your manifest to TensorGrid by setting this environment variable:
 
 .. code-block:: shell
 
     export FIFTYONE_MODEL_ZOO_MANIFEST_PATHS=/path/to/custom-manifest.json
 
 3. Now you can load and use the model using
-   :func:`load_zoo_model() <fiftyone.zoo.models.load_zoo_model>`:
+   :func:`load_zoo_model() <tensorgrid.zoo.models.load_zoo_model>`:
 
 .. code-block:: python
     :linenos:
@@ -273,8 +273,8 @@ your local model zoo and then load it to compute embeddings.
     import numpy as np
     from PIL import Image
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 

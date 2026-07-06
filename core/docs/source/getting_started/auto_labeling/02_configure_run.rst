@@ -10,7 +10,7 @@ With your dataset and DO(s) ready, it's time to configure your Auto Labeling run
 Open and Configure Auto Labeling
 -----------------------------
 
-Start by clicking into your FiftyOne dataset. Above the sample grid, select **New panel > Auto Labeling**. 
+Start by clicking into your TensorGrid dataset. Above the sample grid, select **New panel > Auto Labeling**. 
 
 .. image:: https://cdn.voxel51.com/getting_started_val/notebook1/val_panel.webp
    :alt: Auto Labeling Panel selection
@@ -36,7 +36,7 @@ Now expand the **Target** dropdown. Since we want to generate labels for the ent
 
 Expand the **Detection** dropdown and select the **Detection** tile.
 
-Next, choose your model type. FiftyOne offers two options:
+Next, choose your model type. TensorGrid offers two options:
 
 - **Zero-shot models** let you define custom classes using plain language. This is useful when your target objects do not match the predefined categories of a fixed model.
 - **Fixed-vocabulary models** are trained on specific class sets like COCO or Open Images. They can be faster and more accurate for those classes, but lack flexibility.
@@ -71,7 +71,7 @@ Finally, expand the **Settings** dropdown.
    :width: 75%
 
 .. tip::
-  For auto labeling, a low-medium confidence threshold often maximizes downstream model accuracy due to increased recall. See this `article <https://voxel51.com/blog/zero-shot-auto-labeling-rivals-human-performance>`_ for more details. 
+  For auto labeling, a low-medium confidence threshold often maximizes downstream model accuracy due to increased recall. See this `article </resourceszero-shot-auto-labeling-rivals-human-performance>`_ for more details. 
 
 
 Now click **Auto Label**, then click **Schedule** for one of your delegated operators. Your auto labeling job will then kick off in the background.
@@ -84,7 +84,7 @@ Now click **Auto Label**, then click **Schedule** for one of your delegated oper
 Monitor the Auto Labeling run
 -------------------
 
-FiftyOne has now begun running the auto label operation as a background job. To view the job's progress, you can click **View Status** from the Auto Labeling panel, or the **Runs** tab and then click into your running job where you'll see the job's progress as well as your configuration parameters as inputs. In the job run, also note the ability to view and download the job log, re-run the job, and if necessary terminate/cancel any stuck jobs.
+TensorGrid has now begun running the auto label operation as a background job. To view the job's progress, you can click **View Status** from the Auto Labeling panel, or the **Runs** tab and then click into your running job where you'll see the job's progress as well as your configuration parameters as inputs. In the job run, also note the ability to view and download the job log, re-run the job, and if necessary terminate/cancel any stuck jobs.
 
 .. image:: https://cdn.voxel51.com/getting_started_val/notebook1/val_run_log.webp
    :alt: VAL run log

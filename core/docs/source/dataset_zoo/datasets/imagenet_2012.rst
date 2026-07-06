@@ -45,8 +45,8 @@ training and validation sets are provided.
 -   Supported splits: ``train, validation``
 -   ZooDataset classes:
 
-    -   :class:`ImageNet2012Dataset <fiftyone.zoo.datasets.tf.ImageNet2012Dataset>` (TF backend)
-    -   :class:`ImageNet2012Dataset <fiftyone.zoo.datasets.torch.ImageNet2012Dataset>` (Torch backend)
+    -   :class:`ImageNet2012Dataset <tensorgrid.zoo.datasets.tf.ImageNet2012Dataset>` (TF backend)
+    -   :class:`ImageNet2012Dataset <tensorgrid.zoo.datasets.torch.ImageNet2012Dataset>` (Torch backend)
 
 .. note::
 
@@ -63,8 +63,8 @@ training and validation sets are provided.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         # The path to the source files that you manually downloaded
         source_dir = "/path/to/dir-with-imagenet-files"
@@ -84,10 +84,10 @@ training and validation sets are provided.
         # The path to the source files that you manually downloaded
         SOURCE_DIR="/path/to/dir-with-imagenet-files"
 
-        fiftyone zoo datasets load imagenet-2012 --split validation \
+        tensorgrid zoo datasets load imagenet-2012 --split validation \
             --kwargs "source_dir=${SOURCE_DIR}"
 
-        fiftyone app launch imagenet-2012-validation
+        tensorgrid app launch imagenet-2012-validation
 
 .. image:: /images/dataset_zoo/imagenet-2012-validation.png
    :alt: imagenet-2012-validation

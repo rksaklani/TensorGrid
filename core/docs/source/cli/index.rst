@@ -1,15 +1,15 @@
 .. _fiftyone-cli:
 
-FiftyOne Command-Line Interface (CLI)
+TensorGrid Command-Line Interface (CLI)
 =====================================
 
 .. default-role:: code
 
-Installing FiftyOne automatically installs `fiftyone`, a command-line interface
-(CLI) for interacting with FiftyOne. This utility provides access to many
+Installing TensorGrid automatically installs `tensorgrid`, a command-line interface
+(CLI) for interacting with TensorGrid. This utility provides access to many
 useful features, including creating and inspecting datasets, visualizing
 datasets in the App, exporting datasets and converting dataset formats,
-and downloading datasets from the FiftyOne Dataset Zoo.
+and downloading datasets from the TensorGrid Dataset Zoo.
 
 .. _cli-quickstart:
 
@@ -20,16 +20,16 @@ To see the available top-level commands, type:
 
 .. code-block:: text
 
-    fiftyone --help
+    tensorgrid --help
 
 You can learn more about any available subcommand via:
 
 .. code-block:: text
 
-    fiftyone <command> --help
+    tensorgrid <command> --help
 
-For example, to see your current FiftyOne config, you can execute
-`fiftyone config`.
+For example, to see your current TensorGrid config, you can execute
+`tensorgrid config`.
 
 Tab completion
 ~~~~~~~~~~~~~~
@@ -52,18 +52,18 @@ To enable tab completion in `tcsh`, add these lines to your `~/.tcshrc`:
 
 .. code-block:: shell
 
-    eval `register-python-argcomplete --shell tcsh fiftyone`
+    eval `register-python-argcomplete --shell tcsh tensorgrid`
 
 .. _cli-fiftyone-main:
 
-FiftyOne CLI
+TensorGrid CLI
 ------------
 
-The FiftyOne command-line interface.
+The TensorGrid command-line interface.
 
 .. code-block:: text
 
-    fiftyone [-h] [-v] [--all-help]
+    tensorgrid [-h] [-v] [--all-help]
              {quickstart,annotation,brain,evaluation,app,config,constants,convert,datasets,migrate,operators,skills,delegated,plugins,utils,zoo,labs}
              ...
 
@@ -79,34 +79,34 @@ The FiftyOne command-line interface.
     available commands:
       {quickstart,annotation,brain,evaluation,app,config,constants,convert,datasets,migrate,operators,skills,delegated,plugins,utils,zoo,labs}
 
-        quickstart          Launch a FiftyOne quickstart.
-        annotation          Tools for working with the FiftyOne annotation API.
-        brain               Tools for working with the FiftyOne Brain.
-        evaluation          Tools for working with the FiftyOne evaluation API.
-        app                 Tools for working with the FiftyOne App.
-        config              Tools for working with your FiftyOne config.
-        constants           Print constants from `fiftyone.constants`.
+        quickstart          Launch a TensorGrid quickstart.
+        annotation          Tools for working with the TensorGrid annotation API.
+        brain               Tools for working with the TensorGrid Brain.
+        evaluation          Tools for working with the TensorGrid evaluation API.
+        app                 Tools for working with the TensorGrid App.
+        config              Tools for working with your TensorGrid config.
+        constants           Print constants from `tensorgrid.constants`.
         convert             Convert datasets on disk between supported formats.
-        datasets            Tools for working with FiftyOne datasets.
-        migrate             Tools for migrating the FiftyOne database.
-        operators           Tools for working with FiftyOne operators and panels.
-        skills              Tools for working with FiftyOne skills.
-        delegated           Tools for working with FiftyOne delegated operations.
-        plugins             Tools for working with FiftyOne plugins.
-        utils               FiftyOne utilities.
-        zoo                 Tools for working with the FiftyOne Zoo.
-        labs                Tools for working with FiftyOne Labs.
+        datasets            Tools for working with TensorGrid datasets.
+        migrate             Tools for migrating the TensorGrid database.
+        operators           Tools for working with TensorGrid operators and panels.
+        skills              Tools for working with TensorGrid skills.
+        delegated           Tools for working with TensorGrid delegated operations.
+        plugins             Tools for working with TensorGrid plugins.
+        utils               TensorGrid utilities.
+        zoo                 Tools for working with the TensorGrid Zoo.
+        labs                Tools for working with TensorGrid Labs.
 
 .. _cli-fiftyone-quickstart:
 
-FiftyOne quickstart
+TensorGrid quickstart
 -------------------
 
-Launch a FiftyOne quickstart.
+Launch a TensorGrid quickstart.
 
 .. code-block:: text
 
-    fiftyone quickstart [-h] [-v] [-p PORT] [-A ADDRESS] [-r] [-a] [-w WAIT]
+    tensorgrid quickstart [-h] [-v] [-p PORT] [-A ADDRESS] [-r] [-a] [-w WAIT]
 
 **Arguments**
 
@@ -129,28 +129,28 @@ Launch a FiftyOne quickstart.
 .. code-block:: shell
 
     # Launch the quickstart
-    fiftyone quickstart
+    tensorgrid quickstart
 
 .. code-block:: shell
 
     # Launch the quickstart with a video dataset
-    fiftyone quickstart --video
+    tensorgrid quickstart --video
 
 .. code-block:: shell
 
     # Launch the quickstart as a remote session
-    fiftyone quickstart --remote
+    tensorgrid quickstart --remote
 
 .. _cli-fiftyone-config:
 
-FiftyOne config
+TensorGrid config
 ---------------
 
-Tools for working with your FiftyOne config.
+Tools for working with your TensorGrid config.
 
 .. code-block:: text
 
-    fiftyone config [-h] [-l] [FIELD]
+    tensorgrid config [-h] [-l] [FIELD]
 
 **Arguments**
 
@@ -168,28 +168,28 @@ Tools for working with your FiftyOne config.
 .. code-block:: shell
 
     # Print your entire config
-    fiftyone config
+    tensorgrid config
 
 .. code-block:: shell
 
     # Print a specific config field
-    fiftyone config <field>
+    tensorgrid config <field>
 
 .. code-block:: shell
 
     # Print the location of your config on disk (if one exists)
-    fiftyone config --locate
+    tensorgrid config --locate
 
 .. _cli-fiftyone-constants:
 
 Print constants
 ---------------
 
-Print constants from `fiftyone.constants`.
+Print constants from `tensorgrid.constants`.
 
 .. code-block:: text
 
-    fiftyone constants [-h] [CONSTANT]
+    tensorgrid constants [-h] [CONSTANT]
 
 **Arguments**
 
@@ -206,12 +206,12 @@ Print constants from `fiftyone.constants`.
 .. code-block:: shell
 
     # Print all constants
-    fiftyone constants
+    tensorgrid constants
 
 .. code-block:: shell
 
     # Print a specific constant
-    fiftyone constants <CONSTANT>
+    tensorgrid constants <CONSTANT>
 
 .. _cli-fiftyone-convert:
 
@@ -222,7 +222,7 @@ Convert datasets on disk between supported formats.
 
 .. code-block:: text
 
-    fiftyone convert [-h] --input-type INPUT_TYPE --output-type OUTPUT_TYPE
+    tensorgrid convert [-h] --input-type INPUT_TYPE --output-type OUTPUT_TYPE
                      [--input-dir INPUT_DIR]
                      [--input-kwargs KEY=VAL [KEY=VAL ...]]
                      [--output-dir OUTPUT_DIR]
@@ -238,62 +238,62 @@ Convert datasets on disk between supported formats.
                             the directory containing the dataset
       --input-kwargs KEY=VAL [KEY=VAL ...]
                             additional keyword arguments for
-                            `fiftyone.utils.data.convert_dataset(..., input_kwargs=)`
+                            `tensorgrid.utils.data.convert_dataset(..., input_kwargs=)`
       --output-dir OUTPUT_DIR
                             the directory to which to write the output dataset
       --output-kwargs KEY=VAL [KEY=VAL ...]
                             additional keyword arguments for
-                            `fiftyone.utils.data.convert_dataset(..., output_kwargs=)`
+                            `tensorgrid.utils.data.convert_dataset(..., output_kwargs=)`
       -o, --overwrite       whether to overwrite an existing output directory
 
     required arguments:
       --input-type INPUT_TYPE
-                            the fiftyone.types.Dataset type of the input dataset
+                            the tensorgrid.types.Dataset type of the input dataset
       --output-type OUTPUT_TYPE
-                            the fiftyone.types.Dataset type to output
+                            the tensorgrid.types.Dataset type to output
 
 **Examples**
 
 .. code-block:: shell
 
     # Convert an image classification directory tree to TFRecords format
-    fiftyone convert \
+    tensorgrid convert \
         --input-dir /path/to/image-classification-directory-tree \
-        --input-type fiftyone.types.ImageClassificationDirectoryTree \
+        --input-type tensorgrid.types.ImageClassificationDirectoryTree \
         --output-dir /path/for/tf-image-classification-dataset \
-        --output-type fiftyone.types.TFImageClassificationDataset
+        --output-type tensorgrid.types.TFImageClassificationDataset
 
 .. code-block:: shell
 
     # Convert a COCO detection dataset to CVAT image format
-    fiftyone convert \
+    tensorgrid convert \
         --input-dir /path/to/coco-detection-dataset \
-        --input-type fiftyone.types.COCODetectionDataset \
+        --input-type tensorgrid.types.COCODetectionDataset \
         --output-dir /path/for/cvat-image-dataset \
-        --output-type fiftyone.types.CVATImageDataset
+        --output-type tensorgrid.types.CVATImageDataset
 
 .. code-block:: shell
 
     # Perform a customized conversion via optional kwargs
-    fiftyone convert \
+    tensorgrid convert \
         --input-dir /path/to/coco-detection-dataset \
-        --input-type fiftyone.types.COCODetectionDataset \
+        --input-type tensorgrid.types.COCODetectionDataset \
         --input-kwargs max_samples=100 shuffle=True \
         --output-dir /path/for/cvat-image-dataset \
-        --output-type fiftyone.types.TFObjectDetectionDataset \
+        --output-type tensorgrid.types.TFObjectDetectionDataset \
         --output-kwargs force_rgb=True \
         --overwrite
 
 .. _cli-fiftyone-datasets:
 
-FiftyOne datasets
+TensorGrid datasets
 -----------------
 
-Tools for working with FiftyOne datasets.
+Tools for working with TensorGrid datasets.
 
 .. code-block:: text
 
-    fiftyone datasets [-h] [--all-help]
+    tensorgrid datasets [-h] [--all-help]
                       {list,info,create,head,tail,stream,export,delete} ...
 
 **Arguments**
@@ -306,28 +306,28 @@ Tools for working with FiftyOne datasets.
 
     available commands:
       {list,info,create,head,tail,stream,export,delete}
-        list                List FiftyOne datasets.
-        info                Print information about FiftyOne datasets.
-        stats               Print stats about FiftyOne datasets on disk.
-        create              Tools for creating FiftyOne datasets.
-        head                Prints the first few samples in a FiftyOne dataset.
-        tail                Prints the last few samples in a FiftyOne dataset.
-        stream              Streams the samples in a FiftyOne dataset.
-        export              Export FiftyOne datasets to disk in supported formats.
-        draw                Writes annotated versions of samples in FiftyOne datasets to disk.
-        rename              Rename FiftyOne datasets.
-        delete              Delete FiftyOne datasets.
+        list                List TensorGrid datasets.
+        info                Print information about TensorGrid datasets.
+        stats               Print stats about TensorGrid datasets on disk.
+        create              Tools for creating TensorGrid datasets.
+        head                Prints the first few samples in a TensorGrid dataset.
+        tail                Prints the last few samples in a TensorGrid dataset.
+        stream              Streams the samples in a TensorGrid dataset.
+        export              Export TensorGrid datasets to disk in supported formats.
+        draw                Writes annotated versions of samples in TensorGrid datasets to disk.
+        rename              Rename TensorGrid datasets.
+        delete              Delete TensorGrid datasets.
 
 .. _cli-fiftyone-datasets-list:
 
 List datasets
 ~~~~~~~~~~~~~
 
-List FiftyOne datasets.
+List TensorGrid datasets.
 
 .. code-block:: text
 
-    fiftyone datasets list [-h] [-p PATT] [-t TAG [TAG ...]]
+    tensorgrid datasets list [-h] [-p PATT] [-t TAG [TAG ...]]
 
 **Arguments**
 
@@ -345,28 +345,28 @@ List FiftyOne datasets.
 .. code-block:: shell
 
     # List available datasets
-    fiftyone datasets list
+    tensorgrid datasets list
 
 .. code-block:: shell
 
     # List datasets matching a given pattern
-    fiftyone datasets list --glob-patt 'quickstart-*'
+    tensorgrid datasets list --glob-patt 'quickstart-*'
 
 .. code-block:: shell
 
     # List datasets with the given tag(s)
-    fiftyone datasets list --tags automotive healthcare
+    tensorgrid datasets list --tags automotive healthcare
 
 .. _cli-fiftyone-datasets-info:
 
 Print dataset information
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Print information about FiftyOne datasets.
+Print information about TensorGrid datasets.
 
 .. code-block:: text
 
-    fiftyone datasets info [-h] [-p PATT] [-t TAG [TAG ...]] [-s FIELD] [-r] [NAME]
+    tensorgrid datasets info [-h] [-p PATT] [-t TAG [TAG ...]] [-s FIELD] [-r] [NAME]
 
 **Arguments**
 
@@ -390,27 +390,27 @@ Print information about FiftyOne datasets.
 .. code-block:: shell
 
     # Print basic information about multiple datasets
-    fiftyone datasets info
-    fiftyone datasets info --glob-patt 'quickstart-*'
-    fiftyone datasets info --tags automotive healthcare
-    fiftyone datasets info --sort-by created_at
-    fiftyone datasets info --sort-by name --reverse
+    tensorgrid datasets info
+    tensorgrid datasets info --glob-patt 'quickstart-*'
+    tensorgrid datasets info --tags automotive healthcare
+    tensorgrid datasets info --sort-by created_at
+    tensorgrid datasets info --sort-by name --reverse
 
 .. code-block:: shell
 
     # Print information about a specific dataset
-    fiftyone datasets info <name>
+    tensorgrid datasets info <name>
 
 .. _cli-fiftyone-datasets-stats:
 
 Print dataset stats
 ~~~~~~~~~~~~~~~~~~~
 
-Print stats about FiftyOne datasets on disk.
+Print stats about TensorGrid datasets on disk.
 
 .. code-block:: text
 
-    fiftyone datasets stats [-h] [-m] [-c] NAME
+    tensorgrid datasets stats [-h] [-m] [-c] NAME
 
 **Arguments**
 
@@ -431,18 +431,18 @@ Print stats about FiftyOne datasets on disk.
 .. code-block:: shell
 
     # Print stats about the given dataset on disk
-    fiftyone datasets stats <name>
+    tensorgrid datasets stats <name>
 
 .. _cli-fiftyone-datasets-create:
 
 Create datasets
 ~~~~~~~~~~~~~~~
 
-Tools for creating FiftyOne datasets.
+Tools for creating TensorGrid datasets.
 
 .. code-block:: text
 
-    fiftyone datasets create [-h] [-n NAME] [-d DATASET_DIR] [-j JSON_PATH]
+    tensorgrid datasets create [-h] [-n NAME] [-d DATASET_DIR] [-j JSON_PATH]
                              [-t TYPE] [-k KEY=VAL [KEY=VAL ...]]
 
 **Arguments**
@@ -456,41 +456,41 @@ Tools for creating FiftyOne datasets.
                             the directory containing the dataset
       -j JSON_PATH, --json-path JSON_PATH
                             the path to a samples JSON file to load
-      -t TYPE, --type TYPE  the fiftyone.types.Dataset type of the dataset
+      -t TYPE, --type TYPE  the tensorgrid.types.Dataset type of the dataset
       -k KEY=VAL [KEY=VAL ...], --kwargs KEY=VAL [KEY=VAL ...]
                             additional type-specific keyword arguments for
-                            `fiftyone.core.dataset.Dataset.from_dir()`
+                            `tensorgrid.core.dataset.Dataset.from_dir()`
 
 **Examples**
 
 .. code-block:: shell
 
     # Create a dataset from the given data on disk
-    fiftyone datasets create \
+    tensorgrid datasets create \
         --name <name> --dataset-dir <dataset-dir> --type <type>
 
 .. code-block:: shell
 
     # Create a dataset from a random subset of the data on disk
-    fiftyone datasets create \
+    tensorgrid datasets create \
         --name <name> --dataset-dir <dataset-dir> --type <type> \
         --kwargs max_samples=50 shuffle=True
 
 .. code-block:: shell
 
     # Create a dataset from the given samples JSON file
-    fiftyone datasets create --json-path <json-path>
+    tensorgrid datasets create --json-path <json-path>
 
 .. _cli-fiftyone-datasets-head:
 
 Print dataset head
 ~~~~~~~~~~~~~~~~~~
 
-Prints the first few samples in a FiftyOne dataset.
+Prints the first few samples in a TensorGrid dataset.
 
 .. code-block:: text
 
-    fiftyone datasets head [-h] [-n NUM_SAMPLES] NAME
+    tensorgrid datasets head [-h] [-n NUM_SAMPLES] NAME
 
 **Arguments**
 
@@ -509,23 +509,23 @@ Prints the first few samples in a FiftyOne dataset.
 .. code-block:: shell
 
     # Prints the first few samples in a dataset
-    fiftyone datasets head <name>
+    tensorgrid datasets head <name>
 
 .. code-block:: shell
 
     # Prints the given number of samples from the head of a dataset
-    fiftyone datasets head <name> --num-samples <num-samples>
+    tensorgrid datasets head <name> --num-samples <num-samples>
 
 .. _cli-fiftyone-datasets-tail:
 
 Print dataset tail
 ~~~~~~~~~~~~~~~~~~
 
-Prints the last few samples in a FiftyOne dataset.
+Prints the last few samples in a TensorGrid dataset.
 
 .. code-block:: text
 
-    fiftyone datasets tail [-h] [-n NUM_SAMPLES] NAME
+    tensorgrid datasets tail [-h] [-n NUM_SAMPLES] NAME
 
 **Arguments**
 
@@ -544,23 +544,23 @@ Prints the last few samples in a FiftyOne dataset.
 .. code-block:: shell
 
     # Print the last few samples in a dataset
-    fiftyone datasets tail <name>
+    tensorgrid datasets tail <name>
 
 .. code-block:: shell
 
     # Print the given number of samples from the tail of a dataset
-    fiftyone datasets tail <name> --num-samples <num-samples>
+    tensorgrid datasets tail <name> --num-samples <num-samples>
 
 .. _cli-fiftyone-datasets-stream:
 
 Stream samples to the terminal
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Stream samples in a FiftyOne dataset to the terminal.
+Stream samples in a TensorGrid dataset to the terminal.
 
 .. code-block:: text
 
-    fiftyone datasets stream [-h] NAME
+    tensorgrid datasets stream [-h] NAME
 
 **Arguments**
 
@@ -577,18 +577,18 @@ Stream samples in a FiftyOne dataset to the terminal.
 .. code-block:: shell
 
     # Stream the samples of the dataset to the terminal
-    fiftyone datasets stream <name>
+    tensorgrid datasets stream <name>
 
 .. _cli-fiftyone-datasets-export:
 
 Export datasets
 ~~~~~~~~~~~~~~~
 
-Export FiftyOne datasets to disk in supported formats.
+Export TensorGrid datasets to disk in supported formats.
 
 .. code-block:: text
 
-    fiftyone datasets export [-h] [-d EXPORT_DIR] [-j JSON_PATH]
+    tensorgrid datasets export [-h] [-d EXPORT_DIR] [-j JSON_PATH]
                              [-f LABEL_FIELD] [-t TYPE]
                              [--filters KEY=VAL [KEY=VAL ...]]
                              [-k KEY=VAL [KEY=VAL ...]]
@@ -609,7 +609,7 @@ Export FiftyOne datasets to disk in supported formats.
                             the path to export the dataset in JSON format
       -f LABEL_FIELD, --label-field LABEL_FIELD
                             the name of the label field to export
-      -t TYPE, --type TYPE  the fiftyone.types.Dataset type in which to export
+      -t TYPE, --type TYPE  the tensorgrid.types.Dataset type in which to export
       --filters KEY=VAL [KEY=VAL ...]
                             specific sample tags or class labels to export. To
                             use sample tags, pass tags as `tags=train,val` and
@@ -617,32 +617,32 @@ Export FiftyOne datasets to disk in supported formats.
                             as in ground_truth=car,person,dog
       -k KEY=VAL [KEY=VAL ...], --kwargs KEY=VAL [KEY=VAL ...]
                             additional type-specific keyword arguments for
-                            `fiftyone.core.collections.SampleCollection.export()`
+                            `tensorgrid.core.collections.SampleCollection.export()`
 
 **Examples**
 
 .. code-block:: shell
 
     # Export the dataset to disk in the specified format
-    fiftyone datasets export <name> \
+    tensorgrid datasets export <name> \
         --export-dir <export-dir> --type <type> --label-field <label-field>
 
 .. code-block:: shell
 
     # Export the dataset to disk in JSON format
-    fiftyone datasets export <name> --json-path <json-path>
+    tensorgrid datasets export <name> --json-path <json-path>
 
 .. code-block:: shell
 
     # Only export cats and dogs from the validation split
-    fiftyone datasets export <name> \\
+    tensorgrid datasets export <name> \\
         --filters tags=validation ground_truth=cat,dog \\
         --export-dir <export-dir> --type <type> --label-field ground_truth
 
 .. code-block:: shell
 
     # Perform a customized export of a dataset
-    fiftyone datasets export <name> \
+    tensorgrid datasets export <name> \
         --type <type> \
         --kwargs labels_path=/path/for/labels.json
 
@@ -651,11 +651,11 @@ Export FiftyOne datasets to disk in supported formats.
 Drawing labels on samples
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Renders annotated versions of samples in FiftyOne datasets to disk.
+Renders annotated versions of samples in TensorGrid datasets to disk.
 
 .. code-block:: text
 
-    fiftyone datasets draw [-h] [-d OUTPUT_DIR] [-f LABEL_FIELDS] NAME
+    tensorgrid datasets draw [-h] [-d OUTPUT_DIR] [-f LABEL_FIELDS] NAME
 
 **Arguments**
 
@@ -677,7 +677,7 @@ Renders annotated versions of samples in FiftyOne datasets to disk.
 
     # Write annotated versions of the media in the dataset with the
     # specified label field(s) overlaid to disk
-    fiftyone datasets draw <name> \
+    tensorgrid datasets draw <name> \
         --output-dir <output-dir> --label-fields <list>,<of>,<fields>
 
 .. _cli-fiftyone-datasets-rename:
@@ -685,11 +685,11 @@ Renders annotated versions of samples in FiftyOne datasets to disk.
 Rename datasets
 ~~~~~~~~~~~~~~~
 
-Rename FiftyOne datasets.
+Rename TensorGrid datasets.
 
 .. code-block:: text
 
-    fiftyone datasets rename [-h] NAME NEW_NAME
+    tensorgrid datasets rename [-h] NAME NEW_NAME
 
 **Arguments**
 
@@ -707,18 +707,18 @@ Rename FiftyOne datasets.
 .. code-block:: shell
 
     # Rename the dataset
-    fiftyone datasets rename <old-name> <new-name>
+    tensorgrid datasets rename <old-name> <new-name>
 
 .. _cli-fiftyone-datasets-delete:
 
 Delete datasets
 ~~~~~~~~~~~~~~~
 
-Delete FiftyOne datasets.
+Delete TensorGrid datasets.
 
 .. code-block:: text
 
-    fiftyone datasets delete [-h] [-g GLOB_PATT] [--non-persistent]
+    tensorgrid datasets delete [-h] [-g GLOB_PATT] [--non-persistent]
                              [NAME [NAME ...]]
 
 **Arguments**
@@ -739,31 +739,31 @@ Delete FiftyOne datasets.
 .. code-block:: shell
 
     # Delete the datasets with the given name(s)
-    fiftyone datasets delete <name1> <name2> ...
+    tensorgrid datasets delete <name1> <name2> ...
 
 .. code-block:: shell
 
     # Delete the datasets whose names match the given glob pattern
-    fiftyone datasets delete --glob-patt <glob-patt>
+    tensorgrid datasets delete --glob-patt <glob-patt>
 
 .. code-block:: shell
 
     # Delete all non-persistent datasets
-    fiftyone datasets delete --non-persistent
+    tensorgrid datasets delete --non-persistent
 
 .. _cli-fiftyone-migrate:
 
-FiftyOne migrations
+TensorGrid migrations
 -------------------
 
-Tools for migrating the FiftyOne database.
+Tools for migrating the TensorGrid database.
 
 See :ref:`this page <database-migrations>` for more information about migrating
-FiftyOne deployments.
+TensorGrid deployments.
 
 .. code-block:: text
 
-    fiftyone migrate [-h] [-i] [-a]
+    tensorgrid migrate [-h] [-i] [-a]
                      [-v VERSION]
                      [-n DATASET_NAME [DATASET_NAME ...]]
                      [--error-level LEVEL]
@@ -790,38 +790,38 @@ FiftyOne deployments.
 .. code-block:: shell
 
     # Print information about the current revisions of all datasets
-    fiftyone migrate --info
+    tensorgrid migrate --info
 
 .. code-block:: shell
 
     # Migrate the database and all datasets to the current client version
-    fiftyone migrate --all
+    tensorgrid migrate --all
 
 .. code-block:: shell
 
     # Migrate to a specific revision
-    fiftyone migrate --all --version <VERSION>
+    tensorgrid migrate --all --version <VERSION>
 
 .. code-block:: shell
 
     # Migrate a specific dataset
-    fiftyone migrate ... --dataset-name <DATASET_NAME>
+    tensorgrid migrate ... --dataset-name <DATASET_NAME>
 
 .. code-block:: shell
 
     # Update the database version without migrating any existing datasets
-    fiftyone migrate
+    tensorgrid migrate
 
 .. _cli-fiftyone-operators:
 
-FiftyOne operators
+TensorGrid operators
 ------------------
 
-Tools for working with FiftyOne operators and panels.
+Tools for working with TensorGrid operators and panels.
 
 .. code-block:: text
 
-    fiftyone operators [-h] [--all-help] {list,info} ...
+    tensorgrid operators [-h] [--all-help] {list,info} ...
 
 **Arguments**
 
@@ -845,7 +845,7 @@ List operators and panels that are installed locally.
 
 .. code-block:: text
 
-    fiftyone operators list [-h] [-g PATT] [-e] [-d] [-b] [-c] [-o] [-p] [-n] [-u]
+    tensorgrid operators list [-h] [-g PATT] [-e] [-d] [-b] [-c] [-o] [-p] [-n] [-u]
 
 **Arguments**
 
@@ -869,32 +869,32 @@ List operators and panels that are installed locally.
 .. code-block:: shell
 
     # List all available operators and panels
-    fiftyone operators list
+    tensorgrid operators list
 
 .. code-block:: shell
 
     # List operators and panels whose URI matches the given glob pattern
-    fiftyone operators list --glob-patt '*/compute_*'
+    tensorgrid operators list --glob-patt '*/compute_*'
 
 .. code-block:: shell
 
     # List enabled operators and panels
-    fiftyone operators list --enabled
+    tensorgrid operators list --enabled
 
 .. code-block:: shell
 
     # List disabled operators and panels
-    fiftyone operators list --disabled
+    tensorgrid operators list --disabled
 
 .. code-block:: shell
 
     # List non-builtin operators and panels
-    fiftyone operators list --no-builtins
+    tensorgrid operators list --no-builtins
 
 .. code-block:: shell
 
     # List panels
-    fiftyone operators list --panels-only
+    tensorgrid operators list --panels-only
 
 .. _cli-fiftyone-operators-info:
 
@@ -905,7 +905,7 @@ Prints information about operators and panels that are installed locally.
 
 .. code-block:: text
 
-    fiftyone operators info [-h] URI
+    tensorgrid operators info [-h] URI
 
 **Arguments**
 
@@ -922,18 +922,18 @@ Prints information about operators and panels that are installed locally.
 .. code-block:: shell
 
     # Prints information about an operator or panel
-    fiftyone operators info <uri>
+    tensorgrid operators info <uri>
 
 .. _cli-fiftyone-skills:
 
-FiftyOne skills
+TensorGrid skills
 ------------------
 
-Tools for working with FiftyOne skills.
+Tools for working with TensorGrid skills.
 
 .. code-block:: text
 
-    fiftyone skills [-h] [--all-help] {list} ...
+    tensorgrid skills [-h] [--all-help] {list} ...
 
 **Arguments**
 
@@ -956,7 +956,7 @@ List skills provided by installed plugins.
 
 .. code-block:: text
 
-    fiftyone skills list [-h] [-p PLUGIN [PLUGIN ...]] [-c CATEGORY [CATEGORY ...]] [-e] [-d] [-n]
+    tensorgrid skills list [-h] [-p PLUGIN [PLUGIN ...]] [-c CATEGORY [CATEGORY ...]] [-e] [-d] [-n]
 
 **Arguments**
 
@@ -977,38 +977,38 @@ List skills provided by installed plugins.
 .. code-block:: shell
 
     # List all available skills
-    fiftyone skills list
+    tensorgrid skills list
 
 .. code-block:: shell
 
     # List skills from a specific plugin
-    fiftyone skills list --plugin @voxel51/my-plugin
+    tensorgrid skills list --plugin @voxel51/my-plugin
 
 .. code-block:: shell
 
     # List skills in a specific category
-    fiftyone skills list --category data-ingestion
+    tensorgrid skills list --category data-ingestion
 
 .. code-block:: shell
 
     # List enabled skills
-    fiftyone skills list --enabled
+    tensorgrid skills list --enabled
 
 .. code-block:: shell
 
     # List skill names only
-    fiftyone skills list --names-only
+    tensorgrid skills list --names-only
 
 .. _cli-fiftyone-delegated:
 
-FiftyOne delegated operations
+TensorGrid delegated operations
 -----------------------------
 
-Tools for working with FiftyOne delegated operations.
+Tools for working with TensorGrid delegated operations.
 
 .. code-block:: text
 
-    fiftyone delegated [-h] [--all-help] {launch,list,info,output,fail,delete,cleanup} ...
+    tensorgrid delegated [-h] [--all-help] {launch,list,info,output,fail,delete,cleanup} ...
 
 **Arguments**
 
@@ -1037,7 +1037,7 @@ Launches a service for running delegated operations.
 
 .. code-block:: text
 
-    fiftyone delegated launch [-h] [-t TYPE]
+    tensorgrid delegated launch [-h] [-t TYPE]
 
 **Arguments**
 
@@ -1052,7 +1052,7 @@ Launches a service for running delegated operations.
 .. code-block:: shell
 
     # Launch a local service
-    fiftyone delegated launch
+    tensorgrid delegated launch
 
 .. _cli-fiftyone-delegated-list:
 
@@ -1063,7 +1063,7 @@ List delegated operations.
 
 .. code-block:: text
 
-    fiftyone delegated list [-h]
+    tensorgrid delegated list [-h]
                             [-o OPERATOR]
                             [-d DATASET]
                             [-m MATCH]
@@ -1098,12 +1098,12 @@ List delegated operations.
 .. code-block:: shell
 
     # List all delegated operations
-    fiftyone delegated list
+    tensorgrid delegated list
 
 .. code-block:: shell
 
     # List some specific delegated operations
-    fiftyone delegated list \
+    tensorgrid delegated list \
         --dataset quickstart \
         --operator @voxel51/io/export_samples \
         --state COMPLETED \
@@ -1119,7 +1119,7 @@ Prints information about a delegated operation.
 
 .. code-block:: text
 
-    fiftyone delegated info [-h] ID
+    tensorgrid delegated info [-h] ID
 
 **Arguments**
 
@@ -1136,7 +1136,7 @@ Prints information about a delegated operation.
 .. code-block:: shell
 
     # Print information about a delegated operation
-    fiftyone delegated info <id>
+    tensorgrid delegated info <id>
 
 .. _cli-fiftyone-delegated-output:
 
@@ -1147,7 +1147,7 @@ Prints the output for a delegated operation.
 
 .. code-block:: text
 
-    fiftyone delegated output [-h] ID
+    tensorgrid delegated output [-h] ID
 
 **Arguments**
 
@@ -1164,7 +1164,7 @@ Prints the output for a delegated operation.
 .. code-block:: shell
 
     # Print the output for a delegated operation
-    fiftyone delegated output <id>
+    tensorgrid delegated output <id>
 
 .. _cli-fiftyone-delegated-fail:
 
@@ -1175,7 +1175,7 @@ Manually mark delegated operations as failed.
 
 .. code-block:: text
 
-    fiftyone delegated fail [-h] [IDS ...]
+    tensorgrid delegated fail [-h] [IDS ...]
 
 **Arguments**
 
@@ -1192,7 +1192,7 @@ Manually mark delegated operations as failed.
 .. code-block:: shell
 
     # Manually mark the specified operation(s) as FAILED
-    fiftyone delegated fail <id1> <id2> ...
+    tensorgrid delegated fail <id1> <id2> ...
 
 .. _cli-fiftyone-delegated-delete:
 
@@ -1203,7 +1203,7 @@ Delete delegated operations.
 
 .. code-block:: text
 
-    fiftyone delegated delete [-h] [IDS ...]
+    tensorgrid delegated delete [-h] [IDS ...]
 
 **Arguments**
 
@@ -1220,7 +1220,7 @@ Delete delegated operations.
 .. code-block:: shell
 
     # Delete the specified operation(s)
-    fiftyone delegated delete <id1> <id2> ...
+    tensorgrid delegated delete <id1> <id2> ...
 
 .. _cli-fiftyone-delegated-cleanup:
 
@@ -1231,7 +1231,7 @@ Cleanup delegated operations.
 
 .. code-block:: text
 
-    fiftyone delegated cleanup [-h]
+    tensorgrid delegated cleanup [-h]
                                [-o OPERATOR]
                                [-d DATASET]
                                [-s STATE]
@@ -1261,28 +1261,28 @@ Cleanup delegated operations.
 .. code-block:: shell
 
     # Delete all failed operations associated with a given dataset
-    fiftyone delegated cleanup --dataset quickstart --state FAILED
+    tensorgrid delegated cleanup --dataset quickstart --state FAILED
 
 .. code-block:: shell
 
     # Delete all delegated operations associated with non-existent datasets
-    fiftyone delegated cleanup --orphan
+    tensorgrid delegated cleanup --orphan
 
 .. code-block:: shell
 
     # Print information about operations rather than actually deleting them
-    fiftyone delegated cleanup --orphan --dry-run
+    tensorgrid delegated cleanup --orphan --dry-run
 
 .. _cli-fiftyone-plugins:
 
-FiftyOne plugins
+TensorGrid plugins
 ----------------
 
-Tools for working with FiftyOne plugins.
+Tools for working with TensorGrid plugins.
 
 .. code-block:: text
 
-    fiftyone plugins [-h] [--all-help] {list,info,download,requirements,create,enable,disable,delete} ...
+    tensorgrid plugins [-h] [--all-help] {list,info,download,requirements,create,enable,disable,delete} ...
 
 **Arguments**
 
@@ -1313,7 +1313,7 @@ List plugins that are installed locally.
 
 .. code-block:: text
 
-    fiftyone plugins list [-h] [-g PATT] [-t TAGS [TAGS ...]] [-e] [-d] [-b] [-c] [-n]
+    tensorgrid plugins list [-h] [-g PATT] [-t TAGS [TAGS ...]] [-e] [-d] [-b] [-c] [-n]
 
 **Arguments**
 
@@ -1336,32 +1336,32 @@ List plugins that are installed locally.
 .. code-block:: shell
 
     # List all available plugins
-    fiftyone plugins list
+    tensorgrid plugins list
 
 .. code-block:: shell
 
     # List plugins whose name matches the given glob pattern
-    fiftyone plugins list --glob-patt '@voxel51/*'
+    tensorgrid plugins list --glob-patt '@voxel51/*'
 
 .. code-block:: shell
 
     # List plugins with the given tag
-    fiftyone plugins list --tags <tag>
+    tensorgrid plugins list --tags <tag>
 
 .. code-block:: shell
 
     # List enabled plugins
-    fiftyone plugins list --enabled
+    tensorgrid plugins list --enabled
 
 .. code-block:: shell
 
     # List disabled plugins
-    fiftyone plugins list --disabled
+    tensorgrid plugins list --disabled
 
 .. code-block:: shell
 
     # List non-builtin plugins
-    fiftyone plugins list --no-builtins
+    tensorgrid plugins list --no-builtins
 
 .. _cli-fiftyone-plugins-info:
 
@@ -1372,7 +1372,7 @@ List plugins that are installed locally.
 
 .. code-block:: text
 
-    fiftyone plugins info [-h] NAME_OR_DIR
+    tensorgrid plugins info [-h] NAME_OR_DIR
 
 **Arguments**
 
@@ -1389,10 +1389,10 @@ List plugins that are installed locally.
 .. code-block:: shell
 
     # Prints information about a plugin
-    fiftyone plugins info <name>
+    tensorgrid plugins info <name>
 
     # Prints information about a plugin in a given directory
-    fiftyone plugins info <dir>
+    tensorgrid plugins info <dir>
 
 .. _cli-fiftyone-plugins-download:
 
@@ -1417,7 +1417,7 @@ formats:
 
 .. code-block:: text
 
-    fiftyone plugins download [-h] [-n [PLUGIN_NAMES ...]] [-o] URL_OR_GH_REPO
+    tensorgrid plugins download [-h] [-n [PLUGIN_NAMES ...]] [-o] URL_OR_GH_REPO
 
 **Arguments**
 
@@ -1437,17 +1437,17 @@ formats:
 .. code-block:: shell
 
     # Download plugins from a GitHub repository URL
-    fiftyone plugins download <github-repo-url>
+    tensorgrid plugins download <github-repo-url>
 
 .. code-block:: shell
 
     # Download plugins by specifying the GitHub repository details
-    fiftyone plugins download <user>/<repo>[/<ref>]
+    tensorgrid plugins download <user>/<repo>[/<ref>]
 
 .. code-block:: shell
 
     # Download specific plugins from a URL
-    fiftyone plugins download <url> --plugin-names <name1> <name2> <name3>
+    tensorgrid plugins download <url> --plugin-names <name1> <name2> <name3>
 
 .. _cli-fiftyone-plugins-search:
 
@@ -1472,7 +1472,7 @@ formats:
 
 .. code-block:: text
 
-    fiftyone plugins search [-h] [--path PATH] URL_OR_GH_REPO
+    tensorgrid plugins search [-h] [--path PATH] URL_OR_GH_REPO
 
 **Arguments**
 
@@ -1490,18 +1490,18 @@ formats:
 .. code-block:: shell
 
     # Search for plugins by specifying a GitHub repository URL
-    fiftyone plugins search <github-repo-url>
+    tensorgrid plugins search <github-repo-url>
 
 .. code-block:: shell
 
     # Search for plugins by specifying the GitHub repository details
-    fiftyone plugins search <user>/<repo>[/<ref>]
+    tensorgrid plugins search <user>/<repo>[/<ref>]
 
 .. code-block:: shell
 
     # Search for plugins by specifying a path inside the repository
-    fiftyone plugins search <github-repo-url> --path path/to/dir
-    fiftyone plugins search <user>/<repo>[/<ref>] --path path/to/dir
+    tensorgrid plugins search <github-repo-url> --path path/to/dir
+    tensorgrid plugins search <user>/<repo>[/<ref>] --path path/to/dir
 
 .. _cli-fiftyone-plugins-requirements:
 
@@ -1512,7 +1512,7 @@ Handles package requirements for plugins.
 
 .. code-block:: text
 
-    fiftyone plugins requirements [-h] [-p] [-i] [-e] [--error-level LEVEL] NAME
+    tensorgrid plugins requirements [-h] [-p] [-i] [-e] [--error-level LEVEL] NAME
 
 **Arguments**
 
@@ -1533,17 +1533,17 @@ Handles package requirements for plugins.
 .. code-block:: shell
 
     # Print requirements for a plugin
-    fiftyone plugins requirements <name> --print
+    tensorgrid plugins requirements <name> --print
 
 .. code-block:: shell
 
     # Install any requirements for the plugin
-    fiftyone plugins requirements <name> --install
+    tensorgrid plugins requirements <name> --install
 
 .. code-block:: shell
 
     # Ensures that the requirements for the plugin are satisfied
-    fiftyone plugins requirements <name> --ensure
+    tensorgrid plugins requirements <name> --ensure
 
 .. _cli-fiftyone-plugins-create:
 
@@ -1554,7 +1554,7 @@ Creates or initializes a plugin.
 
 .. code-block:: text
 
-    fiftyone plugins create [-h]
+    tensorgrid plugins create [-h]
                             [-f [FILES ...]]
                             [-d OUTDIR]
                             [--label LABEL]
@@ -1580,7 +1580,7 @@ Creates or initializes a plugin.
       --label LABEL         a display name for the plugin
       --description DESCRIPTION
                             a description for the plugin
-      --version VERSION     an optional FiftyOne version requirement for the plugin
+      --version VERSION     an optional TensorGrid version requirement for the plugin
       -o, --overwrite       whether to overwrite existing plugins
       --kwargs KEY=VAL [KEY=VAL ...]
                             additional keyword arguments to include in the plugin definition
@@ -1590,12 +1590,12 @@ Creates or initializes a plugin.
 .. code-block:: text
 
     # Initialize a new plugin
-    fiftyone plugins create <name>
+    tensorgrid plugins create <name>
 
 .. code-block:: shell
 
     # Create a plugin from existing files
-    fiftyone plugins create \
+    tensorgrid plugins create \
         <name> \
         --from-files /path/to/dir \
         --label <label> \
@@ -1610,7 +1610,7 @@ Enables the given plugin(s).
 
 .. code-block:: text
 
-    fiftyone plugins enable [-h] [-a] [NAME ...]
+    tensorgrid plugins enable [-h] [-a] [NAME ...]
 
 **Arguments**
 
@@ -1628,17 +1628,17 @@ Enables the given plugin(s).
 .. code-block:: shell
 
     # Enable a plugin
-    fiftyone plugins enable <name>
+    tensorgrid plugins enable <name>
 
 .. code-block:: shell
 
     # Enable multiple plugins
-    fiftyone plugins enable <name1> <name2> ...
+    tensorgrid plugins enable <name1> <name2> ...
 
 .. code-block:: shell
 
     # Enable all plugins
-    fiftyone plugins enable --all
+    tensorgrid plugins enable --all
 
 .. _cli-fiftyone-plugins-disable:
 
@@ -1649,7 +1649,7 @@ Disables the given plugin(s).
 
 .. code-block:: text
 
-    fiftyone plugins disable [-h] [-a] [NAME ...]
+    tensorgrid plugins disable [-h] [-a] [NAME ...]
 
 **Arguments**
 
@@ -1667,17 +1667,17 @@ Disables the given plugin(s).
 .. code-block:: shell
 
     # Disable a plugin
-    fiftyone plugins disable <name>
+    tensorgrid plugins disable <name>
 
 .. code-block:: shell
 
     # Disable multiple plugins
-    fiftyone plugins disable <name1> <name2> ...
+    tensorgrid plugins disable <name1> <name2> ...
 
 .. code-block:: shell
 
     # Disable all plugins
-    fiftyone plugins disable --all
+    tensorgrid plugins disable --all
 
 .. _cli-fiftyone-plugins-delete:
 
@@ -1688,7 +1688,7 @@ Delete plugins from your local machine.
 
 .. code-block:: text
 
-    fiftyone plugins delete [-h] [-a] [NAME ...]
+    tensorgrid plugins delete [-h] [-a] [NAME ...]
 
 **Arguments**
 
@@ -1706,28 +1706,28 @@ Delete plugins from your local machine.
 .. code-block:: shell
 
     # Delete a plugin from local disk
-    fiftyone plugins delete <name>
+    tensorgrid plugins delete <name>
 
 .. code-block:: shell
 
     # Delete multiple plugins from local disk
-    fiftyone plugins delete <name1> <name2> ...
+    tensorgrid plugins delete <name1> <name2> ...
 
 .. code-block:: shell
 
     # Delete all plugins from local disk
-    fiftyone plugins delete --all
+    tensorgrid plugins delete --all
 
 .. _cli-fiftyone-labs:
 
-FiftyOne Labs
+TensorGrid Labs
 -------------
 
-Tools for working with FiftyOne Labs.
+Tools for working with TensorGrid Labs.
 
 .. code-block:: text
 
-    fiftyone labs [-h] [--all-help] {install,uninstall,list,search} ...
+    tensorgrid labs [-h] [--all-help] {install,uninstall,list,search} ...
 
 **Arguments**
 
@@ -1739,21 +1739,21 @@ Tools for working with FiftyOne Labs.
 
     available commands:
       {install,uninstall,list,search}
-        install             Install FiftyOne Labs features on your local machine.
-        uninstall           Uninstall FiftyOne Labs features from your local machine.
-        list                List installed FiftyOne Labs features on your local machine.
-        search              Search for available FiftyOne Labs features.
+        install             Install TensorGrid Labs features on your local machine.
+        uninstall           Uninstall TensorGrid Labs features from your local machine.
+        list                List installed TensorGrid Labs features on your local machine.
+        search              Search for available TensorGrid Labs features.
 
 .. _cli-fiftyone-labs-install:
 
 Install Labs features
 ~~~~~~~~~~~~~~~~~~~~~
 
-Install FiftyOne Labs features on your local machine.
+Install TensorGrid Labs features on your local machine.
 
 .. code-block:: text
 
-    fiftyone labs install [-h] [-a] [-o] [--branch BRANCH] [NAME ...]
+    tensorgrid labs install [-h] [-a] [-o] [--branch BRANCH] [NAME ...]
 
 **Arguments**
 
@@ -1772,24 +1772,24 @@ Install FiftyOne Labs features on your local machine.
 
 .. code-block:: shell
 
-    # Install specific FiftyOne labs feature(s)
-    fiftyone labs install <name1> <name2> ...
+    # Install specific TensorGrid labs feature(s)
+    tensorgrid labs install <name1> <name2> ...
 
 .. code-block:: shell
 
-    # Install all FiftyOne Labs features
-    fiftyone labs install --all
+    # Install all TensorGrid Labs features
+    tensorgrid labs install --all
 
 .. _cli-fiftyone-labs-uninstall:
 
 Uninstall Labs features
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Uninstall FiftyOne Labs features from your local machine.
+Uninstall TensorGrid Labs features from your local machine.
 
 .. code-block:: text
 
-    fiftyone labs uninstall [-h] [-a] [NAME ...]
+    tensorgrid labs uninstall [-h] [-a] [NAME ...]
 
 **Arguments**
 
@@ -1807,23 +1807,23 @@ Uninstall FiftyOne Labs features from your local machine.
 .. code-block:: shell
 
     # Uninstall specific Labs feature(s)
-    fiftyone labs uninstall <name1> <name2> ...
+    tensorgrid labs uninstall <name1> <name2> ...
 
 .. code-block:: shell
 
     # Uninstall all Labs features
-    fiftyone labs uninstall --all
+    tensorgrid labs uninstall --all
 
 .. _cli-fiftyone-labs-list:
 
 List Labs features
 ~~~~~~~~~~~~~~~~~~
 
-List installed FiftyOne Labs features on your local machine.
+List installed TensorGrid Labs features on your local machine.
 
 .. code-block:: text
 
-    fiftyone labs list [-h] [-n]
+    tensorgrid labs list [-h] [-n]
 
 **Arguments**
 
@@ -1838,18 +1838,18 @@ List installed FiftyOne Labs features on your local machine.
 .. code-block:: shell
 
     # List installed Labs features
-    fiftyone labs list
+    tensorgrid labs list
 
 .. _cli-fiftyone-labs-search:
 
 Search Labs features
 ~~~~~~~~~~~~~~~~~~~~
 
-Search for available FiftyOne Labs features.
+Search for available TensorGrid Labs features.
 
 .. code-block:: text
 
-    fiftyone labs search [-h] [--branch BRANCH] [--path PATH] [-n]
+    tensorgrid labs search [-h] [--branch BRANCH] [--path PATH] [-n]
 
 **Arguments**
 
@@ -1866,28 +1866,28 @@ Search for available FiftyOne Labs features.
 .. code-block:: shell
 
     # List available Labs features
-    fiftyone labs search
+    tensorgrid labs search
 
 .. code-block:: shell
 
     # List available Labs features in a specific Labs repository branch
-    fiftyone labs search --branch <branch_name>
+    tensorgrid labs search --branch <branch_name>
 
 .. code-block:: shell
 
     # List available Labs features in a specific Labs repository directory
-    fiftyone labs search --path path/to/dir
+    tensorgrid labs search --path path/to/dir
 
 .. _cli-fiftyone-utils:
 
-FiftyOne utilities
+TensorGrid utilities
 ------------------
 
-FiftyOne utilities.
+TensorGrid utilities.
 
 .. code-block:: text
 
-    fiftyone utils [-h] [--all-help]
+    tensorgrid utils [-h] [--all-help]
                    {compute-metadata,transform-images,transform-videos} ...
 
 **Arguments**
@@ -1913,7 +1913,7 @@ Populates the `metadata` field of all samples in the dataset.
 
 .. code-block:: text
 
-    fiftyone utils compute-metadata [-h] [-o] [-n NUM_WORKERS] [-s] DATASET_NAME
+    tensorgrid utils compute-metadata [-h] [-o] [-n NUM_WORKERS] [-s] DATASET_NAME
 
 **Arguments**
 
@@ -1935,12 +1935,12 @@ Populates the `metadata` field of all samples in the dataset.
 .. code-block:: shell
 
     # Populate all missing `metadata` sample fields
-    fiftyone utils compute-metadata <dataset-name>
+    tensorgrid utils compute-metadata <dataset-name>
 
 .. code-block:: shell
 
     # (Re)-populate the `metadata` field for all samples
-    fiftyone utils compute-metadata <dataset-name> --overwrite
+    tensorgrid utils compute-metadata <dataset-name> --overwrite
 
 .. _cli-fiftyone-utils-transform-images:
 
@@ -1951,7 +1951,7 @@ Transforms the images in a dataset per the specified parameters.
 
 .. code-block:: text
 
-    fiftyone utils transform-images [-h] [--size SIZE] [--min-size MIN_SIZE]
+    tensorgrid utils transform-images [-h] [--size SIZE] [--min-size MIN_SIZE]
                                     [--max-size MAX_SIZE] [-i INTERPOLATION]
                                     [-e EXT] [-f] [--media-field MEDIA_FIELD]
                                     [--output-field OUTPUT_FIELD]
@@ -2011,12 +2011,12 @@ Transforms the images in a dataset per the specified parameters.
 .. code-block:: shell
 
     # Convert the images in the dataset to PNGs
-    fiftyone utils transform-images <dataset-name> --ext .png --delete-originals
+    tensorgrid utils transform-images <dataset-name> --ext .png --delete-originals
 
 .. code-block:: shell
 
     # Ensure that no images in the dataset exceed 1920 x 1080
-    fiftyone utils transform-images <dataset-name> --max-size 1920,1080
+    tensorgrid utils transform-images <dataset-name> --max-size 1920,1080
 
 .. _cli-fiftyone-utils-transform-videos:
 
@@ -2027,7 +2027,7 @@ Transforms the videos in a dataset per the specified parameters.
 
 .. code-block:: text
 
-    fiftyone utils transform-videos [-h] [--fps FPS] [--min-fps MIN_FPS]
+    tensorgrid utils transform-videos [-h] [--fps FPS] [--min-fps MIN_FPS]
                                     [--max-fps MAX_FPS] [--size SIZE]
                                     [--min-size MIN_SIZE] [--max-size MAX_SIZE]
                                     [-r] [-f]
@@ -2091,24 +2091,24 @@ Transforms the videos in a dataset per the specified parameters.
 .. code-block:: shell
 
     # Re-encode the videos in the dataset as H.264 MP4s
-    fiftyone utils transform-videos <dataset-name> --reencode
+    tensorgrid utils transform-videos <dataset-name> --reencode
 
 .. code-block:: shell
 
     # Ensure that no videos in the dataset exceed 1920 x 1080 and 30fps
-    fiftyone utils transform-videos <dataset-name> \
+    tensorgrid utils transform-videos <dataset-name> \
         --max-size 1920,1080 --max-fps 30.0
 
 .. _cli-fiftyone-annotation:
 
-FiftyOne Annotation
+TensorGrid Annotation
 -------------------
 
-Tools for working with the FiftyOne annotation API.
+Tools for working with the TensorGrid annotation API.
 
 .. code-block:: text
 
-    fiftyone annotation [-h] [--all-help] {config} ...
+    tensorgrid annotation [-h] [--all-help] {config} ...
 
 **Arguments**
 
@@ -2120,18 +2120,18 @@ Tools for working with the FiftyOne annotation API.
 
     available commands:
       {config}
-        config              Tools for working with your FiftyOne annotation config.
+        config              Tools for working with your TensorGrid annotation config.
 
 .. _cli-fiftyone-annotation-config:
 
 Annotation Config
 ~~~~~~~~~~~~~~~~~
 
-Tools for working with your FiftyOne annotation config.
+Tools for working with your TensorGrid annotation config.
 
 .. code-block:: text
 
-    fiftyone annotation config [-h] [-l] [FIELD]
+    tensorgrid annotation config [-h] [-l] [FIELD]
 
 **Arguments**
 
@@ -2149,28 +2149,28 @@ Tools for working with your FiftyOne annotation config.
 .. code-block:: shell
 
     # Print your entire annotation config
-    fiftyone annotation config
+    tensorgrid annotation config
 
 .. code-block:: shell
 
     # Print a specific annotation config field
-    fiftyone annotation config <field>
+    tensorgrid annotation config <field>
 
 .. code-block:: shell
 
     # Print the location of your annotation config on disk (if one exists)
-    fiftyone annotation config --locate
+    tensorgrid annotation config --locate
 
 .. _cli-fiftyone-app:
 
-FiftyOne App
+TensorGrid App
 ------------
 
-Tools for working with the FiftyOne App.
+Tools for working with the TensorGrid App.
 
 .. code-block:: text
 
-    fiftyone app [-h] [--all-help] {config,launch,debug,view,connect} ...
+    tensorgrid app [-h] [--all-help] {config,launch,debug,view,connect} ...
 
 **Arguments**
 
@@ -2183,21 +2183,21 @@ Tools for working with the FiftyOne App.
     available commands:
       {config,launch,view,connect}
         config              Tools for working with your App config.
-        launch              Launch the FiftyOne App.
-        debug               Launch the FiftyOne App in debug mode.
+        launch              Launch the TensorGrid App.
+        debug               Launch the TensorGrid App in debug mode.
         view                View datasets in the App without persisting them to the database.
-        connect             Connect to a remote FiftyOne App.
+        connect             Connect to a remote TensorGrid App.
 
 .. _cli-fiftyone-app-config:
 
 App Config
 ~~~~~~~~~~
 
-Tools for working with your FiftyOne App config.
+Tools for working with your TensorGrid App config.
 
 .. code-block:: text
 
-    fiftyone app config [-h] [-l] [FIELD]
+    tensorgrid app config [-h] [-l] [FIELD]
 
 **Arguments**
 
@@ -2215,28 +2215,28 @@ Tools for working with your FiftyOne App config.
 .. code-block:: shell
 
     # Print your entire App config
-    fiftyone app config
+    tensorgrid app config
 
 .. code-block:: shell
 
     # Print a specific App config field
-    fiftyone app config <field>
+    tensorgrid app config <field>
 
 .. code-block:: shell
 
     # Print the location of your App config on disk (if one exists)
-    fiftyone app config --locate
+    tensorgrid app config --locate
 
 .. _cli-fiftyone-app-launch:
 
 Launch the App
 ~~~~~~~~~~~~~~
 
-Launch the FiftyOne App.
+Launch the TensorGrid App.
 
 .. code-block:: text
 
-    fiftyone app launch [-h] [-p PORT] [-A ADDRESS] [-b BROWSER] [-r] [-a] [-w WAIT] [NAME]
+    tensorgrid app launch [-h] [-p PORT] [-A ADDRESS] [-b BROWSER] [-r] [-a] [-w WAIT] [NAME]
 
 **Arguments**
 
@@ -2263,33 +2263,33 @@ Launch the FiftyOne App.
 .. code-block:: shell
 
     # Launch the App
-    fiftyone app launch
+    tensorgrid app launch
 
 .. code-block:: shell
 
     # Launch the App with the given dataset loaded
-    fiftyone app launch <name>
+    tensorgrid app launch <name>
 
 .. code-block:: shell
 
     # Launch a remote App session
-    fiftyone app launch ... --remote
+    tensorgrid app launch ... --remote
 
 .. code-block:: shell
 
     # Launch an App session with a specific browser
-    fiftyone app launch ... --browser <name>
+    tensorgrid app launch ... --browser <name>
 
 .. _cli-fiftyone-app-debug:
 
 Launch the App (debug mode)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Launch the FiftyOne App in debug mode.
+Launch the TensorGrid App in debug mode.
 
 .. code-block:: text
 
-    fiftyone app debug [-h] [-p PORT] [-A ADDRESS]  [--headless] [NAME]
+    tensorgrid app debug [-h] [-p PORT] [-A ADDRESS]  [--headless] [NAME]
 
 **Arguments**
 
@@ -2310,23 +2310,23 @@ Launch the FiftyOne App in debug mode.
 .. code-block:: shell
 
     # Launch the App in debug mode
-    fiftyone app debug
+    tensorgrid app debug
 
 .. code-block:: shell
 
     # Launch the App in debug mode with a given dataset loaded
-    fiftyone app debug <name>
+    tensorgrid app debug <name>
 
 .. _cli-fiftyone-app-view:
 
 View datasets in App
 ~~~~~~~~~~~~~~~~~~~~
 
-View datasets in the FiftyOne App without persisting them to the database.
+View datasets in the TensorGrid App without persisting them to the database.
 
 .. code-block:: text
 
-    fiftyone app view [-h] [-n NAME] [-d DATASET_DIR] [-t TYPE] [-z NAME]
+    tensorgrid app view [-h] [-n NAME] [-d DATASET_DIR] [-t TYPE] [-z NAME]
                       [-s SPLITS [SPLITS ...]] [--images-dir IMAGES_DIR]
                       [--images-patt IMAGES_PATT] [--videos-dir VIDEOS_DIR]
                       [--videos-patt VIDEOS_PATT] [-j JSON_PATH] [-p PORT]
@@ -2342,7 +2342,7 @@ View datasets in the FiftyOne App without persisting them to the database.
       -n NAME, --name NAME  a name for the dataset
       -d DATASET_DIR, --dataset-dir DATASET_DIR
                             the directory containing the dataset to view
-      -t TYPE, --type TYPE  the fiftyone.types.Dataset type of the dataset
+      -t TYPE, --type TYPE  the tensorgrid.types.Dataset type of the dataset
       -z NAME, --zoo-dataset NAME
                             the name of a zoo dataset to view
       -s SPLITS [SPLITS ...], --splits SPLITS [SPLITS ...]
@@ -2367,65 +2367,65 @@ View datasets in the FiftyOne App without persisting them to the database.
                             regardless of connections
       -k KEY=VAL [KEY=VAL ...], --kwargs KEY=VAL [KEY=VAL ...]
                             additional type-specific keyword arguments for
-                            `fiftyone.core.dataset.Dataset.from_dir()`
+                            `tensorgrid.core.dataset.Dataset.from_dir()`
 
 **Examples**
 
 .. code-block:: shell
 
     # View a dataset stored on disk in the App
-    fiftyone app view --dataset-dir <dataset-dir> --type <type>
+    tensorgrid app view --dataset-dir <dataset-dir> --type <type>
 
 .. code-block:: shell
 
     # View a zoo dataset in the App
-    fiftyone app view --zoo-dataset <name> --splits <split1> ...
+    tensorgrid app view --zoo-dataset <name> --splits <split1> ...
 
 .. code-block:: shell
 
     # View a directory of images in the App
-    fiftyone app view --images-dir <images-dir>
+    tensorgrid app view --images-dir <images-dir>
 
 .. code-block:: shell
 
     # View a glob pattern of images in the App
-    fiftyone app view --images-patt <images-patt>
+    tensorgrid app view --images-patt <images-patt>
 
 .. code-block:: shell
 
     # View a directory of videos in the App
-    fiftyone app view --videos-dir <videos-dir>
+    tensorgrid app view --videos-dir <videos-dir>
 
 .. code-block:: shell
 
     # View a glob pattern of videos in the App
-    fiftyone app view --videos-patt <videos-patt>
+    tensorgrid app view --videos-patt <videos-patt>
 
 .. code-block:: shell
 
     # View a dataset stored in JSON format on disk in the App
-    fiftyone app view --json-path <json-path>
+    tensorgrid app view --json-path <json-path>
 
 .. code-block:: shell
 
     # View the dataset in a remote App session
-    fiftyone app view ... --remote
+    tensorgrid app view ... --remote
 
 .. code-block:: shell
 
     # View a random subset of the data stored on disk in the App
-    fiftyone app view ... --kwargs max_samples=50 shuffle=True
+    tensorgrid app view ... --kwargs max_samples=50 shuffle=True
 
 .. _cli-fiftyone-app-connect:
 
 Connect to remote App
 ~~~~~~~~~~~~~~~~~~~~~
 
-Connect to a remote FiftyOne App in your web browser.
+Connect to a remote TensorGrid App in your web browser.
 
 .. code-block:: text
 
-    fiftyone app connect [-h] [-d DESTINATION] [-p PORT] [-A ADDRESS] [-l PORT]
+    tensorgrid app connect [-h] [-d DESTINATION] [-p PORT] [-A ADDRESS] [-l PORT]
                          [-i KEY]
 
 **Arguments**
@@ -2447,33 +2447,33 @@ Connect to a remote FiftyOne App in your web browser.
 .. code-block:: shell
 
     # Connect to a remote App with port forwarding already configured
-    fiftyone app connect
+    tensorgrid app connect
 
 .. code-block:: shell
 
     # Connect to a remote App session
-    fiftyone app connect --destination <destination> --port <port>
+    tensorgrid app connect --destination <destination> --port <port>
 
 .. code-block:: shell
 
     # Connect to a remote App session using an ssh key
-    fiftyone app connect ... --ssh-key <path/to/key>
+    tensorgrid app connect ... --ssh-key <path/to/key>
 
 .. code-block:: shell
 
     # Connect to a remote App using a custom local port
-    fiftyone app connect ... --local-port <port>
+    tensorgrid app connect ... --local-port <port>
 
 .. _cli-fiftyone-brain:
 
-FiftyOne Brain
+TensorGrid Brain
 --------------
 
-Tools for working with the FiftyOne Brain.
+Tools for working with the TensorGrid Brain.
 
 .. code-block:: text
 
-    fiftyone brain [-h] [--all-help] {config} ...
+    tensorgrid brain [-h] [--all-help] {config} ...
 
 **Arguments**
 
@@ -2485,18 +2485,18 @@ Tools for working with the FiftyOne Brain.
 
     available commands:
       {config}
-        config              Tools for working with your FiftyOne Brain config.
+        config              Tools for working with your TensorGrid Brain config.
 
 .. _cli-fiftyone-brain-config:
 
 Brain Config
 ~~~~~~~~~~~~
 
-Tools for working with your FiftyOne Brain config.
+Tools for working with your TensorGrid Brain config.
 
 .. code-block:: text
 
-    fiftyone brain config [-h] [-l] [FIELD]
+    tensorgrid brain config [-h] [-l] [FIELD]
 
 **Arguments**
 
@@ -2514,28 +2514,28 @@ Tools for working with your FiftyOne Brain config.
 .. code-block:: shell
 
     # Print your entire brain config
-    fiftyone brain config
+    tensorgrid brain config
 
 .. code-block:: shell
 
     # Print a specific brain config field
-    fiftyone brain config <field>
+    tensorgrid brain config <field>
 
 .. code-block:: shell
 
     # Print the location of your brain config on disk (if one exists)
-    fiftyone brain config --locate
+    tensorgrid brain config --locate
 
 .. _cli-fiftyone-evaluation:
 
-FiftyOne Evaluation
+TensorGrid Evaluation
 -------------------
 
-Tools for working with the FiftyOne evaluation API.
+Tools for working with the TensorGrid evaluation API.
 
 .. code-block:: text
 
-    fiftyone evaluation [-h] [--all-help] {config} ...
+    tensorgrid evaluation [-h] [--all-help] {config} ...
 
 **Arguments**
 
@@ -2547,18 +2547,18 @@ Tools for working with the FiftyOne evaluation API.
 
     available commands:
       {config}
-        config              Tools for working with your FiftyOne evaluation config.
+        config              Tools for working with your TensorGrid evaluation config.
 
 .. _cli-fiftyone-evaluation-config:
 
 Evaluation Config
 ~~~~~~~~~~~~~~~~~
 
-Tools for working with your FiftyOne evaluation config.
+Tools for working with your TensorGrid evaluation config.
 
 .. code-block:: text
 
-    fiftyone evaluation config [-h] [-l] [FIELD]
+    tensorgrid evaluation config [-h] [-l] [FIELD]
 
 **Arguments**
 
@@ -2576,28 +2576,28 @@ Tools for working with your FiftyOne evaluation config.
 .. code-block:: shell
 
     # Print your entire evaluation config
-    fiftyone evaluation config
+    tensorgrid evaluation config
 
 .. code-block:: shell
 
     # Print a specific evaluation config field
-    fiftyone evaluation config <field>
+    tensorgrid evaluation config <field>
 
 .. code-block:: shell
 
     # Print the location of your evaluation config on disk (if one exists)
-    fiftyone evaluation config --locate
+    tensorgrid evaluation config --locate
 
 .. _cli-fiftyone-zoo:
 
-FiftyOne Zoo
+TensorGrid Zoo
 ------------
 
-Tools for working with the FiftyOne Zoo.
+Tools for working with the TensorGrid Zoo.
 
 .. code-block:: text
 
-    fiftyone zoo [-h] [--all-help] {datasets,models} ...
+    tensorgrid zoo [-h] [--all-help] {datasets,models} ...
 
 **Arguments**
 
@@ -2609,19 +2609,19 @@ Tools for working with the FiftyOne Zoo.
 
     available commands:
       {datasets,models}
-        datasets         Tools for working with the FiftyOne Dataset Zoo.
-        models           Tools for working with the FiftyOne Model Zoo.
+        datasets         Tools for working with the TensorGrid Dataset Zoo.
+        models           Tools for working with the TensorGrid Model Zoo.
 
 .. _cli-fiftyone-zoo-datasets:
 
-FiftyOne Dataset Zoo
+TensorGrid Dataset Zoo
 --------------------
 
-Tools for working with the FiftyOne Dataset Zoo.
+Tools for working with the TensorGrid Dataset Zoo.
 
 .. code-block:: text
 
-    fiftyone zoo datasets [-h] [--all-help]
+    tensorgrid zoo datasets [-h] [--all-help]
                           {list,find,info,download,load,delete} ...
 
 **Arguments**
@@ -2634,11 +2634,11 @@ Tools for working with the FiftyOne Dataset Zoo.
 
     available commands:
       {list,find,info,download,load,delete}
-        list                List datasets in the FiftyOne Dataset Zoo.
+        list                List datasets in the TensorGrid Dataset Zoo.
         find                Locate a downloaded zoo dataset on disk.
-        info                Print information about datasets in the FiftyOne Dataset Zoo.
+        info                Print information about datasets in the TensorGrid Dataset Zoo.
         download            Download zoo datasets.
-        load                Load zoo datasets as persistent FiftyOne datasets.
+        load                Load zoo datasets as persistent TensorGrid datasets.
         delete              Deletes the local copy of the zoo dataset on disk.
 
 .. _cli-fiftyone-zoo-datasets-list:
@@ -2646,11 +2646,11 @@ Tools for working with the FiftyOne Dataset Zoo.
 List datasets in zoo
 ~~~~~~~~~~~~~~~~~~~~
 
-List datasets in the FiftyOne Dataset Zoo.
+List datasets in the TensorGrid Dataset Zoo.
 
 .. code-block:: text
 
-    fiftyone zoo datasets list [-h] [-n] [-d] [-s SOURCE] [-t TAGS [TAGS ...]] [-l LICENSE [LICENSE ...]]
+    tensorgrid zoo datasets list [-h] [-n] [-d] [-s SOURCE] [-t TAGS [TAGS ...]] [-l LICENSE [LICENSE ...]]
 
 **Arguments**
 
@@ -2673,32 +2673,32 @@ List datasets in the FiftyOne Dataset Zoo.
 .. code-block:: shell
 
     # List available datasets
-    fiftyone zoo datasets list
+    tensorgrid zoo datasets list
 
 .. code-block:: shell
 
     # List available dataset names
-    fiftyone zoo datasets list --names-only
+    tensorgrid zoo datasets list --names-only
 
 .. code-block:: shell
 
     # List downloaded datasets
-    fiftyone zoo datasets list --downloaded-only
+    tensorgrid zoo datasets list --downloaded-only
 
 .. code-block:: shell
 
     # List available datasets from the given source
-    fiftyone zoo datasets list --source <source>
+    tensorgrid zoo datasets list --source <source>
 
 .. code-block:: shell
 
     # List available datasets with the given tag
-    fiftyone zoo datasets list --tags <tag>
+    tensorgrid zoo datasets list --tags <tag>
 
 .. code-block:: shell
 
     # List available datasets with the given license
-    fiftyone zoo datasets list --license <license>
+    tensorgrid zoo datasets list --license <license>
 
 .. _cli-fiftyone-zoo-datasets-find:
 
@@ -2709,7 +2709,7 @@ Locate a downloaded zoo dataset on disk.
 
 .. code-block:: text
 
-    fiftyone zoo datasets find [-h] [-s SPLIT] NAME_OR_URL
+    tensorgrid zoo datasets find [-h] [-s SPLIT] NAME_OR_URL
 
 **Arguments**
 
@@ -2727,29 +2727,29 @@ Locate a downloaded zoo dataset on disk.
 .. code-block:: shell
 
     # Print the location of a downloaded zoo dataset on disk
-    fiftyone zoo datasets find <name>
+    tensorgrid zoo datasets find <name>
 
 .. code-block:: shell
 
     # Print the location of a remotely-sourced zoo dataset on disk
-    fiftyone zoo datasets find https://github.com/<user>/<repo>
-    fiftyone zoo datasets find <url>
+    tensorgrid zoo datasets find https://github.com/<user>/<repo>
+    tensorgrid zoo datasets find <url>
 
 .. code-block:: shell
 
     # Print the location of a specific split of a dataset
-    fiftyone zoo datasets find <name> --split <split>
+    tensorgrid zoo datasets find <name> --split <split>
 
 .. _cli-fiftyone-zoo-datasets-info:
 
 Show zoo dataset info
 ~~~~~~~~~~~~~~~~~~~~~
 
-Print information about datasets in the FiftyOne Dataset Zoo.
+Print information about datasets in the TensorGrid Dataset Zoo.
 
 .. code-block:: text
 
-    fiftyone zoo datasets info [-h] NAME_OR_URL
+    tensorgrid zoo datasets info [-h] NAME_OR_URL
 
 **Arguments**
 
@@ -2766,13 +2766,13 @@ Print information about datasets in the FiftyOne Dataset Zoo.
 .. code-block:: shell
 
     # Print information about a zoo dataset
-    fiftyone zoo datasets info <name>
+    tensorgrid zoo datasets info <name>
 
 .. code-block:: shell
 
     # Print information about a remote zoo dataset
-    fiftyone zoo datasets info https://github.com/<user>/<repo>
-    fiftyone zoo datasets info <url>
+    tensorgrid zoo datasets info https://github.com/<user>/<repo>
+    tensorgrid zoo datasets info <url>
 
 .. _cli-fiftyone-zoo-datasets-download:
 
@@ -2798,7 +2798,7 @@ following formats:
 
 .. code-block:: text
 
-    fiftyone zoo datasets download [-h] [-s SPLITS [SPLITS ...]]
+    tensorgrid zoo datasets download [-h] [-s SPLITS [SPLITS ...]]
                                    [-k KEY=VAL [KEY=VAL ...]]
                                    NAME_OR_URL
 
@@ -2816,30 +2816,30 @@ following formats:
                             the dataset splits to download
       -k KEY=VAL [KEY=VAL ...], --kwargs KEY=VAL [KEY=VAL ...]
                             optional dataset-specific keyword arguments for
-                            `fiftyone.zoo.download_zoo_dataset()`
+                            `tensorgrid.zoo.download_zoo_dataset()`
 
 **Examples**
 
 .. code-block:: shell
 
     # Download a zoo dataset
-    fiftyone zoo datasets download <name>
+    tensorgrid zoo datasets download <name>
 
 .. code-block:: shell
 
     # Download a remotely-sourced zoo dataset
-    fiftyone zoo datasets download https://github.com/<user>/<repo>
-    fiftyone zoo datasets download <url>
+    tensorgrid zoo datasets download https://github.com/<user>/<repo>
+    tensorgrid zoo datasets download <url>
 
 .. code-block:: shell
 
     # Download the specified split(s) of a zoo dataset
-    fiftyone zoo datasets download <name> --splits <split1> ...
+    tensorgrid zoo datasets download <name> --splits <split1> ...
 
 .. code-block:: shell
 
     # Download a zoo dataset that requires extra keyword arguments
-    fiftyone zoo datasets download <name> \
+    tensorgrid zoo datasets download <name> \
         --kwargs source_dir=/path/to/source/files
 
 .. _cli-fiftyone-zoo-datasets-load:
@@ -2847,7 +2847,7 @@ following formats:
 Load zoo datasets
 ~~~~~~~~~~~~~~~~~
 
-Load zoo datasets as persistent FiftyOne datasets.
+Load zoo datasets as persistent TensorGrid datasets.
 
 When loading remotely-sourced zoo datasets, you can provide any of the
 following formats:
@@ -2866,7 +2866,7 @@ following formats:
 
 .. code-block:: text
 
-    fiftyone zoo datasets load [-h] [-s SPLITS [SPLITS ...]]
+    tensorgrid zoo datasets load [-h] [-s SPLITS [SPLITS ...]]
                                [-n DATASET_NAME] [-k KEY=VAL [KEY=VAL ...]]
                                NAME_OR_URL
 
@@ -2882,44 +2882,44 @@ following formats:
       -s SPLITS [SPLITS ...], --splits SPLITS [SPLITS ...]
                             the dataset splits to load
       -n DATASET_NAME, --dataset-name DATASET_NAME
-                            a custom name to give the FiftyOne dataset
+                            a custom name to give the TensorGrid dataset
       -k KEY=VAL [KEY=VAL ...], --kwargs KEY=VAL [KEY=VAL ...]
                             additional dataset-specific keyword arguments for
-                            `fiftyone.zoo.load_zoo_dataset()`
+                            `tensorgrid.zoo.load_zoo_dataset()`
 
 **Examples**
 
 .. code-block:: shell
 
     # Load the zoo dataset with the given name
-    fiftyone zoo datasets load <name>
+    tensorgrid zoo datasets load <name>
 
 .. code-block:: shell
 
     # Load a remotely-sourced zoo dataset
-    fiftyone zoo datasets load https://github.com/<user>/<repo>
-    fiftyone zoo datasets load <url>
+    tensorgrid zoo datasets load https://github.com/<user>/<repo>
+    tensorgrid zoo datasets load <url>
 
 .. code-block:: shell
 
     # Load the specified split(s) of a zoo dataset
-    fiftyone zoo datasets load <name> --splits <split1> ...
+    tensorgrid zoo datasets load <name> --splits <split1> ...
 
 .. code-block:: shell
 
     # Load a zoo dataset with a custom name
-    fiftyone zoo datasets load <name> --dataset-name <dataset-name>
+    tensorgrid zoo datasets load <name> --dataset-name <dataset-name>
 
 .. code-block:: shell
 
     # Load a zoo dataset that requires custom keyword arguments
-    fiftyone zoo datasets load <name> \
+    tensorgrid zoo datasets load <name> \
         --kwargs source_dir=/path/to/source_files
 
 .. code-block:: shell
 
     # Load a random subset of a zoo dataset
-    fiftyone zoo datasets load <name> \
+    tensorgrid zoo datasets load <name> \
         --kwargs max_samples=50 shuffle=True
 
 .. _cli-fiftyone-zoo-datasets-delete:
@@ -2931,7 +2931,7 @@ Deletes the local copy of the zoo dataset on disk.
 
 .. code-block:: text
 
-    fiftyone zoo datasets delete [-h] [-s SPLIT] NAME
+    tensorgrid zoo datasets delete [-h] [-s SPLIT] NAME
 
 **Arguments**
 
@@ -2950,23 +2950,23 @@ Deletes the local copy of the zoo dataset on disk.
 .. code-block:: shell
 
     # Delete an entire zoo dataset from disk
-    fiftyone zoo datasets delete <name>
+    tensorgrid zoo datasets delete <name>
 
 .. code-block:: shell
 
     # Delete a specific split of a zoo dataset from disk
-    fiftyone zoo datasets delete <name> --split <split>
+    tensorgrid zoo datasets delete <name> --split <split>
 
 .. _cli-fiftyone-zoo-models:
 
-FiftyOne Model Zoo
+TensorGrid Model Zoo
 ------------------
 
-Tools for working with the FiftyOne Model Zoo.
+Tools for working with the TensorGrid Model Zoo.
 
 .. code-block:: text
 
-    fiftyone zoo models [-h] [--all-help]
+    tensorgrid zoo models [-h] [--all-help]
                         {list,find,info,requirements,download,apply,embed,delete,list-sources,register-source,delete-source}
                         ...
 
@@ -2980,9 +2980,9 @@ Tools for working with the FiftyOne Model Zoo.
 
     available commands:
       {list,find,info,requirements,download,apply,embed,delete,register-source,delete-source}
-        list                List models in the FiftyOne Model Zoo.
+        list                List models in the TensorGrid Model Zoo.
         find                Locate the downloaded zoo model on disk.
-        info                Print information about models in the FiftyOne Model Zoo.
+        info                Print information about models in the TensorGrid Model Zoo.
         requirements        Handles package requirements for zoo models.
         download            Download zoo models.
         apply               Apply zoo models to datasets.
@@ -2997,11 +2997,11 @@ Tools for working with the FiftyOne Model Zoo.
 List models in zoo
 ~~~~~~~~~~~~~~~~~~
 
-List models in the FiftyOne Model Zoo.
+List models in the TensorGrid Model Zoo.
 
 .. code-block:: text
 
-    fiftyone zoo models list [-h] [-n] [-d] [-t TAGS [TAGS ...]] [-s SOURCE] [-l LICENSE [LICENSE ...]]
+    tensorgrid zoo models list [-h] [-n] [-d] [-t TAGS [TAGS ...]] [-s SOURCE] [-l LICENSE [LICENSE ...]]
 
 **Arguments**
 
@@ -3024,32 +3024,32 @@ List models in the FiftyOne Model Zoo.
 .. code-block:: shell
 
     # List available models
-    fiftyone zoo models list
+    tensorgrid zoo models list
 
 .. code-block:: shell
 
     # List available models (names only)
-    fiftyone zoo models list --names-only
+    tensorgrid zoo models list --names-only
 
 .. code-block:: shell
 
     # List downloaded models
-    fiftyone zoo models list --downloaded-only
+    tensorgrid zoo models list --downloaded-only
 
 .. code-block:: shell
 
     # List available models with the given tag
-    fiftyone zoo models list --tags <tag>
+    tensorgrid zoo models list --tags <tag>
 
 .. code-block:: shell
 
     # List available models from the given remote source
-    fiftyone zoo models list --source <source>
+    tensorgrid zoo models list --source <source>
 
 .. code-block:: shell
 
     # List available models with the given license
-    fiftyone zoo models list --license <license>
+    tensorgrid zoo models list --license <license>
 
 .. _cli-fiftyone-zoo-models-find:
 
@@ -3060,7 +3060,7 @@ Locate the downloaded zoo model on disk.
 
 .. code-block:: text
 
-    fiftyone zoo models find [-h] NAME
+    tensorgrid zoo models find [-h] NAME
 
 **Arguments**
 
@@ -3077,18 +3077,18 @@ Locate the downloaded zoo model on disk.
 .. code-block:: shell
 
     # Print the location of the downloaded zoo model on disk
-    fiftyone zoo models find <name>
+    tensorgrid zoo models find <name>
 
 .. _cli-fiftyone-zoo-models-info:
 
 Show zoo model info
 ~~~~~~~~~~~~~~~~~~~
 
-Print information about models in the FiftyOne Model Zoo.
+Print information about models in the TensorGrid Model Zoo.
 
 .. code-block:: text
 
-    fiftyone zoo models info [-h] NAME
+    tensorgrid zoo models info [-h] NAME
 
 **Arguments**
 
@@ -3105,7 +3105,7 @@ Print information about models in the FiftyOne Model Zoo.
 .. code-block:: shell
 
     # Print information about a zoo model
-    fiftyone zoo models info <name>
+    tensorgrid zoo models info <name>
 
 .. _cli-fiftyone-zoo-models-requirements:
 
@@ -3116,7 +3116,7 @@ Handles package requirements for zoo models.
 
 .. code-block:: text
 
-    fiftyone zoo models requirements [-h] [-p] [-i] [-e]
+    tensorgrid zoo models requirements [-h] [-p] [-i] [-e]
                                      [--error-level LEVEL]
                                      NAME
 
@@ -3140,17 +3140,17 @@ Handles package requirements for zoo models.
 .. code-block:: shell
 
     # Print requirements for a zoo model
-    fiftyone zoo models requirements <name> --print
+    tensorgrid zoo models requirements <name> --print
 
 .. code-block:: shell
 
     # Install any requirements for the zoo model
-    fiftyone zoo models requirements <name> --install
+    tensorgrid zoo models requirements <name> --install
 
 .. code-block:: shell
 
     # Ensures that the requirements for the zoo model are satisfied
-    fiftyone zoo models requirements <name> --ensure
+    tensorgrid zoo models requirements <name> --ensure
 
 .. _cli-fiftyone-zoo-models-download:
 
@@ -3175,7 +3175,7 @@ following:
 
 .. code-block:: text
 
-    fiftyone zoo models download [-h] [-n MODEL_NAME] [-o] NAME_OR_URL
+    tensorgrid zoo models download [-h] [-n MODEL_NAME] [-o] NAME_OR_URL
 
 **Arguments**
 
@@ -3196,14 +3196,14 @@ following:
 .. code-block:: shell
 
     # Download a zoo model
-    fiftyone zoo models download <name>
+    tensorgrid zoo models download <name>
 
 .. code-block:: shell
 
     # Download a remotely-sourced zoo model
-    fiftyone zoo models download https://github.com/<user>/<repo> \
+    tensorgrid zoo models download https://github.com/<user>/<repo> \
         --model-name <name>
-    fiftyone zoo models download <url> --model-name <name>
+    tensorgrid zoo models download <url> --model-name <name>
 
 .. _cli-fiftyone-zoo-models-apply:
 
@@ -3229,7 +3229,7 @@ formats:
 
 .. code-block:: text
 
-    fiftyone zoo models apply [-h] [-n MODEL_NAME] [-b BATCH_SIZE] [-t THRESH]
+    tensorgrid zoo models apply [-h] [-n MODEL_NAME] [-b BATCH_SIZE] [-t THRESH]
                               [-l] [-i] [--error-level LEVEL]
                               NAME_OR_URL DATASET_NAME LABEL_FIELD
 
@@ -3239,7 +3239,7 @@ formats:
 
     positional arguments:
       NAME_OR_URL           the name or remote location of the zoo model
-      DATASET_NAME          the name of the FiftyOne dataset to process
+      DATASET_NAME          the name of the TensorGrid dataset to process
       LABEL_FIELD           the name of the field in which to store the predictions
 
     optional arguments:
@@ -3262,20 +3262,20 @@ formats:
 .. code-block:: shell
 
     # Apply a zoo model to a dataset
-    fiftyone zoo models apply <model-name> <dataset-name> <label-field>
+    tensorgrid zoo models apply <model-name> <dataset-name> <label-field>
 
 .. code-block:: shell
 
     # Apply a remotely-sourced zoo model to a dataset
-    fiftyone zoo models apply https://github.com/<user>/<repo> \
+    tensorgrid zoo models apply https://github.com/<user>/<repo> \
         <dataset-name> <label-field> --model-name <model-name>
-    fiftyone zoo models apply <url> \
+    tensorgrid zoo models apply <url> \
         <dataset-name> <label-field> --model-name <model-name>
 
 .. code-block:: shell
 
     # Apply a zoo classifier with some customized parameters
-    fiftyone zoo models apply \
+    tensorgrid zoo models apply \
         <model-name> <dataset-name> <label-field> \
         --confidence-thresh 0.7 \
         --store-logits \
@@ -3305,7 +3305,7 @@ formats:
 
 .. code-block:: text
 
-    fiftyone zoo models embed [-h] [-n MODEL_NAME] [-b BATCH_SIZE] [-i]
+    tensorgrid zoo models embed [-h] [-n MODEL_NAME] [-b BATCH_SIZE] [-i]
                               [--error-level LEVEL]
                               NAME_OR_URL DATASET_NAME EMBEDDINGS_FIELD
 
@@ -3315,7 +3315,7 @@ formats:
 
     positional arguments:
       NAME_OR_URL           the name or remote location of the zoo model
-      DATASET_NAME          the name of the FiftyOne dataset to process
+      DATASET_NAME          the name of the TensorGrid dataset to process
       EMBEDDINGS_FIELD      the name of the field in which to store the embeddings
 
     optional arguments:
@@ -3334,14 +3334,14 @@ formats:
 .. code-block:: shell
 
     # Generate embeddings for a dataset with a zoo model
-    fiftyone zoo models embed <model-name> <dataset-name> <embeddings-field>
+    tensorgrid zoo models embed <model-name> <dataset-name> <embeddings-field>
 
 .. code-block:: shell
 
     # Generate embeddings for a dataset with a remotely-sourced zoo model
-    fiftyone zoo models embed https://github.com/<user>/<repo> \
+    tensorgrid zoo models embed https://github.com/<user>/<repo> \
         <dataset-name> <embeddings-field> --model-name <model-name>
-    fiftyone zoo models embed <url> \
+    tensorgrid zoo models embed <url> \
         <dataset-name> <embeddings-field> --model-name <model-name>
 
 .. _cli-fiftyone-zoo-models-delete:
@@ -3353,7 +3353,7 @@ Deletes the local copy of the zoo model on disk.
 
 .. code-block:: text
 
-    fiftyone zoo models delete [-h] NAME
+    tensorgrid zoo models delete [-h] NAME
 
 **Arguments**
 
@@ -3370,7 +3370,7 @@ Deletes the local copy of the zoo model on disk.
 .. code-block:: shell
 
     # Delete the zoo model from disk
-    fiftyone zoo models delete <name>
+    tensorgrid zoo models delete <name>
 
 .. _cli-fiftyone-zoo-models-list-sources:
 
@@ -3381,14 +3381,14 @@ Lists remote zoo model sources that are registered locally.
 
 .. code-block:: text
 
-    fiftyone zoo models list-sources [-h]
+    tensorgrid zoo models list-sources [-h]
 
 **Examples**
 
 .. code-block:: shell
 
     # Lists the registered remote zoo model sources
-    fiftyone zoo models list-sources
+    tensorgrid zoo models list-sources
 
 .. _cli-fiftyone-zoo-models-register-source:
 
@@ -3413,7 +3413,7 @@ You can provide any of the following formats:
 
 .. code-block:: text
 
-    fiftyone zoo models register-source [-h] [-o] URL_OR_GH_REPO
+    tensorgrid zoo models register-source [-h] [-o] URL_OR_GH_REPO
 
 **Arguments**
 
@@ -3431,8 +3431,8 @@ You can provide any of the following formats:
 .. code-block:: shell
 
     # Register a remote zoo model source
-    fiftyone zoo models register-source https://github.com/<user>/<repo>
-    fiftyone zoo models register-source <url>
+    tensorgrid zoo models register-source https://github.com/<user>/<repo>
+    tensorgrid zoo models register-source <url>
 
 .. _cli-fiftyone-zoo-models-delete-source:
 
@@ -3451,7 +3451,7 @@ You can provide any of the following formats:
 
 .. code-block:: text
 
-    fiftyone zoo models delete-source [-h] URL_OR_GH_REPO
+    tensorgrid zoo models delete-source [-h] URL_OR_GH_REPO
 
 **Arguments**
 
@@ -3468,5 +3468,5 @@ You can provide any of the following formats:
 .. code-block:: shell
 
     # Delete a remote zoo model source
-    fiftyone zoo models delete-source https://github.com/<user>/<repo>
-    fiftyone zoo models delete-source <url>
+    tensorgrid zoo models delete-source https://github.com/<user>/<repo>
+    tensorgrid zoo models delete-source <url>

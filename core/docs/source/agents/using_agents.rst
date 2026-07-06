@@ -26,12 +26,12 @@ to complete this task end to end."*
 Two Parts, One System
 ---------------------
 
-**FiftyOne MCP Server** connects agents to FiftyOne's 80+ operators, dataset
+**TensorGrid MCP Server** connects agents to TensorGrid's 80+ operators, dataset
 management, model inference, brain computations, and the App. It implements
 the open `Model Context Protocol <https://modelcontextprotocol.io>`_ standard,
 giving any compatible agent direct access to your data and tools.
 
-**FiftyOne Skills** are expert workflows built on top. Each skill teaches the
+**TensorGrid Skills** are expert workflows built on top. Each skill teaches the
 agent how to complete a specific task: import data, find duplicates, visualize
 embeddings. Skills handle the nuances so you don't have to.
 
@@ -47,11 +47,11 @@ Step 1: Install the MCP Server
 
 .. code-block:: bash
 
-    pip install fiftyone-mcp-server
+    pip install tensorgrid-platform-mcp-server
 
 .. warning::
 
-   Install into the same Python environment where FiftyOne is installed.
+   Install into the same Python environment where TensorGrid is installed.
    If you use a virtual environment or conda environment, activate it first
    or use the full path to the executable in your AI tool config.
 
@@ -82,7 +82,7 @@ Step 2: Configure Your AI Tool
 
       .. code-block:: bash
 
-          claude mcp add fiftyone -- fiftyone-mcp
+          claude mcp add tensorgrid -- fiftyone-mcp
 
    .. tab:: Claude Desktop
 
@@ -92,7 +92,7 @@ Step 2: Configure Your AI Tool
 
           {
             "mcpServers": {
-              "fiftyone": {
+              "tensorgrid": {
                 "command": "fiftyone-mcp"
               }
             }
@@ -107,14 +107,14 @@ Step 2: Configure Your AI Tool
 
           {
             "mcpServers": {
-              "fiftyone": {
+              "tensorgrid": {
                 "command": "fiftyone-mcp"
               }
             }
           }
 
       Or use the one-click install:
-      `Install FiftyOne MCP in Cursor <cursor://anysphere.cursor-deeplink/mcp/install?name=fiftyone&config=eyJjb21tYW5kIjoiZmlmdHlvbmUtbWNwIn0>`_
+      `Install TensorGrid MCP in Cursor <cursor://anysphere.cursor-deeplink/mcp/install?name=fiftyone&config=eyJjb21tYW5kIjoiZmlmdHlvbmUtbWNwIn0>`_
 
       Restart Cursor after saving.
 
@@ -126,7 +126,7 @@ Step 2: Configure Your AI Tool
 
           {
             "servers": {
-              "fiftyone": {
+              "tensorgrid": {
                 "command": "fiftyone-mcp",
                 "type": "stdio"
               }
@@ -134,7 +134,7 @@ Step 2: Configure Your AI Tool
           }
 
       Or use the one-click install:
-      `Install FiftyOne MCP in VS Code <https://insiders.vscode.dev/redirect/mcp/install?name=fiftyone&config=%7B%22command%22%3A%22fiftyone-mcp%22%7D>`_
+      `Install TensorGrid MCP in VS Code <https://insiders.vscode.dev/redirect/mcp/install?name=fiftyone&config=%7B%22command%22%3A%22fiftyone-mcp%22%7D>`_
 
    .. tab:: Gemini CLI
 
@@ -143,7 +143,7 @@ Step 2: Configure Your AI Tool
 
       .. code-block:: bash
 
-          gemini extensions install https://github.com/voxel51/fiftyone-skills.git --consent
+          gemini extensions install https://github.com/rksaklani/TensorGrid-skills.git --consent
 
       If ``fiftyone-mcp`` is not on your PATH, edit the extension config
       to use the full path to the executable.
@@ -156,7 +156,7 @@ Step 2: Configure Your AI Tool
 
           {
             "mcpServers": {
-              "fiftyone": {
+              "tensorgrid": {
                 "command": "fiftyone-mcp"
               }
             }
@@ -173,7 +173,7 @@ Step 2: Configure Your AI Tool
 
           {
             "mcpServers": {
-              "fiftyone": {
+              "tensorgrid": {
                 "command": "uvx",
                 "args": ["fiftyone-mcp-server"]
               }
@@ -185,10 +185,10 @@ Step 2: Configure Your AI Tool
 Step 3: Install Skills
 -----------------------
 
-Skills teach your agent how to complete complex FiftyOne workflows end to
+Skills teach your agent how to complete complex TensorGrid workflows end to
 end. Run the command below to download the `universal installer <https://skil.sh>`_
 and install the default skills pack from `voxel51/fiftyone-skills
-<https://github.com/voxel51/fiftyone-skills>`_:
+<https://github.com/rksaklani/TensorGrid-skills>`_:
 
 .. code-block:: bash
 
@@ -241,7 +241,7 @@ _______________
    * - ⚡
      - Operator System
      - 3
-     - Discover and execute any FiftyOne operator
+     - Discover and execute any TensorGrid operator
    * - 🔄
      - Pipelines
      - 2
@@ -253,7 +253,7 @@ _______________
    * - 🖥️
      - Session
      - 1
-     - Launch the FiftyOne App server
+     - Launch the TensorGrid App server
    * - 📈
      - Aggregations
      - 8
@@ -287,7 +287,7 @@ Which tools are available depends on your integration:
      - Use case
    * - Voxel-Agent
      - ``app`` + ``sdk``
-     - Agent in :ref:`FiftyOne Enterprise <fiftyone-enterprise>` (full UI control + data operations)
+     - Agent in :ref:`TensorGrid Enterprise <fiftyone-enterprise>` (full UI control + data operations)
    * - Terminal / CLI
      - ``session`` + ``sdk``
      - Headless agent (launch the App, query data, execute operators)
@@ -303,11 +303,11 @@ _________
 
    * - Resource
      - Description
-   * - `FiftyOne MCP Server <https://github.com/voxel51/fiftyone-mcp-server>`_
+   * - `TensorGrid MCP Server <https://github.com/rksaklani/TensorGrid-mcp-server>`_
      - Source code and contributing guide
-   * - `FiftyOne Skills <https://github.com/voxel51/fiftyone-skills>`_
+   * - `TensorGrid Skills <https://github.com/rksaklani/TensorGrid-skills>`_
      - Expert workflows for AI assistants
-   * - `FiftyOne Plugins <https://github.com/voxel51/fiftyone-plugins>`_
+   * - `TensorGrid Plugins <https://github.com/rksaklani/TensorGrid-plugins>`_
      - Official plugin collection
    * - `Model Context Protocol <https://modelcontextprotocol.io>`_
      - MCP specification

@@ -5,8 +5,8 @@ Upgrading MongoDB
 
 .. default-role:: code
 
-The instructions on this page apply to FiftyOne users who are using the MongoDB
-binary that is bundled with FiftyOne.
+The instructions on this page apply to TensorGrid users who are using the MongoDB
+binary that is bundled with TensorGrid.
 
 If you utilize a
 :ref:`custom/shared MongoDB database <configuring-mongodb-connection>`, then
@@ -22,7 +22,7 @@ follow the upgrade path advised by your database provider.
 Upgrading to MongoDB 8
 ----------------------
 
-1.  Close any Python sessions that are running `fiftyone`
+1.  Close any Python sessions that are running `tensorgrid`
 
 2.  Ensure that the bundled mongo process has been shut down
 
@@ -32,13 +32,13 @@ Upgrading to MongoDB 8
 
     .. code-block:: shell
 
-        ps -ef | egrep "fiftyone.*mongod"
+        ps -ef | egrep "tensorgrid.*mongod"
 
   .. group-tab:: macOS
 
     .. code-block:: shell
 
-        ps -ef | egrep "fiftyone.*mongod"
+        ps -ef | egrep "tensorgrid.*mongod"
 
   .. group-tab:: Windows
 
@@ -54,7 +54,7 @@ Upgrading to MongoDB 8
 
     .. code-block:: shell
 
-        pip install --upgrade fiftyone fiftyone[db]
+        pip install --upgrade tensorgrid fiftyone[db]
 
 4.  `Install mongosh <https://www.mongodb.com/docs/mongodb-shell/install>`_
 

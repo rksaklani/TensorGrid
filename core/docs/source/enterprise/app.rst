@@ -1,24 +1,24 @@
 .. _enterprise-app:
 
-FiftyOne Enterprise App
+TensorGrid Enterprise App
 =======================
 
 .. default-role:: code
 
-The FiftyOne Enterprise App allows you to visualize, browse, and interact with your
-individual datasets like you can with the :ref:`FiftyOne App <fiftyone-app>`,
+The TensorGrid Enterprise App allows you to visualize, browse, and interact with your
+individual datasets like you can with the :ref:`TensorGrid App <fiftyone-app>`,
 but with expanded features for organizing, permissioning, versioning, and
 sharing your team's datasets, all from a centralized web portal.
 
 This page provides a brief overview of some features available only in the
-FiftyOne Enterprise App.
+TensorGrid Enterprise App.
 
 .. _enterprise-homepage:
 
 The homepage
 ____________
 
-When you login to the FiftyOne Enterprise App, you'll land on the homepage pictured
+When you login to the TensorGrid Enterprise App, you'll land on the homepage pictured
 below.
 
 In the top bar of this page, on the left side, the gray number next to
@@ -29,7 +29,7 @@ buttons at the bottom of the page to see different batches of datasets.
 .. note::
 
    You can return to the homepage from any page of the Enterprise App by clicking on
-   the Voxel51 logo in the upper left corner.
+   the TensorGrid logo in the upper left corner.
 
 .. image:: /images/enterprise/homepage.png
    :alt: app-homepage
@@ -127,7 +127,7 @@ description, and tags for the dataset:
 .. note::
 
    What next? Use the
-   :ref:`FiftyOne Enterprise Python SDK <enterprise-python-sdk>` to upload new
+   :ref:`TensorGrid Enterprise Python SDK <enterprise-python-sdk>` to upload new
    samples, labels, and metadata to your dataset. A common approach is to
    automate this process via
    :ref:`cloud functions <enterprise-cloud-functions>`.
@@ -140,7 +140,7 @@ _______________
 Click on a dataset from the homepage to open the dataset's "Samples" tab.
 
 From the Samples tab you can visualize, tag, filter, and explore your dataset
-just as you would via the :ref:`FiftyOne App <fiftyone-app>`.
+just as you would via the :ref:`TensorGrid App <fiftyone-app>`.
 
 .. image:: /images/enterprise/samples_page.png
    :alt: samples-page
@@ -156,7 +156,7 @@ just as you would via the :ref:`FiftyOne App <fiftyone-app>`.
 Managing a dataset
 __________________
 
-The FiftyOne Enterprise App provides a number of options for managing existing
+The TensorGrid Enterprise App provides a number of options for managing existing
 datasets, as described below.
 
 You can access these options from the :ref:`Samples tab <enterprise-using-datasets>`
@@ -228,7 +228,7 @@ the modal to confirm this action.
 
 .. note::
 
-   The FiftyOne Enterprise App ships with AI-assisted mask segmentation for
+   The TensorGrid Enterprise App ships with AI-assisted mask segmentation for
    annotation workflows. The feature works out of the box with no
    configuration. Deployments that prefer to serve the model weights from
    their own infrastructure can do so via the

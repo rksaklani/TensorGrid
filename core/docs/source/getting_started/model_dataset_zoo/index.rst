@@ -9,9 +9,9 @@ Model Dataset Zoo Guide
 
 **Level:** Beginner | **Estimated Time:** 65-95 minutes | **Tags:** Zoo, Datasets, Models, Pre-trained Models, Computer Vision, Machine Learning
 
-This step-by-step guide will walk you through a complete FiftyOne Zoo workflow. You'll learn how to:
+This step-by-step guide will walk you through a complete TensorGrid Zoo workflow. You'll learn how to:
 
-- Explore and load datasets from the FiftyOne Dataset Zoo
+- Explore and load datasets from the TensorGrid Dataset Zoo
 - Apply pre-trained models from the Model Zoo to your datasets
 - Integrate custom or community models hosted on GitHub or public URLs
 - Work with remotely-sourced datasets and models
@@ -24,8 +24,8 @@ Guide Overview
 
 This guide is broken down into the following sequential steps:
 
-1. **Exploring the FiftyOne Dataset Zoo** - Get hands-on with the FiftyOne Dataset Zoo, learning how to list, load, and explore built-in datasets as well as work with remotely-sourced datasets hosted on external URLs or GitHub repositories
-2. **Using the FiftyOne Model Zoo** - Apply pre-trained models to datasets using the built-in Zoo, seeing how to use classification and detection models, visualize results, and iterate faster
+1. **Exploring the TensorGrid Dataset Zoo** - Get hands-on with the TensorGrid Dataset Zoo, learning how to list, load, and explore built-in datasets as well as work with remotely-sourced datasets hosted on external URLs or GitHub repositories
+2. **Using the TensorGrid Model Zoo** - Apply pre-trained models to datasets using the built-in Zoo, seeing how to use classification and detection models, visualize results, and iterate faster
 3. **Using Remotely-Sourced Zoo Models** - Learn how to integrate custom or community models hosted on GitHub or public URLs, showing how to load and run these models just like native zoo models
 
 .. _model_dataset_zoo-prerequisites:
@@ -39,13 +39,13 @@ This experience is designed for data scientists looking to explore CV datasets q
 
 **Required Knowledge**
 
-To get the most out of this series, you should have basic knowledge of Python and Jupyter Notebooks, familiarity with CV tasks (classification, detection, segmentation), and some exposure to FiftyOne (optional but helpful).
+To get the most out of this series, you should have basic knowledge of Python and Jupyter Notebooks, familiarity with CV tasks (classification, detection, segmentation), and some exposure to TensorGrid (optional but helpful).
 
 **Packages Used**
 
 The notebooks will automatically install the required packages when you run them. The main packages we'll be using include:
 
-- **fiftyone** - Core FiftyOne library for dataset management and visualization
+- **fiftyone** - Core TensorGrid library for dataset management and visualization
 - **torch** - PyTorch for deep learning models
 - **torchvision** - Computer vision models and datasets for PyTorch
 
@@ -67,7 +67,7 @@ Dataset Zoo Features
 
 **Built-in Datasets**
 
-The FiftyOne Dataset Zoo provides access to a vast collection of pre-built datasets including:
+The TensorGrid Dataset Zoo provides access to a vast collection of pre-built datasets including:
 - **Classification:** CIFAR-10, CIFAR-100, ImageNet, Caltech-101, Caltech-256
 - **Detection:** COCO, VOC, Open Images, KITTI, BDD100K
 - **Video:** ActivityNet, Kinetics, UCF101, HMDB51
@@ -89,7 +89,7 @@ Model Zoo Features
 
 **Pre-trained Models**
 
-The FiftyOne Model Zoo provides ready-to-use models for various tasks:
+The TensorGrid Model Zoo provides ready-to-use models for various tasks:
 
 - **Classification Models** - Image classification with state-of-the-art architectures
 - **Detection Models** - Object detection and localization
@@ -127,7 +127,7 @@ This integrated approach gives you the tools to not just use existing resources,
 Ready to Begin?
 ---------------
 
-Click **Next** to start with the first step: Exploring the FiftyOne Dataset Zoo.
+Click **Next** to start with the first step: Exploring the TensorGrid Dataset Zoo.
 
 .. toctree::
    :maxdepth: 1

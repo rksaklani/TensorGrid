@@ -5,28 +5,28 @@ Roles and permissions
 
 .. default-role:: code
 
-FiftyOne Enterprise is built for collaboration, with the goal of making it as
+TensorGrid Enterprise is built for collaboration, with the goal of making it as
 easy as possible for engineers, data scientists, and stakeholders to work
 together to build high quality datasets and computer vision models.
 
-Accordingly, FiftyOne Enterprise gives you the flexibility to configure user
+Accordingly, TensorGrid Enterprise gives you the flexibility to configure user
 roles, user groups and fine-grained permissions so that you can safely and
 securely collaborate both inside and outside your organization at all stages of
 your workflows.
 
 This page introduces the basic roles and permissions available in
-FiftyOne Enterprise.
+TensorGrid Enterprise.
 
 .. _enterprise-roles:
 
 Roles
 _____
 
-FiftyOne Enterprise has five user roles: Admin, Member, Collaborator,
+TensorGrid Enterprise has five user roles: Admin, Member, Collaborator,
 Labeler, and Guest.
 
 Admins can access user management features by clicking on their account icon in
-the upper-right of the FiftyOne Enterprise App and navigating to the
+the upper-right of the TensorGrid Enterprise App and navigating to the
 "Settings > Team > Users" page:
 
 .. image:: /images/enterprise/admin_team_users_page.png
@@ -41,7 +41,7 @@ invitation.
 
    Invited users may login using any identity provider that has been enabled on
    your  deployment. If you need more information about configuring IdPs or
-   increasing your user quotas, contact your Voxel51 support team.
+   increasing your user quotas, contact your TensorGrid support team.
 
 .. image:: /images/enterprise/user_invitation.png
    :alt: user-invitation
@@ -95,7 +95,7 @@ granted access (a dataset's
 :ref:`default access level <enterprise-default-access>` does not apply to
 Labelers), and they may only be granted **Can view** or **Can tag** access
 to datasets. Additionally, Labelers can update annotations and metadata on
-samples using FiftyOne's :ref:`in-App annotation features <in-app-annotation>`,
+samples using TensorGrid's :ref:`in-App annotation features <in-app-annotation>`,
 but cannot make changes to the Annotation Schema.
 
 Labelers cannot create new datasets, clone existing datasets, export datasets, or
@@ -119,7 +119,7 @@ view other users of the deployment.
 Groups
 ------
 
-User groups in FiftyOne Enterprise allow organization admins to manage a
+User groups in TensorGrid Enterprise allow organization admins to manage a
 collection of users as a single entity. This simplifies the process of
 assigning permissions to multiple users, making it more efficient to control
 access to datasets.
@@ -155,7 +155,7 @@ Service accounts
 ----------------
 
 Service accounts are non-human principals designed for programmatic, automated,
-or machine-to-machine access to FiftyOne Enterprise. They authenticate
+or machine-to-machine access to TensorGrid Enterprise. They authenticate
 exclusively via API keys and cannot log in interactively through the App.
 
 Common use cases include:
@@ -163,7 +163,7 @@ Common use cases include:
 -  CI/CD pipelines that run model evaluation or dataset quality checks
 -  Data ingestion scripts that upload and curate samples automatically
 -  Automated annotation workflows and model-in-the-loop jobs
--  Any process that needs to interact with FiftyOne without a human user
+-  Any process that needs to interact with TensorGrid without a human user
 
 Unlike human users, service accounts have no email address, no user profile,
 and cannot receive invitations.
@@ -239,9 +239,9 @@ ___________
 
 Admins and users with the **Can manage** permission on a dataset can configure
 a dataset's permissions under the dataset's
-:ref:`Manage tab <enterprise-managing-datasets>` in the FiftyOne Enterprise App.
+:ref:`Manage tab <enterprise-managing-datasets>` in the TensorGrid Enterprise App.
 
-In FiftyOne Enterprise, dataset permissions for a user are determined by both
+In TensorGrid Enterprise, dataset permissions for a user are determined by both
 the access they receive from their groups' permissions and individual
 permissions assigned to them.
 
@@ -320,7 +320,7 @@ The following permissions are available to each user role:
 
    Authorized users can use the "Grant access" workflow to give **Can view**
    , **Can tag**, or **Can edit** access to a dataset to an email address that 
-   is not yet user of a FiftyOne Enterprise deployment.
+   is not yet user of a TensorGrid Enterprise deployment.
 
    When the invitation is accepted, the user will become a Guest if the
    **Can view** permission is chosen, a Labeler if the **Can tag** permission is

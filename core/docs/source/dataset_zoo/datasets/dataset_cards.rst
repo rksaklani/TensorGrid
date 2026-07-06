@@ -182,7 +182,7 @@
 
 .. customcarditem::
     :header: Quickstart
-    :description: Small demo dataset with 200 COCO-2017 validation images including ground truth and predictions. Perfect for learning FiftyOne basics and testing workflows.
+    :description: Small demo dataset with 200 COCO-2017 validation images including ground truth and predictions. Perfect for learning TensorGrid basics and testing workflows.
     :link: datasets/quickstart.html
     :image: ../_images/quickstart.png
     :tags: image,quickstart

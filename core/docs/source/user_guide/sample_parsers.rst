@@ -6,7 +6,7 @@ Using Sample Parsers
 .. default-role:: code
 
 This page describes how to use the |SampleParser| interface to add samples to
-your FiftyOne dataset from a stream of in-memory data.
+your TensorGrid dataset from a stream of in-memory data.
 
 The |SampleParser| interface provides native support for loading samples in a
 variety of :ref:`common formats <builtin-sample-parser>`, and it can be easily
@@ -20,7 +20,7 @@ allowing you to automate the dataset loading process.
     In most cases, you'll likely prefer
     :ref:`adding samples manually <loading-custom-datasets>` or
     :ref:`using dataset importers <importing-datasets>` to load data into
-    FiftyOne.
+    TensorGrid.
 
 .. _adding-samples-to-datasets:
 
@@ -41,8 +41,8 @@ parser along with an iterable of samples to the appropriate |Dataset| method.
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.utils.data as foud
+            import tensorgrid as tg
+            import tensorgrid.utils.data as foud
 
             dataset = fo.Dataset()
 
@@ -58,8 +58,8 @@ parser along with an iterable of samples to the appropriate |Dataset| method.
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.utils.data as foud
+            import tensorgrid as tg
+            import tensorgrid.utils.data as foud
 
             dataset = fo.Dataset()
 
@@ -75,8 +75,8 @@ parser along with an iterable of samples to the appropriate |Dataset| method.
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.utils.data as foud
+            import tensorgrid as tg
+            import tensorgrid.utils.data as foud
 
             dataset = fo.Dataset()
 
@@ -92,14 +92,14 @@ parser along with an iterable of samples to the appropriate |Dataset| method.
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.utils.data as foud
+            import tensorgrid as tg
+            import tensorgrid.utils.data as foud
 
             dataset = fo.Dataset()
 
             # An iterable of samples and a LabeledVideoSampleParser to parse them
             samples = ...
-            sample_parser = foud.FiftyOneVideoLabelsSampleParser  # for example
+            sample_parser = foud.TensorGridVideoLabelsSampleParser  # for example
 
             # Add the labeled video samples to the dataset
             dataset.add_labeled_videos(samples, sample_parser)
@@ -113,19 +113,19 @@ parser along with an iterable of samples to the appropriate |Dataset| method.
 Adding unlabeled images
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-FiftyOne provides a few convenient ways to add unlabeled images in FiftyOne
+TensorGrid provides a few convenient ways to add unlabeled images in TensorGrid
 datasets.
 
 Adding a directory of images
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use :meth:`Dataset.add_images_dir() <fiftyone.core.dataset.Dataset.add_images_dir>`
+Use :meth:`Dataset.add_images_dir() <tensorgrid.core.dataset.Dataset.add_images_dir>`
 to add a directory of images to a dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -138,13 +138,13 @@ to add a directory of images to a dataset:
 Adding a glob pattern of images
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use :meth:`Dataset.add_images_patt() <fiftyone.core.dataset.Dataset.add_images_patt>`
+Use :meth:`Dataset.add_images_patt() <tensorgrid.core.dataset.Dataset.add_images_patt>`
 to add a glob pattern of images to a dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -157,14 +157,14 @@ to add a glob pattern of images to a dataset:
 Adding images using a SampleParser
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use :meth:`Dataset.add_images() <fiftyone.core.dataset.Dataset.add_images>`
+Use :meth:`Dataset.add_images() <tensorgrid.core.dataset.Dataset.add_images>`
 to add an iterable of unlabeled images that can be parsed via a specified
 |UnlabeledImageSampleParser| to a dataset.
 
 **Example**
 
-FiftyOne provides an
-:class:`ImageSampleParser <fiftyone.utils.data.parsers.ImageSampleParser>`
+TensorGrid provides an
+:class:`ImageSampleParser <tensorgrid.utils.data.parsers.ImageSampleParser>`
 that handles samples that contain either an image that can be converted to
 `numpy format <https://numpy.org>`_ via ``np.asarray()`` of the path to an
 image on disk.
@@ -172,8 +172,8 @@ image on disk.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.data as foud
+    import tensorgrid as tg
+    import tensorgrid.utils.data as foud
 
     dataset = fo.Dataset()
 
@@ -188,14 +188,14 @@ image on disk.
 Adding labeled images
 ~~~~~~~~~~~~~~~~~~~~~
 
-Use :meth:`Dataset.add_labeled_images() <fiftyone.core.dataset.Dataset.add_labeled_images>`
+Use :meth:`Dataset.add_labeled_images() <tensorgrid.core.dataset.Dataset.add_labeled_images>`
 to add an iterable of samples that can be parsed via a specified
 |LabeledImageSampleParser| to a dataset.
 
 **Example**
 
-FiftyOne provides an
-:class:`ImageClassificationSampleParser <fiftyone.utils.data.parsers.ImageClassificationSampleParser>`
+TensorGrid provides an
+:class:`ImageClassificationSampleParser <tensorgrid.utils.data.parsers.ImageClassificationSampleParser>`
 that handles samples that contain ``(image_or_path, target)`` tuples, where:
 
 - ``image_or_path`` is either an image that can be converted to numpy
@@ -209,8 +209,8 @@ format to a dataset:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.data as foud
+    import tensorgrid as tg
+    import tensorgrid.utils.data as foud
 
     dataset = fo.Dataset()
 
@@ -225,19 +225,19 @@ format to a dataset:
 Adding unlabeled videos
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-FiftyOne provides a few convenient ways to add unlabeled videos in FiftyOne
+TensorGrid provides a few convenient ways to add unlabeled videos in TensorGrid
 datasets.
 
 Adding a directory of videos
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use :meth:`Dataset.add_videos_dir() <fiftyone.core.dataset.Dataset.add_videos_dir>`
+Use :meth:`Dataset.add_videos_dir() <tensorgrid.core.dataset.Dataset.add_videos_dir>`
 to add a directory of videos to a dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -250,13 +250,13 @@ to add a directory of videos to a dataset:
 Adding a glob pattern of videos
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use :meth:`Dataset.add_videos_patt() <fiftyone.core.dataset.Dataset.add_videos_patt>`
+Use :meth:`Dataset.add_videos_patt() <tensorgrid.core.dataset.Dataset.add_videos_patt>`
 to add a glob pattern of videos to a dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -269,21 +269,21 @@ to add a glob pattern of videos to a dataset:
 Adding videos using a SampleParser
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Use :meth:`Dataset.add_videos() <fiftyone.core.dataset.Dataset.add_videos>`
+Use :meth:`Dataset.add_videos() <tensorgrid.core.dataset.Dataset.add_videos>`
 to add an iterable of unlabeled videos that can be parsed via a specified
 |UnlabeledVideoSampleParser| to a dataset.
 
 **Example**
 
-FiftyOne provides a
-:class:`VideoSampleParser <fiftyone.utils.data.parsers.VideoSampleParser>`
+TensorGrid provides a
+:class:`VideoSampleParser <tensorgrid.utils.data.parsers.VideoSampleParser>`
 that handles samples that directly contain the path to the video on disk.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.data as foud
+    import tensorgrid as tg
+    import tensorgrid.utils.data as foud
 
     dataset = fo.Dataset()
 
@@ -298,14 +298,14 @@ that handles samples that directly contain the path to the video on disk.
 Adding labeled videos
 ~~~~~~~~~~~~~~~~~~~~~
 
-Use :meth:`Dataset.add_labeled_videos() <fiftyone.core.dataset.Dataset.add_labeled_videos>`
+Use :meth:`Dataset.add_labeled_videos() <tensorgrid.core.dataset.Dataset.add_labeled_videos>`
 to add an iterable of samples that can be parsed via a specified
 |LabeledVideoSampleParser| to a dataset.
 
 **Example**
 
-FiftyOne provides a
-:class:`VideoLabelsSampleParser <fiftyone.utils.data.parsers.VideoLabelsSampleParser>`
+TensorGrid provides a
+:class:`VideoLabelsSampleParser <tensorgrid.utils.data.parsers.VideoLabelsSampleParser>`
 that handles samples that contain ``(video_path, video_labels_or_path)``
 tuples, where:
 
@@ -320,8 +320,8 @@ to a dataset:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.data as foud
+    import tensorgrid as tg
+    import tensorgrid.utils.data as foud
 
     dataset = fo.Dataset()
 
@@ -338,16 +338,16 @@ to a dataset:
 Ingesting samples into datasets
 -------------------------------
 
-Creating FiftyOne datasets typically does not create copies of the source media,
+Creating TensorGrid datasets typically does not create copies of the source media,
 since |Sample| instances store the `filepath` to the media, not the media itself.
 
 However, in certain circumstances, such as loading data from binary sources
 like `TFRecords <https://www.tensorflow.org/tutorials/load_data/tfrecord>`_
-or creating a FiftyOne dataset from unorganized and/or temporary files on disk,
+or creating a TensorGrid dataset from unorganized and/or temporary files on disk,
 it can be desirable to *ingest* the raw media for each sample into a common
 backing location.
 
-FiftyOne provides support for ingesting samples and their underlying source
+TensorGrid provides support for ingesting samples and their underlying source
 media in both :ref:`common formats <builtin-sample-parser>` and can be extended
 to import datasets in :ref:`custom formats <custom-sample-parser>`.
 
@@ -366,8 +366,8 @@ appropriate |Dataset| method.
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.utils.data as foud
+            import tensorgrid as tg
+            import tensorgrid.utils.data as foud
 
             dataset = fo.Dataset()
 
@@ -389,8 +389,8 @@ appropriate |Dataset| method.
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.utils.data as foud
+            import tensorgrid as tg
+            import tensorgrid.utils.data as foud
 
             dataset = fo.Dataset()
 
@@ -411,8 +411,8 @@ appropriate |Dataset| method.
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.utils.data as foud
+            import tensorgrid as tg
+            import tensorgrid.utils.data as foud
 
             dataset = fo.Dataset()
 
@@ -434,8 +434,8 @@ appropriate |Dataset| method.
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
-            import fiftyone.utils.data as foud
+            import tensorgrid as tg
+            import tensorgrid.utils.data as foud
 
             dataset = fo.Dataset()
 
@@ -460,22 +460,22 @@ appropriate |Dataset| method.
 Ingesting unlabeled images
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use :meth:`Dataset.ingest_images() <fiftyone.core.dataset.Dataset.ingest_images>`
+Use :meth:`Dataset.ingest_images() <tensorgrid.core.dataset.Dataset.ingest_images>`
 to ingest an iterable of unlabeled images that can be parsed via a specified
 |UnlabeledImageSampleParser| into a dataset.
 
-The :meth:`has_image_path <fiftyone.utils.data.parsers.UnlabeledImageSampleParser.has_image_path>`
+The :meth:`has_image_path <tensorgrid.utils.data.parsers.UnlabeledImageSampleParser.has_image_path>`
 property of the parser may either be `True` or `False`. If the parser provides
 image paths, the source images will be directly copied from their source
 locations into the backing directory for the dataset; otherwise, the image will
 be read in-memory via
-:meth:`get_image() <fiftyone.utils.data.parsers.UnlabeledImageSampleParser.get_image>`
+:meth:`get_image() <tensorgrid.utils.data.parsers.UnlabeledImageSampleParser.get_image>`
 and then written to the backing directory.
 
 **Example**
 
-FiftyOne provides an
-:class:`ImageSampleParser <fiftyone.utils.data.parsers.ImageSampleParser>`
+TensorGrid provides an
+:class:`ImageSampleParser <tensorgrid.utils.data.parsers.ImageSampleParser>`
 that handles samples that contain either an image that can be converted to
 `numpy format <https://numpy.org>`_ via ``np.asarray()`` of the path to an
 image on disk.
@@ -483,8 +483,8 @@ image on disk.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.data as foud
+    import tensorgrid as tg
+    import tensorgrid.utils.data as foud
 
     dataset = fo.Dataset()
 
@@ -504,22 +504,22 @@ image on disk.
 Ingesting labeled images
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use :meth:`Dataset.ingest_labeled_images() <fiftyone.core.dataset.Dataset.ingest_labeled_images>`
+Use :meth:`Dataset.ingest_labeled_images() <tensorgrid.core.dataset.Dataset.ingest_labeled_images>`
 to ingest an iterable of samples that can be parsed via a specified
 |LabeledImageSampleParser| into a dataset.
 
-The :meth:`has_image_path <fiftyone.utils.data.parsers.LabeledImageSampleParser.has_image_path>`
+The :meth:`has_image_path <tensorgrid.utils.data.parsers.LabeledImageSampleParser.has_image_path>`
 property of the parser may either be `True` or `False`. If the parser provides
 image paths, the source images will be directly copied from their source
 locations into the backing directory for the dataset; otherwise, the image will
 be read in-memory via
-:meth:`get_image() <fiftyone.utils.data.parsers.LabeledImageSampleParser.get_image>`
+:meth:`get_image() <tensorgrid.utils.data.parsers.LabeledImageSampleParser.get_image>`
 and then written to the backing directory.
 
 **Example**
 
-FiftyOne provides an
-:class:`ImageClassificationSampleParser <fiftyone.utils.data.parsers.ImageClassificationSampleParser>`
+TensorGrid provides an
+:class:`ImageClassificationSampleParser <tensorgrid.utils.data.parsers.ImageClassificationSampleParser>`
 that handles samples that contain ``(image_or_path, target)`` tuples, where:
 
 - ``image_or_path`` is either an image that can be converted to numpy
@@ -528,13 +528,13 @@ that handles samples that contain ``(image_or_path, target)`` tuples, where:
 - ``target`` is either a class ID or a label string
 
 The snippet below ingests an iterable of image classification data in the above
-format intoa a FiftyOne dataset:
+format intoa a TensorGrid dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.data as foud
+    import tensorgrid as tg
+    import tensorgrid.utils.data as foud
 
     dataset = fo.Dataset()
 
@@ -554,7 +554,7 @@ format intoa a FiftyOne dataset:
 Ingesting unlabeled videos
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use :meth:`Dataset.ingest_videos() <fiftyone.core.dataset.Dataset.ingest_videos>`
+Use :meth:`Dataset.ingest_videos() <tensorgrid.core.dataset.Dataset.ingest_videos>`
 to ingest an iterable of unlabeled videos that can be parsed via a specified
 |UnlabeledVideoSampleParser| into a dataset.
 
@@ -563,15 +563,15 @@ backing directory for the dataset.
 
 **Example**
 
-FiftyOne provides a
-:class:`VideoSampleParser <fiftyone.utils.data.parsers.VideoSampleParser>`
+TensorGrid provides a
+:class:`VideoSampleParser <tensorgrid.utils.data.parsers.VideoSampleParser>`
 that handles samples that directly contain the paths to videos on disk.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.data as foud
+    import tensorgrid as tg
+    import tensorgrid.utils.data as foud
 
     dataset = fo.Dataset()
 
@@ -591,7 +591,7 @@ that handles samples that directly contain the paths to videos on disk.
 Ingesting labeled videos
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use :meth:`Dataset.ingest_labeled_videos() <fiftyone.core.dataset.Dataset.ingest_labeled_videos>`
+Use :meth:`Dataset.ingest_labeled_videos() <tensorgrid.core.dataset.Dataset.ingest_labeled_videos>`
 to ingest an iterable of samples that can be parsed via a specified
 |LabeledVideoSampleParser| into a dataset.
 
@@ -600,8 +600,8 @@ backing directory for the dataset.
 
 **Example**
 
-FiftyOne provides a
-:class:`VideoLabelsSampleParser <fiftyone.utils.data.parsers.VideoLabelsSampleParser>`
+TensorGrid provides a
+:class:`VideoLabelsSampleParser <tensorgrid.utils.data.parsers.VideoLabelsSampleParser>`
 that handles samples that contain ``(video_path, video_labels_or_path)``
 tuples, where:
 
@@ -611,13 +611,13 @@ tuples, where:
   serialized dict representation of one, or the path to one on disk
 
 The snippet below ingests an iterable of labeled videos in the above format
-into a FiftyOne dataset:
+into a TensorGrid dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.data as foud
+    import tensorgrid as tg
+    import tensorgrid.utils.data as foud
 
     dataset = fo.Dataset()
 
@@ -639,7 +639,7 @@ into a FiftyOne dataset:
 Built-in SampleParser classes
 -----------------------------
 
-The table below lists the common data formats for which FiftyOne provides
+The table below lists the common data formats for which TensorGrid provides
 built-in |SampleParser| implementations. You can also write a
 :ref:`custom SampleParser <custom-sample-parser>` to automate the parsing of
 samples in your own custom data format.
@@ -652,38 +652,38 @@ You can use a |SampleParser| to
 | SampleParser                                                           | Description                                                                                                     |
 +========================================================================+=================================================================================================================+
 | :class:`ImageSampleParser                                              | A sample parser that parses raw image samples.                                                                  |
-| <fiftyone.utils.data.parsers.ImageSampleParser>`                       |                                                                                                                 |
+| <tensorgrid.utils.data.parsers.ImageSampleParser>`                       |                                                                                                                 |
 +------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
 | :class:`VideoSampleParser                                              | A sample parser that parses raw video samples.                                                                  |
-| <fiftyone.utils.data.parsers.VideoSampleParser>`                       |                                                                                                                 |
+| <tensorgrid.utils.data.parsers.VideoSampleParser>`                       |                                                                                                                 |
 +------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
 | :class:`ImageClassificationSampleParser                                | Generic parser for image classification samples whose labels are represented as |Classification| instances.     |
-| <fiftyone.utils.data.parsers.ImageClassificationSampleParser>`         |                                                                                                                 |
+| <tensorgrid.utils.data.parsers.ImageClassificationSampleParser>`         |                                                                                                                 |
 +------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
 | :class:`ImageDetectionSampleParser                                     | Generic parser for image detection samples whose labels are represented as |Detections| instances.              |
-| <fiftyone.utils.data.parsers.ImageDetectionSampleParser>`              |                                                                                                                 |
+| <tensorgrid.utils.data.parsers.ImageDetectionSampleParser>`              |                                                                                                                 |
 +------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
 | :class:`ImageLabelsSampleParser                                        | Generic parser for image detection samples whose labels are stored in                                           |
-| <fiftyone.utils.data.parsers.ImageLabelsSampleParser>`                 | `ETA ImageLabels format <https://github.com/voxel51/eta/blob/develop/docs/image_labels_guide.md>`_.             |
+| <tensorgrid.utils.data.parsers.ImageLabelsSampleParser>`                 | `ETA ImageLabels format <https://github.com/voxel51/eta/blob/develop/docs/image_labels_guide.md>`_.             |
 +------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
-| :class:`FiftyOneImageClassificationSampleParser                        | Parser for samples in FiftyOne image classification datasets. See                                               |
-| <fiftyone.utils.data.parsers.FiftyOneImageClassificationSampleParser>` | :class:`FiftyOneImageClassificationDataset <fiftyone.types.FiftyOneImageClassificationDataset>` for format      |
+| :class:`TensorGridImageClassificationSampleParser                        | Parser for samples in TensorGrid image classification datasets. See                                               |
+| <tensorgrid.utils.data.parsers.TensorGridImageClassificationSampleParser>` | :class:`TensorGridImageClassificationDataset <tensorgrid.types.TensorGridImageClassificationDataset>` for format      |
 |                                                                        | details.                                                                                                        |
 +------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
-| :class:`FiftyOneImageDetectionSampleParser                             | Parser for samples in FiftyOne image detection datasets. See                                                    |
-| <fiftyone.utils.data.parsers.FiftyOneImageDetectionSampleParser>`      | :class:`FiftyOneImageDetectionDataset <fiftyone.types.FiftyOneImageDetectionDataset>` for format details.       |
+| :class:`TensorGridImageDetectionSampleParser                             | Parser for samples in TensorGrid image detection datasets. See                                                    |
+| <tensorgrid.utils.data.parsers.TensorGridImageDetectionSampleParser>`      | :class:`TensorGridImageDetectionDataset <tensorgrid.types.TensorGridImageDetectionDataset>` for format details.       |
 +------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
-| :class:`FiftyOneImageLabelsSampleParser                                | Parser for samples in FiftyOne image labels datasets. See                                                       |
-| <fiftyone.utils.data.parsers.FiftyOneImageLabelsSampleParser>`         | :class:`FiftyOneImageLabelsDataset <fiftyone.types.FiftyOneImageLabelsDataset>` for format details.             |
+| :class:`TensorGridImageLabelsSampleParser                                | Parser for samples in TensorGrid image labels datasets. See                                                       |
+| <tensorgrid.utils.data.parsers.TensorGridImageLabelsSampleParser>`         | :class:`TensorGridImageLabelsDataset <tensorgrid.types.TensorGridImageLabelsDataset>` for format details.             |
 +------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
-| :class:`FiftyOneVideoLabelsSampleParser                                | Parser for samples in FiftyOne video labels datasets. See                                                       |
-| <fiftyone.utils.data.parsers.FiftyOneVideoLabelsSampleParser>`         | :class:`FiftyOneVideoLabelsDataset <fiftyone.types.FiftyOneVideoLabelsDataset>` for format details.             |
+| :class:`TensorGridVideoLabelsSampleParser                                | Parser for samples in TensorGrid video labels datasets. See                                                       |
+| <tensorgrid.utils.data.parsers.TensorGridVideoLabelsSampleParser>`         | :class:`TensorGridVideoLabelsDataset <tensorgrid.types.TensorGridVideoLabelsDataset>` for format details.             |
 +------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
 | :class:`TFImageClassificationSampleParser                              | Parser for image classification samples stored as                                                               |
-| <fiftyone.utils.tf.TFImageClassificationSampleParser>`                 | `TFRecords <https://www.tensorflow.org/tutorials/load_data/tfrecord>`_.                                         |
+| <tensorgrid.utils.tf.TFImageClassificationSampleParser>`                 | `TFRecords <https://www.tensorflow.org/tutorials/load_data/tfrecord>`_.                                         |
 +------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
 | :class:`TFObjectDetectionSampleParser                                  | Parser for image detection samples stored in                                                                    |
-| <fiftyone.utils.tf.TFObjectDetectionSampleParser>`                     | `TF Object Detection API format <https://github.com/tensorflow/models/blob/master/research/object_detection>`_. |
+| <tensorgrid.utils.tf.TFObjectDetectionSampleParser>`                     | `TF Object Detection API format <https://github.com/tensorflow/models/blob/master/research/object_detection>`_. |
 +------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------+
 
 .. _custom-sample-parser:
@@ -691,16 +691,16 @@ You can use a |SampleParser| to
 Writing a custom SampleParser
 -----------------------------
 
-FiftyOne provides a variety of
+TensorGrid provides a variety of
 :ref:`built-in SampleParser classes <builtin-sample-parser>` to parse
 data in common formats. However, if your samples are stored in a custom format,
-you can provide a custom |SampleParser| class and provide it to FiftyOne when
+you can provide a custom |SampleParser| class and provide it to TensorGrid when
 :ref:`adding <adding-samples-to-datasets>` or
 :ref:`ingesting <ingesting-samples-into-datasets>` samples into your datasets.
 
 The |SampleParser| interface provides a mechanism for defining methods that
-parse a data sample that is stored in a particular (external to FiftyOne)
-format and return various elements of the sample in a format that FiftyOne
+parse a data sample that is stored in a particular (external to TensorGrid)
+format and return various elements of the sample in a format that TensorGrid
 understands.
 
 |SampleParser| itself is an abstract interface; the concrete interface that you
@@ -723,7 +723,7 @@ classification or object detections) associated with the image.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.utils.data as foud
+            import tensorgrid.utils.data as foud
 
             class CustomUnlabeledImageSampleParser(foud.UnlabeledImageSampleParser):
                 """Custom parser for unlabeled image samples."""
@@ -739,7 +739,7 @@ classification or object detections) associated with the image.
                 @property
                 def has_image_metadata(self):
                     """Whether this parser produces
-                    :class:`fiftyone.core.metadata.ImageMetadata` instances for samples
+                    :class:`tensorgrid.core.metadata.ImageMetadata` instances for samples
                     that it parses.
                     """
                     # Return True or False here
@@ -768,19 +768,19 @@ classification or object detections) associated with the image.
                     """Returns the image metadata for the current sample.
 
                     Returns:
-                        a :class:`fiftyone.core.metadata.ImageMetadata` instance
+                        a :class:`tensorgrid.core.metadata.ImageMetadata` instance
                     """
                     # Return the image metadata for `self.current_sample` here, or
                     # raise an error if `has_image_metadata == False`
                     pass
 
-        When :meth:`Dataset.add_images() <fiftyone.core.dataset.Dataset.add_images>`
+        When :meth:`Dataset.add_images() <tensorgrid.core.dataset.Dataset.add_images>`
         is called with a custom |UnlabeledImageSampleParser|, the import is effectively
         performed via the pseudocode below:
 
         .. code-block:: python
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             dataset = fo.Dataset(...)
             samples = ...
@@ -801,26 +801,26 @@ classification or object detections) associated with the image.
                 dataset.add_sample(sample)
 
         The base |SampleParser| interface provides a
-        :meth:`with_sample() <fiftyone.utils.data.parsers.SampleParser.with_sample>`
+        :meth:`with_sample() <tensorgrid.utils.data.parsers.SampleParser.with_sample>`
         method that ingests the next sample and makes it available via the
-        :meth:`current_sample <fiftyone.utils.data.parsers.SampleParser.current_sample>`
+        :meth:`current_sample <tensorgrid.utils.data.parsers.SampleParser.current_sample>`
         property of the parser. Subsequent calls to the parser's `get_XXX()` methods
         return information extracted from the current sample.
 
         The |UnlabeledImageSampleParser| interface provides a
-        :meth:`has_image_path <fiftyone.utils.data.parsers.UnlabeledImageSampleParser.has_image_path>`
+        :meth:`has_image_path <tensorgrid.utils.data.parsers.UnlabeledImageSampleParser.has_image_path>`
         property that declares whether the sample parser can return the path to the
         current sample's image on disk via
-        :meth:`get_image_path() <fiftyone.utils.data.parsers.UnlabeledImageSampleParser.get_image_path>`.
+        :meth:`get_image_path() <tensorgrid.utils.data.parsers.UnlabeledImageSampleParser.get_image_path>`.
         Similarly, the
-        :meth:`has_image_metadata <fiftyone.utils.data.parsers.UnlabeledImageSampleParser.has_image_metadata>`
+        :meth:`has_image_metadata <tensorgrid.utils.data.parsers.UnlabeledImageSampleParser.has_image_metadata>`
         property that declares whether the sample parser can return an |ImageMetadata|
         for the current sample's image via
-        :meth:`get_image_metadata() <fiftyone.utils.data.parsers.UnlabeledImageSampleParser.get_image_metadata>`.
+        :meth:`get_image_metadata() <tensorgrid.utils.data.parsers.UnlabeledImageSampleParser.get_image_metadata>`.
 
         By convention, all |UnlabeledImageSampleParser| implementations must make the
         current sample's image available via
-        :meth:`get_image() <fiftyone.utils.data.parsers.UnlabeledImageSampleParser.get_image>`.
+        :meth:`get_image() <tensorgrid.utils.data.parsers.UnlabeledImageSampleParser.get_image>`.
 
     .. group-tab:: Labeled images
 
@@ -833,7 +833,7 @@ classification or object detections) associated with the image.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.utils.data as foud
+            import tensorgrid.utils.data as foud
 
             class CustomLabeledImageSampleParser(foud.LabeledImageSampleParser):
                 """Custom parser for labeled image samples."""
@@ -849,7 +849,7 @@ classification or object detections) associated with the image.
                 @property
                 def has_image_metadata(self):
                     """Whether this parser produces
-                    :class:`fiftyone.core.metadata.ImageMetadata` instances for samples
+                    :class:`tensorgrid.core.metadata.ImageMetadata` instances for samples
                     that it parses.
                     """
                     # Return True or False here
@@ -857,17 +857,17 @@ classification or object detections) associated with the image.
 
                 @property
                 def label_cls(self):
-                    """The :class:`fiftyone.core.labels.Label` class(es) returned by this
+                    """The :class:`tensorgrid.core.labels.Label` class(es) returned by this
                     parser.
 
                     This can be any of the following:
 
-                    -   a :class:`fiftyone.core.labels.Label` class. In this case, the
+                    -   a :class:`tensorgrid.core.labels.Label` class. In this case, the
                         parser is guaranteed to return labels of this type
-                    -   a list or tuple of :class:`fiftyone.core.labels.Label` classes. In
+                    -   a list or tuple of :class:`tensorgrid.core.labels.Label` classes. In
                         this case, the parser can produce a single label field of any of
                         these types
-                    -   a dict mapping keys to :class:`fiftyone.core.labels.Label` classes.
+                    -   a dict mapping keys to :class:`tensorgrid.core.labels.Label` classes.
                         In this case, the parser will return label dictionaries with keys
                         and value-types specified by this dictionary. Not all keys need be
                         present in the imported labels
@@ -900,7 +900,7 @@ classification or object detections) associated with the image.
                     """Returns the image metadata for the current sample.
 
                     Returns:
-                        a :class:`fiftyone.core.metadata.ImageMetadata` instance
+                        a :class:`tensorgrid.core.metadata.ImageMetadata` instance
                     """
                     # Return the image metadata for `self.current_sample` here, or
                     # raise an error if `has_image_metadata == False`
@@ -910,20 +910,20 @@ classification or object detections) associated with the image.
                     """Returns the label for the current sample.
 
                     Returns:
-                        a :class:`fiftyone.core.labels.Label` instance, or a dictionary
-                        mapping field names to :class:`fiftyone.core.labels.Label`
+                        a :class:`tensorgrid.core.labels.Label` instance, or a dictionary
+                        mapping field names to :class:`tensorgrid.core.labels.Label`
                         instances, or ``None`` if the sample is unlabeled
                     """
                     # Return the label for `self.current_sample` here
                     pass
 
-        When :meth:`Dataset.add_labeled_images() <fiftyone.core.dataset.Dataset.add_labeled_images>`
+        When :meth:`Dataset.add_labeled_images() <tensorgrid.core.dataset.Dataset.add_labeled_images>`
         is called with a custom |LabeledImageSampleParser|, the import is effectively
         performed via the pseudocode below:
 
         .. code-block:: python
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             dataset = fo.Dataset(...)
 
@@ -961,32 +961,32 @@ classification or object detections) associated with the image.
                 dataset.add_sample(sample)
 
         The base |SampleParser| interface provides a
-        :meth:`with_sample() <fiftyone.utils.data.parsers.SampleParser.with_sample>`
+        :meth:`with_sample() <tensorgrid.utils.data.parsers.SampleParser.with_sample>`
         method that ingests the next sample and makes it available via the
-        :meth:`current_sample <fiftyone.utils.data.parsers.SampleParser.current_sample>`
+        :meth:`current_sample <tensorgrid.utils.data.parsers.SampleParser.current_sample>`
         property of the parser. Subsequent calls to the parser's `get_XXX()` methods
         return information extracted from the current sample.
 
         The |LabeledImageSampleParser| interface provides a
-        :meth:`has_image_path <fiftyone.utils.data.parsers.LabeledImageSampleParser.has_image_path>`
+        :meth:`has_image_path <tensorgrid.utils.data.parsers.LabeledImageSampleParser.has_image_path>`
         property that declares whether the sample parser can return the path to the
         current sample's image on disk via
-        :meth:`get_image_path() <fiftyone.utils.data.parsers.LabeledImageSampleParser.get_image_path>`.
+        :meth:`get_image_path() <tensorgrid.utils.data.parsers.LabeledImageSampleParser.get_image_path>`.
         Similarly, the
-        :meth:`has_image_metadata <fiftyone.utils.data.parsers.LabeledImageSampleParser.has_image_metadata>`
+        :meth:`has_image_metadata <tensorgrid.utils.data.parsers.LabeledImageSampleParser.has_image_metadata>`
         property that declares whether the sample parser can return an |ImageMetadata|
         for the current sample's image via
-        :meth:`get_image_metadata() <fiftyone.utils.data.parsers.LabeledImageSampleParser.get_image_metadata>`.
+        :meth:`get_image_metadata() <tensorgrid.utils.data.parsers.LabeledImageSampleParser.get_image_metadata>`.
         Additionally, the
-        :meth:`label_cls <fiftyone.utils.data.parsers.LabeledImageSampleParser.label_cls>`
+        :meth:`label_cls <tensorgrid.utils.data.parsers.LabeledImageSampleParser.label_cls>`
         property of the parser declares the type of label(s) that the parser
         will produce.
 
         By convention, all |LabeledImageSampleParser| implementations must make the
         current sample's image available via
-        :meth:`get_image() <fiftyone.utils.data.parsers.LabeledImageSampleParser.get_image>`
+        :meth:`get_image() <tensorgrid.utils.data.parsers.LabeledImageSampleParser.get_image>`
         , and they must make the current sample's label available via
-        :meth:`get_label() <fiftyone.utils.data.parsers.LabeledImageSampleParser.get_label>`.
+        :meth:`get_label() <tensorgrid.utils.data.parsers.LabeledImageSampleParser.get_label>`.
 
     .. group-tab:: Unlabeled videos
 
@@ -999,7 +999,7 @@ classification or object detections) associated with the image.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.utils.data as foud
+            import tensorgrid.utils.data as foud
 
             class CustomUnlabeledVideoSampleParser(foud.UnlabeledVideoSampleParser):
                 """Custom parser for unlabeled video samples."""
@@ -1007,7 +1007,7 @@ classification or object detections) associated with the image.
                 @property
                 def has_video_metadata(self):
                     """Whether this parser produces
-                    :class:`fiftyone.core.metadata.VideoMetadata` instances for samples
+                    :class:`tensorgrid.core.metadata.VideoMetadata` instances for samples
                     that it parses.
                     """
                     # Return True or False here
@@ -1026,19 +1026,19 @@ classification or object detections) associated with the image.
                     """Returns the video metadata for the current sample.
 
                     Returns:
-                        a :class:`fiftyone.core.metadata.VideoMetadata` instance
+                        a :class:`tensorgrid.core.metadata.VideoMetadata` instance
                     """
                     # Return the video metadata for `self.current_sample` here, or
                     # raise an error if `has_video_metadata == False`
                     pass
 
-        When :meth:`Dataset.add_videos() <fiftyone.core.dataset.Dataset.add_videos>`
+        When :meth:`Dataset.add_videos() <tensorgrid.core.dataset.Dataset.add_videos>`
         is called with a custom |UnlabeledVideoSampleParser|, the import is effectively
         performed via the pseudocode below:
 
         .. code-block:: python
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             dataset = fo.Dataset(...)
             samples = ...
@@ -1059,19 +1059,19 @@ classification or object detections) associated with the image.
                 dataset.add_sample(sample)
 
         The base |SampleParser| interface provides a
-        :meth:`with_sample() <fiftyone.utils.data.parsers.SampleParser.with_sample>`
+        :meth:`with_sample() <tensorgrid.utils.data.parsers.SampleParser.with_sample>`
         method that ingests the next sample and makes it available via the
-        :meth:`current_sample <fiftyone.utils.data.parsers.SampleParser.current_sample>`
+        :meth:`current_sample <tensorgrid.utils.data.parsers.SampleParser.current_sample>`
         property of the parser. Subsequent calls to the parser's `get_XXX()` methods
         return information extracted from the current sample.
 
         The |UnlabeledVideoSampleParser| interface provides a
-        :meth:`get_video_path() <fiftyone.utils.data.parsers.UnlabeledVideoSampleParser.get_video_path>`
+        :meth:`get_video_path() <tensorgrid.utils.data.parsers.UnlabeledVideoSampleParser.get_video_path>`
         to get the video path for the current sample. The
-        :meth:`has_video_metadata <fiftyone.utils.data.parsers.UnlabeledVideoSampleParser.has_video_metadata>`
+        :meth:`has_video_metadata <tensorgrid.utils.data.parsers.UnlabeledVideoSampleParser.has_video_metadata>`
         property that declares whether the sample parser can return a |VideoMetadata|
         for the current sample's video via
-        :meth:`get_video_metadata() <fiftyone.utils.data.parsers.UnlabeledVideoSampleParser.get_video_metadata>`.
+        :meth:`get_video_metadata() <tensorgrid.utils.data.parsers.UnlabeledVideoSampleParser.get_video_metadata>`.
 
     .. group-tab:: Labeled videos
 
@@ -1084,7 +1084,7 @@ classification or object detections) associated with the image.
         .. code-block:: python
             :linenos:
 
-            import fiftyone.utils.data as foud
+            import tensorgrid.utils.data as foud
 
             class CustomLabeledVideoSampleParser(foud.LabeledVideoSampleParser):
                 """Custom parser for labeled video samples."""
@@ -1092,7 +1092,7 @@ classification or object detections) associated with the image.
                 @property
                 def has_video_metadata(self):
                     """Whether this parser produces
-                    :class:`fiftyone.core.metadata.VideoMetadata` instances for samples
+                    :class:`tensorgrid.core.metadata.VideoMetadata` instances for samples
                     that it parses.
                     """
                     # Return True or False here
@@ -1100,17 +1100,17 @@ classification or object detections) associated with the image.
 
                 @property
                 def label_cls(self):
-                    """The :class:`fiftyone.core.labels.Label` class(es) returned by this
+                    """The :class:`tensorgrid.core.labels.Label` class(es) returned by this
                     parser within the sample-level labels that it produces.
 
                     This can be any of the following:
 
-                    -   a :class:`fiftyone.core.labels.Label` class. In this case, the
+                    -   a :class:`tensorgrid.core.labels.Label` class. In this case, the
                         parser is guaranteed to return sample-level labels of this type
-                    -   a list or tuple of :class:`fiftyone.core.labels.Label` classes. In
+                    -   a list or tuple of :class:`tensorgrid.core.labels.Label` classes. In
                         this case, the parser can produce a single sample-level label field
                         of any of these types
-                    -   a dict mapping keys to :class:`fiftyone.core.labels.Label` classes.
+                    -   a dict mapping keys to :class:`tensorgrid.core.labels.Label` classes.
                         In this case, the parser will return sample-level label
                         dictionaries with keys and value-types specified by this
                         dictionary. Not all keys need be present in the imported labels
@@ -1122,17 +1122,17 @@ classification or object detections) associated with the image.
 
                 @property
                 def frame_labels_cls(self):
-                    """The :class:`fiftyone.core.labels.Label` class(es) returned by this
+                    """The :class:`tensorgrid.core.labels.Label` class(es) returned by this
                     parser within the frame labels that it produces.
 
                     This can be any of the following:
 
-                    -   a :class:`fiftyone.core.labels.Label` class. In this case, the
+                    -   a :class:`tensorgrid.core.labels.Label` class. In this case, the
                         parser is guaranteed to return frame labels of this type
-                    -   a list or tuple of :class:`fiftyone.core.labels.Label` classes. In
+                    -   a list or tuple of :class:`tensorgrid.core.labels.Label` classes. In
                         this case, the parser can produce a single frame label field of any
                         of these types
-                    -   a dict mapping keys to :class:`fiftyone.core.labels.Label` classes.
+                    -   a dict mapping keys to :class:`tensorgrid.core.labels.Label` classes.
                         In this case, the parser will return frame label dictionaries with
                         keys and value-types specified by this dictionary. Not all keys
                         need be present in each frame
@@ -1155,7 +1155,7 @@ classification or object detections) associated with the image.
                     """Returns the video metadata for the current sample.
 
                     Returns:
-                        a :class:`fiftyone.core.metadata.VideoMetadata` instance
+                        a :class:`tensorgrid.core.metadata.VideoMetadata` instance
                     """
                     # Return the video metadata for `self.current_sample` here, or
                     # raise an error if `has_video_metadata == False`
@@ -1165,8 +1165,8 @@ classification or object detections) associated with the image.
                     """Returns the sample-level labels for the current sample.
 
                     Returns:
-                        a :class:`fiftyone.core.labels.Label` instance, or a dictionary
-                        mapping field names to :class:`fiftyone.core.labels.Label`
+                        a :class:`tensorgrid.core.labels.Label` instance, or a dictionary
+                        mapping field names to :class:`tensorgrid.core.labels.Label`
                         instances, or ``None`` if the sample has no sample-level labels
                     """
                     # Return the sample labels for `self.current_sample` here
@@ -1177,19 +1177,19 @@ classification or object detections) associated with the image.
 
                     Returns:
                         a dictionary mapping frame numbers to dictionaries that map label
-                        fields to :class:`fiftyone.core.labels.Label` instances for each
+                        fields to :class:`tensorgrid.core.labels.Label` instances for each
                         video frame, or ``None`` if the sample has no frame labels
                     """
                     # Return the frame labels for `self.current_sample` here
                     pass
 
-        When :meth:`Dataset.add_labeled_videos() <fiftyone.core.dataset.Dataset.add_labeled_videos>`
+        When :meth:`Dataset.add_labeled_videos() <tensorgrid.core.dataset.Dataset.add_labeled_videos>`
         is called with a custom |LabeledVideoSampleParser|, the import is effectively
         performed via the pseudocode below:
 
         .. code-block:: python
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             dataset = fo.Dataset(...)
             samples = ...
@@ -1240,29 +1240,29 @@ classification or object detections) associated with the image.
                 dataset.add_sample(sample)
 
         The base |SampleParser| interface provides a
-        :meth:`with_sample() <fiftyone.utils.data.parsers.SampleParser.with_sample>`
+        :meth:`with_sample() <tensorgrid.utils.data.parsers.SampleParser.with_sample>`
         method that ingests the next sample and makes it available via the
-        :meth:`current_sample <fiftyone.utils.data.parsers.SampleParser.current_sample>`
+        :meth:`current_sample <tensorgrid.utils.data.parsers.SampleParser.current_sample>`
         property of the parser. Subsequent calls to the parser's `get_XXX()` methods
         return information extracted from the current sample.
 
         The |LabeledVideoSampleParser| interface provides a
-        :meth:`get_video_path() <fiftyone.utils.data.parsers.LabeledVideoSampleParser.get_video_path>`
+        :meth:`get_video_path() <tensorgrid.utils.data.parsers.LabeledVideoSampleParser.get_video_path>`
         to get the video path for the current sample. The
-        :meth:`has_video_metadata <fiftyone.utils.data.parsers.LabeledVideoSampleParser.has_video_metadata>`
+        :meth:`has_video_metadata <tensorgrid.utils.data.parsers.LabeledVideoSampleParser.has_video_metadata>`
         property that declares whether the sample parser can return a |VideoMetadata|
         for the current sample's video via
-        :meth:`get_video_metadata() <fiftyone.utils.data.parsers.LabeledVideoSampleParser.get_video_metadata>`.
+        :meth:`get_video_metadata() <tensorgrid.utils.data.parsers.LabeledVideoSampleParser.get_video_metadata>`.
 
         The
-        :meth:`label_cls <fiftyone.utils.data.parsers.LabeledVideoSampleParser.label_cls>`
+        :meth:`label_cls <tensorgrid.utils.data.parsers.LabeledVideoSampleParser.label_cls>`
         property of the parser declares the type of sample-level label(s) that
         the parser may produce (if any). The
-        :meth:`frame_labels_cls <fiftyone.utils.data.parsers.LabeledVideoSampleParser.frame_labels_cls>`
+        :meth:`frame_labels_cls <tensorgrid.utils.data.parsers.LabeledVideoSampleParser.frame_labels_cls>`
         property of the parser declares the type of frame-level label(s) that
         the parser may produce (if any). By convention, all
         |LabeledVideoSampleParser| implementations must make the current
         sample's sample-level labels available via
-        :meth:`get_label() <fiftyone.utils.data.parsers.LabeledVideoSampleParser.get_label>`
+        :meth:`get_label() <tensorgrid.utils.data.parsers.LabeledVideoSampleParser.get_label>`
         and its frame-level labels available via
-        :meth:`get_frame_labels() <fiftyone.utils.data.parsers.LabeledVideoSampleParser.get_frame_labels>`.
+        :meth:`get_frame_labels() <tensorgrid.utils.data.parsers.LabeledVideoSampleParser.get_frame_labels>`.

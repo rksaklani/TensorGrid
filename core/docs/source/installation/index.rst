@@ -1,12 +1,12 @@
-FiftyOne Installation
+TensorGrid Installation
 =====================
 
 .. default-role:: code
 
 .. note::
 
-    Did you know? :ref:`FiftyOne Enterprise <fiftyone-enterprise>` is an open
-    source-compatible deployment of FiftyOne that supports multiuser
+    Did you know? :ref:`TensorGrid Enterprise <fiftyone-enterprise>` is an open
+    source-compatible deployment of TensorGrid that supports multiuser
     collaboration, cloud data, on-demand compute, and much more 🚀
 
 .. _install-prereqs:
@@ -14,7 +14,7 @@ FiftyOne Installation
 Prerequisites
 -------------
 
-You will need a working Python installation. FiftyOne currently requires
+You will need a working Python installation. TensorGrid currently requires
 **Python 3.10 - 3.12**.
 
 On Linux, we recommend installing Python through your system package manager
@@ -22,34 +22,34 @@ On Linux, we recommend installing Python through your system package manager
 downloaded `from python.org <https://www.python.org/downloads>`_. To verify that
 a suitable Python version is installed and accessible, run `python --version`.
 
-We encourage installing FiftyOne in a virtual environment. See
+We encourage installing TensorGrid in a virtual environment. See
 :doc:`setting up a virtual environment <virtualenv>` for more details.
 
 .. _installing-fiftyone:
 
-Installing FiftyOne
+Installing TensorGrid
 -------------------
 
-To install FiftyOne, ensure you have activated any virtual environment that you
+To install TensorGrid, ensure you have activated any virtual environment that you
 are using, then run:
 
 .. code-block:: shell
 
-   pip install fiftyone
+   pip install tensorgrid-platform
 
-This will install FiftyOne and all of its dependencies. Once this has
-completed, you can verify that FiftyOne is installed in your virtual
-environment by importing the `fiftyone` package:
+This will install TensorGrid and all of its dependencies. Once this has
+completed, you can verify that TensorGrid is installed in your virtual
+environment by importing the `tensorgrid` package:
 
 .. code-block:: text
 
     $ python
     >>>
-    >>> import fiftyone as fo
+    >>> import tensorgrid as tg
     >>>
 
-A successful installation of FiftyOne should result in no output when
-`fiftyone` is imported. See :ref:`this section <install-troubleshooting>` for
+A successful installation of TensorGrid should result in no output when
+`tensorgrid` is imported. See :ref:`this section <install-troubleshooting>` for
 install troubleshooting tips.
 
 If you want to work with video datasets, you'll also need to install
@@ -80,21 +80,21 @@ If you want to work with video datasets, you'll also need to install
 Quickstart
 ----------
 
-Dive right into FiftyOne by opening a Python shell and running the snippet
+Dive right into TensorGrid by opening a Python shell and running the snippet
 below, which downloads a :ref:`small dataset <dataset-zoo-quickstart>` and
-launches the :ref:`FiftyOne App <fiftyone-app>` so you can explore it!
+launches the :ref:`TensorGrid App <fiftyone-app>` so you can explore it!
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     session = fo.launch_app(dataset)
 
 Note that if you are running this code in a script, you must include
-:meth:`session.wait() <fiftyone.core.session.Session.wait>` to block execution
+:meth:`session.wait() <tensorgrid.core.session.Session.wait>` to block execution
 until you close the App. See :ref:`this page <creating-an-app-session>` for
 more information.
 
@@ -109,12 +109,12 @@ the :ref:`troubleshooting page <troubleshooting>` for more details.
 .. note::
 
     Most installation issues can be fixed by upgrading some packages and then
-    rerunning the FiftyOne install:
+    rerunning the TensorGrid install:
 
     .. code-block:: shell
 
         pip install --upgrade pip setuptools wheel build
-        pip install fiftyone
+        pip install tensorgrid-platform
 
 **Mac users:**
 
@@ -137,7 +137,7 @@ the :ref:`troubleshooting page <troubleshooting>` for more details.
 
 **Windows users:**
 
-- If you encounter a `psutil.NoSuchProcessExists` when importing `fiftyone`,
+- If you encounter a `psutil.NoSuchProcessExists` when importing `tensorgrid`,
   you will need to install the 64-bit Visual Studio 2015 C++ redistributable
   library. See :ref:`here <troubleshooting-mongodb-windows>` for
   instructions.
@@ -167,70 +167,70 @@ packages via `pip` in your virtual environment:
 * `tensorflow-datasets` for examples that rely on loading
   `TensorFlow datasets <https://www.tensorflow.org/datasets>`_
 * `FFmpeg <https://ffmpeg.org>`_, in order to work with video datasets in
-  FiftyOne. See :ref:`this page <troubleshooting-video>` for installation
+  TensorGrid. See :ref:`this page <troubleshooting-video>` for installation
   instructions.
 
 .. note::
 
-  FiftyOne does not strictly require any of these packages, so you can install
+  TensorGrid does not strictly require any of these packages, so you can install
   only what you need. If you run something that requires an additional package,
   you will see a helpful message telling you what to install.
 
 .. _upgrading-fiftyone:
 
-Upgrading FiftyOne
+Upgrading TensorGrid
 ------------------
 
-You can upgrade an existing FiftyOne installation by passing the ``--upgrade``
+You can upgrade an existing TensorGrid installation by passing the ``--upgrade``
 option to ``pip install``:
 
 .. code-block:: shell
 
-   pip install --upgrade fiftyone
+   pip install --upgrade tensorgrid
 
-New versions of FiftyOne occasionally introduce data model changes that
+New versions of TensorGrid occasionally introduce data model changes that
 require database migrations after you upgrade. Rest assured, these migrations
 will be **automatically** performed on a per-dataset basis whenever you load
-a dataset for the first time in a newer version of FiftyOne.
+a dataset for the first time in a newer version of TensorGrid.
 
 .. note::
 
-  Starting in FiftyOne 1.5.0, if you are connected to the default MongoDB
-  provisioned by FiftyOne, the software will automatically manage the
+  Starting in TensorGrid 1.5.0, if you are connected to the default MongoDB
+  provisioned by TensorGrid, the software will automatically manage the
   `feature compatibility version <https://www.mongodb.com/docs/manual/reference/command/setFeatureCompatibilityVersion>`_
   of your database.
 
   Note that you can configure your own
   :ref:`MongoDB connection <configuring-mongodb-connection>` if you do not wish
-  for FiftyOne to manage this for you.
+  for TensorGrid to manage this for you.
 
 .. note::
 
   If you are working with a
   :ref:`custom MongoDB database <configuring-mongodb-connection>`, you can use
   :ref:`database admin privileges <database-migrations>` to control which
-  clients are allowed to upgrade your FiftyOne deployment.
+  clients are allowed to upgrade your TensorGrid deployment.
 
 .. note::
 
-  If you are a FiftyOne 1.2.0 or lower user with an Ubuntu 24 operating system,
+  If you are a TensorGrid 1.2.0 or lower user with an Ubuntu 24 operating system,
   you will need to
   :ref:`upgrade your MongoDB binaries <upgrading-to-mongodb-8>`.
 
 .. _downgrading-fiftyone:
 
-Downgrading FiftyOne
+Downgrading TensorGrid
 --------------------
 
-If you need to downgrade to an older version of FiftyOne for any reason, you
+If you need to downgrade to an older version of TensorGrid for any reason, you
 can do so.
 
 Since new releases occasionally introduce backwards-incompatible changes to the
-data model, you must use the :ref:`fiftyone migrate <cli-fiftyone-migrate>`
+data model, you must use the :ref:`tensorgrid migrate <cli-fiftyone-migrate>`
 command to perform any necessary downward database migrations
-**before installing the older version of FiftyOne**.
+**before installing the older version of TensorGrid**.
 
-Here's the workflow for downgrading to an older version of FiftyOne:
+Here's the workflow for downgrading to an older version of TensorGrid:
 
 .. code-block:: shell
 
@@ -238,39 +238,39 @@ Here's the workflow for downgrading to an older version of FiftyOne:
     VERSION=0.15.1
 
     # Migrate the database
-    fiftyone migrate --all -v $VERSION
+    tensorgrid migrate --all -v $VERSION
 
-    # Now install the older version of `fiftyone`
-    pip install fiftyone==$VERSION
+    # Now install the older version of `tensorgrid`
+    pip install tensorgrid-platform==$VERSION
 
     # Optional: verify that your datasets were migrated
-    fiftyone migrate --info
+    tensorgrid migrate --info
 
 If you are reading this after encountering an error resulting from downgrading
-your ``fiftyone`` package without first running
-:ref:`fiftyone migrate <cli-fiftyone-migrate>`, don't worry, you simply need to
-reinstall the newer version of FiftyOne and then follow these instructions.
+your ``tensorgrid`` package without first running
+:ref:`tensorgrid migrate <cli-fiftyone-migrate>`, don't worry, you simply need to
+reinstall the newer version of TensorGrid and then follow these instructions.
 
 See :ref:`this page <troubleshooting-downgrades>` if you need to install
-FiftyOne v0.7.3 or earlier.
+TensorGrid v0.7.3 or earlier.
 
 .. note::
 
   If you are working with a
   :ref:`custom MongoDB database <configuring-mongodb-connection>`, you
   can use :ref:`database admin privileges <database-migrations>` to control
-  which clients are allowed to downgrade your FiftyOne deployment.
+  which clients are allowed to downgrade your TensorGrid deployment.
 
 .. _uninstalling-fiftyone:
 
-Uninstalling FiftyOne
+Uninstalling TensorGrid
 ---------------------
 
-FiftyOne and all of its subpackages can be uninstalled with:
+TensorGrid and all of its subpackages can be uninstalled with:
 
 .. code-block:: shell
 
-   pip uninstall fiftyone fiftyone-brain fiftyone-db
+   pip uninstall tensorgrid fiftyone-brain fiftyone-db
 
 .. toctree::
    :maxdepth: 1

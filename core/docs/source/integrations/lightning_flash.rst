@@ -9,11 +9,11 @@ We've collaborated with the
 `PyTorch Lightning <https://github.com/PyTorchLightning/pytorch-lightning>`_
 team to make it easy to train
 `Lightning Flash <https://github.com/PyTorchLightning/lightning-flash>`_ tasks
-on your :ref:`FiftyOne datasets <using-datasets>` and add predictions from your
-Flash models to your FiftyOne datasets for visualization and analysis, all in
+on your :ref:`TensorGrid datasets <using-datasets>` and add predictions from your
+Flash models to your TensorGrid datasets for visualization and analysis, all in
 just a few lines of code!
 
-The following Flash tasks are supported natively by FiftyOne:
+The following Flash tasks are supported natively by TensorGrid:
 
 - :ref:`Image classification <flash:image_classification>`
 - :ref:`Object detection <flash:object_detection>`
@@ -24,7 +24,7 @@ The following Flash tasks are supported natively by FiftyOne:
 .. note::
 
     As Lightning Flash adds support for additional computer vision tasks, we'll
-    roll out native support for them in FiftyOne via this integration!
+    roll out native support for them in TensorGrid via this integration!
 
 .. _flash-install:
 
@@ -61,7 +61,7 @@ ______________
 
 You can easily train or finetune a Flash
 :class:`Task<flash:flash.core.model.Task>` on your
-:ref:`FiftyOne datasets <using-datasets>` with just a few lines of code using
+:ref:`TensorGrid datasets <using-datasets>` with just a few lines of code using
 Flash's builtin
 :meth:`DataModule.from_fiftyone() <flash:flash.core.data.data_module.DataModule.from_fiftyone>`
 method, which is implemented for each of the Flash tasks shown below.
@@ -72,22 +72,22 @@ method, which is implemented for each of the Flash tasks shown below.
 
         The example below finetunes a Flash
         :ref:`image classification task <flash:image_classification>` on a
-        FiftyOne dataset with |Classification| ground truth labels:
+        TensorGrid dataset with |Classification| ground truth labels:
 
         .. code-block:: python
             :linenos:
 
             from itertools import chain
 
-            from flash.core.classification import FiftyOneLabelsOutput
+            from flash.core.classification import TensorGridLabelsOutput
             from flash.image import ImageClassificationData, ImageClassifier
             from flash import Trainer
 
-            import fiftyone as fo
-            import fiftyone.utils.random as four
-            import fiftyone.zoo as foz
+            import tensorgrid as tg
+            import tensorgrid.utils.random as four
+            import tensorgrid.zoo as foz
 
-            # 1 Load your FiftyOne dataset
+            # 1 Load your TensorGrid dataset
             dataset = foz.load_zoo_dataset(
                 "cifar10", split="test", max_samples=300
             )
@@ -136,14 +136,14 @@ method, which is implemented for each of the Flash tasks shown below.
             predictions = trainer.predict(
                 model,
                 datamodule=datamodule,
-                output=FiftyOneLabelsOutput(labels=datamodule.labels),
+                output=TensorGridLabelsOutput(labels=datamodule.labels),
             )
             predictions = list(chain.from_iterable(predictions))  # flatten batches
 
             # Map filepaths to predictions
             predictions = {p["filepath"]: p["predictions"] for p in predictions}
 
-            # Add predictions to FiftyOne dataset
+            # Add predictions to TensorGrid dataset
             predict_dataset.set_values(
                 "flash_predictions", predictions, key_field="filepath",
             )
@@ -154,7 +154,7 @@ method, which is implemented for each of the Flash tasks shown below.
     .. tab:: Object detection
 
         This example below finetunes a Flash
-        :ref:`object detection task <flash:object_detection>` on a FiftyOne
+        :ref:`object detection task <flash:object_detection>` on a TensorGrid
         dataset with |Detections| ground truth labels:
 
         .. code-block:: python
@@ -164,13 +164,13 @@ method, which is implemented for each of the Flash tasks shown below.
 
             from flash import Trainer
             from flash.image import ObjectDetectionData, ObjectDetector
-            from flash.image.detection.output import FiftyOneDetectionLabelsOutput
+            from flash.image.detection.output import TensorGridDetectionLabelsOutput
 
-            import fiftyone as fo
-            import fiftyone.utils.random as four
-            import fiftyone.zoo as foz
+            import tensorgrid as tg
+            import tensorgrid.utils.random as four
+            import tensorgrid.zoo as foz
 
-            # 1 Load your FiftyOne dataset
+            # 1 Load your TensorGrid dataset
             dataset = foz.load_zoo_dataset(
                "coco-2017",
                split="validation",
@@ -224,14 +224,14 @@ method, which is implemented for each of the Flash tasks shown below.
             predictions = trainer.predict(
                 model,
                 datamodule=datamodule,
-                output=FiftyOneDetectionLabelsOutput(labels=datamodule.labels),
+                output=TensorGridDetectionLabelsOutput(labels=datamodule.labels),
             )
             predictions = list(chain.from_iterable(predictions))  # flatten batches
 
             # Map filepaths to predictions
             predictions = {p["filepath"]: p["predictions"] for p in predictions}
 
-            # Add predictions to FiftyOne dataset
+            # Add predictions to TensorGrid dataset
             dataset.set_values(
                 "flash_predictions", predictions, key_field="filepath",
             )
@@ -243,7 +243,7 @@ method, which is implemented for each of the Flash tasks shown below.
 
         This example below finetunes a Flash
         :ref:`semantic segmentation task <flash:semantic_segmentation>` on a
-        FiftyOne dataset with |Segmentation| ground truth labels:
+        TensorGrid dataset with |Segmentation| ground truth labels:
 
         .. code-block:: python
             :linenos:
@@ -253,12 +253,12 @@ method, which is implemented for each of the Flash tasks shown below.
             from flash import Trainer
             from flash.core.data.utils import download_data
             from flash.image import SemanticSegmentation, SemanticSegmentationData
-            from flash.image.segmentation.output import FiftyOneSegmentationLabelsOutput
+            from flash.image.segmentation.output import TensorGridSegmentationLabelsOutput
 
-            import fiftyone as fo
-            import fiftyone.zoo as foz
+            import tensorgrid as tg
+            import tensorgrid.zoo as foz
 
-            # 1 Load your FiftyOne dataset
+            # 1 Load your TensorGrid dataset
 
             # source: https://www.kaggle.com/kumaresanmanickavelu/lyft-udacity-challenge
             download_data(
@@ -312,14 +312,14 @@ method, which is implemented for each of the Flash tasks shown below.
             predictions = trainer.predict(
                 model,
                 datamodule=datamodule,
-                output=FiftyOneSegmentationLabelsOutput(),
+                output=TensorGridSegmentationLabelsOutput(),
             )
             predictions = list(chain.from_iterable(predictions))  # flatten batches
 
             # Map filepaths to predictions
             predictions = {p["filepath"]: p["predictions"] for p in predictions}
 
-            # Add predictions to FiftyOne dataset
+            # Add predictions to TensorGrid dataset
             dataset.set_values(
                 "flash_predictions", predictions, key_field="filepath",
             )
@@ -331,20 +331,20 @@ method, which is implemented for each of the Flash tasks shown below.
 
         The example below finetunes a Flash
         :ref:`video classification task <flash:video_classification>` on a
-        FiftyOne dataset with |Classification| ground truth labels:
+        TensorGrid dataset with |Classification| ground truth labels:
 
         .. code-block:: python
             :linenos:
 
             from itertools import chain
 
-            from flash.core.classification import FiftyOneLabelsOutput
+            from flash.core.classification import TensorGridLabelsOutput
             from flash import Trainer
             from flash.video import VideoClassificationData, VideoClassifier
 
-            import fiftyone as fo
-            import fiftyone.utils.random as four
-            import fiftyone.zoo as foz
+            import tensorgrid as tg
+            import tensorgrid.utils.random as four
+            import tensorgrid.zoo as foz
 
             # 1 Load the data
             dataset = foz.load_zoo_dataset(
@@ -401,14 +401,14 @@ method, which is implemented for each of the Flash tasks shown below.
             predictions = trainer.predict(
                 model,
                 datamodule=datamodule,
-                output=FiftyOneLabelsOutput(labels=datamodule.labels),
+                output=TensorGridLabelsOutput(labels=datamodule.labels),
             )
             predictions = list(chain.from_iterable(predictions))  # flatten batches
 
             # Map filepaths to predictions
             predictions = {p["filepath"]: p["predictions"] for p in predictions}
 
-            # Add predictions to FiftyOne dataset
+            # Add predictions to TensorGrid dataset
             predict_dataset.set_values(
                 "flash_predictions", predictions, key_field="filepath",
             )
@@ -421,21 +421,21 @@ method, which is implemented for each of the Flash tasks shown below.
 Model predictions
 _________________
 
-Once you have a trained Flash task, you can add model predictions to a FiftyOne
+Once you have a trained Flash task, you can add model predictions to a TensorGrid
 |Dataset| or |DatasetView| in just a few lines of code using either of the
 patterns below.
 
-Applying Flash models to FiftyOne datasets
+Applying Flash models to TensorGrid datasets
 ------------------------------------------
 
-The easiest way to generate predictions on a FiftyOne |Dataset| or
+The easiest way to generate predictions on a TensorGrid |Dataset| or
 |DatasetView| with a Flash model is to use the
-builtin :meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+builtin :meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
 function, which natively accepts Flash models of any
 :ref:`supported type <lightning-flash>`.
 
-Behind the scenes, FiftyOne will construct the appropriate Flash
-:mod:`Trainer <flash:flash.core.trainer>` and FiftyOne-style
+Behind the scenes, TensorGrid will construct the appropriate Flash
+:mod:`Trainer <flash:flash.core.trainer>` and TensorGrid-style
 :class:`Output <flash:flash.core.data.io.output.Output>` to perform the
 inference and output the predictions as |Label| instances that are added to
 your dataset.
@@ -443,11 +443,11 @@ your dataset.
 .. code-block:: python
     :linenos:
 
-    from flash.core.classification import FiftyOneLabelsOutput
+    from flash.core.classification import TensorGridLabelsOutput
     from flash.image import ImageClassifier, ObjectDetector
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Load your dataset
     dataset = foz.load_zoo_dataset("quickstart", max_samples=5)
@@ -482,11 +482,11 @@ your dataset.
 
     When performing inference with Flash models, you can pass additional
     ``trainer_kwargs`` in a dictionary like ``trainer_kwargs={"gpus": 8}`` to
-    :meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`,
+    :meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`,
     which are used to initialize the Flash
     :mod:`Trainer <flash:flash.core.trainer>` to configure distributed and/or
     parallelized inference! See
-    :meth:`apply_flash_model() <fiftyone.utils.flash.apply_flash_model>`
+    :meth:`apply_flash_model() <tensorgrid.utils.flash.apply_flash_model>`
     for more details about supported keyword arguments.
 
 Manually adding predictions
@@ -494,15 +494,15 @@ Manually adding predictions
 
 If you've already loaded your datasets into Flash
 :class:`DataModules <flash:flash.core.data.data_module.DataModule>` without
-using FiftyOne, you can still easily use FiftyOne to analyze your model's
+using TensorGrid, you can still easily use TensorGrid to analyze your model's
 predictions by providing the
 :class:`Output <flash:flash.core.data.io.output.Output>` for the
-:ref:`FiftyOne-style output <flash:fiftyone_labels>` of the appropriate
+:ref:`TensorGrid-style output <flash:fiftyone_labels>` of the appropriate
 type when generating predictions.
 
-Specifying FiftyOne outputs will result in predictions returned as
-|Label| objects that you can easily add to your FiftyOne datasets via
-:meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`.
+Specifying TensorGrid outputs will result in predictions returned as
+|Label| objects that you can easily add to your TensorGrid datasets via
+:meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`.
 
 .. code-block:: python
     :linenos:
@@ -510,11 +510,11 @@ Specifying FiftyOne outputs will result in predictions returned as
     from itertools import chain
 
     from flash import Trainer
-    from flash.core.classification import FiftyOneLabelsOutput
+    from flash.core.classification import TensorGridLabelsOutput
     from flash.image import ImageClassificationData, ImageClassifier
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Load your dataset
     dataset = foz.load_zoo_dataset("quickstart", max_samples=5)
@@ -529,8 +529,8 @@ Specifying FiftyOne outputs will result in predictions returned as
         batch_size=1,
     )
 
-    # Output FiftyOne format
-    output = FiftyOneLabelsOutput(
+    # Output TensorGrid format
+    output = TensorGridLabelsOutput(
         return_filepath=False, labels=labels
     )
     # Predict with trainer
@@ -549,8 +549,8 @@ Specifying FiftyOne outputs will result in predictions returned as
 
 .. note::
 
-    FiftyOne outputs have an optional
-    :class:`return_filepath=False <flash:flash.core.classification.FiftyOneLabelsOutput>`
+    TensorGrid outputs have an optional
+    :class:`return_filepath=False <flash:flash.core.classification.TensorGridLabelsOutput>`
     flag that supports returning a list of |Label| objects corresponding to the
     sample ordering of the ``predict_dataset`` rather than the default dicts
     that contain both the |Label| objects and the ``filepath`` of the
@@ -562,17 +562,17 @@ Specifying class names
 Generally, Flash model checkpoints will contain the class label strings for the
 model. However, if necessary, you can also explicitly pass the labels to most
 :class:`Output <flash:flash.core.data.io.output.Output>` instances,
-FiftyOne-style outputs included:
+TensorGrid-style outputs included:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     from flash import Trainer
     from flash.image import ImageClassificationData, ImageClassifier
-    from flash.core.classification import FiftyOneLabelsOutput
+    from flash.core.classification import TensorGridLabelsOutput
 
     # Load your dataset
     dataset = foz.load_zoo_dataset("quickstart", max_samples=5)
@@ -589,9 +589,9 @@ FiftyOne-style outputs included:
     labels = [
         "label_" + str(i) for i in range(num_classes)
     ]  # example class labels
-    output = FiftyOneLabelsOutput(
+    output = TensorGridLabelsOutput(
         labels=labels
-    )  # output FiftyOne format
+    )  # output TensorGrid format
 
     # Predict with model
     trainer = Trainer()
@@ -622,7 +622,7 @@ ________________
 
 If you use Lightning Flash's
 :ref:`image embeddings tasks <flash:image_embedder>` to generate feature
-vectors for your image datasets, then use can easily leverage FiftyOne's
+vectors for your image datasets, then use can easily leverage TensorGrid's
 :ref:`dimensionality reduction <brain-embeddings-visualization>` and
 :ref:`interactive plotting <embeddings-plots>` capabilities to visualize your
 Flash model's embeddings and execute powerful workflows like
@@ -638,8 +638,8 @@ Flash model's embeddings and execute powerful workflows like
     from flash.image import ImageClassificationData, ImageEmbedder
     from flash import Trainer
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
 
     # 1 Download data
     download_data(
@@ -647,7 +647,7 @@ Flash model's embeddings and execute powerful workflows like
         "/tmp",
     )
 
-    # 2 Load data into FiftyOne
+    # 2 Load data into TensorGrid
     dataset = fo.Dataset.from_dir(
         "/tmp/hymenoptera_data/test/",
         fo.types.ImageClassificationDirectoryTree,
@@ -683,8 +683,8 @@ Flash model's embeddings and execute powerful workflows like
 .. note::
 
     You can also directly pass your Flash embedding model to
-    :meth:`compute_embeddings() <fiftyone.core.collections.SampleCollection.compute_embeddings>`
-    and let FiftyOne handle performing the inference!
+    :meth:`compute_embeddings() <tensorgrid.core.collections.SampleCollection.compute_embeddings>`
+    and let TensorGrid handle performing the inference!
 
 .. image:: /images/integrations/flash_embeddings.png
    :alt: embeddings_example

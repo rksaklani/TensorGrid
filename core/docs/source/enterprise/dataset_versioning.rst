@@ -5,7 +5,7 @@ Dataset Versioning
 
 .. default-role:: code
 
-FiftyOne Enterprise provides native support for versioning your datasets!
+TensorGrid Enterprise provides native support for versioning your datasets!
 
 Dataset Versioning allows you to capture the state of your dataset in time so
 that it can be referenced in the future. This enables workflows like recalling
@@ -24,7 +24,7 @@ annotation added, etc) as well as helping to prevent accidental data loss.
 Overview
 ________
 
-Dataset Versioning in FiftyOne Enterprise is implemented as a linear sequence of
+Dataset Versioning in TensorGrid Enterprise is implemented as a linear sequence of
 read-only :ref:`Snapshots <dataset-versioning-snapshots>`. In other words,
 creating a new Snapshot creates a permanent record of the dataset’s contents
 that can be loaded and viewed at any time in the future, but not directly
@@ -33,7 +33,7 @@ edited. Conversely, the current version of a dataset is called its HEAD
 HEAD, and you can make additions, updates, and deletions to the dataset’s
 contents as you normally would (provided you have sufficient permissions).
 
-Snapshots record all aspects of your data stored within FiftyOne, including
+Snapshots record all aspects of your data stored within TensorGrid, including
 dataset-level information, schema, samples, frames, brain runs, and
 evaluations. However, Snapshots exclude any information stored in external
 services, such as media stored in cloud buckets or embeddings stored in an
@@ -78,7 +78,7 @@ Dataset Versioning has been built with an extensible architecture so that
 different versioning backends can be swapped in. Each backend may have
 different tradeoffs in terms of performance, storage, and deployment needs, so
 users should be able to choose the best fit for their needs. In addition, many
-users may already have a versioning solution external to FiftyOne Enterprise, and
+users may already have a versioning solution external to TensorGrid Enterprise, and
 the goal is to support integration around those use cases as well.
 
 Currently, only the
@@ -97,7 +97,7 @@ are :ref:`on the roadmap <dataset-versioning-roadmap>`.
 Snapshots
 _________
 
-Dataset Versioning in FiftyOne Enterprise is implemented as a linear history of
+Dataset Versioning in TensorGrid Enterprise is implemented as a linear history of
 **Snapshots**. A Snapshot captures the state of a dataset at a particular point
 in time as an immutable object. Compare this concept to creating commits and
 tags in a single branch of a version control system such as git or svn; a
@@ -133,7 +133,7 @@ choices and user actions.
     Virtual Snapshot
         A Snapshot whose state and contents are stored by the pluggable backend
         versioning implementation in whatever way it chooses. In order to be
-        loaded by FiftyOne Enterprise users, the Snapshot must be *materialized*
+        loaded by TensorGrid Enterprise users, the Snapshot must be *materialized*
         into its workable form in MongoDB. This is done through a combination
         of the overarching versioning infrastructure and the specific
         versioning backend.
@@ -270,7 +270,7 @@ _______________
 In contrast to a dataset's HEAD, Snapshots are **read-only**. When viewing in
 the App, the UI is similar to interacting with a HEAD dataset, but users will
 not be able to make any edits to the objects. Similarly, when using the
-FiftyOne SDK, users will not be able to perform any operation that would
+TensorGrid SDK, users will not be able to perform any operation that would
 trigger a modification to the stored dataset.
 
 .. _dataset-versioning-list-snapshots:
@@ -299,25 +299,25 @@ SDK
 ~~~
 
 You can also list Snapshot names for a dataset using the
-:meth:`list_snapshots() <fiftyone.management.snapshot.list_snapshots>` method
+:meth:`list_snapshots() <tensorgrid.management.snapshot.list_snapshots>` method
 from the Management SDK.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     dataset_name = "quickstart"
     fom.list_snapshots(dataset_name)
 
 Then you can get more detailed information on a single Snapshot using the
-:meth:`get_snapshot_info() <fiftyone.management.snapshot.get_snapshot_info>`
+:meth:`get_snapshot_info() <tensorgrid.management.snapshot.get_snapshot_info>`
 method.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     dataset = "quickstart"
     snapshot_name = "v0.1"
@@ -344,7 +344,7 @@ Snapshot in the UI.
     :align: center
 
 This will open the Snapshot in the normal dataset samples UI with all your
-favorite FiftyOne visualization tools at your fingertips! However, all
+favorite TensorGrid visualization tools at your fingertips! However, all
 dataset-modification features such as tagging have been removed.
 
 We can also link directly to this Snapshot page by copying the URL from the
@@ -379,8 +379,8 @@ current Snapshot.
 SDK
 ~~~
 
-Snapshots can also be loaded via the FiftyOne SDK
-:func:`load_dataset() <fiftyone.core.dataset.load_dataset>` method. The
+Snapshots can also be loaded via the TensorGrid SDK
+:func:`load_dataset() <tensorgrid.core.dataset.load_dataset>` method. The
 following snippet will load an existing Snapshot of a dataset. It can then be
 interacted with as if it is a normal dataset, except for any operations that
 would cause modifications.
@@ -388,7 +388,7 @@ would cause modifications.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset_name = "quickstart"
     existing_snapshot_name = "v1"
@@ -456,23 +456,23 @@ SDK
 You can also create Snapshots via the Management SDK.
 
 To get the latest changes summary as in the Create snapshot panel, use
-:meth:`get_dataset_latest_changes_summary() <fiftyone.management.snapshot.get_dataset_latest_changes_summary>`.
+:meth:`get_dataset_latest_changes_summary() <tensorgrid.management.snapshot.get_dataset_latest_changes_summary>`.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     fom.get_dataset_latest_changes_summary(dataset.name)
 
 To recalculate the latest changes summary as in the Refresh button in that
 panel, use
-:meth:`calculate_dataset_latest_changes_summary() <fiftyone.management.snapshot.calculate_dataset_latest_changes_summary>`.
+:meth:`calculate_dataset_latest_changes_summary() <tensorgrid.management.snapshot.calculate_dataset_latest_changes_summary>`.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     old = fom.calculate_dataset_latest_changes_summary(dataset.name)
     assert old == fom.get_dataset_latest_changes_summary(dataset.name)
@@ -486,13 +486,13 @@ panel, use
     assert new.updated_at > changes.updated_at
 
 To create a new Snapshot, use the
-:meth:`create_snapshot() <fiftyone.management.snapshot.create_snapshot>`
+:meth:`create_snapshot() <tensorgrid.management.snapshot.create_snapshot>`
 method.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     dataset_name = "quickstart"
     snapshot_name = "v0.1"
@@ -535,13 +535,13 @@ SDK
 ~~~
 
 You can also use the
-:meth:`delete_snapshot() <fiftyone.management.snapshot.delete_snapshot>` method
+:meth:`delete_snapshot() <tensorgrid.management.snapshot.delete_snapshot>` method
 in the Management SDK.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     dataset = "quickstart"
     snapshot_name = "v0.1"
@@ -552,7 +552,7 @@ in the Management SDK.
 Rollback dataset to snapshot
 ----------------------------
 
-In case unwanted edits have been added to the dataset HEAD, FiftyOne provides
+In case unwanted edits have been added to the dataset HEAD, TensorGrid provides
 the ability for dataset Managers to roll the dataset back (revert) to the state
 of a given Snapshot.
 
@@ -578,13 +578,13 @@ SDK
 ~~~
 
 You can also use the
-:meth:`revert_dataset_to_snapshot() <fiftyone.management.snapshot.revert_dataset_to_snapshot>`
+:meth:`revert_dataset_to_snapshot() <tensorgrid.management.snapshot.revert_dataset_to_snapshot>`
 method in the Management SDK.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     dataset = "quickstart"
     snapshot_name = "v0.1"
@@ -631,14 +631,14 @@ SDK
 ~~~
 
 You can also use the
-:meth:`archive_snapshot() <fiftyone.management.snapshot.archive_snapshot>`
+:meth:`archive_snapshot() <tensorgrid.management.snapshot.archive_snapshot>`
 method in the Management SDK:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.management as fom
+    import tensorgrid as tg
+    import tensorgrid.management as fom
 
     snapshot_name = "v0.1"
 
@@ -670,14 +670,14 @@ SDK
 ~~~
 
 You can also use the
-:meth:`unarchive_snapshot() <fiftyone.management.snapshot.unarchive_snapshot>`
+:meth:`unarchive_snapshot() <tensorgrid.management.snapshot.unarchive_snapshot>`
 method in the Management SDK:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.management as fom
+    import tensorgrid as tg
+    import tensorgrid.management as fom
 
     snapshot_name = "v0.1"
     description = "Initial dataset snapshot"
@@ -701,7 +701,7 @@ better suit the users' needs and technology preferences. In the future, this
 section will contain information and discussion about each of these available
 backends, including their strengths/limitations and configuration options.
 
-For the initial release in FiftyOne Enterprise v1.4.0, however, there is only one
+For the initial release in TensorGrid Enterprise v1.4.0, however, there is only one
 backend choice described below. Additional backends may be implemented in the
 future, but for now, releasing dataset versioning with the first
 iteration was prioritized so that users can begin to see value and provide
@@ -808,7 +808,7 @@ following advice:
 Configuration
 -------------
 
-Since Snapshots impact the storage needs of FiftyOne Enterprise, some guard rails
+Since Snapshots impact the storage needs of TensorGrid Enterprise, some guard rails
 have been put in place to control the maximum amount of Snapshots that can be
 created. If a threshold has been exceeded while a user attempts to create a
 new Snapshot, they will receive an error informing them that it may be time to
@@ -844,7 +844,7 @@ Roadmap
 _______
 
 The following are some items that are on the roadmap for future iterations
-of the dataset versioning system. Keep an eye out for future FiftyOne Enterprise
+of the dataset versioning system. Keep an eye out for future TensorGrid Enterprise
 versions for these additional features!
 
 **Near term**
@@ -863,5 +863,5 @@ versions for these additional features!
 
 -   Visualization of Snapshot diffs
 -   Implement a branch-and-merge model
--   Deep integrations with versioning backend tools to version FiftyOne
+-   Deep integrations with versioning backend tools to version TensorGrid
     datasets alongside your models and media

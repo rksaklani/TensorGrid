@@ -6,12 +6,12 @@ Agent Ecosystem
 
 .. default-role:: code
 
-Welcome to the FiftyOne Agent Ecosystem! 🤖
+Welcome to the TensorGrid Agent Ecosystem! 🤖
 
 Here you'll discover expert workflows, MCP-powered tools, and skills that
 let AI assistants take real action on your data.
 
-FiftyOne agents go beyond code generation. They import datasets, run
+TensorGrid agents go beyond code generation. They import datasets, run
 model inference, find duplicates, evaluate predictions, and build custom
 plugins, all from a single prompt. Browse the skills below to see what
 your agent can do out of the box, or :ref:`develop your own

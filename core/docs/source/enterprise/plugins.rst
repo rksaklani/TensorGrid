@@ -1,12 +1,12 @@
 .. _enterprise-plugins:
 
-FiftyOne Enterprise Plugins
+TensorGrid Enterprise Plugins
 ===========================
 
 .. default-role:: code
 
-FiftyOne Enterprise provides native support for installing and running
-:ref:`FiftyOne plugins <fiftyone-plugins>`, which offers powerful opportunities
+TensorGrid Enterprise provides native support for installing and running
+:ref:`TensorGrid plugins <fiftyone-plugins>`, which offers powerful opportunities
 to extend and customize the functionality of your Enterprise deployment to suit
 your needs.
 
@@ -49,7 +49,7 @@ Admins can install plugins via the Enterprise UI or Management SDK.
 .. note::
 
     A plugin is a directory (or ZIP of it) that contains a top-level
-    ``fiftyone.yml`` file.
+    ``tensorgrid.yml`` file.
 
 Enterprise UI
 -------------
@@ -78,13 +78,13 @@ SDK
 ---
 
 Admins can also use the
-:meth:`upload_plugin() <fiftyone.management.plugin.upload_plugin>` method from
+:meth:`upload_plugin() <tensorgrid.management.plugin.upload_plugin>` method from
 the Management SDK:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     # You can pass the directory or an already zipped version of it
     fom.upload_plugin("/path/to/plugin_dir")
@@ -114,7 +114,7 @@ upgrade.
 
 .. note::
 
-    If the `name` attribute within the uploaded plugin's `fiftyone.yml` file
+    If the `name` attribute within the uploaded plugin's `tensorgrid.yml` file
     doesn't match the existing plugin, a new plugin will be created. Simply
     delete the old one.
 
@@ -129,13 +129,13 @@ SDK
 ---
 
 Admins can also use the
-:meth:`upload_plugin() <fiftyone.management.plugin.upload_plugin>` method from
+:meth:`upload_plugin() <tensorgrid.management.plugin.upload_plugin>` method from
 the Management SDK with the `overwrite=True` option:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     # You can pass the directory or an already zipped version of it
     fom.upload_plugin("/path/to/plugin_dir", overwrite=True)
@@ -168,13 +168,13 @@ SDK
 ---
 
 Admins can also use the
-:meth:`delete_plugin() <fiftyone.management.plugin.delete_plugin>` method from
+:meth:`delete_plugin() <tensorgrid.management.plugin.delete_plugin>` method from
 the Management SDK:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     fom.delete_plugin(plugin_name)
 
@@ -213,15 +213,15 @@ SDK
 ---
 
 Admins can also use the
-:meth:`set_plugin_enabled() <fiftyone.management.plugin.set_plugin_enabled>`
+:meth:`set_plugin_enabled() <tensorgrid.management.plugin.set_plugin_enabled>`
 and
-:meth:`set_plugin_operator_enabled() <fiftyone.management.plugin.set_plugin_operator_enabled>`
+:meth:`set_plugin_operator_enabled() <tensorgrid.management.plugin.set_plugin_operator_enabled>`
 methods from the management SDK:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     # Disable a plugin
     fom.set_plugin_enabled(plugin_name, False)
@@ -275,13 +275,13 @@ SDK
 ---
 
 Admins can also use the
-:meth:`set_plugin_operator_permissions() <fiftyone.management.plugin.set_plugin_operator_permissions>`
+:meth:`set_plugin_operator_permissions() <tensorgrid.management.plugin.set_plugin_operator_permissions>`
 method from the Management SDK:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     # Set minimum role permission only
     fom.set_plugin_operator_enabled(
@@ -338,13 +338,13 @@ SDK
 ^^^
 
 Admins can also use the
-:meth:`set_organization_settings() <fiftyone.management.organization.set_organization_settings>`
+:meth:`set_organization_settings() <tensorgrid.management.organization.set_organization_settings>`
 method from the Management SDK:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.management as fom
+    import tensorgrid.management as fom
 
     fom.set_organization_settings(
         default_operator_minimum_role=fom.MEMBER,
@@ -357,10 +357,10 @@ Delegated operations
 ____________________
 
 :ref:`Delegated operations <delegated-operations>` are a powerful feature of
-FiftyOne's plugin framework that allows users to schedule tasks from within the
+TensorGrid's plugin framework that allows users to schedule tasks from within the
 App that are executed in the background on a connected compute cluster.
 
-With FiftyOne Enterprise, your team can
+With TensorGrid Enterprise, your team can
 :ref:`upload and permission <enterprise-plugins-page>` custom operations that
 your users can execute from the Enterprise App, all of which run against a
 central orchestrator :ref:`configured by <enterprise-delegated-orchestrator>`
@@ -368,58 +368,58 @@ your admins.
 
 Why is this awesome? Your AI stack needs a flexible data-centric component that
 enables you to organize and compute on your data. With delegated operations,
-FiftyOne Enterprise becomes both a dataset management/visualization tool and a
+TensorGrid Enterprise becomes both a dataset management/visualization tool and a
 workflow automation tool that defines how your data-centric workflows like
-ingestion, curation, and evaluation are performed. In short, think of FiftyOne
+ingestion, curation, and evaluation are performed. In short, think of TensorGrid
 Enterprise as the single source of truth on which you co-develop your data and
 models together.
 
 What can delegated operations do for you? Get started by installing any of
 these plugins available in the
-`FiftyOne Plugins <https://github.com/voxel51/fiftyone-plugins>`_ repository:
+`TensorGrid Plugins <https://github.com/rksaklani/TensorGrid-plugins>`_ repository:
 
 .. table::
     :widths: 35 65
 
     +-------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-    | `@voxel51/annotation <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/annotation/README.md>`_ | ✏️ Utilities for integrating FiftyOne with annotation tools                                                               |
+    | `@voxel51/annotation <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/annotation/README.md>`_ | ✏️ Utilities for integrating TensorGrid with annotation tools                                                               |
     +-------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-    | `@voxel51/brain <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/brain/README.md>`_           |  🧠 Utilities for working with the FiftyOne Brain                                                                         |
+    | `@voxel51/brain <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/brain/README.md>`_           |  🧠 Utilities for working with the TensorGrid Brain                                                                         |
     +-------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-    | `@voxel51/evaluation <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/evaluation/README.md>`_ |  ✅ Utilities for evaluating models with FiftyOne                                                                         |
+    | `@voxel51/evaluation <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/evaluation/README.md>`_ |  ✅ Utilities for evaluating models with TensorGrid                                                                         |
     +-------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-    | `@voxel51/io <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/io/README.md>`_                 | 📁 A collection of import/export utilities                                                                                |
+    | `@voxel51/io <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/io/README.md>`_                 | 📁 A collection of import/export utilities                                                                                |
     +-------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-    | `@voxel51/indexes <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/indexes/README.md>`_       | 📈 Utilities working with FiftyOne database indexes                                                                       |
+    | `@voxel51/indexes <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/indexes/README.md>`_       | 📈 Utilities working with TensorGrid database indexes                                                                       |
     +-------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-    | `@voxel51/utils <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/utils/README.md>`_           | ⚒️ Call your favorite SDK utilities from the App                                                                          |
+    | `@voxel51/utils <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/utils/README.md>`_           | ⚒️ Call your favorite SDK utilities from the App                                                                          |
     +-------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-    | `@voxel51/voxelgpt <https://github.com/voxel51/voxelgpt>`_                                                  | 🤖 An AI assistant that can query visual datasets, search the FiftyOne docs, and answer general computer vision questions |
+    | `@voxel51/voxelgpt <https://github.com/voxel51/voxelgpt>`_                                                  | 🤖 An AI assistant that can query visual datasets, search the TensorGrid docs, and answer general computer vision questions |
     +-------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------+
-    | `@voxel51/zoo <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/zoo/README.md>`_               | 🌎 Download datasets and run inference with models from the FiftyOne Zoo, all without leaving the App                     |
+    | `@voxel51/zoo <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/zoo/README.md>`_               | 🌎 Download datasets and run inference with models from the TensorGrid Zoo, all without leaving the App                     |
     +-------------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------+
 
 For example, wish you could import data from within the App? With the
-`@voxel51/io <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/io/README.md>`_,
+`@voxel51/io <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/io/README.md>`_,
 plugin you can!
 
 .. image:: /images/plugins/operators/examples/import.gif
 
 Want to send data for annotation from within the App? Sure thing, just install the
-`@voxel51/annotation <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/annotation/README.md>`_
+`@voxel51/annotation <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/annotation/README.md>`_
 plugin:
 
 .. image:: /images/plugins/operators/examples/annotation.gif
 
 Have model predictions on your dataset that you want to evaluate? The
-`@voxel51/evaluation <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/evaluation/README.md>`_
+`@voxel51/evaluation <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/evaluation/README.md>`_
 plugin makes it easy:
 
 .. image:: /images/plugins/operators/examples/evaluation.gif
 
 Need to compute embedding for your dataset so you can visualize them in the
 :ref:`Embeddings panel <app-embeddings-panel>`? Kick off the task with the
-`@voxel51/brain <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/brain/README.md>`_
+`@voxel51/brain <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/brain/README.md>`_
 plugin and proceed with other work while the execution happens in the background:
 
 .. image:: /images/plugins/operators/examples/embeddings.gif
@@ -439,7 +439,7 @@ _________________________________
 
 .. versionadded:: 2.11.0
 
-FiftyOne Enterprise supports distributed execution of delegated operations
+TensorGrid Enterprise supports distributed execution of delegated operations
 across many workers in parallel.
 
 When you schedule a
@@ -477,7 +477,7 @@ including fine-grained details about each individual worker, from the
 
 .. note::
 
-    Contact your Voxel51 support team to increase your deployment's maximum
+    Contact your TensorGrid support team to increase your deployment's maximum
     delegated operation capacity.
 
 .. _enterprise-delegated-orchestrator:
@@ -485,17 +485,17 @@ including fine-grained details about each individual worker, from the
 Configuring your orchestrator(s)
 ________________________________
 
-FiftyOne Enterprise offers a builtin orchestrator that is configured as part of
+TensorGrid Enterprise offers a builtin orchestrator that is configured as part of
 your team's deployment with a default level of compute capacity.
 
-As you scale your usage of FiftyOne, you'll likely want to scale your
+As you scale your usage of TensorGrid, you'll likely want to scale your
 deployment's compute capacity and take advantage of advanced features such as
 configuring an on-demand compute integration with your external compute
 platform such as Databricks or Anyscale.
 
 .. note::
 
-    Contact your Voxel51 support team to scale your deployment's compute
+    Contact your TensorGrid support team to scale your deployment's compute
     capacity, for more information about on-demand compute integrations,
     or if you'd like to use another external orchestrator.
 
@@ -511,26 +511,26 @@ On-demand compute __SUB_NEW__
     On-demand compute is currently in **beta** and its API or functionality may
     change in future releases.
 
-FiftyOne Enterprise supports executing delegated operations on-demand in
+TensorGrid Enterprise supports executing delegated operations on-demand in
 your connected external compute platform. With on-demand compute, resources are
 only provisioned and used when they're actually needed, minimizing idle times.
 
-On-demand compute is currently supported on FiftyOne's Kubernetes Orchestrator,
+On-demand compute is currently supported on TensorGrid's Kubernetes Orchestrator,
 `Databricks <https://www.databricks.com/>`_, and
 `Anyscale <https://www.anyscale.com/>`_.
 
 Administrators can refer to the
-`deployment guide <https://github.com/voxel51/fiftyone-teams-app-deploy/blob/main/docs/configuring-on-demand-orchestrator.md>`_
-to learn how to configure on-demand compute for their FiftyOne Enterprise
+`deployment guide <https://github.com/rksaklani/TensorGrid-teams-app-deploy/blob/main/docs/configuring-on-demand-orchestrator.md>`_
+to learn how to configure on-demand compute for their TensorGrid Enterprise
 deployment.
 
 External orchestrators
 ----------------------
 
-It is also possible to connect your FiftyOne Enterprise deployment to other
+It is also possible to connect your TensorGrid Enterprise deployment to other
 externally-managed workflow orchestration tools, such as
 `Airflow <https://airflow.apache.org>`_, `Flyte <https://flyte.org>`_, and
-`Spark <https://spark.apache.org/>`_. Please contact your Voxel51 support team
+`Spark <https://spark.apache.org/>`_. Please contact your TensorGrid support team
 for further details.
 
 .. _enterprise-managing-delegated-operations:
@@ -538,7 +538,7 @@ for further details.
 Managing delegated operations
 _____________________________
 
-Every dataset in FiftyOne Enterprise has a Runs page that allows users with access
+Every dataset in TensorGrid Enterprise has a Runs page that allows users with access
 to monitor and explore delegated operations scheduled against that dataset.
 
 All scheduled operations are maintained in a queue and will be automatically
@@ -823,7 +823,7 @@ The Logs tab on the Run page allows you to view logs for a delegated operation.
 .. note::
 
     Logs are only available for delegated operations that were executed on the
-    builtin FiftyOne Orchestrator. If you are using an external orchestrator,
+    builtin TensorGrid Orchestrator. If you are using an external orchestrator,
     log availability depends on your specific integration and configuration.
 
 **Viewing logs**

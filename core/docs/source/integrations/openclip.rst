@@ -5,10 +5,10 @@ OpenCLIP Integration
 
 .. default-role:: code
 
-FiftyOne integrates natively with the
+TensorGrid integrates natively with the
 `OpenCLIP <https://github.com/mlfoundations/open_clip>`_ library, an open
 source implementation of OpenAI's CLIP (Contrastive Language-Image
-Pre-training) model that you can use to run inference on your FiftyOne datasets
+Pre-training) model that you can use to run inference on your TensorGrid datasets
 with a few lines of code!
 
 .. _openclip-setup:
@@ -32,12 +32,12 @@ Model zoo
 _________
 
 You can load the original ViT-B-32 OpenAI pretrained model from the
-:ref:`FiftyOne Model Zoo <model-zoo>` as follows:
+:ref:`TensorGrid Model Zoo <model-zoo>` as follows:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     model = foz.load_zoo_model("open-clip-torch")
 
@@ -90,7 +90,7 @@ classes to output during zero shot classification.
 
 .. note::
 
-    While OpenCLIP models are typically set to train mode by default, the FiftyOne
+    While OpenCLIP models are typically set to train mode by default, the TensorGrid
     integration sets the model to eval mode before running inference.
 
 For example we can run inference as such:
@@ -98,8 +98,8 @@ For example we can run inference as such:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -132,7 +132,7 @@ embeddings:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.brain as fob
+    import tensorgrid.brain as fob
 
     meta_clip = foz.load_zoo_model(
         "open-clip-torch",
@@ -178,16 +178,16 @@ OpenCLIP can also be used for
 
 To use a specific pretrained-checkpoint pair for text similarity search, pass
 these in as a  dictionary via the `model_kwargs` argument to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`.
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`.
 
 For example, for MetaCLIP, we can do the following:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.brain as fob
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.brain as fob
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -205,7 +205,7 @@ For example, for MetaCLIP, we can do the following:
     )
 
 You can then search by text similarity in Python via the
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 stage as follows:
 
 .. code-block:: python

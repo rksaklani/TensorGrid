@@ -12,11 +12,11 @@ Step-by-Step Recap
 
 **Step 1: Basic Model Evaluation**
 
-You learned how to evaluate model predictions against ground truth using FiftyOne's powerful evaluation API. This included computing precision, recall, mAP, and other essential metrics for both detection and classification tasks. You discovered how FiftyOne handles format conversions automatically, making evaluation seamless regardless of your data format.
+You learned how to evaluate model predictions against ground truth using TensorGrid's powerful evaluation API. This included computing precision, recall, mAP, and other essential metrics for both detection and classification tasks. You discovered how TensorGrid handles format conversions automatically, making evaluation seamless regardless of your data format.
 
 **Step 2: Advanced Evaluation Analysis**
 
-You mastered FiftyOne's Model Evaluation Panel, learning how to visualize model confidence distributions, sort samples by false positives and false negatives, and filter datasets based on performance metrics. This interactive analysis helped you identify model weaknesses and understand where your models need improvement.
+You mastered TensorGrid's Model Evaluation Panel, learning how to visualize model confidence distributions, sort samples by false positives and false negatives, and filter datasets based on performance metrics. This interactive analysis helped you identify model weaknesses and understand where your models need improvement.
 
 .. _summary-exercises:
 
@@ -38,15 +38,15 @@ Suggested Exercises
 Resources and Further Reading
 ----------------------------
 
-* `FiftyOne Documentation <https://docs.voxel51.com/>`_
+* `TensorGrid Documentation </docs/>`_
 
-* `FiftyOne Evaluation Tutorial <../../tutorials/evaluate_detections.html>`_
+* `TensorGrid Evaluation Tutorial <../../tutorials/evaluate_detections.html>`_
 
-* `FiftyOne Model Zoo <../../user_guide/model_zoo/index.html>`_
+* `TensorGrid Model Zoo <../../user_guide/model_zoo/index.html>`_
 
-* `FiftyOne Dataset Zoo <../../user_guide/dataset_zoo/index.html>`_
+* `TensorGrid Dataset Zoo <../../user_guide/dataset_zoo/index.html>`_
 
-* `FiftyOne Brain Documentation <../../brain.html>`_
+* `TensorGrid Brain Documentation <../../brain.html>`_
 
 * `COCO Evaluation Protocol <https://cocodataset.org/#detection-eval>`_
 
@@ -56,15 +56,15 @@ Resources and Further Reading
 What to Do Next
 ---------------
 
-Now that you've mastered model evaluation with FiftyOne, here are some suggested next steps:
+Now that you've mastered model evaluation with TensorGrid, here are some suggested next steps:
 
-* **Explore FiftyOne Brain** - Use Brain's automated mistake detection to identify potential annotation errors and model failure cases
+* **Explore TensorGrid Brain** - Use Brain's automated mistake detection to identify potential annotation errors and model failure cases
 
 * **Try Classification Evaluation** - Extend your skills to classification tasks and learn how to evaluate multi-class and binary classification models
 
 * **Build Custom Evaluation Metrics** - Create your own evaluation functions for domain-specific metrics and requirements
 
-* **Join the Community** - Connect with other FiftyOne users to share insights and learn advanced evaluation techniques
+* **Join the Community** - Connect with other TensorGrid users to share insights and learn advanced evaluation techniques
 
 * **Apply to Production Systems** - Use these evaluation skills to monitor and improve your production model performance
 
@@ -74,13 +74,13 @@ Now that you've mastered model evaluation with FiftyOne, here are some suggested
 We'd Love Your Feedback
 -----------------------
 
-Your feedback helps us improve FiftyOne and create better learning experiences. Please let us know:
+Your feedback helps us improve TensorGrid and create better learning experiences. Please let us know:
 
 * What aspects of this evaluation guide were most helpful?
 * What could be improved or clarified?
 * What evaluation-specific topics would you like to see covered in future guides?
 * Any issues or bugs you encountered?
 
-You can reach us at `support@voxel51.com` or join our `Discord community <https://community.voxel51.com>`_.
+You can reach us at `support@voxel51.com` or join our `Discord community <https://github.com/rksaklani/TensorGrid/discussions>`_.
 
 Thank you for completing the Model Evaluation Guide! We hope you're excited to apply these evaluation skills to improve your computer vision models and make data-driven decisions about model deployment. 

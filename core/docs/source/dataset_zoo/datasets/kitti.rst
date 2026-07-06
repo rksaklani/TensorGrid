@@ -26,7 +26,7 @@ object development kit on the KITTI homepage.
 -   Tags: ``image, detection``
 -   Supported splits: ``train, test``
 -   ZooDataset class:
-    :class:`KITTIDataset <fiftyone.zoo.datasets.base.KITTIDataset>`
+    :class:`KITTIDataset <tensorgrid.zoo.datasets.base.KITTIDataset>`
 
 **Example usage**
 
@@ -37,8 +37,8 @@ object development kit on the KITTI homepage.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("kitti", split="train")
 
@@ -48,9 +48,9 @@ object development kit on the KITTI homepage.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load kitti --split train
+        tensorgrid zoo datasets load kitti --split train
 
-        fiftyone app launch kitti-train
+        tensorgrid app launch kitti-train
 
 .. image:: /images/dataset_zoo/kitti-train.png
    :alt: kitti-train

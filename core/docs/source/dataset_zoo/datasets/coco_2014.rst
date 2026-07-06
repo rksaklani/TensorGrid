@@ -14,10 +14,10 @@ version of the dataset.
 .. note::
 
     With support from the `COCO team <https://cocodataset.org/#download>`_,
-    FiftyOne is a recommended tool for downloading, visualizing, and evaluating
+    TensorGrid is a recommended tool for downloading, visualizing, and evaluating
     on the COCO dataset!
 
-    Check out :ref:`this guide <coco>` for more details on using FiftyOne to
+    Check out :ref:`this guide <coco>` for more details on using TensorGrid to
     work with COCO.
 
 **Notes**
@@ -36,7 +36,7 @@ version of the dataset.
 -   Tags: ``image, detection, segmentation``
 -   Supported splits: ``train, validation, test``
 -   ZooDataset class:
-    :class:`COCO2014Dataset <fiftyone.zoo.datasets.base.COCO2014Dataset>`
+    :class:`COCO2014Dataset <tensorgrid.zoo.datasets.base.COCO2014Dataset>`
 
 **Full split stats**
 
@@ -46,14 +46,14 @@ version of the dataset.
 
 **Partial downloads**
 
-FiftyOne provides parameters that can be used to efficiently download specific
+TensorGrid provides parameters that can be used to efficiently download specific
 subsets of the COCO dataset to suit your needs. When new subsets are specified,
-FiftyOne will use existing downloaded data first if possible before resorting
+TensorGrid will use existing downloaded data first if possible before resorting
 to downloading additional data from the web.
 
 The following parameters are available to configure a partial download of
 COCO-2014 by passing them to
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`:
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`:
 
 -   **split** (*None*) and **splits** (*None*): a string or list of strings,
     respectively, specifying the splits to load. Supported values are
@@ -108,10 +108,10 @@ COCO-2014 by passing them to
 .. note::
 
     See
-    :class:`COCO2014Dataset <fiftyone.zoo.datasets.base.COCO2014Dataset>` and
-    :class:`COCODetectionDatasetImporter <fiftyone.utils.coco.COCODetectionDatasetImporter>`
+    :class:`COCO2014Dataset <tensorgrid.zoo.datasets.base.COCO2014Dataset>` and
+    :class:`COCODetectionDatasetImporter <tensorgrid.utils.coco.COCODetectionDatasetImporter>`
     for complete descriptions of the optional keyword arguments that you can
-    pass to :func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`.
+    pass to :func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`.
 
 **Example usage**
 
@@ -122,8 +122,8 @@ COCO-2014 by passing them to
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         #
         # Load 50 random samples from the validation split
@@ -190,12 +190,12 @@ COCO-2014 by passing them to
         # By default, only detections are loaded
         #
 
-        fiftyone zoo datasets load coco-2014 \
+        tensorgrid zoo datasets load coco-2014 \
             --split validation \
             --kwargs \
                 max_samples=50
 
-        fiftyone app launch coco-2014-validation-50
+        tensorgrid app launch coco-2014-validation-50
 
         #
         # Load segmentations for 25 samples from the validation split that
@@ -209,14 +209,14 @@ COCO-2014 by passing them to
         # Images will only be downloaded if necessary
         #
 
-        fiftyone zoo datasets load coco-2014 \
+        tensorgrid zoo datasets load coco-2014 \
             --split validation \
             --kwargs \
                 label_types=segmentations \
                 classes=cat,dog \
                 max_samples=25
 
-        fiftyone app launch coco-2014-validation-25
+        tensorgrid app launch coco-2014-validation-25
 
         #
         # Download the entire validation split and load both detections and
@@ -226,12 +226,12 @@ COCO-2014 by passing them to
         # downloading any images
         #
 
-        fiftyone zoo datasets load coco-2014 \
+        tensorgrid zoo datasets load coco-2014 \
             --split validation \
             --kwargs \
                 label_types=detections,segmentations
 
-        fiftyone app launch coco-2014-validation
+        tensorgrid app launch coco-2014-validation
 
 .. image:: /images/dataset_zoo/coco-2014-validation.png
    :alt: coco-2014-validation

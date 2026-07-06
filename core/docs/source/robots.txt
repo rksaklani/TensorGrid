@@ -1,4 +1,4 @@
-# robots.txt for https://docs.voxel51.com/
+# robots.txt for /docs/
 # Generated: 2026-05-26
 # -----------------------------------------------
 # Allow all crawlers including AI bots
@@ -11,13 +11,13 @@ Disallow: /_sources/
 Disallow: /.doctrees/
 Disallow: /searchindex.js
 # Disallow noisy internal API submodules
-Disallow: /api/fiftyone.brain.internal/
-Disallow: /api/fiftyone.core.odm/
-Disallow: /api/fiftyone.core.session/
-Disallow: /api/fiftyone.factory.repos/
-Disallow: /api/fiftyone.operators.cache/
-Disallow: /api/fiftyone.operators.store/
+Disallow: /api/tensorgrid.brain.internal/
+Disallow: /api/tensorgrid.core.odm/
+Disallow: /api/tensorgrid.core.session/
+Disallow: /api/tensorgrid.factory.repos/
+Disallow: /api/tensorgrid.operators.cache/
+Disallow: /api/tensorgrid.operators.store/
 # -----------------------------------------------
 # Sitemap
 # -----------------------------------------------
-Sitemap: https://docs.voxel51.com/sitemap.xml
+Sitemap: /docs/sitemap.xml

@@ -5,7 +5,7 @@ Developing Plugins
 
 .. default-role:: code
 
-This page describes how to write your own FiftyOne plugins.
+This page describes how to write your own TensorGrid plugins.
 
 .. note::
 
@@ -20,7 +20,7 @@ _______________
 Plugins are composed of one or more panels, operators, skills, and components.
 
 Together these building blocks enable you to build full-featured interactive
-data applications that tailor FiftyOne to your specific use case and workflow.
+data applications that tailor TensorGrid to your specific use case and workflow.
 Whether you're working with images, videos, or other data types, a plugin can
 help you streamline your machine learning workflows and co-develop your data
 and models.
@@ -33,13 +33,13 @@ and models.
 Plugin types
 ------------
 
-FiftyOne plugins can be written in Python or JavaScript (JS), or a combination
+TensorGrid plugins can be written in Python or JavaScript (JS), or a combination
 of both.
 
-Python plugins are built using the `fiftyone` package, pip packages, and your
+Python plugins are built using the `tensorgrid` package, pip packages, and your
 own Python. They can consist of panels, operators, and skills.
 
-JS plugins are built using the `@fiftyone` TypeScript packages, npm packages,
+JS plugins are built using the `@tensorgrid` TypeScript packages, npm packages,
 and your own TypeScript. They can consist of panels, operators, skills, and custom
 components.
 
@@ -53,7 +53,7 @@ Panels are miniature full-featured data applications that you can open in
 dataset and update/respond to updates from other spaces that are currently open
 in the App.
 
-FiftyOne natively includes the following Panels:
+TensorGrid natively includes the following Panels:
 
 -   :ref:`Samples panel <app-samples-panel>`: the media grid that loads by
     default when you launch the App
@@ -83,8 +83,8 @@ more complex workflows such as requesting annotation of samples from a
 configurable backend. Operators can even be composed of other operators or be
 used to add functionality to custom panels.
 
-FiftyOne comes with a number of builtin :mod:`Python <plugins.operators>` and
-`JavaScript <https://github.com/voxel51/fiftyone/blob/develop/app/packages/operators/src/built-in-operators.ts>`_
+TensorGrid comes with a number of builtin :mod:`Python <plugins.operators>` and
+`JavaScript <https://github.com/rksaklani/TensorGrid/blob/develop/app/packages/operators/src/built-in-operators.ts>`_
 operators for common tasks that are intended for either user-facing or internal
 plugin use.
 
@@ -102,7 +102,7 @@ Skills
 ------
 
 Skills are Markdown files that teach AI agents how to perform complex
-FiftyOne workflows using natural language. Each skill describes a task that
+TensorGrid workflows using natural language. Each skill describes a task that
 an agent can be asked to perform, providing step-by-step guidance that the
 agent follows to complete the workflow autonomously.
 
@@ -118,12 +118,12 @@ Components
 
 Components are responsible for rendering and event handling in plugins. They
 provide the necessary functionality to display and interact with your plugin in
-the FiftyOne App. Components also implement form inputs and output rendering
+the TensorGrid App. Components also implement form inputs and output rendering
 for operators, making it possible to customize the way an operator is rendered
-in the FiftyOne App.
+in the TensorGrid App.
 
-For example, FiftyOne comes with a wide variety of
-:mod:`builtin types <fiftyone.operators.types>` that you can leverage to build
+For example, TensorGrid comes with a wide variety of
+:mod:`builtin types <tensorgrid.operators.types>` that you can leverage to build
 complex input and output forms for your operators.
 
 .. image:: /images/plugins/file-explorer.gif
@@ -140,21 +140,21 @@ Development setup
 _________________
 
 In order to develop Python plugins, you can use either a release or source
-install of FiftyOne:
+install of TensorGrid:
 
 .. code-block:: shell
 
-    pip install fiftyone
+    pip install tensorgrid-platform
 
 In order to develop JS plugins, you will need a
-`source install <https://github.com/voxel51/fiftyone#installing-from-source>`_
-of FiftyOne and a vite config that links modules to your `fiftyone/app`
+`source install <https://github.com/rksaklani/TensorGrid#installing-from-source>`_
+of TensorGrid and a vite config that links modules to your `fiftyone/app`
 directory.
 
 .. note::
 
    For JS plugins we recommend forking the
-   `FiftyOne Hello World JS Example <https://github.com/voxel51/hello-world-plugin-js>`_
+   `TensorGrid Hello World JS Example <https://github.com/voxel51/hello-world-plugin-js>`_
    repository and following the conventions there to build your JS plugin.
 
 .. _plugins-local-testing:
@@ -165,18 +165,18 @@ Testing plugins locally
 .. versionadded:: 1.13.0
 
 The easiest way to test a plugin during development is the
-``fiftyone app debug`` command, which launches the App with server logs
+``tensorgrid app debug`` command, which launches the App with server logs
 printed directly to your shell:
 
 .. code-block:: shell
 
-    fiftyone app debug
+    tensorgrid app debug
 
 You can also load a specific dataset immediately on launch:
 
 .. code-block:: shell
 
-    fiftyone app debug <name>
+    tensorgrid app debug <name>
 
 .. note::
 
@@ -190,7 +190,7 @@ You can also load a specific dataset immediately on launch:
 Anatomy of a plugin
 ___________________
 
-FiftyOne recognizes plugins by searching for `fiftyone.yml` or `fiftyone.yaml`
+TensorGrid recognizes plugins by searching for `tensorgrid.yml` or `tensorgrid.yaml`
 files within your :ref:`plugins directory <plugins-directory>`.
 
 Below is an example of a plugin directory with a typical Python plugin and JS
@@ -200,12 +200,12 @@ plugin:
 
     /path/to/your/plugins/dir/
         my-js-plugin/
-            fiftyone.yml
+            tensorgrid.yml
             package.json
             dist/
                 index.umd.js
         my-py-plugin/
-            fiftyone.yml
+            tensorgrid.yml
             __init__.py
             requirements.txt
 
@@ -213,14 +213,14 @@ plugin:
 
     If the source code for a plugin already exists on disk, you can make it
     into a plugin using
-    :func:`create_plugin() <fiftyone.plugins.core.create_plugin>` or the
-    :ref:`fiftyone plugins create <cli-fiftyone-plugins-create>` CLI command.
+    :func:`create_plugin() <tensorgrid.plugins.core.create_plugin>` or the
+    :ref:`tensorgrid plugins create <cli-fiftyone-plugins-create>` CLI command.
 
     This will copy the source code to the plugins directory and create a
-    `fiftyone.yml` file for you if one does not already exist. Alternatively,
+    `tensorgrid.yml` file for you if one does not already exist. Alternatively,
     you can manually copy the code into your plugins directory.
 
-    If your FiftyOne App is already running, you may need to restart the server
+    If your TensorGrid App is already running, you may need to restart the server
     and refresh your browser to see new plugins.
 
 .. note::
@@ -231,10 +231,10 @@ plugin:
 
 .. _plugin-fiftyone-yml:
 
-fiftyone.yml
+tensorgrid.yml
 ------------
 
-All plugins must contain a `fiftyone.yml` or `fiftyone.yaml` file, which is
+All plugins must contain a `tensorgrid.yml` or `tensorgrid.yaml` file, which is
 used to define the plugin's metadata, declare any operators and panels that it
 exposes, and declare any :ref:`secrets <plugins-secrets>` that it may require.
 The following fields are available:
@@ -263,8 +263,8 @@ The following fields are available:
     +------------------------------+-----------+-----------------------------------------------------------------------------+
     | `tags`                       |           | A list of tags for the plugin                                               |
     +------------------------------+-----------+-----------------------------------------------------------------------------+
-    | `fiftyone.version`           |           | A semver version specifier (or `*`) describing the required                 |
-    |                              |           | FiftyOne version for the plugin to work properly                            |
+    | `tensorgrid.version`           |           | A semver version specifier (or `*`) describing the required                 |
+    |                              |           | TensorGrid version for the plugin to work properly                            |
     +------------------------------+-----------+-----------------------------------------------------------------------------+
     | `operators`                  |           | A list of operator names registered by the plugin, if any                   |
     +------------------------------+-----------+-----------------------------------------------------------------------------+
@@ -277,19 +277,19 @@ The following fields are available:
     +------------------------------+-----------+-----------------------------------------------------------------------------+
 
 For example, the
-`@voxel51/annotation <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/annotation/fiftyone.yml>`_
-plugin's `fiftyone.yml` looks like this:
+`@voxel51/annotation <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/annotation/tensorgrid.yml>`_
+plugin's `tensorgrid.yml` looks like this:
 
 .. code-block:: yaml
     :linenos:
 
     name: "@voxel51/annotation"
     type: plugin
-    author: Voxel51
+    author: TensorGrid
     version: 1.0.0
-    url: https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/annotation
+    url: https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/annotation
     license: Apache 2.0
-    description: Utilities for integrating FiftyOne with annotation tools
+    description: Utilities for integrating TensorGrid with annotation tools
     fiftyone:
       version: ">=0.22"
     operators:
@@ -338,31 +338,31 @@ JS plugins should define the following files:
 Publishing plugins
 __________________
 
-You can publish your FiftyOne plugins either privately or publicly by simply
+You can publish your TensorGrid plugins either privately or publicly by simply
 uploading the source directory or a ZIP of it to GitHub or another file hosting
 service.
 
 .. note::
 
-    Want to share your plugin with the FiftyOne community? Make a pull request
-    into the `FiftyOne Plugins <https://github.com/voxel51/fiftyone-plugins>`_
+    Want to share your plugin with the TensorGrid community? Make a pull request
+    into the `TensorGrid Plugins <https://github.com/rksaklani/TensorGrid-plugins>`_
     repository to add it to the
-    `Community Plugins list <https://github.com/voxel51/fiftyone-plugins#community-plugins>`_!
+    `Community Plugins list <https://github.com/rksaklani/TensorGrid-plugins#community-plugins>`_!
 
 Any users with access to the plugin's hosted location can easily
 :ref:`download it <plugins-download>` via the
-:ref:`fiftyone plugins download <cli-fiftyone-plugins-download>` CLI command:
+:ref:`tensorgrid plugins download <cli-fiftyone-plugins-download>` CLI command:
 
 .. code-block:: shell
 
     # Download plugin(s) from a GitHub repository
-    fiftyone plugins download https://github.com/<user>/<repo>[/tree/branch]
+    tensorgrid plugins download https://github.com/<user>/<repo>[/tree/branch]
 
     # Download plugin(s) by specifying the GitHub repository details
-    fiftyone plugins download <user>/<repo>[/<ref>]
+    tensorgrid plugins download <user>/<repo>[/<ref>]
 
     # Download specific plugins from a GitHub repository
-    fiftyone plugins download \\
+    tensorgrid plugins download \\
         https://github.com/<user>/<repo>[/tree/branch] \\
         --plugin-names <name1> <name2> <name3>
 
@@ -384,7 +384,7 @@ full details of the plugin system.
 
     The best way to learn how to write plugins is to use and inspect existing
     ones. Check out the
-    `FiftyOne plugins <https://github.com/voxel51/fiftyone-plugins>`_
+    `TensorGrid plugins <https://github.com/rksaklani/TensorGrid-plugins>`_
     repository for a growing collection of plugins that you can use as examples
     when developing your own.
 
@@ -399,16 +399,16 @@ defines both a JS Panel and a Python operator:
 
 .. tabs::
 
-  .. group-tab:: fiftyone.yml
+  .. group-tab:: tensorgrid.yml
 
     .. code-block:: yaml
         :linenos:
 
         name: "@voxel51/hello-world"
         type: plugin
-        author: Voxel51
+        author: TensorGrid
         version: 1.0.0
-        url: https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/hello-world/README.md
+        url: https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/hello-world/README.md
         license: Apache 2.0
         description: An example of JS and Python components in a single plugin
         fiftyone:
@@ -422,8 +422,8 @@ defines both a JS Panel and a Python operator:
     .. code-block:: python
         :linenos:
 
-        import fiftyone.operators as foo
-        import fiftyone.operators.types as types
+        import tensorgrid.operators as foo
+        import tensorgrid.operators.types as types
 
         class CountSamples(foo.Operator):
             @property
@@ -605,7 +605,7 @@ current dataset.
 .. note::
 
     Remember that you must also include the operator's name in the plugin's
-    :ref:`fiftyone.yml <plugin-fiftyone-yml>`:
+    :ref:`tensorgrid.yml <plugin-fiftyone-yml>`:
 
     .. code-block:: yaml
 
@@ -623,8 +623,8 @@ that shows a "Hello world!" notification when clicked:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.operators as foo
-    import fiftyone.operators.types as types
+    import tensorgrid.operators as foo
+    import tensorgrid.operators.types as types
 
     class HelloWorldPanel(foo.Panel):
         @property
@@ -661,7 +661,7 @@ that shows a "Hello world!" notification when clicked:
 .. note::
 
     Remember that you must also include the panel's name in the plugin's
-    :ref:`fiftyone.yml <plugin-fiftyone-yml>`:
+    :ref:`tensorgrid.yml <plugin-fiftyone-yml>`:
 
     .. code-block:: yaml
 
@@ -726,19 +726,19 @@ input properties, execute some actions based on them, and optionally return
 outputs. They can be :ref:`executed <using-operators>` by users in the App or
 triggered internally by other operators.
 
-Operators can be defined in either Python or JS, and FiftyOne comes with a
+Operators can be defined in either Python or JS, and TensorGrid comes with a
 number of builtin :mod:`Python <plugins.operators>` and
-`JS <https://github.com/voxel51/fiftyone/blob/develop/app/packages/operators/src/built-in-operators.ts>`_
+`JS <https://github.com/rksaklani/TensorGrid/blob/develop/app/packages/operators/src/built-in-operators.ts>`_
 operators for common tasks.
 
-The :mod:`fiftyone.operators.types` module and
+The :mod:`tensorgrid.operators.types` module and
 :js:mod:`@fiftyone/operators <@fiftyone/operators>` package define a rich
 builtin type system that operator developers can use to define the input and
 output properties of their operators without the need to build custom user
 interfaces from scratch. These types handle all aspects of input collection,
 validation, and component rendering for you.
 
-Operators can be composed for coordination between Python and the FiftyOne App,
+Operators can be composed for coordination between Python and the TensorGrid App,
 such as triggering a reload of samples/view to update the app with the changes
 made by the operator. Operators can also be scheduled to run by an orchestrator
 or triggered by other operators.
@@ -760,8 +760,8 @@ subsequent sections.
 .. code-block:: python
     :linenos:
 
-    import fiftyone.operators as foo
-    import fiftyone.operators.types as types
+    import tensorgrid.operators as foo
+    import tensorgrid.operators.types as types
 
     class ExampleOperator(foo.Operator):
         @property
@@ -945,7 +945,7 @@ subsequent sections.
 .. note::
 
     Remember that you must also include the operator's name in the plugin's
-    :ref:`fiftyone.yml <plugin-fiftyone-yml>`:
+    :ref:`tensorgrid.yml <plugin-fiftyone-yml>`:
 
     .. code-block:: yaml
 
@@ -958,7 +958,7 @@ Operator config
 ---------------
 
 Every operator must define a
-:meth:`config <fiftyone.operators.operator.Operator.config>` property that
+:meth:`config <tensorgrid.operators.operator.Operator.config>` property that
 defines its name, display name, and other optional metadata about its
 execution:
 
@@ -1018,13 +1018,13 @@ execution:
 Execution context
 -----------------
 
-An :class:`ExecutionContext <fiftyone.operators.executor.ExecutionContext>` is
+An :class:`ExecutionContext <tensorgrid.operators.executor.ExecutionContext>` is
 passed to each of the operator's methods at runtime. This `ctx` contains static
 information about the current state of the App (dataset, view, panel,
 selection, etc) as well as dynamic information about the current parameters and
 results.
 
-An :class:`ExecutionContext <fiftyone.operators.executor.ExecutionContext>`
+An :class:`ExecutionContext <tensorgrid.operators.executor.ExecutionContext>`
 contains the following properties:
 
 -   `ctx.params`: a dict containing the operator's current input parameter
@@ -1051,7 +1051,7 @@ contains the following properties:
     an operator prompt in the App
 -   `ctx.operator_uri` - the URI of the target operator
 -   `ctx.panel_id` - the ID of the panel that invoked the operator, if any
--   `ctx.panel` - a :class:`PanelRef <fiftyone.operators.panel.PanelRef>`
+-   `ctx.panel` - a :class:`PanelRef <tensorgrid.operators.panel.PanelRef>`
     instance that you can use to read and write the :ref:`state <panel-state>`
     and :ref:`data <panel-data>` of the current panel, if the operator was
     invoked from a panel
@@ -1063,7 +1063,7 @@ contains the following properties:
 -   `ctx.delegation_target` - the orchestrator to which the operation should be
     delegated, if applicable
 -   `ctx.ops` - an
-    :class:`Operations <fiftyone.operators.operations.Operations>` instance
+    :class:`Operations <tensorgrid.operators.operations.Operations>` instance
     that you can use to trigger builtin operations on the current context
 -   `ctx.trigger` - a method that you can use to trigger arbitrary operations
     on the current context
@@ -1080,18 +1080,18 @@ Operator inputs
 ---------------
 
 Operators can optionally implement
-:meth:`resolve_input() <fiftyone.operators.operator.Operator.resolve_input>`
+:meth:`resolve_input() <tensorgrid.operators.operator.Operator.resolve_input>`
 to define user input forms that are presented to the user as a modal in the App
 when the operator is invoked.
 
 The basic objective of
-:meth:`resolve_input() <fiftyone.operators.operator.Operator.resolve_input>`
+:meth:`resolve_input() <tensorgrid.operators.operator.Operator.resolve_input>`
 is to populate the `ctx.params` dict with user-provided parameter values, which
 are retrieved from the various subproperties of the
-:class:`Property <fiftyone.operators.types.Property>` returned by the method
+:class:`Property <tensorgrid.operators.types.Property>` returned by the method
 (`inputs` in the examples below).
 
-The :mod:`fiftyone.operators.types` module defines a rich builtin type system
+The :mod:`tensorgrid.operators.types` module defines a rich builtin type system
 that you can use to define the necessary input properties. These types handle
 all aspects of input collection, validation, and component rendering for you!
 
@@ -1110,7 +1110,7 @@ the user:
         the_message = ctx.params["message"]
 
 If the :ref:`operator's config <operator-config>` declares `dynamic=True`, then
-:meth:`resolve_input() <fiftyone.operators.operator.Operator.resolve_input>`
+:meth:`resolve_input() <tensorgrid.operators.operator.Operator.resolve_input>`
 will be called after each user input, which allows you to construct dynamic
 forms whose components may contextually change based on the already provided
 values and any other aspects of the
@@ -1119,7 +1119,7 @@ values and any other aspects of the
 .. code-block:: python
     :linenos:
 
-    import fiftyone.brain as fob
+    import tensorgrid.brain as fob
 
     def resolve_input(self, ctx):
         inputs = types.Object()
@@ -1176,7 +1176,7 @@ the property will automatically be marked as `invalid=True`. The operator's
 Common input patterns
 ---------------------
 
-The :mod:`fiftyone.operators.types` module provides a wide variety of input
+The :mod:`tensorgrid.operators.types` module provides a wide variety of input
 types and views that you can use to build rich input forms for your operators.
 This section demonstrates the most popular patterns.
 
@@ -1229,7 +1229,7 @@ Numeric inputs
 
 Use `inputs.int()` and `inputs.float()` to collect numeric values. You can
 enforce `min` and `max` constraints and optionally render the input as a
-slider via :class:`SliderView <fiftyone.operators.types.SliderView>`:
+slider via :class:`SliderView <tensorgrid.operators.types.SliderView>`:
 
 .. code-block:: python
     :linenos:
@@ -1271,7 +1271,7 @@ Boolean inputs
 
 Use `inputs.bool()` to collect boolean values. By default, a checkbox is
 rendered, but you can also use
-:class:`SwitchView <fiftyone.operators.types.SwitchView>` for a toggle
+:class:`SwitchView <tensorgrid.operators.types.SwitchView>` for a toggle
 switch:
 
 .. code-block:: python
@@ -1309,16 +1309,16 @@ switch:
 Date and datetime inputs
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use :class:`DateTimeView <fiftyone.operators.types.DateTimeView>` to render
+Use :class:`DateTimeView <tensorgrid.operators.types.DateTimeView>` to render
 a calendar picker. Set `date_only=True` to collect a date without a time
 component. The values are returned as epoch timestamps in milliseconds and
 can be converted to Python datetime objects via
-:func:`timestamp_to_datetime() <fiftyone.core.utils.timestamp_to_datetime>`:
+:func:`timestamp_to_datetime() <tensorgrid.core.utils.timestamp_to_datetime>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.core.utils as fou
+    import tensorgrid.core.utils as fou
 
     def resolve_input(self, ctx):
         inputs = types.Object()
@@ -1362,10 +1362,10 @@ can be converted to Python datetime objects via
 Dropdown and autocomplete inputs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Use :class:`DropdownView <fiftyone.operators.types.DropdownView>` to render a
+Use :class:`DropdownView <tensorgrid.operators.types.DropdownView>` to render a
 dropdown selector. For inputs where the user may also need to search or type
 a custom value, use
-:class:`AutocompleteView <fiftyone.operators.types.AutocompleteView>`:
+:class:`AutocompleteView <tensorgrid.operators.types.AutocompleteView>`:
 
 .. code-block:: python
     :linenos:
@@ -1414,7 +1414,7 @@ a custom value, use
 Radio group inputs
 ~~~~~~~~~~~~~~~~~~
 
-Use :class:`RadioGroup <fiftyone.operators.types.RadioGroup>` to render a
+Use :class:`RadioGroup <tensorgrid.operators.types.RadioGroup>` to render a
 set of mutually exclusive choices as radio buttons. You can control the
 layout via the `orientation` parameter:
 
@@ -1463,13 +1463,13 @@ A common pattern is to show or hide input fields based on the current value
 of another field. To achieve this, set `dynamic=True` in the
 :ref:`operator's config <operator-config>` and use the current `ctx.params`
 to conditionally define properties in
-:meth:`resolve_input() <fiftyone.operators.operator.Operator.resolve_input>`:
+:meth:`resolve_input() <tensorgrid.operators.operator.Operator.resolve_input>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.operators as foo
-    import fiftyone.operators.types as types
+    import tensorgrid.operators as foo
+    import tensorgrid.operators.types as types
 
     class ConditionalInputsExample(foo.Operator):
         @property
@@ -1548,7 +1548,7 @@ to conditionally define properties in
 .. note::
 
     The `dynamic=True` setting causes
-    :meth:`resolve_input() <fiftyone.operators.operator.Operator.resolve_input>`
+    :meth:`resolve_input() <tensorgrid.operators.operator.Operator.resolve_input>`
     to be called after each user interaction, which is what enables the
     conditional rendering. Without it, the form is rendered only once.
 
@@ -1558,9 +1558,9 @@ File inputs
 ~~~~~~~~~~~
 
 Use `inputs.file()` with
-:class:`FileExplorerView <fiftyone.operators.types.FileExplorerView>` to
+:class:`FileExplorerView <tensorgrid.operators.types.FileExplorerView>` to
 let users browse and select files or directories. You can also use
-:class:`FileView <fiftyone.operators.types.FileView>` for drag-and-drop file
+:class:`FileView <tensorgrid.operators.types.FileView>` for drag-and-drop file
 uploads:
 
 .. code-block:: python
@@ -1609,7 +1609,7 @@ uploads:
 List inputs
 ~~~~~~~~~~~
 
-Use :class:`DropdownView <fiftyone.operators.types.DropdownView>` with
+Use :class:`DropdownView <tensorgrid.operators.types.DropdownView>` with
 ``multiple=True`` to let users select multiple values from a predefined set:
 
 .. code-block:: python
@@ -1638,7 +1638,7 @@ Use :class:`DropdownView <fiftyone.operators.types.DropdownView>` with
 
 .. note::
 
-    You can also use :class:`TagsView <fiftyone.operators.types.TagsView>`
+    You can also use :class:`TagsView <tensorgrid.operators.types.TagsView>`
     with ``inputs.list()`` to render values as chips. ``TagsView`` is best
     suited for displaying existing tags, while ``DropdownView(multiple=True)``
     is recommended when users need to choose from a known set of options.
@@ -1648,7 +1648,7 @@ Use :class:`DropdownView <fiftyone.operators.types.DropdownView>` with
 Code inputs
 ~~~~~~~~~~~
 
-Use :class:`CodeView <fiftyone.operators.types.CodeView>` to render a code
+Use :class:`CodeView <tensorgrid.operators.types.CodeView>` to render a code
 editor with syntax highlighting. Specify the `language` parameter to enable
 highlighting for the appropriate language:
 
@@ -1675,7 +1675,7 @@ highlighting for the appropriate language:
 Tabbed inputs
 ~~~~~~~~~~~~~
 
-Use :class:`TabsView <fiftyone.operators.types.TabsView>` to render a set
+Use :class:`TabsView <tensorgrid.operators.types.TabsView>` to render a set
 of choices as a horizontal tab bar. Combine with
 :ref:`conditional logic <operator-input-conditional>` to show different
 fields for each tab:
@@ -1742,17 +1742,17 @@ Caching expensive inputs
 ------------------------
 
 Some operators may need to perform expensive computations in
-:meth:`resolve_input() <fiftyone.operators.operator.Operator.resolve_input>`
+:meth:`resolve_input() <tensorgrid.operators.operator.Operator.resolve_input>`
 to collect user inputs. In such cases, the
-:func:`execution_cache <fiftyone.operators.cache.execution_cache>` decorator
+:func:`execution_cache <tensorgrid.operators.cache.execution_cache>` decorator
 can be used to optimize the operator's runtime by caching these expensive
 computations so that they are not re-computed unnecessarily. Input caching can
 be particularly important for operators that declare `dynamic=True`, as their
-:meth:`resolve_input() <fiftyone.operators.operator.Operator.resolve_input>`
+:meth:`resolve_input() <tensorgrid.operators.operator.Operator.resolve_input>`
 is called after each user interaction in the prompt modal.
 
 To use the
-:func:`execution_cache <fiftyone.operators.cache.execution_cache>` decorator,
+:func:`execution_cache <tensorgrid.operators.cache.execution_cache>` decorator,
 simply isolate any expensive computations in a dedicated method and configure
 the caching strategy according to your needs:
 
@@ -1760,7 +1760,7 @@ the caching strategy according to your needs:
     :linenos:
 
     from operator import itemgetter
-    import fiftyone.operators as foo
+    import tensorgrid.operators as foo
 
     class ExpensiveInputsOperator(foo.Operator):
         @property
@@ -1809,12 +1809,12 @@ Async data loading
 ------------------
 
 Some operators need to load data asynchronously (e.g., from an API or database)
-based on user input. The :meth:`loader() <fiftyone.operators.types.Object.loader>`
+based on user input. The :meth:`loader() <tensorgrid.operators.types.Object.loader>`
 method allows you to fetch data without blocking the form, showing a loading
 indicator while the data is being retrieved.
 
 To use a loader, define an operator that returns the data and call
-:meth:`inputs.loader() <fiftyone.operators.types.Object.loader>` to trigger it:
+:meth:`inputs.loader() <tensorgrid.operators.types.Object.loader>` to trigger it:
 
 .. code-block:: python
     :linenos:
@@ -1883,7 +1883,7 @@ values change, but will ignore changes to other parameters.
 .. note::
 
     Loaders require ``dynamic=True`` in the operator config so that
-    :meth:`resolve_input() <fiftyone.operators.Operator.resolve_input>` is
+    :meth:`resolve_input() <tensorgrid.operators.Operator.resolve_input>` is
     re-called when the loader state changes.
 
 .. _operator-target-view:
@@ -1895,18 +1895,18 @@ Target view __SUB_NEW__
 
 A common pattern when defining operators is to allow users to choose whether an
 operator should be applied to the entire dataset, just the current view, or
-some other subset of samples. FiftyOne has a builtin utility for applying this
+some other subset of samples. TensorGrid has a builtin utility for applying this
 pattern to your operators.
 
 To use this feature, call the
-:meth:`inputs.view_target() <fiftyone.operators.types.Object.view_target>`
+:meth:`inputs.view_target() <tensorgrid.operators.types.Object.view_target>`
 function within your operator's
-:meth:`resolve_input() <fiftyone.operators.Operator.resolve_input>` method.
+:meth:`resolve_input() <tensorgrid.operators.Operator.resolve_input>` method.
 This will add a radio button group to your operator's input form that presents
 the set of possible view targets to the user. The resolved target view can then
 be accessed in the operator's
-:meth:`execute() <fiftyone.operators.Operator.execute>` method via
-:meth:`ctx.target_view() <fiftyone.operators.ExecutionContext.target_view>`.
+:meth:`execute() <tensorgrid.operators.Operator.execute>` method via
+:meth:`ctx.target_view() <tensorgrid.operators.ExecutionContext.target_view>`.
 
 Here's a simple example of an operator that uses the target view pattern to
 give the user the choice of target view to process:
@@ -1914,7 +1914,7 @@ give the user the choice of target view to process:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.operators as foo
+    import tensorgrid.operators as foo
 
     class MyTargetViewOperator(foo.Operator):
         @property
@@ -1948,7 +1948,7 @@ input form:
 
 The available choices the user will have for the target view at runtime depend
 on the current execution context and the values of any optional parameters you
-pass to :meth:`inputs.view_target() <fiftyone.operators.types.Object.view_target>`.
+pass to :meth:`inputs.view_target() <tensorgrid.operators.types.Object.view_target>`.
 
 The full set of possible view targets are:
 
@@ -1990,7 +1990,7 @@ If there is only one valid choice, the radio group is omitted completely.
 
 The target view descriptions in the input form can be configured by passing the
 optional ``action_description`` and various other description parameters to
-:meth:`inputs.view_target() <fiftyone.operators.types.Object.view_target>`.
+:meth:`inputs.view_target() <tensorgrid.operators.types.Object.view_target>`.
 If a description parameter is not ``None``, it will be used as the description
 for the corresponding target view choice. Otherwise, a default description
 will be generated such as ``f"{action_description} the entire dataset"``.
@@ -2001,10 +2001,10 @@ Operator execution
 ------------------
 
 All operators must implement
-:meth:`execute() <fiftyone.operators.operator.Operator.execute>`, which is
+:meth:`execute() <tensorgrid.operators.operator.Operator.execute>`, which is
 where their main actions are performed.
 
-The :meth:`execute() <fiftyone.operators.operator.Operator.execute>` method
+The :meth:`execute() <tensorgrid.operators.operator.Operator.execute>` method
 takes an :ref:`execution context <operator-execution-context>` as input whose
 `ctx.params` dict has been hydrated with parameters provided either by the
 user by filling out the operator's :ref:`input form <operator-inputs>` or
@@ -2015,7 +2015,7 @@ when the operator's :ref:`output form <operator-outputs>` is rendered.
 Synchronous execution
 ~~~~~~~~~~~~~~~~~~~~~
 
-Your execution method is free to make use of the full power of the FiftyOne SDK
+Your execution method is free to make use of the full power of the TensorGrid SDK
 and any external dependencies that it needs.
 
 For example, you might perform inference on a model:
@@ -2023,7 +2023,7 @@ For example, you might perform inference on a model:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     def execute(self, ctx):
         name = ctx.params["name"]
@@ -2041,13 +2041,13 @@ For example, you might perform inference on a model:
 .. note::
 
     When an operator’s
-    :meth:`execute() <fiftyone.operators.operator.Operator.execute>` method
+    :meth:`execute() <tensorgrid.operators.operator.Operator.execute>` method
     throws an error it will be displayed to the user in the browser.
 
 Asynchronous execution
 ~~~~~~~~~~~~~~~~~~~~~~
 
-The :meth:`execute() <fiftyone.operators.operator.Operator.execute>` method
+The :meth:`execute() <tensorgrid.operators.operator.Operator.execute>` method
 can also be `async`:
 
 .. code-block:: python
@@ -2066,13 +2066,13 @@ Operator composition
 
 Many operators are designed to be composed with other operators to build up
 more complex behaviors. You can trigger other operations from within an
-operator's :meth:`execute() <fiftyone.operators.operator.Operator.execute>`
-method via :meth:`ctx.ops <fiftyone.operators.operations.Operations>` and
-:meth:`ctx.trigger <fiftyone.operators.executor.ExecutionContext.trigger>`.
+operator's :meth:`execute() <tensorgrid.operators.operator.Operator.execute>`
+method via :meth:`ctx.ops <tensorgrid.operators.operations.Operations>` and
+:meth:`ctx.trigger <tensorgrid.operators.executor.ExecutionContext.trigger>`.
 
-The :meth:`ctx.ops <fiftyone.operators.operations.Operations>` property of an
+The :meth:`ctx.ops <tensorgrid.operators.operations.Operations>` property of an
 execution context exposes all builtin :mod:`Python <plugins.operators>` and
-`JavaScript <https://github.com/voxel51/fiftyone/blob/develop/app/packages/operators/src/built-in-operators.ts>`_
+`JavaScript <https://github.com/rksaklani/TensorGrid/blob/develop/app/packages/operators/src/built-in-operators.ts>`_
 operators in a conveniently documented functional interface. For example, many
 operations involve updating the current state of the App:
 
@@ -2102,7 +2102,7 @@ operations involve updating the current state of the App:
         ctx.ops.open_panel("Embeddings")
         ctx.ops.close_panel("Embeddings")
 
-The :meth:`ctx.trigger <fiftyone.operators.executor.ExecutionContext.trigger>`
+The :meth:`ctx.trigger <tensorgrid.operators.executor.ExecutionContext.trigger>`
 property is a lower-level function that allows you to invoke arbitrary
 operations by providing their URI and parameters, including all builtin
 operations as well as any operations installed via custom plugins. For example,
@@ -2139,12 +2139,12 @@ Generator execution
 
 If your :ref:`operator's config <operator-config>` declares that it is a
 generator via `execute_as_generator=True`, then its
-:meth:`execute() <fiftyone.operators.operator.Operator.execute>` method should
+:meth:`execute() <tensorgrid.operators.operator.Operator.execute>` method should
 `yield` calls to
-:meth:`ctx.ops <fiftyone.operators.operations.Operations>` methods or
-:meth:`ctx.trigger() <fiftyone.operators.executor.ExecutionContext.trigger>`,
+:meth:`ctx.ops <tensorgrid.operators.operations.Operations>` methods or
+:meth:`ctx.trigger() <tensorgrid.operators.executor.ExecutionContext.trigger>`,
 both of which trigger another operation and return a
-:class:`GeneratedMessage <fiftyone.operators.message.GeneratedMessage>`
+:class:`GeneratedMessage <tensorgrid.operators.message.GeneratedMessage>`
 instance containing the result of the invocation.
 
 For example, a common generator pattern is to use the builtin `set_progress`
@@ -2193,11 +2193,11 @@ executed in the background while you continue to use the App.
 
 .. note::
 
-    :ref:`FiftyOne Enterprise <enterprise-delegated-operations>` deployments
+    :ref:`TensorGrid Enterprise <enterprise-delegated-operations>` deployments
     come out of the box with a connected compute cluster for executing
     delegated operations at scale.
 
-    In FiftyOne Open Source, you can use delegated operations at small scale
+    In TensorGrid Open Source, you can use delegated operations at small scale
     by :ref:`running them locally <delegated-orchestrator-open-source>`.
 
 There are a variety of options available for configuring whether a given
@@ -2250,7 +2250,7 @@ Dynamic execution options
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Operators may also implement
-:meth:`resolve_execution_options() <fiftyone.operators.operator.Operator.resolve_execution_options>`
+:meth:`resolve_execution_options() <tensorgrid.operators.operator.Operator.resolve_execution_options>`
 to dynamically configure the available execution options based on the current
 execution context:
 
@@ -2284,7 +2284,7 @@ Forced delegation
 ~~~~~~~~~~~~~~~~~
 
 Operators can implement
-:meth:`resolve_delegation() <fiftyone.operators.operator.Operator.resolve_delegation>`
+:meth:`resolve_delegation() <tensorgrid.operators.operator.Operator.resolve_delegation>`
 to force a particular operation to be delegated (by returning `True`) or
 executed immediately (by returning `False`) based on the current execution
 context.
@@ -2299,7 +2299,7 @@ of the current view:
         # Force delegation for large views and immediate execution for small views
         return len(ctx.view) > 1000
 
-If :meth:`resolve_delegation() <fiftyone.operators.operator.Operator.resolve_delegation>`
+If :meth:`resolve_delegation() <tensorgrid.operators.operator.Operator.resolve_delegation>`
 is not implemented or returns `None`, then the choice of execution mode is
 deferred to the prior mechanisms described above.
 
@@ -2309,16 +2309,16 @@ Reporting progress
 ~~~~~~~~~~~~~~~~~~
 
 Delegated operations can report their execution progress by calling
-:meth:`set_progress() <fiftyone.operators.executor.ExecutionContext.set_progress>`
+:meth:`set_progress() <tensorgrid.operators.executor.ExecutionContext.set_progress>`
 on their execution context from within
-:meth:`execute() <fiftyone.operators.operator.Operator.execute>`:
+:meth:`execute() <tensorgrid.operators.operator.Operator.execute>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.core.storage as fos
-    import fiftyone.core.utils as fou
+    import tensorgrid as tg
+    import tensorgrid.core.storage as fos
+    import tensorgrid.core.utils as fou
 
     def execute(self, ctx):
         images_dir = ctx.params["images_dir"]
@@ -2336,20 +2336,20 @@ on their execution context from within
 
 .. note::
 
-    :ref:`FiftyOne Enterprise <fiftyone-enterprise>` users can view the current
+    :ref:`TensorGrid Enterprise <fiftyone-enterprise>` users can view the current
     progress of their delegated operations from the
     :ref:`Runs page <enterprise-managing-delegated-operations>`.
 
-For your convenience, all builtin methods of the FiftyOne SDK that support
+For your convenience, all builtin methods of the TensorGrid SDK that support
 rendering progress bars provide an optional `progress` method that you can use
 trigger calls to
-:meth:`set_progress() <fiftyone.operators.executor.ExecutionContext.set_progress>`
+:meth:`set_progress() <tensorgrid.operators.executor.ExecutionContext.set_progress>`
 using the pattern show below:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     def execute(self, ctx):
         images_dir = ctx.params["images_dir"]
@@ -2370,23 +2370,23 @@ using the pattern show below:
         ctx.dataset.add_images_dir(images_dir, progress=progress)
 
 You can also use the builtin
-:class:`ProgressHandler <fiftyone.operators.ProgressHandler>` class to
+:class:`ProgressHandler <tensorgrid.operators.ProgressHandler>` class to
 automatically forward logging messages to
-:meth:`set_progress() <fiftyone.operators.executor.ExecutionContext.set_progress>`
+:meth:`set_progress() <tensorgrid.operators.executor.ExecutionContext.set_progress>`
 as `label` values using the pattern shown below:
 
 .. code-block:: python
     :linenos:
 
     import logging
-    import fiftyone.operators as foo
-    import fiftyone.zoo as foz
+    import tensorgrid.operators as foo
+    import tensorgrid.zoo as foz
 
     def execute(self, ctx):
         name = ctx.params["name"]
 
-        # Automatically report all `fiftyone` logging messages
-        with foo.ProgressHandler(ctx, logger=logging.getLogger("fiftyone")):
+        # Automatically report all `tensorgrid` logging messages
+        with foo.ProgressHandler(ctx, logger=logging.getLogger("tensorgrid")):
             foz.load_zoo_dataset(name, persistent=True)
 
 .. _writing-distributed-operators:
@@ -2396,16 +2396,16 @@ Distributed execution __SUB_NEW__
 
 .. versionadded:: 1.8.0
 
-In FiftyOne Enterprise, delegated operations can be
+In TensorGrid Enterprise, delegated operations can be
 :ref:`distributed across multiple workers <enterprise-distributed-execution>`
 to accelerate computation on large datasets.
 
-Distributed execution is not available in FiftyOne Open Source, but plugin
+Distributed execution is not available in TensorGrid Open Source, but plugin
 authors can still utilize the distributed execution paradigm described here so
 that their operators can be executed in a distributed fashion when used in
-FiftyOne Enterprise. When an operator that supports distributed execution is
-used in FiftyOne Open Source, its
-:meth:`execute() <fiftyone.operators.Operator.execute>` method will simply be
+TensorGrid Enterprise. When an operator that supports distributed execution is
+used in TensorGrid Open Source, its
+:meth:`execute() <tensorgrid.operators.Operator.execute>` method will simply be
 called exactly once with the full target view on which the operator was invoked.
 
 Supporting distributed execution
@@ -2431,7 +2431,7 @@ To declare that an operator supports distributed execution, simply set
         )
 
 At runtime, a distributed operator's
-:meth:`execute() <fiftyone.operators.Operator.execute>` method is called one or
+:meth:`execute() <tensorgrid.operators.Operator.execute>` method is called one or
 more times, each with a different ``ctx.view`` that encodes the specific
 samples that should be processed in that batch:
 
@@ -2447,8 +2447,8 @@ The number of batches is
 :ref:`chosen <enterprise-distributed-execution>` by the user who schedules
 a distributed execution. The user may also opt *not* to use distributed
 execution, in which case
-:meth:`execute() <fiftyone.operators.Operator.execute>` is called exactly once.
-Any necessary batching is automatically handled by FiftyOne's scheduling engine.
+:meth:`execute() <tensorgrid.operators.Operator.execute>` is called exactly once.
+Any necessary batching is automatically handled by TensorGrid's scheduling engine.
 
 .. warning::
 
@@ -2462,9 +2462,9 @@ Supporting target views
 
 If your operator uses the :ref:`target view pattern <operator-target-view>`,
 then you should use
-:meth:`ctx.target_view() <fiftyone.operators.ExecutionContext.target_view>`
+:meth:`ctx.target_view() <tensorgrid.operators.ExecutionContext.target_view>`
 instead of ``ctx.view`` in the operator's
-:meth:`execute() <fiftyone.operators.Operator.execute>` method to ensure that
+:meth:`execute() <tensorgrid.operators.Operator.execute>` method to ensure that
 non-distributed execution continues to work as expected:
 
 .. code-block:: python
@@ -2476,10 +2476,10 @@ non-distributed execution continues to work as expected:
             ...
 
 Why is this? When the user chooses distribution execution,
-:meth:`ctx.target_view() <fiftyone.operators.ExecutionContext.target_view>`
+:meth:`ctx.target_view() <tensorgrid.operators.ExecutionContext.target_view>`
 and ``ctx.view`` are equivalent; both encode the specific samples to process in
 the current batch. However, if the user opts for non-distributed execution,
-then :meth:`ctx.target_view() <fiftyone.operators.ExecutionContext.target_view>`
+then :meth:`ctx.target_view() <tensorgrid.operators.ExecutionContext.target_view>`
 must be used as the user may have chosen a target view other than the current
 ``ctx.view``.
 
@@ -2491,7 +2491,7 @@ Operator pipelines __SUB_NEW__
 .. versionadded:: 1.10.0
 
 In addition to developing individual operators,
-:ref:`FiftyOne Enterprise <fiftyone-enterprise>` allows you to define a linear
+:ref:`TensorGrid Enterprise <fiftyone-enterprise>` allows you to define a linear
 composition of regular operators into a single **operator pipeline**. An
 operator pipeline acts as a single, higher-level operation composed of
 multiple discrete **stages**, where each stage is a call to another operator.
@@ -2499,8 +2499,8 @@ multiple discrete **stages**, where each stage is a call to another operator.
 .. note::
 
     Currently, **Operator Pipelines** are only supported for **delegated**
-    **execution** within FiftyOne Enterprise. Immediate execution or use
-    in FiftyOne Open Source is not supported for this feature.
+    **execution** within TensorGrid Enterprise. Immediate execution or use
+    in TensorGrid Open Source is not supported for this feature.
 
 .. _pipeline-operator-interface:
 
@@ -2508,15 +2508,15 @@ Defining a pipeline operator
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 To define an operator that executes a pipeline, you must subclass
-:class:`PipelineOperator <fiftyone.operators.PipelineOperator>` instead of the
-typical base :class:`Operator <fiftyone.operators.Operator>`.
+:class:`PipelineOperator <tensorgrid.operators.PipelineOperator>` instead of the
+typical base :class:`Operator <tensorgrid.operators.Operator>`.
 
 A `PipelineOperator` is structured similarly to a regular operator, but
-replaces the standard :meth:`execute() <fiftyone.operators.Operator.execute>`
+replaces the standard :meth:`execute() <tensorgrid.operators.Operator.execute>`
 method with a required method in which you define the pipeline's stages:
-:meth:`resolve_pipeline() <fiftyone.operators.PipelineOperator.resolve_pipeline>`.
+:meth:`resolve_pipeline() <tensorgrid.operators.PipelineOperator.resolve_pipeline>`.
 
-:meth:`resolve_input() <fiftyone.operators.Operator.resolve_input>` can also be
+:meth:`resolve_input() <tensorgrid.operators.Operator.resolve_input>` can also be
 implemented to define user inputs for the pipeline operator. In this case, any
 inputs defined will be available to the `resolve_pipeline()` method via
 `ctx.params`, for configuring the pipeline's stages.
@@ -2543,21 +2543,21 @@ Pipeline components
 ~~~~~~~~~~~~~~~~~~~
 
 The pipeline is constructed using core classes from
-:mod:`fiftyone.operators.types`.
+:mod:`tensorgrid.operators.types`.
 
-:class:`fiftyone.operators.types.Pipeline`
+:class:`tensorgrid.operators.types.Pipeline`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The top-level container for the stages, which `resolve_pipeline()` must return.
 The two ways to create a pipeline are:
 
 1. Instantiate an empty pipeline and add stages via
-   :meth:`stage() <fiftyone.operators.types.Pipeline.stage>`
+   :meth:`stage() <tensorgrid.operators.types.Pipeline.stage>`
 2. Instantiate a pipeline with an initial list of stages via the
-   :class:`Pipeline <fiftyone.operators.types.Pipeline>` constructor
+   :class:`Pipeline <tensorgrid.operators.types.Pipeline>` constructor
 
 
-:class:`fiftyone.operators.types.PipelineStage`
+:class:`tensorgrid.operators.types.PipelineStage`
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Represents a single step in the pipeline, which is an invocation of a regular
@@ -2573,8 +2573,8 @@ This example code shows how to define the pipeline operator
 
 .. code-block:: python
 
-    import fiftyone.operators as foo
-    import fiftyone.operators.types as types
+    import tensorgrid.operators as foo
+    import tensorgrid.operators.types as types
 
     class PipelineOp(foo.PipelineOperator):
         @property
@@ -2631,13 +2631,13 @@ This example code shows how to define the pipeline operator
 We can even dynamically configure the pipeline's stages based on user inputs
 or other aspects of the execution context. For example, this is a pipeline
 approximating the functionality of
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>`. It
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>`. It
 also showcases the alternative pipeline creation syntax.
 
 .. code-block:: python
 
-    import fiftyone.operators as foo
-    import fiftyone.operators.types as types
+    import tensorgrid.operators as foo
+    import tensorgrid.operators.types as types
 
     class ComputeVisualizationPipeline(foo.PipelineOperator):
         @property
@@ -2710,7 +2710,7 @@ When a standard operator is executed as a stage within a pipeline, its
 **`ctx.pipeline`** property.
 
 This field is an instance of
-:class:`PipelineExecutionContext <fiftyone.operators.executor.PipelineExecutionContext>`
+:class:`PipelineExecutionContext <tensorgrid.operators.executor.PipelineExecutionContext>`
 which provides information about the overall pipeline execution to the current
 stage operator.
 
@@ -2736,14 +2736,14 @@ top-level pipeline operator — including its ``view``, ``view_name``, and other
 request parameters.
 
 Use ``request_params_overrides`` on a :class:`PipelineStage
-<fiftyone.operators.types.PipelineStage>` to give a specific stage a different
+<tensorgrid.operators.types.PipelineStage>` to give a specific stage a different
 execution context. Any key you include in ``request_params_overrides`` will
 shadow the corresponding value from the top-level request for that stage only;
 all other stages are unaffected.
 
 Commonly overridden parameters include:
 
-- ``view`` — a :class:`DatasetView <fiftyone.core.view.DatasetView>` to apply
+- ``view`` — a :class:`DatasetView <tensorgrid.core.view.DatasetView>` to apply
   (serialized automatically), or ``None`` to clear any active view
 - ``view_name`` — the name of a saved view to use
 - ``selected`` — a list of selected sample IDs
@@ -2753,7 +2753,7 @@ Commonly overridden parameters include:
 
     Do **not** include ``params`` inside ``request_params_overrides``. Use the
     ``params`` field of :class:`PipelineStage
-    <fiftyone.operators.types.PipelineStage>` directly for operator parameters.
+    <tensorgrid.operators.types.PipelineStage>` directly for operator parameters.
 
 .. note::
 
@@ -2763,8 +2763,8 @@ Commonly overridden parameters include:
 
 .. code-block:: python
 
-    import fiftyone.operators as foo
-    import fiftyone.operators.types as types
+    import tensorgrid.operators as foo
+    import tensorgrid.operators.types as types
 
     class MultiViewPipeline(foo.PipelineOperator):
         @property
@@ -2821,10 +2821,10 @@ Accessing secrets
 
 Some plugins may require sensitive information such as API tokens and login
 credentials in order to function. Any secrets that a plugin requires are
-in its :ref:`fiftyone.yml <plugin-fiftyone-yml>`.
+in its :ref:`tensorgrid.yml <plugin-fiftyone-yml>`.
 
 For example, the
-`@voxel51/annotation <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/annotation/fiftyone.yml>`_
+`@voxel51/annotation <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/annotation/tensorgrid.yml>`_
 plugin declares the following secrets:
 
 .. code-block:: yaml
@@ -2843,7 +2843,7 @@ plugin declares the following secrets:
 As the naming convention implies, any necessary secrets are provided by users
 by setting environment variables with the appropriate names. For example, if
 you want to use the CVAT backend with the
-`@voxel51/annotation <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/annotation/fiftyone.yml>`_
+`@voxel51/annotation <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/annotation/tensorgrid.yml>`_
 plugin, you would set:
 
 .. code-block:: shell
@@ -2874,7 +2874,7 @@ Importing modules
 When your plugin has multiple Python files, you can import between them using
 absolute imports based on your plugin's name.
 
-Plugin names map to Python module namespaces under `fiftyone.plugins.orgs`:
+Plugin names map to Python module namespaces under `tensorgrid.plugins.orgs`:
 
 .. table::
     :widths: 40 60
@@ -2882,9 +2882,9 @@ Plugin names map to Python module namespaces under `fiftyone.plugins.orgs`:
     +------------------------------+-----------------------------------------------+
     | Plugin name                  | Module namespace                              |
     +==============================+===============================================+
-    | `@myorg/my-plugin`           | `fiftyone.plugins.orgs.myorg.my_plugin`       |
+    | `@myorg/my-plugin`           | `tensorgrid.plugins.orgs.myorg.my_plugin`       |
     +------------------------------+-----------------------------------------------+
-    | `my-plugin`                  | `fiftyone.plugins.orgs.external.my_plugin`    |
+    | `my-plugin`                  | `tensorgrid.plugins.orgs.external.my_plugin`    |
     +------------------------------+-----------------------------------------------+
 
 .. note::
@@ -2900,7 +2900,7 @@ For example, if your plugin `@myorg/my-plugin` has this structure:
 .. code-block:: text
 
     my-plugin/
-        fiftyone.yml
+        tensorgrid.yml
         __init__.py
         utils.py
         models/
@@ -2913,11 +2913,11 @@ You can import modules using absolute paths:
     :linenos:
 
     # In __init__.py
-    from fiftyone.plugins.orgs.myorg.my_plugin.utils import helper
-    from fiftyone.plugins.orgs.myorg.my_plugin.models import classifier
+    from tensorgrid.plugins.orgs.myorg.my_plugin.utils import helper
+    from tensorgrid.plugins.orgs.myorg.my_plugin.models import classifier
 
     # In models/classifier.py
-    from fiftyone.plugins.orgs.myorg.my_plugin.utils import helper
+    from tensorgrid.plugins.orgs.myorg.my_plugin.utils import helper
 
 Relative imports also work:
 
@@ -2931,7 +2931,7 @@ Relative imports also work:
 
     These module paths are for **internal plugin use only**. External code
     should not import plugin modules directly, as the namespace is created
-    dynamically when FiftyOne loads the plugin. To run plugin code from
+    dynamically when TensorGrid loads the plugin. To run plugin code from
     external scripts, use the :ref:`operator execution API <using-operators>`.
 
 .. _operator-outputs:
@@ -2940,15 +2940,15 @@ Operator outputs
 ----------------
 
 Operators can optionally implement
-:meth:`resolve_output() <fiftyone.operators.operator.Operator.resolve_output>`
+:meth:`resolve_output() <tensorgrid.operators.operator.Operator.resolve_output>`
 to define read-only output forms that are presented to the user as a modal in
 the App after the operator's execution completes.
 
 The basic objective of
-:meth:`resolve_output() <fiftyone.operators.operator.Operator.resolve_output>`
+:meth:`resolve_output() <tensorgrid.operators.operator.Operator.resolve_output>`
 is to define properties that describe how to render the values in `ctx.results`
 for the user. As with input forms, you can use the
-:mod:`fiftyone.operators.types` module to define the output properties.
+:mod:`tensorgrid.operators.types` module to define the output properties.
 
 For example, the output form below renders the number of samples (`count`)
 computed during the operator's :ref:`execution <operator-execution>`:
@@ -2983,7 +2983,7 @@ By default, operators are only accessible from the
 :ref:`operator browser <using-operators>`. However, you can place a custom
 button, icon, menu item, etc. in the App that will trigger the operator when
 clicked in any location supported by the
-:class:`types.Places <fiftyone.operators.types.Places>` enum.
+:class:`types.Places <tensorgrid.operators.types.Places>` enum.
 
 For example, you can use:
 
@@ -3013,7 +3013,7 @@ For example, you can use:
 
 |br|
 You can add a placement for an operator by implementing the
-:meth:`resolve_placement() <fiftyone.operators.operator.Operator.resolve_placement>`
+:meth:`resolve_placement() <tensorgrid.operators.operator.Operator.resolve_placement>`
 method as demonstrated below:
 
 .. tabs::
@@ -3021,8 +3021,8 @@ method as demonstrated below:
     .. code-tab:: python
         :linenos:
 
-        import fiftyone.operators as foo
-        import fiftyone.operators.types as types
+        import tensorgrid.operators as foo
+        import tensorgrid.operators.types as types
 
         class OpenHistogramsPanel(foo.Operator):
             @property
@@ -3106,7 +3106,7 @@ Panels are miniature full-featured data applications that you can open in
 dataset and update/respond to updates from other spaces that are currently open
 in the App.
 
-Panels can be defined in either Python or JS, and FiftyOne comes with a
+Panels can be defined in either Python or JS, and TensorGrid comes with a
 number of :ref:`builtin panels <plugins-design-panels>` for common tasks.
 
 Panels can be scoped to the App's grid view or modal view via their
@@ -3116,7 +3116,7 @@ provide extensibility at the micro level, focusing on individual samples and
 scenarios.
 
 Panels, like :ref:`operators <developing-operators>`, can make use of the
-:mod:`fiftyone.operators.types` module and the
+:mod:`tensorgrid.operators.types` module and the
 :js:mod:`@fiftyone/operators <@fiftyone/operators>` package, which define a
 rich builtin type system that panel developers can use to implement the layout
 and associated events that define the panel.
@@ -3149,8 +3149,8 @@ subsequent sections.
 .. code-block:: python
     :linenos:
 
-    import fiftyone.operators as foo
-    import fiftyone.operators.types as types
+    import tensorgrid.operators as foo
+    import tensorgrid.operators.types as types
 
     class ExamplePanel(foo.Panel):
         @property
@@ -3455,7 +3455,7 @@ subsequent sections.
 
         def on_click_learn_more(self, ctx):
             # Trigger a builtin operation via `ctx.ops`
-            url = "https://docs.voxel51.com/plugins/developing_plugins.html"
+            url = "/docs/plugins/developing_plugins.html"
             ctx.ops.notify(f"Check out {url} for more information")
 
         def on_selected_embeddings(self, ctx):
@@ -3483,7 +3483,7 @@ subsequent sections.
 .. note::
 
     Remember that you must also include the panel's name in the plugin's
-    :ref:`fiftyone.yml <plugin-fiftyone-yml>`:
+    :ref:`tensorgrid.yml <plugin-fiftyone-yml>`:
 
     .. code-block:: yaml
 
@@ -3496,7 +3496,7 @@ Panel config
 ------------
 
 Every panel must define a
-:meth:`config <fiftyone.operators.panel.Panel.config>` property that
+:meth:`config <tensorgrid.operators.panel.Panel.config>` property that
 defines its name, display name, surfaces, and other optional metadata about its
 behavior:
 
@@ -3544,14 +3544,14 @@ The ``surfaces`` key defines the panel's scope:
 .. note::
 
    For an example of a modal panel, refer to the
-   `label count panel <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/label_count>`_.
+   `label count panel <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/label_count>`_.
 
 .. _panel-execution-context:
 
 Execution context
 -----------------
 
-An :class:`ExecutionContext <fiftyone.operators.executor.ExecutionContext>` is
+An :class:`ExecutionContext <tensorgrid.operators.executor.ExecutionContext>` is
 passed to each of the panel's methods at runtime. This `ctx` contains static
 information about the current state of the App (dataset, view, panel,
 selection, etc) as well as dynamic information about the panel's current
@@ -3578,7 +3578,7 @@ can be updated (but not accessed) via `ctx.panel.data`.
 
 Under the hood, panel state and data is merged into a single nested object that
 maps 1-1 to the structure and naming of the properties defined by the panel's
-:meth:`render() <fiftyone.operators.panel.Panel.render>` method.
+:meth:`render() <tensorgrid.operators.panel.Panel.render>` method.
 
 The example code below shows how to access and update panel state.
 
@@ -3661,11 +3661,11 @@ Panel state
 ~~~~~~~~~~~
 
 Panel state is included in every
-:meth:`render() <fiftyone.operators.panel.Panel.render>` call and event
+:meth:`render() <tensorgrid.operators.panel.Panel.render>` call and event
 callback and is analogous to :ref:`operator parameters <operator-inputs>`:
 
 -   The values of any components defined in a panel's
-    :meth:`render() <fiftyone.operators.panel.Panel.render>` method are
+    :meth:`render() <tensorgrid.operators.panel.Panel.render>` method are
     available via corresponding state properties of the same name
 -   The current panel state is readable during a panel's execution
 
@@ -3711,7 +3711,7 @@ syntaxes shown below:
 .. warning::
 
     Don't directly modify panel state in
-    :meth:`render() <fiftyone.operators.panel.Panel.render>`, just like how
+    :meth:`render() <tensorgrid.operators.panel.Panel.render>`, just like how
     `setState()` should not be called in
     React's
     `render() <https://legacy.reactjs.org/docs/react-component.html#render>`_.
@@ -3783,7 +3783,7 @@ information that should persist across panel instances and App sessions, such
 as cached data, long-lived panel state, or user preferences.
 
 You can create/retrieve execution stores scoped to the current ``ctx.dataset``
-via :meth:`ctx.store <fiftyone.operators.executor.ExecutionContext.store>`:
+via :meth:`ctx.store <tensorgrid.operators.executor.ExecutionContext.store>`:
 
 .. code-block:: python
     :linenos:
@@ -3822,12 +3822,12 @@ via :meth:`ctx.store <fiftyone.operators.executor.ExecutionContext.store>`:
 
 For advanced use cases, it is also possible to create and use global stores
 that are available to all datasets via the
-:class:`ExecutionStore <fiftyone.operators.store.ExecutionStore>` class:
+:class:`ExecutionStore <tensorgrid.operators.store.ExecutionStore>` class:
 
 .. code-block:: python
     :linenos:
 
-    from fiftyone.operators import ExecutionStore
+    from tensorgrid.operators import ExecutionStore
 
     # Retrieve a global store
     # The store is automatically created if necessary
@@ -3862,22 +3862,22 @@ that are available to all datasets via the
 Execution cache
 ---------------
 
-The :mod:`execution cache <fiftyone.operators.cache>` is a decorator-based
+The :mod:`execution cache <tensorgrid.operators.cache>` is a decorator-based
 interface for caching function results in the execution store. This is useful
 for avoiding repeated computations in dynamic operators or persisting
 long-lived values across panel instances and App sessions.
 
 Cached entries are stored in a dataset-scoped or global
-:class:`ExecutionStore <fiftyone.operators.store.ExecutionStore>` and can be
+:class:`ExecutionStore <tensorgrid.operators.store.ExecutionStore>` and can be
 customized with TTLs, user scoping, operator prompt modal scoping, and more.
 
-Use the :func:`execution_cache <fiftyone.operators.cache.execution_cache>`
+Use the :func:`execution_cache <tensorgrid.operators.cache.execution_cache>`
 decorator to cache a function's result:
 
 .. code-block:: python
     :linenos:
 
-    from fiftyone.operators import execution_cache
+    from tensorgrid.operators import execution_cache
 
     # Default behavior: cache for the life of a dataset
     @execution_cache
@@ -3925,12 +3925,12 @@ decorator to cache a function's result:
 
 .. note::
 
-    See the :func:`execution_cache <fiftyone.operators.cache.execution_cache>`
+    See the :func:`execution_cache <tensorgrid.operators.cache.execution_cache>`
     documentation for more information about customizing the caching behavior.
 
 The function being cached must:
 
--   accept a :class:`ctx <fiftyone.operators.executor.ExecutionContext>` as the
+-   accept a :class:`ctx <tensorgrid.operators.executor.ExecutionContext>` as the
     first parameter
 -   be idempotent, i.e., same inputs produce the same outputs
 -   have serializable function arguments and return values
@@ -3940,7 +3940,7 @@ By default, cached entries are associated with the current dataset and will be
 automatically deleted when the dataset is deleted, but you can customize this
 behavior, including setting an explicit time-to-live in seconds for cached
 entries, by passing optional keyword arguments like ``ttl`` to
-:func:`execution_cache <fiftyone.operators.cache.execution_cache>`.
+:func:`execution_cache <tensorgrid.operators.cache.execution_cache>`.
 
 .. warning::
 
@@ -3955,8 +3955,8 @@ Here's an example of caching a sample using custom serialization:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    from fiftyone.operators import execution_cache
+    import tensorgrid as tg
+    from tensorgrid.operators import execution_cache
 
     def serialize_sample(sample):
         return sample.to_dict()
@@ -4022,7 +4022,7 @@ avoid roadblocks along the way.
 .. note::
 
     Check out the
-    `panel examples <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/panel-examples>`_
+    `panel examples <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/panel-examples>`_
     plugin to see a collection of fully-functional panels that demonstrate
     the common patterns below.
 
@@ -4031,7 +4031,7 @@ avoid roadblocks along the way.
 Hybrid panels (Python + JavaScript/React)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-FiftyOne supports building panels that combine Python and JavaScript/React
+TensorGrid supports building panels that combine Python and JavaScript/React
 code. This allows you to leverage the full power of React and the JS ecosystem
 while still taking advantage of the simplicity and expressiveness of Python for
 defining panel logic and state.
@@ -4044,8 +4044,8 @@ callable from JavaScript:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.operators as foo
-    import fiftyone.operators.types as types
+    import tensorgrid.operators as foo
+    import tensorgrid.operators.types as types
 
     class HybridPanel(foo.Panel):
         @property
@@ -4112,7 +4112,7 @@ On the JavaScript side, register a component whose ``name`` matches the
 
 .. note::
 
-    Check out the `Hybrid Panel Plugin <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/hybrid-panel>`_
+    Check out the `Hybrid Panel Plugin <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/hybrid-panel>`_
     for a complete example of building a hybrid panel.
 
 .. _panel-callbacks:
@@ -4131,7 +4131,7 @@ and programmatically modify the current state.
 .. note::
 
     All callback functions have access to the current
-    :class:`ExecutionContext <fiftyone.operators.executor.ExecutionContext>`
+    :class:`ExecutionContext <tensorgrid.operators.executor.ExecutionContext>`
     via their `ctx` argument and can use it to get/update panel state and
     trigger other operations.
 
@@ -4142,7 +4142,7 @@ and programmatically modify the current state.
     `on_change_brain_key`, `on_click_start`, etc.)—must be JSON-serializable.
 
     If your panel event returns a value of a custom type (for example, a NumPy
-    array or a FiftyOne Sample or custom class), you must first convert it to a
+    array or a TensorGrid Sample or custom class), you must first convert it to a
     JSON-serializable format (such as a Python list or dictionary).
 
     Returning non-serializable objects will cause errors and prevent your panel
@@ -4265,7 +4265,7 @@ panel layout based on user input.
             dropdown.add_choice(
                 "refresh",
                 label="Display Refresh Button",
-                description="Displays button that will refresh the FiftyOne App",
+                description="Displays button that will refresh the TensorGrid App",
             )
             dropdown.add_choice(
                 "reload_samples",
@@ -4291,7 +4291,7 @@ panel layout based on user input.
             if ctx.panel.state.selection == "refresh":
                 panel.btn(
                     "refresh",
-                    label="Refresh FiftyOne",
+                    label="Refresh TensorGrid",
                     on_click=self.refresh_page,
                     variant="contained",
                 )
@@ -4340,9 +4340,9 @@ the App.
 .. code-block:: python
     :linenos:
 
-    import fiftyone.operators as foo
-    import fiftyone.operators.types as types
-    from fiftyone import ViewField as F
+    import tensorgrid.operators as foo
+    import tensorgrid.operators.types as types
+    from tensorgrid import ViewField as F
 
     class InteractivePlotExample(foo.Panel):
         @property
@@ -4448,7 +4448,7 @@ Walkthroughs
 
 You can use a combination of panel objects like markdown, buttons, arrow
 navigation, and layout containers to create guided walkthroughs similar to the
-ones at `try.fiftyone.ai <https://try.fiftyone.ai/datasets/example/samples>`_.
+ones at `try.tensorgrid.ai <https://try.tensorgrid.ai/datasets/example/samples>`_.
 
 Here's an example of a panel that leads the user through multiple steps of a
 guided workflow.
@@ -4469,7 +4469,7 @@ guided workflow.
             info_table = [
                 {
                     "Dataset Name": f"{ctx.dataset.name}",
-                    "Dataset Description": "FiftyOne Quick Start Zoo Dataset",
+                    "Dataset Description": "TensorGrid Quick Start Zoo Dataset",
                     "Number of Samples": f"{ctx.dataset.count()}",
                 },
             ]
@@ -4506,7 +4506,7 @@ guided workflow.
                     """
                     ### A Tutorial Walkthrough
 
-                    Welcome to the FiftyOne App! Here is a great example of what it looks like to create a tutorial style walkthrough via a Python Panel.
+                    Welcome to the TensorGrid App! Here is a great example of what it looks like to create a tutorial style walkthrough via a Python Panel.
                 """,
                     name="markdown_screen_1",
                 )
@@ -4711,18 +4711,18 @@ Defining the types of your panel's function arguments allows you to inspect the
 methods available to an object and will dramatically help you increase your
 speed of development.
 
-With type hints, your IDE can preview helpful docstrings, trace `fiftyone`
+With type hints, your IDE can preview helpful docstrings, trace `tensorgrid`
 source code, and see what methods exist on your object during the development
 process.
 
 For example, declaring that the `ctx` variable has type
-:class:`ExecutionContext <fiftyone.operators.executor.ExecutionContext>` allows
+:class:`ExecutionContext <tensorgrid.operators.executor.ExecutionContext>` allows
 you to reveal all of its available methods during development:
 
 .. code-block:: python
     :linenos:
 
-    from fiftyone.operators import ExecutionContext
+    from tensorgrid.operators import ExecutionContext
 
     def on_load(ctx: ExecutionContext):
         ctx.trigger()
@@ -4739,13 +4739,13 @@ Developing skills
 _________________
 
 Skills are Markdown files that teach AI agents how to perform complex
-FiftyOne workflows using natural language. A skill describes a task that
+TensorGrid workflows using natural language. A skill describes a task that
 an agent can be asked to perform — such as importing a dataset, running
 inference, or finding duplicates — and provides step-by-step guidance
 that the agent follows to complete the workflow autonomously.
 
-You can bundle skills inside any FiftyOne plugin by placing them in a
-`skills/` subdirectory and declaring their names in your `fiftyone.yml`:
+You can bundle skills inside any TensorGrid plugin by placing them in a
+`skills/` subdirectory and declaring their names in your `tensorgrid.yml`:
 
 .. code-block:: yaml
 
@@ -4773,7 +4773,7 @@ To start building your own JS plugin, refer to the
 repository. This repo serves as a starting point, providing examples of a build
 process, a JS panel, and a JS operator.
 
-The `fiftyone-js-plugin-build <https://github.com/voxel51/fiftyone-js-plugin-build>`_
+The `fiftyone-js-plugin-build <https://github.com/rksaklani/TensorGrid-js-plugin-build>`_
 package offers a utility for configuring `vite <https://vite.dev>`_ to build your
 JS plugin bundle.
 
@@ -4781,7 +4781,7 @@ Component types
 ---------------
 
 JS plugins may register components to add or customize functionality within the
-FiftyOne App. Each component is registered with an activation function. The
+TensorGrid App. Each component is registered with an activation function. The
 component will only be considered for rendering when the activation function
 returns `true`:
 
@@ -4794,7 +4794,7 @@ Panels and Components
 ---------------------
 
 Here's some examples of using panels and components to add your
-own custom user interface and components to the FiftyOne App.
+own custom user interface and components to the TensorGrid App.
 
 Hello world panel
 ~~~~~~~~~~~~~~~~~
@@ -4864,7 +4864,7 @@ Adding a custom Panel
         // component to delegate to
         component: CustomPanel,
 
-        // tell FiftyOne you want to provide a custom panel
+        // tell TensorGrid you want to provide a custom panel
         type: PluginComponentTypes.Panel,
 
         // used for the panel selector button
@@ -4923,7 +4923,7 @@ Creating and registering a custom view type:
         // component to delegate to
         component: CustomOperatorView,
 
-        // tell FiftyOne you want to provide a custom component
+        // tell TensorGrid you want to provide a custom component
         type: PluginComponentTypes.Component,
 
         // activate this plugin unconditionally
@@ -4935,8 +4935,8 @@ Using the custom component as the view for a Python operator field:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.operators as foo
-    import fiftyone.operators.types as types
+    import tensorgrid.operators as foo
+    import tensorgrid.operators.types as types
 
     class CustomViewOperator(foo.Operator):
         @property
@@ -4951,7 +4951,7 @@ Using the custom component as the view for a Python operator field:
             inputs.str(
                 "name",
                 label="Name",
-                default="FiftyOne",
+                default="TensorGrid",
                 # provide the name of a registered component plugin
                 view=types.View(component="CustomOperatorView")
             )
@@ -5030,11 +5030,11 @@ both the grid and modal:
     });
 
 
-FiftyOne App state
+TensorGrid App state
 ------------------
 
 There are a few ways to manage the state of your plugin. By default you should
-defer to existing state management in the FiftyOne App.
+defer to existing state management in the TensorGrid App.
 
 For example, if you want to allow users to select samples, you can use the
 `@fiftyone/state` package.
@@ -5066,7 +5066,7 @@ use `Three.js <https://threejs.org>`_ and its object model, events, and state
 management. Or just use your own React hooks to maintain your plugin components
 internal state.
 
-If you want to allow users to interact with other aspects of FiftyOne through
+If you want to allow users to interact with other aspects of TensorGrid through
 your plugin, you can use the `@fiftyone/state` package:
 
 .. code-block:: jsx
@@ -5082,13 +5082,13 @@ your plugin, you can use the `@fiftyone/state` package:
     selectLabel({ id: "labelId", field: "fieldName" });
 
 The example above shows how you can coordinate or surface existing features of
-FiftyOne through your plugin via the `@fiftyone/state` package. This package
-provides hooks to access and modify the state of the FiftyOne App.
+TensorGrid through your plugin via the `@fiftyone/state` package. This package
+provides hooks to access and modify the state of the TensorGrid App.
 
 Recoil, atoms, and selectors
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can also use a combination of your own and fiftyone's recoil `atoms` and
+You can also use a combination of your own and tensorgrid's recoil `atoms` and
 `selectors`.
 
 Here's an example the combines both approaches in a hook that you could call
@@ -5158,7 +5158,7 @@ Plugins may support two styles of configuration settings:
     :ref:`dataset's App config <dataset-app-config>`.
 
 Plugin settings are used, for example, to allow the user to configure the
-default camera position of FiftyOne's builtin
+default camera position of TensorGrid's builtin
 :ref:`3D visualizer <app-3d-visualizer-config>`.
 
 Here's an example of a system-wide plugin setting:
@@ -5180,7 +5180,7 @@ And here's how to customize that setting for a particular dataset:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset("quickstart")
     dataset.app_config.plugins["my-plugin"] = {"mysetting": "bar"}
@@ -5199,11 +5199,11 @@ hook:
     See the :ref:`this page <configuring-plugins>` page for more information
     about configuring plugins.
 
-Querying FiftyOne
+Querying TensorGrid
 -----------------
 
 A typical use case for a JS plugin is to provide a unique way of visualizing
-FiftyOne data. However some plugins may need to also fetch data in a unique way
+TensorGrid data. However some plugins may need to also fetch data in a unique way
 to efficiently visualize it.
 
 For example, a `PluginComponentType.Panel` plugin rendering a map of geo points
@@ -5221,7 +5221,7 @@ MongoDB, such a query would look like this:
       }
     }
 
-In a FiftyOne plugin this same query can be performed using the
+In a TensorGrid plugin this same query can be performed using the
 `useAggregation()` method of the plugin SDK:
 
 .. code-block:: jsx
@@ -5290,9 +5290,9 @@ JS runtime
 ----------
 
 In JS, plugins are loaded from your
-:ref:`plugins directory <plugins-directory>` into the browser. The FiftyOne App
+:ref:`plugins directory <plugins-directory>` into the browser. The TensorGrid App
 server finds these plugins by looking for `package.json` files that include
-`fiftyone` as a property. This `fiftyone` property describes where the plugin
+`tensorgrid` as a property. This `tensorgrid` property describes where the plugin
 executable (dist) is.
 
 Python runtime
@@ -5306,7 +5306,7 @@ Immediate execution
 By default, all operations are executed by the plugin server immediately after
 they are triggered, either programmatically or by the user in the App.
 
-The plugin server is launched by the FiftyOne App as a subprocess that is
+The plugin server is launched by the TensorGrid App as a subprocess that is
 responsible for loading plugins and executing them. The plugin server is only
 accessible via ipc. Its interface (similar to JSON rpc) allows for functions to
 be called over interprocess communication. This allows for user python code to
@@ -5343,7 +5343,7 @@ When users execute builtin methods like
 and results information is stored on the dataset that can be accessed later;
 for example, see :ref:`managing brain runs <brain-managing-runs>`.
 
-FiftyOne also provides the ability to store *custom runs* on datasets, which
+TensorGrid also provides the ability to store *custom runs* on datasets, which
 can be used by plugin developers to persist arbitrary application-specific
 information that can be accessed later by users and/or plugins.
 
@@ -5352,7 +5352,7 @@ The interface for creating custom runs is simple:
 .. code-block:: py
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset("custom-runs-example")
     dataset.persistent = True
@@ -5375,15 +5375,15 @@ The interface for creating custom runs is simple:
 
 .. note::
 
-    :class:`RunConfig <fiftyone.core.runs.RunConfig>` and
-    :class:`RunResults <fiftyone.core.runs.RunResults>` can store any JSON
+    :class:`RunConfig <tensorgrid.core.runs.RunConfig>` and
+    :class:`RunResults <tensorgrid.core.runs.RunResults>` can store any JSON
     serializable values.
 
-    :class:`RunConfig <fiftyone.core.runs.RunConfig>` documents must be less
+    :class:`RunConfig <tensorgrid.core.runs.RunConfig>` documents must be less
     than 16MB, although they are generally far smaller as they are intended to
     store only a handful of simple parameters.
 
-    :class:`RunResults <fiftyone.core.runs.RunResults>` instances are stored in
+    :class:`RunResults <tensorgrid.core.runs.RunResults>` instances are stored in
     `GridFS <https://www.mongodb.com/docs/manual/core/gridfs>`_ and may exceed
     16MB. They are only loaded when specifically accessed by a user.
 
@@ -5392,7 +5392,7 @@ You can access custom runs at any time as follows:
 .. code-block:: py
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset("custom-runs-example")
 
@@ -5411,7 +5411,7 @@ You can access custom runs at any time as follows:
         "config": {
             "type": "run",
             "method": null,
-            "cls": "fiftyone.core.runs.RunConfig",
+            "cls": "tensorgrid.core.runs.RunConfig",
             "foo": "bar"
         }
     }
@@ -5419,7 +5419,7 @@ You can access custom runs at any time as follows:
 .. code-block:: text
 
     {
-        "cls": "fiftyone.core.runs.RunResults",
+        "cls": "tensorgrid.core.runs.RunResults",
         "spam": "eggs"
     }
 
@@ -5428,11 +5428,11 @@ You can access custom runs at any time as follows:
 Managing custom runs
 --------------------
 
-FiftyOne provides a variety of methods that you can use to manage custom runs
+TensorGrid provides a variety of methods that you can use to manage custom runs
 stored on datasets.
 
 Call
-:meth:`list_runs() <fiftyone.core.collections.SampleCollection.list_runs>`
+:meth:`list_runs() <tensorgrid.core.collections.SampleCollection.list_runs>`
 to see the available custom run keys on a dataset:
 
 .. code:: python
@@ -5441,7 +5441,7 @@ to see the available custom run keys on a dataset:
     dataset.list_runs()
 
 Use
-:meth:`get_run_info() <fiftyone.core.collections.SampleCollection.get_run_info>`
+:meth:`get_run_info() <tensorgrid.core.collections.SampleCollection.get_run_info>`
 to retrieve information about the configuration of a custom run:
 
 .. code:: python
@@ -5450,9 +5450,9 @@ to retrieve information about the configuration of a custom run:
     info = dataset.get_run_info(run_key)
     print(info)
 
-Use :meth:`init_run() <fiftyone.core.collections.SampleCollection.init_run>`
+Use :meth:`init_run() <tensorgrid.core.collections.SampleCollection.init_run>`
 and
-:meth:`register_run() <fiftyone.core.collections.SampleCollection.register_run>`
+:meth:`register_run() <tensorgrid.core.collections.SampleCollection.register_run>`
 to create a new custom run on a dataset:
 
 .. code:: python
@@ -5464,7 +5464,7 @@ to create a new custom run on a dataset:
     dataset.register_run(run_key, config)
 
 Use
-:meth:`update_run_config() <fiftyone.core.collections.SampleCollection.update_run_config>`
+:meth:`update_run_config() <tensorgrid.core.collections.SampleCollection.update_run_config>`
 to update the run config associated with an existing custom run:
 
 .. code:: python
@@ -5473,9 +5473,9 @@ to update the run config associated with an existing custom run:
     dataset.update_run_config(run_key, config)
 
 Use
-:meth:`init_run_results() <fiftyone.core.collections.SampleCollection.init_run_results>`
+:meth:`init_run_results() <tensorgrid.core.collections.SampleCollection.init_run_results>`
 and
-:meth:`save_run_results() <fiftyone.core.collections.SampleCollection.save_run_results>`
+:meth:`save_run_results() <tensorgrid.core.collections.SampleCollection.save_run_results>`
 to store run results for a custom run:
 
 .. code:: python
@@ -5490,7 +5490,7 @@ to store run results for a custom run:
     dataset.save_run_results(run_key, results, overwrite=True)
 
 Use
-:meth:`load_run_results() <fiftyone.core.collections.SampleCollection.load_run_results>`
+:meth:`load_run_results() <tensorgrid.core.collections.SampleCollection.load_run_results>`
 to load the results for a custom run:
 
 .. code:: python
@@ -5499,7 +5499,7 @@ to load the results for a custom run:
     results = dataset.load_run_results(run_key)
 
 Use
-:meth:`rename_run() <fiftyone.core.collections.SampleCollection.rename_run>`
+:meth:`rename_run() <tensorgrid.core.collections.SampleCollection.rename_run>`
 to rename the run key associated with an existing custom run:
 
 .. code:: python
@@ -5508,7 +5508,7 @@ to rename the run key associated with an existing custom run:
     dataset.rename_run(run_key, new_run_key)
 
 Use
-:meth:`delete_run() <fiftyone.core.collections.SampleCollection.delete_run>`
+:meth:`delete_run() <tensorgrid.core.collections.SampleCollection.delete_run>`
 to delete the record of a custom run from a dataset:
 
 .. code:: python

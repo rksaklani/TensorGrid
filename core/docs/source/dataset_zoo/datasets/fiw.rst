@@ -42,7 +42,7 @@ The relationships in FIW are:
         9  TBD
     =====  =====
 
-Within FiftyOne, each sample corresponds to a single face image and contains
+Within TensorGrid, each sample corresponds to a single face image and contains
 primitive labels of the Family ID, Member ID, etc. The relationship labels are
 stored as :ref:`multi-label classifications <multilabel-classification>`,
 where each classification represents one relationship that the member has with
@@ -52,12 +52,12 @@ labels.
 
 Additionally, the labels for the
 `Kinship Verification task <https://competitions.codalab.org/competitions/21843>`_
-are also loaded into this dataset through FiftyOne. These labels are stored
+are also loaded into this dataset through TensorGrid. These labels are stored
 as classifications just like relationships, but the labels of kinship differ
 from those defined above. For example, rather than Parent, the label might be
 `fd` representing a Father-Daughter kinship or `md` for Mother-Daughter.
 
-In order to make it easier to browse the dataset in the FiftyOne App, each
+In order to make it easier to browse the dataset in the TensorGrid App, each
 sample also contains a `face_id` field containing a unique integer for each
 face of a member, always starting at 0. This allows you to filter the `face_id`
 field to 0 in the App to show only a single image of each person.
@@ -105,14 +105,14 @@ benchmarks, and more), see the recent journal:
 -   Tags: ``image, kinship, verification, classification, search-and-retrieval, facial-recognition``
 -   Supported splits: ``test, val, train``
 -   ZooDataset class:
-    :class:`FIWDataset <fiftyone.zoo.datasets.base.FIWDataset>`
+    :class:`FIWDataset <tensorgrid.zoo.datasets.base.FIWDataset>`
 
 .. note::
 
-    For your convenience, FiftyOne provides
-    :func:`get_pairwise_labels() <fiftyone.utils.fiw.get_pairwise_labels>`
+    For your convenience, TensorGrid provides
+    :func:`get_pairwise_labels() <tensorgrid.utils.fiw.get_pairwise_labels>`
     and
-    :func:`get_identifier_filepaths_map() <fiftyone.utils.fiw.get_identifier_filepaths_map>`
+    :func:`get_identifier_filepaths_map() <tensorgrid.utils.fiw.get_identifier_filepaths_map>`
     utilities for FIW.
 
 **Example usage**
@@ -124,8 +124,8 @@ benchmarks, and more), see the recent journal:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("fiw", split="test")
 
@@ -135,9 +135,9 @@ benchmarks, and more), see the recent journal:
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load fiw --split test
+        tensorgrid zoo datasets load fiw --split test
 
-        fiftyone app launch fiw-test
+        tensorgrid app launch fiw-test
 
 .. image:: /images/dataset_zoo/fiw.png
    :alt: fiw

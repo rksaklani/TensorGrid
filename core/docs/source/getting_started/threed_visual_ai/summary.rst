@@ -12,18 +12,18 @@ Step-by-Step Recap
 
 **Step 1: Getting Started with 3D Datasets**
 
-You learned how to load and visualize raw 3D data, including point clouds, inside FiftyOne. This included understanding FiftyOne's Scene class and FO3D file format, working with different 3D mesh formats (GLTF, OBJ, PLY, STL, FBX), and exploring basic navigation in the 3D viewer. You mastered the concept of organizing 3D datasets for spatial tasks and understanding coordinate systems.
+You learned how to load and visualize raw 3D data, including point clouds, inside TensorGrid. This included understanding TensorGrid's Scene class and FO3D file format, working with different 3D mesh formats (GLTF, OBJ, PLY, STL, FBX), and exploring basic navigation in the 3D viewer. You mastered the concept of organizing 3D datasets for spatial tasks and understanding coordinate systems.
 
 **Step 2: Loading 3D Annotations**
 
-You explored how to add annotations like bounding boxes and labels to your point clouds. You learned how to bring in 3D annotations and overlay them seamlessly for inspection and validation. This included understanding 3D bounding box parameters (location, dimensions, rotation), 3D polylines for path annotations, and how FiftyOne automatically handles 2D vs 3D annotation types.
+You explored how to add annotations like bounding boxes and labels to your point clouds. You learned how to bring in 3D annotations and overlay them seamlessly for inspection and validation. This included understanding 3D bounding box parameters (location, dimensions, rotation), 3D polylines for path annotations, and how TensorGrid automatically handles 2D vs 3D annotation types.
 
 .. _summary-exercises:
 
 Suggested Exercises
 ------------------
 
-1. **Multi-Format 3D Data**: Experiment with different 3D file formats (GLTF, OBJ, PLY, STL) and compare how they load and display in FiftyOne. Which formats work best for your use case?
+1. **Multi-Format 3D Data**: Experiment with different 3D file formats (GLTF, OBJ, PLY, STL) and compare how they load and display in TensorGrid. Which formats work best for your use case?
 
 2. **3D Scene Composition**: Create complex 3D scenes by combining multiple meshes, point clouds, and geometric shapes. How does scene organization affect visualization?
 
@@ -38,7 +38,7 @@ Suggested Exercises
 Resources and Further Reading
 ----------------------------
 
-* `FiftyOne Documentation <https://docs.voxel51.com/>`_
+* `TensorGrid Documentation </docs/>`_
 
 * `Open3D Documentation <http://www.open3d.org/docs/>`_
 
@@ -54,7 +54,7 @@ Resources and Further Reading
 What to Do Next
 ---------------
 
-Now that you've mastered 3D data with FiftyOne, here are some suggested next steps:
+Now that you've mastered 3D data with TensorGrid, here are some suggested next steps:
 
 * **Evaluate 3D Object Detection Models** - Bring in predictions and ground truth to run performance evaluations on 3D bounding boxes
 
@@ -62,7 +62,7 @@ Now that you've mastered 3D data with FiftyOne, here are some suggested next ste
 
 * **Build Custom 3D Workflows** - Create domain-specific workflows for your particular 3D use case (autonomous driving, robotics, AR/VR, etc.)
 
-* **Join the Community** - Connect with other FiftyOne users to share insights and learn advanced 3D data techniques
+* **Join the Community** - Connect with other TensorGrid users to share insights and learn advanced 3D data techniques
 
 * **Apply to Real Projects** - Use these skills on your production 3D datasets to improve data quality and model performance
 
@@ -72,13 +72,13 @@ Now that you've mastered 3D data with FiftyOne, here are some suggested next ste
 We'd Love Your Feedback
 -----------------------
 
-Your feedback helps us improve FiftyOne and create better learning experiences. Please let us know:
+Your feedback helps us improve TensorGrid and create better learning experiences. Please let us know:
 
 * What aspects of this 3D guide were most helpful?
 * What could be improved or clarified?
 * What 3D-specific topics would you like to see covered in future guides?
 * Any issues or bugs you encountered?
 
-You can reach us at `support@voxel51.com` or join our `Discord community <https://community.voxel51.com>`_.
+You can reach us at `support@voxel51.com` or join our `Discord community <https://github.com/rksaklani/TensorGrid/discussions>`_.
 
 Thank you for completing the 3D Visual AI Guide! We hope you're excited to apply these 3D data skills to your spatial computing and computer vision projects. 

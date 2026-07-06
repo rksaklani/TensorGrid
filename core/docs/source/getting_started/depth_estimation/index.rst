@@ -9,7 +9,7 @@ Depth Estimation Guide
 
 **Level:** Beginner to Intermediate | **Estimated Time:** 45-60 minutes | **Tags:** Depth Estimation, Heatmaps, Monocular Depth, Model Zoo, Hugging Face
 
-This step-by-step guide will walk you through a complete depth estimation workflow using FiftyOne. You'll learn how to:
+This step-by-step guide will walk you through a complete depth estimation workflow using TensorGrid. You'll learn how to:
 
 - Load and visualize depth data from various sources and formats
 - Work with depth maps stored as NumPy arrays and image files
@@ -25,9 +25,9 @@ Guide Overview
 
 This guide is broken down into the following sequential steps:
 
-1. **Loading Depth Data** - Learn how to load depth estimation datasets in FiftyOne, working with both NumPy-based depth maps (DIODE dataset) and image-based depth maps (NYU Depth V2), understanding depth validity masks, and creating structured datasets for analysis
+1. **Loading Depth Data** - Learn how to load depth estimation datasets in TensorGrid, working with both NumPy-based depth maps (DIODE dataset) and image-based depth maps (NYU Depth V2), understanding depth validity masks, and creating structured datasets for analysis
 
-2. **Using Depth Estimation Models** - Explore multiple approaches to running depth estimation models including FiftyOne's Model Zoo integration, Hugging Face Transformers, community plugins, and the Diffusers library for zero-shot depth prediction
+2. **Using Depth Estimation Models** - Explore multiple approaches to running depth estimation models including TensorGrid's Model Zoo integration, Hugging Face Transformers, community plugins, and the Diffusers library for zero-shot depth prediction
 
 .. _depth_estimation-prerequisites:
 
@@ -36,17 +36,17 @@ Prerequisites
 
 **Who Is This Guide For**
 
-This guide is for developers and computer vision practitioners who want to work with depth estimation in FiftyOne. Whether you're training depth models, evaluating predictions, or exploring depth datasets, this tutorial will help you leverage FiftyOne's capabilities for depth data visualization and analysis. Perfect for those with basic Python and computer vision knowledge who want to incorporate depth estimation into their workflows.
+This guide is for developers and computer vision practitioners who want to work with depth estimation in TensorGrid. Whether you're training depth models, evaluating predictions, or exploring depth datasets, this tutorial will help you leverage TensorGrid's capabilities for depth data visualization and analysis. Perfect for those with basic Python and computer vision knowledge who want to incorporate depth estimation into their workflows.
 
 **Required Knowledge**
 
-We will start with the assumption that you are familiar with the basic FiftyOne dataset structure and fundamental computer vision concepts. This guide is ideal for those who want to work with depth estimation datasets or integrate depth models into their workflows using Python.
+We will start with the assumption that you are familiar with the basic TensorGrid dataset structure and fundamental computer vision concepts. This guide is ideal for those who want to work with depth estimation datasets or integrate depth models into their workflows using Python.
 
 **Packages Used**
 
 The notebooks will automatically install the required packages when you run them. The main packages we'll be using include:
 
-- **fiftyone** - Core FiftyOne library for dataset management and visualization
+- **fiftyone** - Core TensorGrid library for dataset management and visualization
 - **torch** - PyTorch for deep learning operations
 - **transformers** - Hugging Face Transformers for pre-trained depth models
 - **diffusers** - Diffusers library for zero-shot depth estimation
@@ -114,7 +114,7 @@ Different datasets store depth information in various formats:
 - **8-bit normalized**: Scaled depth for visualization purposes
 - **Metric vs. Inverse**: Absolute distance or inverse depth encoding
 
-FiftyOne uses the `Heatmap <https://docs.voxel51.com/user_guide/using_datasets.html#heatmaps>`_ class to represent depth data, supporting both array-based and file-based storage with flexible visualization options.
+TensorGrid uses the `Heatmap </docs/user_guide/using_datasets.html#heatmaps>`_ class to represent depth data, supporting both array-based and file-based storage with flexible visualization options.
 
 .. _depth_estimation-models:
 
@@ -123,9 +123,9 @@ Depth Estimation Models
 
 This guide covers multiple approaches to running depth estimation models:
 
-**FiftyOne Model Zoo**
+**TensorGrid Model Zoo**
 
-Pre-integrated Hugging Face transformers models accessible via FiftyOne's Model Zoo:
+Pre-integrated Hugging Face transformers models accessible via TensorGrid's Model Zoo:
 
 - Depth-Anything V2 (small, base, large variants)
 - Intel DPT (Dense Prediction Transformer) models
@@ -142,9 +142,9 @@ Manual integration for models not in the Model Zoo, including:
 
 **Community Plugins**
 
-FiftyOne plugins extending depth estimation capabilities:
+TensorGrid plugins extending depth estimation capabilities:
 
-- `DepthPro plugin <https://docs.voxel51.com/plugins/plugins_ecosystem/depth_pro_plugin.html>`_ for state-of-the-art depth estimation
+- `DepthPro plugin </docs/plugins/plugins_ecosystem/depth_pro_plugin.html>`_ for state-of-the-art depth estimation
 - Delegated execution for processing large datasets
 
 **Diffusers Library**
@@ -166,7 +166,7 @@ This tutorial demonstrates a complete depth estimation workflow that combines:
 
 2. **Depth Visualization** - Creating color-coded visualizations with appropriate range scaling
 
-3. **Model Integration** - Running multiple depth estimation models from FiftyOne Model Zoo, Hugging Face, plugins, and Diffusers
+3. **Model Integration** - Running multiple depth estimation models from TensorGrid Model Zoo, Hugging Face, plugins, and Diffusers
 
 4. **Dataset Organization** - Structuring depth datasets with metadata and preparing data for analysis
 
@@ -177,7 +177,7 @@ This integrated approach gives you the tools to not just load depth data, but to
 Ready to Begin?
 ---------------
 
-Click **Next** to start with the first step: Loading Depth Data in FiftyOne.
+Click **Next** to start with the first step: Loading Depth Data in TensorGrid.
 
 .. toctree::
    :maxdepth: 1

@@ -1,11 +1,11 @@
 .. _enterprise-getting-started:
 
-Getting Started with FiftyOne Enterprise
+Getting Started with TensorGrid Enterprise
 ========================================
 
 .. default-role:: code
 
-Follow this guide to create your first dataset in FiftyOne Enterprise 🚀
+Follow this guide to create your first dataset in TensorGrid Enterprise 🚀
 
 Configure cloud credentials
 ---------------------------
@@ -22,7 +22,7 @@ An :ref:`admin user <enterprise-admin>` must configure cloud credentials
 Create a dataset via the SDK 
 ----------------------------
 
-Install the FiftyOne Enterprise Python SDK
+Install the TensorGrid Enterprise Python SDK
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. Navigate to the **Settings > API keys** page
@@ -59,7 +59,7 @@ If you plan to work with video datasets, you'll also need to install
 Connect to your deployment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To connect to your FiftyOne Enterprise deployment, you must provide your
+To connect to your TensorGrid Enterprise deployment, you must provide your
 :ref:`API URI and API key <enterprise-api-connection>`:
 
 .. code-block:: shell
@@ -68,18 +68,18 @@ To connect to your FiftyOne Enterprise deployment, you must provide your
    export FIFTYONE_API_KEY=YYYYYYYY
 
 You can create an API key and locate your deployment's URI on the
-**Settings > API keys** page of the FiftyOne Enterprise App:
+**Settings > API keys** page of the TensorGrid Enterprise App:
 
 .. image:: /images/enterprise/api_key_generate.png
    :alt: api-key-generate
    :align: center
 
-You can use the :ref:`fiftyone config <cli-fiftyone-config>` CLI method to
+You can use the :ref:`tensorgrid config <cli-fiftyone-config>` CLI method to
 verify that you have correctly configured your API URI and API key:
 
 .. code-block:: shell
 
-   $ fiftyone config
+   $ tensorgrid config
    {
        ...
        "api_uri": "XXXXXXXX",
@@ -93,7 +93,7 @@ the following method:
 .. code-block:: python
 
    # if this fails, you may have the open source SDK installed
-   import fiftyone.management as fom
+   import tensorgrid.management as fom
 
    # if this succeeds, your API connection is working
    fom.test_api_connection()
@@ -145,7 +145,7 @@ environment:
          export MINIO_DEFAULT_REGION=...
 
 Refer to :ref:`this page <enterprise-cloud-media>` for more information about
-interacting with cloud-backed media in FiftyOne Enterprise.
+interacting with cloud-backed media in TensorGrid Enterprise.
 
 Import your data
 ~~~~~~~~~~~~~~~~
@@ -154,7 +154,7 @@ Importing directly from cloud bucket
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The example code below shows the basic pattern for creating new datasets and
-populating them directly from cloud storage via the FiftyOne Enterprise Python SDK:
+populating them directly from cloud storage via the TensorGrid Enterprise Python SDK:
 
 .. tabs::
 
@@ -162,8 +162,8 @@ populating them directly from cloud storage via the FiftyOne Enterprise Python S
 
       .. code-block:: python
 
-         import fiftyone as fo
-         import fiftyone.core.storage as fos
+         import tensorgrid as tg
+         import tensorgrid.core.storage as fos
 
          dataset = fo.Dataset("<name>")
 
@@ -184,8 +184,8 @@ populating them directly from cloud storage via the FiftyOne Enterprise Python S
 
       .. code-block:: python
 
-         import fiftyone as fo
-         import fiftyone.core.storage as fos
+         import tensorgrid as tg
+         import tensorgrid.core.storage as fos
 
          dataset = fo.Dataset("<name>")
 
@@ -206,8 +206,8 @@ populating them directly from cloud storage via the FiftyOne Enterprise Python S
 
       .. code-block:: python
 
-         import fiftyone as fo
-         import fiftyone.core.storage as fos
+         import tensorgrid as tg
+         import tensorgrid.core.storage as fos
 
          dataset = fo.Dataset("<name>")
 
@@ -231,8 +231,8 @@ populating them directly from cloud storage via the FiftyOne Enterprise Python S
 
       .. code-block:: python
 
-         import fiftyone as fo
-         import fiftyone.core.storage as fos
+         import tensorgrid as tg
+         import tensorgrid.core.storage as fos
 
          dataset = fo.Dataset("<name>")
 
@@ -253,22 +253,22 @@ populating them directly from cloud storage via the FiftyOne Enterprise Python S
          dataset.persistent = True
 
 Refer to :ref:`this page <importing-datasets>` for more
-information about importing your media and labels into FiftyOne via Python.
+information about importing your media and labels into TensorGrid via Python.
 
-Migrate from FiftyOne open-source
+Migrate from TensorGrid open-source
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you have an existing FiftyOne open-source dataset with locally stored media,
-you can migrate it to FiftyOne Enterprise and upload your media to cloud storage.
+If you have an existing TensorGrid open-source dataset with locally stored media,
+you can migrate it to TensorGrid Enterprise and upload your media to cloud storage.
 
 Refer to :ref:`this page <enterprise-migrating-datasets>` for detailed instructions on
-migrating datasets from FiftyOne open-source to FiftyOne Enterprise.
+migrating datasets from TensorGrid open-source to TensorGrid Enterprise.
 
 Compute metadata
 ~~~~~~~~~~~~~~~~
 
 All datasets/views provide a builtin
-:meth:`compute_metadata() <fiftyone.core.collections.SampleCollection.compute_metadata>`
+:meth:`compute_metadata() <tensorgrid.core.collections.SampleCollection.compute_metadata>`
 method that you can invoke to efficiently populate the `metadata` field of your
 samples with basic media type-specific metadata such as file size and
 image/video dimensions for all samples in a collection:
@@ -300,17 +300,17 @@ Create a dataset via the UI
 
     An admin must follow :ref:`these instructions <enterprise-plugins-install>`
     to install the
-    `@voxel51/io <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/io/README.md>`_
+    `@voxel51/io <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/io/README.md>`_
     and
-    `@voxel51/utils <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/utils/README.md>`_
+    `@voxel51/utils <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/utils/README.md>`_
     plugins in order for users to perform imports and compute metadata via the
-    FiftyOne Enterprise UI.
+    TensorGrid Enterprise UI.
 
 Import your data
 ~~~~~~~~~~~~~~~~
 
 To create a new dataset, click on the "New dataset" button in the upper right
-corner of the FiftyOne Enterprise homepage. A pop-up will appear alowing you to
+corner of the TensorGrid Enterprise homepage. A pop-up will appear alowing you to
 choose a name and optional description/tags for the dataset:
 
 .. image:: /images/enterprise/create_dataset.png

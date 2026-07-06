@@ -1,11 +1,13 @@
-# FiftyOne Documentation
+# TensorGrid Documentation
 
-The official FiftyOne documentation, available at
-[fiftyone.ai](https://fiftyone.ai).
+The official TensorGrid documentation, served at `/docs` on the project website.
 
-FiftyOne uses [Sphinx](https://www.sphinx-doc.org/en/master) and
+TensorGrid uses [Sphinx](https://www.sphinx-doc.org/en/master) and
 [Sphinx-Napoleon](https://pypi.python.org/pypi/sphinxcontrib-napoleon) to
 generate its documentation and API reference from source.
+
+This documentation is derived from the FiftyOne docs and rebranded for TensorGrid.
+See [NOTICE](../../NOTICE) for attribution.
 
 ## Prerequisites
 

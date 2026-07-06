@@ -1,5 +1,5 @@
 
-FiftyOne
+TensorGrid
 ========
 
 .. raw:: html
@@ -16,44 +16,31 @@ FiftyOne
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "FiftyOne",
+    "name": "TensorGrid",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Linux, macOS, Windows",
     "description": "The open-source tool for building high-quality datasets and computer vision models",
-    "url": "https://docs.voxel51.com",
+    "url": "/docs",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-    "softwareHelp": { "@type": "CreativeWork", "url": "https://docs.voxel51.com" }
+    "softwareHelp": { "@type": "CreativeWork", "url": "/docs" }
   }
   </script>
 
 .. raw:: html
 
-  <div class="responsive-banner">
-    <a href="https://voxel51.com/whitepapers/state-of-physical-ai-2026?utm_source=docs&utm_medium=referral&utm_campaign=SoVPAI_Launch&utm_content=docs_banner" target="_blank" aria-label="2026 State of Visual and Physical AI">
-      <video class="banner-mobile" autoplay loop muted playsinline aria-hidden="true">
-        <source src="https://cdn.voxel51.com/banner/StateOfVisualPhysicalAI-A_1200x200.webm" type="video/webm">
-      </video>
-      <video class="banner-desktop" autoplay loop muted playsinline aria-hidden="true">
-        <source src="https://cdn.voxel51.com/banner/StateOfVisualPhysicalAI-A_2400x400.webm" type="video/webm">
-      </video>
-    </a>
-  </div>
-
-.. raw:: html
-
   <!-- Hero Nav Pills -->
   <div class="hero-nav-pills">
-    <a target="_blank" href="https://github.com/voxel51/fiftyone" class="nav-pill nav-pill-outlined">
+    <a target="_blank" href="https://github.com/rksaklani/TensorGrid" class="nav-pill nav-pill-outlined">
       <img alt="GitHub" src="_static/images/icons/github-logo-256px.png" width="18" height="18">
       View on GitHub
     </a>
-    <a target="_blank" href="https://community.voxel51.com/" class="nav-pill nav-pill-outlined">
-      <img alt="Discord" src="_static/images/icons/discord-logo-256px.png" width="18" height="18">
-      Join us on Discord
+    <a target="_blank" href="https://github.com/rksaklani/TensorGrid/discussions" class="nav-pill nav-pill-outlined">
+      <img alt="Community" src="_static/images/icons/discord-logo-256px.png" width="18" height="18">
+      Join the community
     </a>
-    <a href="enterprise/index.html" class="nav-pill nav-pill-filled">
-      <img alt="Voxel51" src="_static/images/icons/voxel51-166px.png" width="18" height="18">
-      FiftyOne Enterprise
+    <a href="/enterprise" class="nav-pill nav-pill-filled">
+      <img alt="TensorGrid" src="_static/images/tensorgrid-logo.svg" width="18" height="18">
+      TensorGrid Enterprise
     </a>
   </div>
 
@@ -62,12 +49,12 @@ FiftyOne
 .. raw:: html
 
   <div class="landing-hero pills-only">
-    <h1 class="hero-heading">Start building with FiftyOne</h1>
+    <h1 class="hero-heading">Start building with TensorGrid</h1>
     <div class="hero-search-container">
-      <button class="hero-search-btn hero-ai-search" aria-label="Ask AI about FiftyOne" onclick="if(window.Kapa){window.Kapa.open();}"><img src="_static/images/icons/lightbulb.svg" alt="" width="20" height="20">
-
-        <span class="hero-search-placeholder">Ask anything about FiftyOne</span>
-        <span class="hero-shortcut-badge" onclick="event.stopPropagation();if(window.Kapa){window.Kapa.open();}">&#8984;K</span>
+      <button type="button" class="hero-search-btn hero-ai-search" aria-label="Search TensorGrid documentation" onclick="document.querySelector('.DocSearch-Button')?.click();">
+        <img src="_static/images/icons/lightbulb.svg" alt="" width="20" height="20">
+        <span class="hero-search-placeholder">Search the TensorGrid docs</span>
+        <span class="hero-shortcut-badge" onclick="event.stopPropagation();document.querySelector('.DocSearch-Button')?.click();">&#8984;K</span>
       </button>
     </div>
   </div>
@@ -78,7 +65,7 @@ FiftyOne
   <div class="quick-links-grid">
     <a href="installation/index.html" class="quick-link-item">
       <span class="quick-link-icon"></span>
-      Install FiftyOne
+      Install TensorGrid
     </a>
     <a href="user_guide/import_datasets.html" class="quick-link-item">
       <span class="quick-link-icon"></span>
@@ -108,11 +95,11 @@ FiftyOne
 
   <div class="install-bar">
     <div class="install-bar-left">
-      <span class="install-bar-title">Install FiftyOne</span>
-      <code class="install-bar-command">pip install fiftyone</code>
+      <span class="install-bar-title">Install TensorGrid</span>
+      <code class="install-bar-command">pip install tensorgrid-platform</code>
     </div>
     <div class="install-bar-right">
-      <button class="install-bar-copy" onclick="navigator.clipboard.writeText('pip install fiftyone');var b=this;b.textContent='Copied!';setTimeout(function(){b.textContent='Copy';},2000);" aria-label="Copy install command">Copy</button>
+      <button class="install-bar-copy" onclick="navigator.clipboard.writeText('pip install tensorgrid-platform');var b=this;b.textContent='Copied!';setTimeout(function(){b.textContent='Copy';},2000);" aria-label="Copy install command">Copy</button>
       <a href="installation/index.html" class="install-bar-guide">
         Full installation guide
         <span class="orange-arrow-circle"></span>
@@ -172,7 +159,7 @@ ___________
     :title: 3D Vision
     :description: Point clouds and 3D visual AI workflows
     :link: getting_started/threed_visual_ai/index.html
-    :image: https://docs.voxel51.com/_images/pointe_headphones_fo.gif
+    :image: /docs/_images/pointe_headphones_fo.gif
 
 .. raw:: html
 
@@ -181,12 +168,12 @@ ___________
 
 .. raw:: html
 
-  <!-- New to FiftyOne CTA Banner -->
+  <!-- New to TensorGrid CTA Banner -->
   <div class="quickstart-cta-banner">
     <div class="quickstart-cta-text">
-      <strong>New to FiftyOne?</strong> Start with the 5-minute quickstart to explore your first dataset in the FiftyOne App.
+      <strong>New to TensorGrid?</strong> Start with the 5-minute quickstart to explore your first dataset in the TensorGrid App.
     </div>
-    <a href="https://colab.research.google.com/github/voxel51/fiftyone-examples/blob/master/examples/quickstart.ipynb" target="_blank" class="quickstart-cta-btn">
+    <a href="https://colab.research.google.com/github/rksaklani/TensorGrid/blob/main/core/docs/source/getting_started/object_detection/01_quickstart.ipynb" target="_blank" class="quickstart-cta-btn">
       Open in Colab
       <span class="orange-arrow-circle"></span>
     </a>
@@ -200,14 +187,14 @@ ____________
 .. raw:: html
 
     <div class="section-label-pill">Capabilities</div>
-    <h3 class="section-descriptive-heading">Explore FiftyOne's key features</h3>
+    <h3 class="section-descriptive-heading">Explore TensorGrid's key features</h3>
     <p class="capability-subtitle">Everything you need to build, evaluate, and ship better computer vision models.</p>
 
     <div class="capability-section">
       <div class="capability-row">
         <div class="capability-text">
           <h3>Visualize</h3>
-          <p>Explore your data in the FiftyOne App. Browse images, videos, and 3D data side-by-side with labels, metadata, and model predictions — all in one interactive view.</p>
+          <p>Explore your data in the TensorGrid App. Browse images, videos, and 3D data side-by-side with labels, metadata, and model predictions — all in one interactive view.</p>
           <a href="user_guide/app.html" class="capability-cta-v4">
             <span class="gray-arrow-circle"></span>
             Explore the App
@@ -233,7 +220,7 @@ ____________
       <div class="capability-row">
         <div class="capability-text">
           <h3>Annotate</h3>
-          <p>Annotation mistakes create an artificial ceiling on model performance. Use FiftyOne to automatically identify possible label mistakes and correct them in-app.</p>
+          <p>Annotation mistakes create an artificial ceiling on model performance. Use TensorGrid to automatically identify possible label mistakes and correct them in-app.</p>
           <a href="getting_started/annotation/index.html" class="capability-cta-v4">
             <span class="gray-arrow-circle"></span>
             Annotate your data
@@ -246,7 +233,7 @@ ____________
       <div class="capability-row reverse">
         <div class="capability-text">
           <h3>Evaluate</h3>
-          <p>Aggregate metrics alone don't give you the full picture. FiftyOne makes it easy to see where your models succeed and fail so you can iterate faster.</p>
+          <p>Aggregate metrics alone don't give you the full picture. TensorGrid makes it easy to see where your models succeed and fail so you can iterate faster.</p>
           <a href="tutorials/evaluate_detections.html" class="capability-cta-v4">
             <span class="gray-arrow-circle"></span>
             Evaluate models
@@ -268,7 +255,7 @@ ____________
     <div class="section-label-pill">Integrations</div>
     <h3 class="section-descriptive-heading">Works with your favorite tools</h3>
     <div class="section-header-row integrations-subtitle-row">
-      <p class="capability-subtitle integrations-subtitle">FiftyOne integrates natively with your favorite tools. Click on a logo to learn how.</p>
+      <p class="capability-subtitle integrations-subtitle">TensorGrid integrates natively with your favorite tools. Click on a logo to learn how.</p>
       <a href="integrations/index.html" class="capability-cta-v4">
         <span class="orange-arrow-circle"></span>
         View all integrations
@@ -447,7 +434,7 @@ ____________
     :image_title: Labelbox
 
 .. customimagelink::
-    :image_link: api/fiftyone.utils.scale.html
+    :image_link: api/tensorgrid.utils.scale.html
     :image_src: https://voxel51.com/images/integrations/scale-128.png
     :image_title: Scale AI
 
@@ -465,24 +452,24 @@ _________
 
   <div class="section-label-pill">Community</div>
   <h3 class="section-descriptive-heading">Need support?</h3>
-  <p class="capability-subtitle">If you run into any issues with FiftyOne or have any burning questions, feel free to connect with us</p>
+  <p class="capability-subtitle">If you run into any issues with TensorGrid or have any burning questions, feel free to connect with us</p>
   <div class="support-section">
     <div class="support-links">
-      <a target="_blank" href="https://github.com/voxel51/fiftyone" class="nav-pill nav-pill-outlined">
+      <a target="_blank" href="https://github.com/rksaklani/TensorGrid" class="nav-pill nav-pill-outlined">
         <img alt="GitHub" src="_static/images/icons/github-logo-256px.png" width="18" height="18">
         View on GitHub
       </a>
-      <a target="_blank" href="https://community.voxel51.com/" class="nav-pill nav-pill-outlined">
+      <a target="_blank" href="https://github.com/rksaklani/TensorGrid/discussions/" class="nav-pill nav-pill-outlined">
         <img alt="Discord" src="_static/images/icons/discord-logo-256px.png" width="18" height="18">
         Join us on Discord
       </a>
-      <a target="_blank" href="https://colab.research.google.com/github/voxel51/fiftyone-examples/blob/master/examples/quickstart.ipynb" class="nav-pill nav-pill-outlined">
+      <a target="_blank" href="https://colab.research.google.com/github/rksaklani/TensorGrid/blob/main/core/docs/source/getting_started/object_detection/01_quickstart.ipynb" class="nav-pill nav-pill-outlined">
         <img alt="Colab" src="_static/images/icons/colab-logo-256px.png" width="18" height="18">
         Try it in Colab
       </a>
-      <a href="mailto:support@voxel51.com" class="nav-pill nav-pill-outlined">
+      <a target="_blank" href="https://github.com/rksaklani/TensorGrid/issues" class="nav-pill nav-pill-outlined">
         <img src="_static/images/icons/envelope.svg" alt="" width="18" height="18">
-        Email support
+        Get support
       </a>
     </div>
   </div>
@@ -510,11 +497,11 @@ _________
       setTimeout(fixIntegrations, 1000);
     });
 
-    // Keyboard shortcut: Cmd+K / Ctrl+K opens Kapa
+    // Keyboard shortcut: Cmd+K / Ctrl+K opens search
     document.addEventListener('keydown', function(e) {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k' && window.Kapa) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
-        window.Kapa.open();
+        document.querySelector('.DocSearch-Button')?.click();
       }
     });
   })();
@@ -525,7 +512,7 @@ _________
    :hidden:
 
    Overview <self>
-   FiftyOne Enterprise 🚀 <enterprise/index>
+   TensorGrid Enterprise 🚀 <enterprise/index>
    Installation <installation/index>
    Getting Started <getting_started/index>
    Tutorials <tutorials/index>
@@ -534,13 +521,13 @@ _________
    User Guide <user_guide/index>
    Dataset Zoo <dataset_zoo/index>
    Model Zoo <model_zoo/index>
-   FiftyOne Brain <brain>
-   FiftyOne Labs <labs/index>
+   TensorGrid Brain <brain>
+   TensorGrid Labs <labs/index>
    Agents <agents/index>
    Plugins <plugins/index>
    Integrations <integrations/index>
    CLI <cli/index>
-   API Reference <api/fiftyone>
+   API Reference <api/tensorgrid>
    Contribute <contribute/index>
    Release Notes <release-notes>
    Deprecation Notices <deprecation>

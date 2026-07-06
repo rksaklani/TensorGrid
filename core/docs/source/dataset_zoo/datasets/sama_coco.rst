@@ -29,7 +29,7 @@ by Sama.
 -   Tags: ``image, detection, segmentation``
 -   Supported splits: ``train, validation, test``
 -   ZooDataset class:
-    :class:`SamaCOCODataset <fiftyone.zoo.datasets.base.SamaCOCODataset>`
+    :class:`SamaCOCODataset <tensorgrid.zoo.datasets.base.SamaCOCODataset>`
 
 **Full split stats**
 
@@ -39,14 +39,14 @@ by Sama.
 
 **Partial downloads**
 
-FiftyOne provides parameters that can be used to efficiently download specific
+TensorGrid provides parameters that can be used to efficiently download specific
 subsets of the Sama-COCO dataset to suit your needs. When new subsets are
-specified, FiftyOne will use existing downloaded data first if possible before
+specified, TensorGrid will use existing downloaded data first if possible before
 resorting to downloading additional data from the web.
 
 The following parameters are available to configure a partial download of
 Sama-COCO by passing them to
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`:
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`:
 
 -   **split** (*None*) and **splits** (*None*): a string or list of strings,
     respectively, specifying the splits to load. Supported values are
@@ -101,10 +101,10 @@ Sama-COCO by passing them to
 .. note::
 
     See
-    :class:`SamaCOCODataset <fiftyone.zoo.datasets.base.SamaCOCODataset>` and
-    :class:`COCODetectionDatasetImporter <fiftyone.utils.coco.COCODetectionDatasetImporter>`
+    :class:`SamaCOCODataset <tensorgrid.zoo.datasets.base.SamaCOCODataset>` and
+    :class:`COCODetectionDatasetImporter <tensorgrid.utils.coco.COCODetectionDatasetImporter>`
     for complete descriptions of the optional keyword arguments that you can
-    pass to :func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`.
+    pass to :func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`.
 
 **Example usage**
 
@@ -115,8 +115,8 @@ Sama-COCO by passing them to
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         #
         # Load 50 random samples from the validation split
@@ -183,12 +183,12 @@ Sama-COCO by passing them to
         # By default, only detections are loaded
         #
 
-        fiftyone zoo datasets load sama-coco \
+        tensorgrid zoo datasets load sama-coco \
             --split validation \
             --kwargs \
                 max_samples=50
 
-        fiftyone app launch sama-coco-validation-50
+        tensorgrid app launch sama-coco-validation-50
 
         #
         # Load segmentations for 25 samples from the validation split that
@@ -202,14 +202,14 @@ Sama-COCO by passing them to
         # Images will only be downloaded if necessary
         #
 
-        fiftyone zoo datasets load sama-coco \
+        tensorgrid zoo datasets load sama-coco \
             --split validation \
             --kwargs \
                 label_types=segmentations \
                 classes=cat,dog \
                 max_samples=25
 
-        fiftyone app launch sama-coco-validation-25
+        tensorgrid app launch sama-coco-validation-25
 
         #
         # Download the entire validation split and load both detections and
@@ -219,12 +219,12 @@ Sama-COCO by passing them to
         # downloading any images
         #
 
-        fiftyone zoo datasets load sama-coco \
+        tensorgrid zoo datasets load sama-coco \
             --split validation \
             --kwargs \
                 label_types=detections,segmentations
 
-        fiftyone app launch sama-coco-validation
+        tensorgrid app launch sama-coco-validation
 
 .. image:: /images/dataset_zoo/sama-coco-validation.png
    :alt: sama-coco-validation

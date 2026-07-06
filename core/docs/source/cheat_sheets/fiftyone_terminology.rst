@@ -1,11 +1,11 @@
 .. _terminology-cheat-sheet:
 
-FiftyOne terminology
+TensorGrid terminology
 ====================
 
 .. default-role:: code
 
-This cheat sheet introduces the key terminology in the world of FiftyOne.
+This cheat sheet introduces the key terminology in the world of TensorGrid.
 
 The basics
 __________
@@ -13,16 +13,16 @@ __________
 .. list-table::
    :widths: 20 80
 
-   * - FiftyOne
+   * - TensorGrid
      - The :ref:`open-source framework <fiftyone-library>`, the core library,
        and the Python SDK.
-   * - FiftyOne App
+   * - TensorGrid App
      - The :ref:`provided user interface <fiftyone-app>` for graphically
        viewing, filtering, and understanding your datasets. Can be launched in
        the browser or within notebooks.
-   * - FiftyOne Enterprise
+   * - TensorGrid Enterprise
      - `The enterprise-grade suite <https://voxel51.com/enterprise/>`_
-       built on top of FiftyOne for collaboration, permissioning, and working
+       built on top of TensorGrid for collaboration, permissioning, and working
        with cloud-backed media.
 
 Other components
@@ -36,19 +36,19 @@ ________________
        computation and visualization.
    * - Dataset Zoo
      - :ref:`Collection of common datasets <dataset-zoo>` available for
-       download and loading into  FiftyOne.
+       download and loading into  TensorGrid.
    * - Model Zoo
      - :ref:`Collection of pre-trained models <model-zoo>` available for
        download and inference.
    * - Plugin
      - A module you can use to :ref:`customize and extend <fiftyone-plugins>`
-       the behavior of FiftyOne.
+       the behavior of TensorGrid.
    * - Operator
      - A :ref:`plugin subcomponent <using-operators>` that defines an
        operation that can be executed either directly by users in the App
        and/or internally invoked by other plugin components
    * - Integration
-     - A dataset, ML framework, annotation service, or other tool FiftyOne is
+     - A dataset, ML framework, annotation service, or other tool TensorGrid is
        :ref:`directly compatible with <integrations>`.
 
 Data model
@@ -58,7 +58,7 @@ __________
    :widths: 20 80
 
    * - Dataset
-     - :ref:`Core data structure <basics-datasets>` in FiftyOne, composed of
+     - :ref:`Core data structure <basics-datasets>` in TensorGrid, composed of
        `Sample` instances. Provides a consistent interface for loading
        images, videos, metadata, annotations, and predictions. The computer
        vision analog of a table of data.
@@ -100,14 +100,14 @@ __________
        :ref:`aggregate statistic <basics-aggregations>` about the contents of
        a dataset or view.
 
-FiftyOne App
+TensorGrid App
 ____________
 
 .. list-table::
    :widths: 20 80
 
    * - Session
-     - :ref:`An instance of the FiftyOne App <app-sessions>` connected to a
+     - :ref:`An instance of the TensorGrid App <app-sessions>` connected to a
        specific dataset, via which you can use to programmatically interact
        with the App.
    * - Sample grid

@@ -8,12 +8,12 @@ MongoDB Vector Search Integration
 `MongoDB <https://www.mongodb.com>`_ is the leading open source database for
 unstructured data, and we've made it easy to use MongoDB Atlas'
 `vector search capabilities <https://www.mongodb.com/products/platform/atlas-vector-search>`_
-on your computer vision data directly from FiftyOne!
+on your computer vision data directly from TensorGrid!
 
 Follow these :ref:`simple instructions <mongodb-setup>` to configure a MongoDB
-Atlas cluster and get started using MongoDB Atlas + FiftyOne.
+Atlas cluster and get started using MongoDB Atlas + TensorGrid.
 
-FiftyOne provides an API to create MongoDB Atlas vector search indexes, upload
+TensorGrid provides an API to create MongoDB Atlas vector search indexes, upload
 vectors, and run similarity queries, both
 :ref:`programmatically <mongodb-query>` in Python and via point-and-click in
 the App.
@@ -34,22 +34,22 @@ Basic recipe
 ____________
 
 The basic workflow to use MongoDB Atlas to create a similarity index on your
-FiftyOne datasets and use this to query your data is as follows:
+TensorGrid datasets and use this to query your data is as follows:
 
 1)  Configure a MongoDB Atlas cluster
 
-2)  :ref:`Load a dataset <importing-datasets>` into FiftyOne
+2)  :ref:`Load a dataset <importing-datasets>` into TensorGrid
 
 3)  Compute embedding vectors for samples or patches in your dataset, or select
     a model to use to generate embeddings
 
-4)  Use the :meth:`compute_similarity() <fiftyone.brain.compute_similarity>`
+4)  Use the :meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`
     method to generate a MongoDB similarity index for the samples or object
     patches in a dataset by setting the parameter `backend="mongodb"` and
     specifying a `brain_key` of your choice
 
 5)  Use this MongoDB similarity index to query your data with
-    :meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+    :meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 
 6) If desired, delete the index
 
@@ -65,19 +65,19 @@ The example below demonstrates this workflow.
 
     .. code-block:: shell
 
-        export FIFTYONE_DATABASE_NAME=fiftyone
-        export FIFTYONE_DATABASE_URI='mongodb+srv://$USERNAME:$PASSWORD@fiftyone.XXXXXX.mongodb.net/?retryWrites=true&w=majority'
+        export FIFTYONE_DATABASE_NAME=tensorgrid
+        export FIFTYONE_DATABASE_URI='mongodb+srv://$USERNAME:$PASSWORD@tensorgrid.XXXXXX.mongodb.net/?retryWrites=true&w=majority'
 
-First let's load a dataset into FiftyOne and compute embeddings for the samples:
+First let's load a dataset into TensorGrid and compute embeddings for the samples:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
-    # Step 1: Load your data into FiftyOne
+    # Step 1: Load your data into TensorGrid
     dataset = foz.load_zoo_dataset("quickstart")
 
     # Steps 2 and 3: Compute embeddings and create a similarity index
@@ -88,7 +88,7 @@ First let's load a dataset into FiftyOne and compute embeddings for the samples:
         backend="mongodb",
     )
 
-Once the similarity index has been generated, we can query our data in FiftyOne
+Once the similarity index has been generated, we can query our data in TensorGrid
 by specifying the `brain_key`:
 
 .. code-block:: python
@@ -110,7 +110,7 @@ by specifying the `brain_key`:
     # Delete the MongoDB vector search index
     mongodb_index.cleanup()
 
-    # Delete run record from FiftyOne
+    # Delete run record from TensorGrid
     dataset.delete_brain_run("mongodb_index")
 
 .. note::
@@ -123,7 +123,7 @@ by specifying the `brain_key`:
 Setup
 _____
 
-In order to use MongoDB vector search, you must connect your FiftyOne
+In order to use MongoDB vector search, you must connect your TensorGrid
 installation to MongoDB Atlas, which you can do by navigating to
 `https://cloud.mongodb.com <https://cloud.mongodb.com>`_, creating an account,
 and following the instructions there to configure your cluster.
@@ -140,34 +140,34 @@ and following the instructions there to configure your cluster.
 Configuring your connection string
 ----------------------------------
 
-You can connect FiftyOne to your MongoDB Atlas cluster by simply providing its
+You can connect TensorGrid to your MongoDB Atlas cluster by simply providing its
 :ref:`connection string <configuring-mongodb-connection>`:
 
 .. code-block:: shell
 
-    export FIFTYONE_DATABASE_NAME=fiftyone
-    export FIFTYONE_DATABASE_URI='mongodb+srv://$USERNAME:$PASSWORD@fiftyone.XXXXXX.mongodb.net/?retryWrites=true&w=majority'
+    export FIFTYONE_DATABASE_NAME=tensorgrid
+    export FIFTYONE_DATABASE_URI='mongodb+srv://$USERNAME:$PASSWORD@tensorgrid.XXXXXX.mongodb.net/?retryWrites=true&w=majority'
 
 Using the MongoDB backend
 -------------------------
 
 By default, calling
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` or 
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>`
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` or 
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>`
 will use an sklearn backend.
 
 To use the MongoDB backend, simply set the optional `backend` parameter of
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` to
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` to
 `"mongodb"`:
 
 .. code:: python
     :linenos:
 
-    import fiftyone.brain as fob
+    import tensorgrid.brain as fob
 
     fob.compute_similarity(..., backend="mongodb", ...)
 
-Alternatively, you can permanently configure FiftyOne to use the MonogDB
+Alternatively, you can permanently configure TensorGrid to use the MonogDB
 backend by setting the following environment variable:
 
 .. code-block:: shell
@@ -216,7 +216,7 @@ that includes all of the available parameters:
     }
 
 However, typically these parameters are directly passed to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` to configure
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` to configure
 a specific new index:
 
 .. code:: python
@@ -235,16 +235,16 @@ a specific new index:
 Managing brain runs
 ___________________
 
-FiftyOne provides a variety of methods that you can use to manage brain runs.
+TensorGrid provides a variety of methods that you can use to manage brain runs.
 
 For example, you can call
-:meth:`list_brain_runs() <fiftyone.core.collections.SampleCollection.list_brain_runs>`
+:meth:`list_brain_runs() <tensorgrid.core.collections.SampleCollection.list_brain_runs>`
 to see the available brain keys on a dataset:
 
 .. code:: python
     :linenos:
 
-    import fiftyone.brain as fob
+    import tensorgrid.brain as fob
 
     # List all brain runs
     dataset.list_brain_runs()
@@ -260,7 +260,7 @@ to see the available brain keys on a dataset:
     )
 
 Or, you can use
-:meth:`get_brain_info() <fiftyone.core.collections.SampleCollection.get_brain_info>`
+:meth:`get_brain_info() <tensorgrid.core.collections.SampleCollection.get_brain_info>`
 to retrieve information about the configuration of a brain run:
 
 .. code:: python
@@ -269,11 +269,11 @@ to retrieve information about the configuration of a brain run:
     info = dataset.get_brain_info(brain_key)
     print(info)
 
-Use :meth:`load_brain_results() <fiftyone.core.collections.SampleCollection.load_brain_results>`
+Use :meth:`load_brain_results() <tensorgrid.core.collections.SampleCollection.load_brain_results>`
 to load the |SimilarityIndex| instance for a brain run.
 
 You can use
-:meth:`rename_brain_run() <fiftyone.core.collections.SampleCollection.rename_brain_run>`
+:meth:`rename_brain_run() <tensorgrid.core.collections.SampleCollection.rename_brain_run>`
 to rename the brain key associated with an existing similarity results run:
 
 .. code:: python
@@ -282,8 +282,8 @@ to rename the brain key associated with an existing similarity results run:
     dataset.rename_brain_run(brain_key, new_brain_key)
 
 Finally, you can use
-:meth:`delete_brain_run() <fiftyone.core.collections.SampleCollection.delete_brain_run>`
-to delete the record of a similarity index computation from your FiftyOne 
+:meth:`delete_brain_run() <tensorgrid.core.collections.SampleCollection.delete_brain_run>`
+to delete the record of a similarity index computation from your TensorGrid 
 dataset:
 
 .. code:: python
@@ -294,8 +294,8 @@ dataset:
 .. note::
 
     Calling
-    :meth:`delete_brain_run() <fiftyone.core.collections.SampleCollection.delete_brain_run>`
-    only deletes the **record** of the brain run from your FiftyOne dataset; it
+    :meth:`delete_brain_run() <tensorgrid.core.collections.SampleCollection.delete_brain_run>`
+    only deletes the **record** of the brain run from your TensorGrid dataset; it
     will not delete any associated MongoDB vector search index, which you can
     do as follows:
 
@@ -311,7 +311,7 @@ Examples
 ________
 
 This section demonstrates how to perform some common vector search workflows on 
-a FiftyOne dataset using the MongoDB backend.
+a TensorGrid dataset using the MongoDB backend.
 
 .. note::
 
@@ -325,15 +325,15 @@ Create a similarity index
 
 In order to create a new MongoDB similarity index, you need to specify either
 the `embeddings` or `model` argument to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`. Here's a few
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`. Here's a few
 possibilities:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     model_name = "clip-vit-base32-torch"
@@ -397,14 +397,14 @@ Create a patch similarity index
 You can also create a similarity index for
 :ref:`object patches <brain-object-similarity>` within your dataset by
 including the `patches_field` argument to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`:
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -430,14 +430,14 @@ Connect to an existing index
 If you have already created a MongoDB index storing the embedding vectors
 for the samples or patches in your dataset, you can connect to it by passing
 the `index_name` to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`:
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -456,12 +456,12 @@ Add/remove embeddings from an index
 -----------------------------------
 
 You can use
-:meth:`add_to_index() <fiftyone.brain.similarity.SimilarityIndex.add_to_index>`
+:meth:`add_to_index() <tensorgrid.brain.similarity.SimilarityIndex.add_to_index>`
 and
-:meth:`remove_from_index() <fiftyone.brain.similarity.SimilarityIndex.remove_from_index>`
+:meth:`remove_from_index() <tensorgrid.brain.similarity.SimilarityIndex.remove_from_index>`
 to add and remove embeddings from an existing Mongodb index.
 
-These methods can come in handy if you modify your FiftyOne dataset and need
+These methods can come in handy if you modify your TensorGrid dataset and need
 to update the Mongodb index to reflect these changes:
 
 .. code:: python
@@ -469,9 +469,9 @@ to update the Mongodb index to reflect these changes:
 
     import numpy as np
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -509,15 +509,15 @@ Retrieve embeddings from an index
 ---------------------------------
 
 You can use
-:meth:`get_embeddings() <fiftyone.brain.similarity.SimilarityIndex.get_embeddings>`
+:meth:`get_embeddings() <tensorgrid.brain.similarity.SimilarityIndex.get_embeddings>`
 to retrieve embeddings from a Mongodb index by ID:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -547,7 +547,7 @@ Querying a MongoDB index
 ------------------------
 
 You can query a MongoDB index by appending a
-:meth:`sort_by_similarity() <fiftyone.core.collections.SampleCollection.sort_by_similarity>` 
+:meth:`sort_by_similarity() <tensorgrid.core.collections.SampleCollection.sort_by_similarity>` 
 stage to any dataset or view. The query can be any of the following:
 
 *   An ID (sample or patch)
@@ -560,9 +560,9 @@ stage to any dataset or view. The query can be any of the following:
 
     import numpy as np
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -615,9 +615,9 @@ created vector search index is ready for querying:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -640,7 +640,7 @@ Advanced usage
 
 As :ref:`previously mentioned <mongodb-config-parameters>`, you can customize
 your MongoDB index by providing optional parameters to
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>`.
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>`.
 
 Here's an example of creating a similarity index backed by a customized MongoDB
 index. Just for fun, we'll specify a custom index name, use dot product
@@ -649,9 +649,9 @@ similarity, and populate the index for only a subset of our dataset:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 

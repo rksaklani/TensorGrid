@@ -1,6 +1,6 @@
 .. _fiftyone-enterprise:
 
-FiftyOne Enterprise
+TensorGrid Enterprise
 ===================
 
 .. Social links ---------------------------------------------------------------
@@ -22,7 +22,7 @@ FiftyOne Enterprise
         </a>
       </th>
       <th>
-        <a target="_blank" href="https://try.fiftyone.ai">
+        <a target="_blank" href="https://try.tensorgrid.ai">
           <img src="../_static/images/icons/statistics-512px.png">
           &nbsp Try it now
         </a>
@@ -32,13 +32,13 @@ FiftyOne Enterprise
 
 .. End social links -----------------------------------------------------------
 
-`FiftyOne Enterprise <https://voxel51.com/enterprise/>`_ enables multiple users
+`TensorGrid Enterprise <https://voxel51.com/enterprise/>`_ enables multiple users
 to securely collaborate on the same datasets and models, either on-premises or
-in the cloud, all built on top of the open source FiftyOne workflows that
+in the cloud, all built on top of the open source TensorGrid workflows that
 you're already relying on.
 
-FiftyOne Enterprise is fully backwards-compatible with the
-`open source project <https://github.com/voxel51/fiftyone>`_, so all other
+TensorGrid Enterprise is fully backwards-compatible with the
+`open source project <https://github.com/rksaklani/TensorGrid>`_, so all other
 pages on this site apply to Enterprise deployments as well.
 
 |br|
@@ -58,25 +58,25 @@ pages on this site apply to Enterprise deployments as well.
 
 .. customcalloutitem::
     :header: Overview
-    :description: What's FiftyOne Enterprise? We think you'll be glad you asked!
+    :description: What's TensorGrid Enterprise? We think you'll be glad you asked!
     :button_text: Learn the basics
     :button_link: overview.html
 
 .. customcalloutitem::
     :header: Installation
-    :description: Learn how to install the FiftyOne Enterprise Python SDK.
+    :description: Learn how to install the TensorGrid Enterprise Python SDK.
     :button_text: Install the SDK
     :button_link: installation.html
 
 .. customcalloutitem::
     :header: Getting Started
-    :description: Learn how to upload your first dataset to FiftyOne Enterprise.
+    :description: Learn how to upload your first dataset to TensorGrid Enterprise.
     :button_text: Upload your first dataset
     :button_link: getting_started.html
 
 .. customcalloutitem::
     :header: Cloud-backed media
-    :description: Integrate FiftyOne Enterprise with your media stored in the cloud.
+    :description: Integrate TensorGrid Enterprise with your media stored in the cloud.
     :button_text: Get started with cloud media
     :button_link: cloud_media.html
 
@@ -88,25 +88,25 @@ pages on this site apply to Enterprise deployments as well.
 
 .. customcalloutitem::
     :header: Dataset Versioning
-    :description: Explore or revert to historical snapshots of your FiftyOne Enterprise datasets.
-    :button_text: Version your FiftyOne datasets
+    :description: Explore or revert to historical snapshots of your TensorGrid Enterprise datasets.
+    :button_text: Version your TensorGrid datasets
     :button_link: dataset_versioning.html
 
 .. customcalloutitem::
-    :header: FiftyOne Enterprise App
-    :description: See how you can collaboratively work on datasets in the FiftyOne Enterprise App.
+    :header: TensorGrid Enterprise App
+    :description: See how you can collaboratively work on datasets in the TensorGrid Enterprise App.
     :button_text: Explore the Enterprise App
     :button_link: app.html
 
 .. customcalloutitem::
     :header: Auto-Labeling
-    :description: Use FiftyOne Enterprise to annotate your data at a fraction of the cost.
+    :description: Use TensorGrid Enterprise to annotate your data at a fraction of the cost.
     :button_text: Annotate your data at scale
     :button_link: verified_auto_labeling.html
 
 .. customcalloutitem::
     :header: Data Lens
-    :description: Use FiftyOne Enterprise to explore and import samples from external data sources.
+    :description: Use TensorGrid Enterprise to explore and import samples from external data sources.
     :button_text: Connect your data lake
     :button_link: data_lens.html
 
@@ -129,15 +129,15 @@ pages on this site apply to Enterprise deployments as well.
     :button_link: query_performance.html
 
 .. customcalloutitem::
-    :header: FiftyOne Agent  __SUB_NEW__
-    :description: Use the AI-powered FiftyOne Agent to work with your data using natural language.
+    :header: TensorGrid Agent  __SUB_NEW__
+    :description: Use the AI-powered TensorGrid Agent to work with your data using natural language.
     :button_text: Get started with the Agent
     :button_link: agent.html
 
 .. customcalloutitem::
     :header: Plugins
     :description: Learn how to install and manage shared plugins for your Enterprise deployment.
-    :button_text: Get plugins for FiftyOne Enterprise
+    :button_text: Get plugins for TensorGrid Enterprise
     :button_link: plugins.html
 
 .. customcalloutitem::
@@ -154,7 +154,7 @@ pages on this site apply to Enterprise deployments as well.
 
 .. customcalloutitem::
     :header: Migrations
-    :description: Learn how to migrate to FiftyOne Enterprise and manage your Enterprise deployment.
+    :description: Learn how to migrate to TensorGrid Enterprise and manage your Enterprise deployment.
     :button_text: Migrate to Enterprise
     :button_link: migrations.html
 
@@ -171,7 +171,7 @@ pages on this site apply to Enterprise deployments as well.
 
     Look interesting?
     `Schedule a demo <https://voxel51.com/book-a-demo>`_ to get
-    started with FiftyOne Enterprise
+    started with TensorGrid Enterprise
 
 .. toctree::
     :maxdepth: 1
@@ -189,7 +189,7 @@ pages on this site apply to Enterprise deployments as well.
     Data Lens <data_lens>
     Data Quality <data_quality>
     Query Performance <query_performance>
-    FiftyOne Agent __SUB_NEW__ <agent>
+    TensorGrid Agent __SUB_NEW__ <agent>
     Plugins <plugins>
     Secrets <secrets>
     Management SDK <management_sdk>

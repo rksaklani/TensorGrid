@@ -7,12 +7,12 @@ COCO Integration
 
 With support from the team behind the `COCO dataset <https://cocodataset.org>`_,
 we've made it easy to download, visualize, and evaluate on the COCO dataset
-natively in FiftyOne!
+natively in TensorGrid!
 
 .. note::
 
     Check out :doc:`this tutorial </tutorials/evaluate_detections>` to see how
-    you can use FiftyOne to evaluate a model on COCO.
+    you can use TensorGrid to evaluate a model on COCO.
 
 .. image:: /images/dataset_zoo/coco-2017-validation.png
    :alt: coco-2017-validation
@@ -23,19 +23,19 @@ natively in FiftyOne!
 Loading the COCO dataset
 ________________________
 
-The FiftyOne Dataset Zoo provides support for loading both the
+The TensorGrid Dataset Zoo provides support for loading both the
 :ref:`COCO-2014 <dataset-zoo-coco-2014>` and
 :ref:`COCO-2017 <dataset-zoo-coco-2017>` datasets.
 
 Like all other zoo datasets, you can use
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>` to download
-and load a COCO split into FiftyOne:
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>` to download
+and load a COCO split into TensorGrid:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Download and load the validation split of COCO-2017
     dataset = foz.load_zoo_dataset("coco-2017", split="validation")
@@ -44,7 +44,7 @@ and load a COCO split into FiftyOne:
 
 .. note::
 
-    FiftyOne supports loading annotations for the
+    TensorGrid supports loading annotations for the
     `detection task <https://cocodataset.org/#detection-2020>`_, including
     bounding boxes and segmentations.
 
@@ -57,18 +57,18 @@ and load a COCO split into FiftyOne:
     We will soon support loading labels for the keypoints, captions, and
     panoptic segmentation tasks as well. Stay tuned!
 
-In addition, FiftyOne provides parameters that can be used to efficiently
+In addition, TensorGrid provides parameters that can be used to efficiently
 download specific subsets of the COCO dataset, allowing you to quickly explore
 different slices of the dataset without downloading the entire split.
 
-When performing partial downloads, FiftyOne will use existing downloaded data
+When performing partial downloads, TensorGrid will use existing downloaded data
 first if possible before resorting to downloading additional data from the web.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     #
     # Load 50 random samples from the validation split
@@ -110,7 +110,7 @@ first if possible before resorting to downloading additional data from the web.
 
 The following parameters are available to configure partial downloads of both
 COCO-2014 and COCO-2017 by passing them to
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`:
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`:
 
 -   **split** (*None*) and **splits** (*None*): a string or list of strings,
     respectively, specifying the splits to load. Supported values are
@@ -165,17 +165,17 @@ COCO-2014 and COCO-2017 by passing them to
 .. note::
 
     See
-    :class:`COCO2017Dataset <fiftyone.zoo.datasets.base.COCO2017Dataset>` and
-    :class:`COCODetectionDatasetImporter <fiftyone.utils.coco.COCODetectionDatasetImporter>`
+    :class:`COCO2017Dataset <tensorgrid.zoo.datasets.base.COCO2017Dataset>` and
+    :class:`COCODetectionDatasetImporter <tensorgrid.utils.coco.COCODetectionDatasetImporter>`
     for complete descriptions of the optional keyword arguments that you can
-    pass to :func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`.
+    pass to :func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`.
 
 .. _coco-format:
 
 Loading COCO-formatted data
 ___________________________
 
-In addition to loading the COCO datasets themselves, FiftyOne also makes it
+In addition to loading the COCO datasets themselves, TensorGrid also makes it
 easy to load your own datasets and model predictions stored in
 `COCO format <https://cocodataset.org/#format-data>`_.
 
@@ -187,8 +187,8 @@ file containing COCO-formatted labels to work with:
 
     import os
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -203,7 +203,7 @@ file containing COCO-formatted labels to work with:
     )
 .. note::
 
-    When exporting instance segmentations, FiftyOne converts masks to polygons
+    When exporting instance segmentations, TensorGrid converts masks to polygons
     using an approximation algorithm controlled by the ``tolerance`` parameter
     (in pixels). Lower values preserve more points at the cost of larger file
     sizes. Use ``tolerance=0`` for a lossless export:
@@ -223,7 +223,7 @@ file containing COCO-formatted labels to work with:
     .. seealso::
 
         See
-        :class:`COCODetectionDatasetExporter <fiftyone.utils.coco.COCODetectionDatasetExporter>`
+        :class:`COCODetectionDatasetExporter <tensorgrid.utils.coco.COCODetectionDatasetExporter>`
         for complete descriptions of all export parameters.
 
 Now we have a ``/tmp/coco.json`` file on disk containing COCO labels
@@ -276,8 +276,8 @@ corresponding to the images in ``IMAGES_DIR``:
     }
 
 We can now use
-:meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>` to load the
-:ref:`COCO-formatted labels <COCODetectionDataset-import>` into a new FiftyOne
+:meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>` to load the
+:ref:`COCO-formatted labels <COCODetectionDataset-import>` into a new TensorGrid
 dataset:
 
 .. code-block:: python
@@ -305,17 +305,17 @@ dataset:
     Persistent:  False
     Tags:        []
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        detections:       fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        coco_id:          fiftyone.core.fields.IntField
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        detections:       tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        coco_id:          tensorgrid.core.fields.IntField
 
 In the above call to
-:meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>`, we provide
+:meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>`, we provide
 the ``data_path`` and ``labels_path`` parameters to specify the
 location of the source images and their COCO labels, respectively, and we set
 ``include_id=True`` so that the COCO ID for each image from our JSON labels
@@ -324,19 +324,19 @@ will be added to each imported sample.
 .. note::
 
     See
-    :class:`COCODetectionDatasetImporter <fiftyone.utils.coco.COCODetectionDatasetImporter>`
+    :class:`COCODetectionDatasetImporter <tensorgrid.utils.coco.COCODetectionDatasetImporter>`
     for complete descriptions of the optional keyword arguments that you can
-    pass to :meth:`Dataset.from_dir() <fiftyone.core.dataset.Dataset.from_dir>`.
+    pass to :meth:`Dataset.from_dir() <tensorgrid.core.dataset.Dataset.from_dir>`.
 
 
 If your workflow generates model predictions in COCO format, you can use the
-:meth:`add_coco_labels() <fiftyone.utils.coco.add_coco_labels>` utility method
+:meth:`add_coco_labels() <tensorgrid.utils.coco.add_coco_labels>` utility method
 to add them to your dataset as follows:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.utils.coco as fouc
+    import tensorgrid.utils.coco as fouc
 
     #
     # Mock COCO predictions, where:
@@ -361,7 +361,7 @@ COCO-style evaluation
 _____________________
 
 By default,
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 will use `COCO-style evaluation <https://cocodataset.org/#detection-eval>`_ to
 analyze predictions.
 
@@ -369,11 +369,11 @@ You can also explicitly request that COCO-style evaluation be used by setting
 the ``method`` parameter to ``"coco"``.
 
 See :ref:`this page <evaluating-detections>` for more information about using
-FiftyOne to analyze object detection models.
+TensorGrid to analyze object detection models.
 
 .. note::
 
-    FiftyOne's implementation of COCO-style evaluation matches the reference
+    TensorGrid's implementation of COCO-style evaluation matches the reference
     implementation available via
     `pycocotools <https://github.com/cocodataset/cocoapi>`_.
 
@@ -381,7 +381,7 @@ Overview
 ~~~~~~~~
 
 When running COCO-style evaluation using
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`:
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`:
 
 -   Predicted and ground truth objects are matched using a specified IoU
     threshold (default = 0.50). This threshold can be customized via the
@@ -395,7 +395,7 @@ When running COCO-style evaluation using
     can be matched to crowd ground truth objects. The name of this attribute
     can be customized by passing the optional ``iscrowd`` attribute of
     |COCOEvaluationConfig| to
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 
 When you specify an ``eval_key`` parameter, a number of helpful fields will be
 populated on each sample and its predicted/ground truth objects:
@@ -419,7 +419,7 @@ populated on each sample and its predicted/ground truth objects:
 
     See |COCOEvaluationConfig| for complete descriptions of the optional
     keyword arguments that you can pass to
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
     when running COCO-style evaluation.
 
 Example evaluation
@@ -431,9 +431,9 @@ The example below demonstrates COCO-style detection evaluation on the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
     print(dataset)
@@ -499,7 +499,7 @@ mAP and PR curves
 You can compute mean average precision (mAP), mean average recall (mAR), and
 precision-recall (PR) curves for your predictions by passing the
 ``compute_mAP=True`` flag to
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`:
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`:
 
 .. note::
 
@@ -509,8 +509,8 @@ precision-recall (PR) curves for your predictions by passing the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     print(dataset)
@@ -544,15 +544,15 @@ the results of COCO-style evaluations.
 
 In order for the confusion matrix to capture anything other than false
 positive/negative counts, you will likely want to set the
-:class:`classwise <fiftyone.utils.eval.coco.COCOEvaluationConfig>` parameter
+:class:`classwise <tensorgrid.utils.eval.coco.COCOEvaluationConfig>` parameter
 to ``False`` during evaluation so that predicted objects can be matched with
 ground truth objects of different classes.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -575,7 +575,7 @@ ground truth objects of different classes.
 .. note::
 
     Did you know? :ref:`Confusion matrices <confusion-matrices>` can be
-    attached to your |Session| object and dynamically explored using FiftyOne's
+    attached to your |Session| object and dynamically explored using TensorGrid's
     :ref:`interactive plotting features <interactive-plots>`!
 
 .. _coco-map:

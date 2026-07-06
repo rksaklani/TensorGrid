@@ -5,7 +5,7 @@ Step 3: Analyze and Approve Predictions
 
 .. default-role:: code
 
-Your Auto Labeling run has completed, and label predictions are ready for review. You will now evaluate and verify auto-generated labels using FiftyOne's exploration tools.
+Your Auto Labeling run has completed, and label predictions are ready for review. You will now evaluate and verify auto-generated labels using TensorGrid's exploration tools.
 
 Review Interface
 ----------------
@@ -29,7 +29,7 @@ Also notice that the default view shows each sample once with all predicted dete
 Compute and View Patches
 ------------------------
 
-The FiftyOne App provides a patches view button that allows you to take any Detections field in your dataset and visualize each object as an individual patch in the image grid.
+The TensorGrid App provides a patches view button that allows you to take any Detections field in your dataset and visualize each object as an individual patch in the image grid.
 
 In the toolbar above the sample grid, select **Patches > Labels > yolow_detections**. You'll notice the sample grid will now show one image per bounding box label.
 

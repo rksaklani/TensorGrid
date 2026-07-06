@@ -9,7 +9,7 @@ Manufacturing Guide
 
 **Level:** Beginner | **Estimated Time:** 120-150 minutes | **Tags:** Manufacturing, Anomaly Detection, Defect Inspection, Safety Monitoring, Industrial AI, Computer Vision
 
-This step-by-step guide will walk you through a complete manufacturing AI workflow using FiftyOne. You'll learn how to:
+This step-by-step guide will walk you through a complete manufacturing AI workflow using TensorGrid. You'll learn how to:
 
 - Load and explore manufacturing datasets including MVTec AD and PPE detection
 - Generate embeddings for anomaly detection and defect classification
@@ -26,7 +26,7 @@ Guide Overview
 
 This guide is broken down into the following sequential steps:
 
-1. **Getting Started with Manufacturing Datasets** - Learn how to load and explore manufacturing datasets in FiftyOne, specifically working with MVTec Anomaly Detection dataset, understanding defect patterns, and preparing data for analysis
+1. **Getting Started with Manufacturing Datasets** - Learn how to load and explore manufacturing datasets in TensorGrid, specifically working with MVTec Anomaly Detection dataset, understanding defect patterns, and preparing data for analysis
 
 2. **Understanding and Using Embeddings** - Generate embeddings for anomaly detection tasks, understand their importance in Visual AI, and use them for similarity search and visualization
 
@@ -34,7 +34,7 @@ This guide is broken down into the following sequential steps:
 
 4. **Custom Embeddings for Industrial Data** - Use custom feature extractors to compute embeddings tailored for industrial data and manufacturing scenarios
 
-5. **Model Evaluation and Integration** - Evaluate anomaly detection models with FiftyOne's evaluation modules, understand integrations and plugins
+5. **Model Evaluation and Integration** - Evaluate anomaly detection models with TensorGrid's evaluation modules, understand integrations and plugins
 
 6. **Data Augmentation for Manufacturing** - Apply Albumentations for data augmentation and improve model robustness for manufacturing scenarios
 
@@ -55,17 +55,17 @@ Prerequisites
 
 **Who Is This Guide For**
 
-This page is for those new to FiftyOne who are looking to get started with manufacturing AI workflows, especially anomaly detection, defect inspection, and safety monitoring. Perfect for manufacturing engineers, quality control specialists, and computer vision practitioners working in industrial environments. By the end of this tutorial, you'll be able to load manufacturing datasets, perform anomaly detection analysis, and implement safety monitoring workflows using FiftyOne.
+This page is for those new to TensorGrid who are looking to get started with manufacturing AI workflows, especially anomaly detection, defect inspection, and safety monitoring. Perfect for manufacturing engineers, quality control specialists, and computer vision practitioners working in industrial environments. By the end of this tutorial, you'll be able to load manufacturing datasets, perform anomaly detection analysis, and implement safety monitoring workflows using TensorGrid.
 
 **Required Knowledge**
 
-We will start with the assumption that you are familiar with basic Python programming and have some exposure to computer vision concepts. This guide is ideal for those who are new to manufacturing AI or looking to expand their computer vision skills into industrial applications using FiftyOne.
+We will start with the assumption that you are familiar with basic Python programming and have some exposure to computer vision concepts. This guide is ideal for those who are new to manufacturing AI or looking to expand their computer vision skills into industrial applications using TensorGrid.
 
 **Packages Used**
 
 The notebooks will automatically install the required packages when you run them. The main packages we'll be using include:
 
-- **fiftyone** - Core FiftyOne library for dataset management and visualization
+- **fiftyone** - Core TensorGrid library for dataset management and visualization
 - **torch & torchvision** - PyTorch for deep learning and computer vision
 - **albumentations** - Advanced data augmentation library
 - **scikit-learn** - Machine learning utilities for clustering and evaluation
@@ -134,7 +134,7 @@ Video analytics dataset for safety monitoring:
 Ready to Begin?
 ---------------
 
-Click **Next** to start with the first step: Getting Started with Manufacturing Datasets in FiftyOne.
+Click **Next** to start with the first step: Getting Started with Manufacturing Datasets in TensorGrid.
 
 .. toctree::
    :maxdepth: 1

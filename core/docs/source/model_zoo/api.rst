@@ -11,12 +11,12 @@ You can interact with the Model Zoo either via the Python library or the CLI.
 
   .. group-tab:: Python
 
-    The Model Zoo is accessible via the :mod:`fiftyone.zoo` package.
+    The Model Zoo is accessible via the :mod:`tensorgrid.zoo` package.
 
   .. group-tab:: CLI
 
-    The :ref:`fiftyone zoo models <cli-fiftyone-zoo-models>` command
-    provides convenient utilities for working with models in the FiftyOne Model
+    The :ref:`tensorgrid zoo models <cli-fiftyone-zoo-models>` command
+    provides convenient utilities for working with models in the TensorGrid Model
     Zoo.
 
 .. _model-zoo-list:
@@ -29,12 +29,12 @@ Listing zoo models
   .. group-tab:: Python
 
     You can list the available zoo models via
-    :meth:`list_zoo_models() <fiftyone.zoo.models.list_zoo_models>`:
+    :meth:`list_zoo_models() <tensorgrid.zoo.models.list_zoo_models>`:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone.zoo as foz
+        import tensorgrid.zoo as foz
 
         available_models = foz.list_zoo_models()
 
@@ -51,13 +51,13 @@ Listing zoo models
         ]
 
     To view the zoo models that you have downloaded, you can use
-    :meth:`list_downloaded_zoo_models() <fiftyone.zoo.models.list_downloaded_zoo_models>`:
+    :meth:`list_downloaded_zoo_models() <tensorgrid.zoo.models.list_downloaded_zoo_models>`:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         downloaded_models = foz.list_downloaded_zoo_models()
         fo.pprint(downloaded_models)
@@ -67,11 +67,11 @@ Listing zoo models
         {
             'alexnet-imagenet-torch': (
                 '/Users/Brian/fiftyone/__models__/alexnet-owt-4df8aa71.pth',
-                <fiftyone.zoo.models.ZooModel object at 0x122d2fa58>,
+                <tensorgrid.zoo.models.ZooModel object at 0x122d2fa58>,
             ),
             'densenet121-imagenet-torch': (
                 '/Users/Brian/fiftyone/__models__/densenet121-a639ec97.pth',
-                <fiftyone.zoo.models.ZooModel object at 0x122d608d0>,
+                <tensorgrid.zoo.models.ZooModel object at 0x122d608d0>,
             ),
             ...
         }
@@ -79,14 +79,14 @@ Listing zoo models
   .. group-tab:: CLI
 
     You can access information about the available zoo models via the
-    :ref:`fiftyone zoo models list <cli-fiftyone-zoo-models-list>` command.
+    :ref:`tensorgrid zoo models list <cli-fiftyone-zoo-models-list>` command.
 
     For example, to list the available zoo models and whether you have
     downloaded them, you can execute:
 
     .. code-block:: shell
 
-        fiftyone zoo models list
+        tensorgrid zoo models list
 
     Models that have been downloaded are indicated by a checkmark in the
     ``downloaded`` column, and their location on disk is indicated by the
@@ -102,10 +102,10 @@ Getting information about zoo models
   .. group-tab:: Python
 
     Each zoo model is represented by a
-    :class:`ZooModel <fiftyone.zoo.models.ZooModel>` subclass, which contains
+    :class:`ZooModel <tensorgrid.zoo.models.ZooModel>` subclass, which contains
     information about the model, its package requirements and CPU/GPU support,
     and more. You can access this object for a given model via the
-    :meth:`get_zoo_model() <fiftyone.zoo.models.get_zoo_model>` method.
+    :meth:`get_zoo_model() <tensorgrid.zoo.models.get_zoo_model>` method.
 
     For example, let's print some information about a Faster R-CNN PyTorch
     model:
@@ -113,7 +113,7 @@ Getting information about zoo models
     .. code-block:: python
         :linenos:
 
-        import fiftyone.zoo as foz
+        import tensorgrid.zoo as foz
 
         zoo_model = foz.get_zoo_model("faster-rcnn-resnet50-fpn-coco-torch")
 
@@ -155,7 +155,7 @@ Getting information about zoo models
         }
 
     When a zoo model is downloaded, you can use
-    :meth:`find_zoo_model() <fiftyone.zoo.models.find_zoo_model>` to locate the
+    :meth:`find_zoo_model() <tensorgrid.zoo.models.find_zoo_model>` to locate the
     downloaded model on disk:
 
     For example, let's get the path on disk to the Faster R-CNN model
@@ -164,21 +164,21 @@ Getting information about zoo models
     .. code-block:: python
         :linenos:
 
-        import fiftyone.zoo as foz
+        import tensorgrid.zoo as foz
 
         model_path = foz.find_zoo_model("faster-rcnn-resnet50-fpn-coco-torch")
 
   .. group-tab:: CLI
 
     You can view detailed information about a model (either downloaded or
-    not) via the :ref:`fiftyone zoo models info <cli-fiftyone-zoo-models-info>`
+    not) via the :ref:`tensorgrid zoo models info <cli-fiftyone-zoo-models-info>`
     command.
 
     For example, you can view information about a Faster R-CNN PyTorch model:
 
     .. code-block:: shell
 
-        fiftyone zoo models info faster-rcnn-resnet50-fpn-coco-torch
+        tensorgrid zoo models info faster-rcnn-resnet50-fpn-coco-torch
 
     .. code-block:: text
 
@@ -194,19 +194,19 @@ Getting information about zoo models
             "description": "Faster R-CNN model from `Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks <https://arxiv.org/abs/1506.01497>`_ with ResNet-50 FPN backbone trained on COCO",
             "size_bytes": 167502836,
             "manager": {
-                "type": "fiftyone.core.models.ModelManager",
+                "type": "tensorgrid.core.models.ModelManager",
                 "config": {
                     "url": "https://download.pytorch.org/models/fasterrcnn_resnet50_fpn_coco-258fb6c6.pth"
                 }
             },
             "default_deployment_config_dict": {
-                "type": "fiftyone.zoo.models.torch.TorchvisionImageModel",
+                "type": "tensorgrid.zoo.models.torch.TorchvisionImageModel",
                 "config": {
                     "entrypoint_fcn": "torchvision.models.detection.faster_rcnn.fasterrcnn_resnet50_fpn",
                     "entrypoint_args": {
                         "weights": "FasterRCNN_ResNet50_FPN_Weights.DEFAULT"
                     },
-                    "output_processor_cls": "fiftyone.utils.torch.DetectorOutputProcessor",
+                    "output_processor_cls": "tensorgrid.utils.torch.DetectorOutputProcessor",
                     "labels_path": "{{eta-resources}}/ms-coco-labels.txt",
                     "confidence_thresh": 0.3
                 }
@@ -246,14 +246,14 @@ Downloading zoo models
   .. group-tab:: Python
 
     You can download zoo models from the web via
-    :meth:`download_zoo_model() <fiftyone.zoo.models.download_zoo_model>`.
+    :meth:`download_zoo_model() <tensorgrid.zoo.models.download_zoo_model>`.
 
     For example, let's download a Faster R-CNN PyTorch model:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone.zoo as foz
+        import tensorgrid.zoo as foz
 
         model_path = foz.download_zoo_model("faster-rcnn-resnet50-fpn-coco-torch")
 
@@ -265,14 +265,14 @@ Downloading zoo models
   .. group-tab:: CLI
 
     You can download zoo models from the web via the
-    :ref:`fiftyone zoo models download <cli-fiftyone-zoo-models-download>`
+    :ref:`tensorgrid zoo models download <cli-fiftyone-zoo-models-download>`
     command.
 
     For example, you can download a Faster R-CNN PyTorch model as follows:
 
     .. code-block:: shell
 
-        fiftyone zoo models download faster-rcnn-resnet50-fpn-coco-torch
+        tensorgrid zoo models download faster-rcnn-resnet50-fpn-coco-torch
 
     .. code-block:: text
 
@@ -288,44 +288,44 @@ Installing zoo model requirements
 
   .. group-tab:: Python
 
-    Some models in the FiftyOne Model Zoo may require packages that are not
-    installed by default when FiftyOne is installed.
+    Some models in the TensorGrid Model Zoo may require packages that are not
+    installed by default when TensorGrid is installed.
 
     You can check to see if your current environment satisfies the requirements
     for a particular zoo model via
-    :meth:`ensure_zoo_model_requirements() <fiftyone.zoo.models.ensure_zoo_model_requirements>`:
+    :meth:`ensure_zoo_model_requirements() <tensorgrid.zoo.models.ensure_zoo_model_requirements>`:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone.zoo as foz
+        import tensorgrid.zoo as foz
 
         # Raises an error if the requirements are not satisfied
         foz.ensure_zoo_model_requirements("faster-rcnn-resnet50-fpn-coco-torch")
 
     You can also use
-    :meth:`install_zoo_model_requirements() <fiftyone.zoo.models.install_zoo_model_requirements>`
+    :meth:`install_zoo_model_requirements() <tensorgrid.zoo.models.install_zoo_model_requirements>`
     to install any necessary packages for a particular model:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone.zoo as foz
+        import tensorgrid.zoo as foz
 
         foz.install_zoo_model_requirements("faster-rcnn-resnet50-fpn-coco-torch")
 
   .. group-tab:: CLI
 
-    Some models in the FiftyOne Model Zoo may require packages that are not
-    installed by default when FiftyOne is installed.
+    Some models in the TensorGrid Model Zoo may require packages that are not
+    installed by default when TensorGrid is installed.
 
     You can view the requirements for a zoo model via the
-    :ref:`fiftyone zoo models requirements <cli-fiftyone-zoo-models-requirements>`
+    :ref:`tensorgrid zoo models requirements <cli-fiftyone-zoo-models-requirements>`
     command:
 
     .. code-block:: shell
 
-        fiftyone zoo models requirements faster-rcnn-resnet50-fpn-coco-torch
+        tensorgrid zoo models requirements faster-rcnn-resnet50-fpn-coco-torch
 
     .. code-block:: text
 
@@ -352,14 +352,14 @@ Installing zoo model requirements
     .. code-block:: shell
 
         # Raises an error if the requirements are not satisfied
-        fiftyone zoo models requirements --ensure faster-rcnn-resnet50-fpn-coco-torch
+        tensorgrid zoo models requirements --ensure faster-rcnn-resnet50-fpn-coco-torch
 
     You can also use the `--install` flag to install any necessary packages for
     a particular zoo model:
 
     .. code-block:: shell
 
-        fiftyone zoo models requirements --install faster-rcnn-resnet50-fpn-coco-torch
+        tensorgrid zoo models requirements --install faster-rcnn-resnet50-fpn-coco-torch
 
 .. _model-zoo-load:
 
@@ -367,7 +367,7 @@ Loading zoo models
 ------------------
 
 You can load a zoo model via
-:meth:`load_zoo_model() <fiftyone.zoo.models.load_zoo_model>`.
+:meth:`load_zoo_model() <tensorgrid.zoo.models.load_zoo_model>`.
 
 By default, the model will be automatically downloaded from the web the first
 time you access it if it is not already downloaded:
@@ -375,13 +375,13 @@ time you access it if it is not already downloaded:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     # The model will be downloaded from the web the first time you access it
     model = foz.load_zoo_model("faster-rcnn-resnet50-fpn-coco-torch")
 
 You can also provide additional arguments to
-:meth:`load_zoo_model() <fiftyone.zoo.models.load_zoo_model>` to customize
+:meth:`load_zoo_model() <tensorgrid.zoo.models.load_zoo_model>` to customize
 the import behavior:
 
 .. code-block:: python
@@ -397,21 +397,21 @@ the import behavior:
 
 .. note::
 
-    By default, FiftyOne will attempt to ensure that any requirements such as
+    By default, TensorGrid will attempt to ensure that any requirements such as
     Python packages or CUDA versions are satisfied before loading the model,
     and an error will be raised if a requirement is not satisfied.
 
     You can customize this behavior via the ``error_level`` argument to
-    :meth:`load_zoo_model() <fiftyone.zoo.models.load_zoo_model>`, or you can
+    :meth:`load_zoo_model() <tensorgrid.zoo.models.load_zoo_model>`, or you can
     permanently adjust this behavior by setting the ``requirement_error_level``
-    parameter of your :ref:`FiftyOne config <configuring-fiftyone>`.
+    parameter of your :ref:`TensorGrid config <configuring-fiftyone>`.
 
     An ``error_level`` of ``0`` will raise an error if a requirement is not
     satisfied, ``1`` will log a warning if the requirement is not satisfied,
     and ``2`` will ignore unsatisfied requirements.
 
     If you are using a ``conda`` environment, it is recommended you use an
-    ``error_level`` of ``1`` or ``2``, since FiftyOne uses ``pip`` to check for
+    ``error_level`` of ``1`` or ``2``, since TensorGrid uses ``pip`` to check for
     requirements.
 
 .. _model-zoo-apply:
@@ -425,7 +425,7 @@ Applying zoo models
 
     You can run inference on a dataset (or a subset of it specified by a
     |DatasetView|) with a zoo model by loading it and then calling
-    :meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`:
+    :meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`:
 
     For example, the snippet below loads the
     ``faster-rcnn-resnet50-fpn-coco-torch`` model from the Model Zoo and
@@ -435,7 +435,7 @@ Applying zoo models
     .. code-block:: python
         :linenos:
 
-        import fiftyone.zoo as foz
+        import tensorgrid.zoo as foz
 
         # Load zoo model
         model = foz.load_zoo_model("faster-rcnn-resnet50-fpn-coco-torch")
@@ -450,7 +450,7 @@ Applying zoo models
   .. group-tab:: CLI
 
     You can run inference on a dataset with a zoo model via the
-    :ref:`fiftyone zoo models apply <cli-fiftyone-zoo-models-apply>` command.
+    :ref:`tensorgrid zoo models apply <cli-fiftyone-zoo-models-apply>` command.
 
     For example, the snippet below loads the ``quickstart`` dataset from the
     Dataset Zoo and applies the ``faster-rcnn-resnet50-fpn-coco-torch`` model
@@ -459,10 +459,10 @@ Applying zoo models
     .. code-block:: shell
 
         # Load zoo dataset
-        fiftyone zoo datasets load quickstart
+        tensorgrid zoo datasets load quickstart
 
         # Apply zoo model
-        fiftyone zoo models apply \
+        tensorgrid zoo models apply \
             faster-rcnn-resnet50-fpn-coco-torch \   # model
             quickstart \                            # dataset
             faster_rcnn                             # label field
@@ -478,13 +478,13 @@ Generating embeddings with zoo models
 
     Many models in the Model Zoo expose embeddings for their predictions. You
     can determine if a model supports embeddings by loading it and checking the
-    :meth:`Model.has_embeddings <fiftyone.core.models.Model.has_embeddings>`
+    :meth:`Model.has_embeddings <tensorgrid.core.models.Model.has_embeddings>`
     attribute:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone.zoo as foz
+        import tensorgrid.zoo as foz
 
         # Load zoo model
         model = foz.load_zoo_model("inception-v3-imagenet-torch")
@@ -495,12 +495,12 @@ Generating embeddings with zoo models
     For models that expose embeddings, you can generate embeddings for all
     samples in a dataset (or a subset of it specified by a |DatasetView|) by
     calling
-    :meth:`compute_embeddings() <fiftyone.core.collections.SampleCollection.compute_embeddings>`:
+    :meth:`compute_embeddings() <tensorgrid.core.collections.SampleCollection.compute_embeddings>`:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone.zoo as foz
+        import tensorgrid.zoo as foz
 
         # Load zoo model
         model = foz.load_zoo_model("inception-v3-imagenet-torch")
@@ -518,7 +518,7 @@ Generating embeddings with zoo models
         samples.compute_embeddings(model, embeddings_field="embeddings")
 
     You can also use
-    :meth:`compute_patch_embeddings() <fiftyone.core.collections.SampleCollection.compute_patch_embeddings>`
+    :meth:`compute_patch_embeddings() <tensorgrid.core.collections.SampleCollection.compute_patch_embeddings>`
     to generate embeddings for image patches defined by another label field,
     e.g,. the detections generated by a detection model.
 
@@ -526,7 +526,7 @@ Generating embeddings with zoo models
 
     For models that expose embeddings, you can generate embeddings for all
     samples in a dataset via the
-    :ref:`fiftyone zoo models embed <cli-fiftyone-zoo-models-embed>` command.
+    :ref:`tensorgrid zoo models embed <cli-fiftyone-zoo-models-embed>` command.
 
     For example, the snippet below loads the ``quickstart`` dataset from the
     Dataset Zoo and generates embeddings for each sample using the
@@ -535,10 +535,10 @@ Generating embeddings with zoo models
     .. code-block:: shell
 
         # Load zoo dataset
-        fiftyone zoo datasets load quickstart
+        tensorgrid zoo datasets load quickstart
 
         # Generate embeddings via zoo model
-        fiftyone zoo models embed \
+        tensorgrid zoo models embed \
             inception-v3-imagenet-torch \           # model
             quickstart \                            # dataset
             embeddings                              # embeddings field
@@ -549,24 +549,24 @@ Controlling where zoo models are downloaded
 -------------------------------------------
 
 By default, zoo models are downloaded into subdirectories of
-``fiftyone.config.model_zoo_dir`` corresponding to their names.
+``tensorgrid.config.model_zoo_dir`` corresponding to their names.
 
 You can customize this backend by modifying the ``model_zoo_dir`` setting of
-your :ref:`FiftyOne config <configuring-fiftyone>`.
+your :ref:`TensorGrid config <configuring-fiftyone>`.
 
 .. tabs::
 
     .. group-tab:: JSON
 
-        Directly edit your FiftyOne config at `~/.fiftyone/config.json`:
+        Directly edit your TensorGrid config at `~/.fiftyone/config.json`:
 
         .. code-block:: shell
 
             # Print your current config
-            fiftyone config
+            tensorgrid config
 
             # Locate your config (and edit the `model_zoo_dir` field)
-            fiftyone constants FIFTYONE_CONFIG_PATH
+            tensorgrid constants FIFTYONE_CONFIG_PATH
 
     .. group-tab:: Environment
 
@@ -584,7 +584,7 @@ your :ref:`FiftyOne config <configuring-fiftyone>`.
         .. code-block:: python
             :linenos:
 
-            import fiftyone as fo
+            import tensorgrid as tg
 
             # Customize where zoo models are downloaded
             fo.config.model_zoo_dir = "/your/custom/directory"
@@ -599,23 +599,23 @@ Deleting zoo models
   .. group-tab:: Python
 
     You can delete the local copy of a zoo model via
-    :meth:`delete_zoo_model() <fiftyone.zoo.models.delete_zoo_model>`:
+    :meth:`delete_zoo_model() <tensorgrid.zoo.models.delete_zoo_model>`:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone.zoo as foz
+        import tensorgrid.zoo as foz
 
         foz.delete_zoo_model("faster-rcnn-resnet50-fpn-coco-torch")
 
   .. group-tab:: CLI
 
     You can delete the local copy of a zoo model via the
-    :ref:`fiftyone zoo models delete <cli-fiftyone-zoo-models-delete>` command:
+    :ref:`tensorgrid zoo models delete <cli-fiftyone-zoo-models-delete>` command:
 
     .. code-block:: shell
 
-        fiftyone zoo models delete faster-rcnn-resnet50-fpn-coco-torch
+        tensorgrid zoo models delete faster-rcnn-resnet50-fpn-coco-torch
 
 .. _model-zoo-add:
 
@@ -623,20 +623,20 @@ Adding models to the zoo
 ------------------------
 
 We frequently add new models to the Model Zoo, which will automatically become
-accessible to you when you update your FiftyOne package.
+accessible to you when you update your TensorGrid package.
 
 .. note::
 
-    FiftyOne is open source! You are welcome to contribute models to the public
+    TensorGrid is open source! You are welcome to contribute models to the public
     model zoo by submitting a pull request to
-    `the GitHub repository <https://github.com/voxel51/fiftyone>`_.
+    `the GitHub repository <https://github.com/rksaklani/TensorGrid>`_.
 
 You can also add your own models to your local model zoo, enabling you to work
-with these models via the :mod:`fiftyone.zoo` package and the CLI using the
+with these models via the :mod:`tensorgrid.zoo` package and the CLI using the
 same syntax that you would with publicly available models.
 
 To add model(s) to your local zoo, you simply write a JSON manifest file in
-the format below to tell FiftyOne about the model(s). For example, the manifest
+the format below to tell TensorGrid about the model(s). For example, the manifest
 below adds a second copy of the ``yolo-v2-coco-tf1`` model to the zoo under the
 alias ``yolo-v2-coco-tf1-high-conf`` that only returns predictions whose
 confidence is at least 0.5:
@@ -651,13 +651,13 @@ confidence is at least 0.5:
                 "version": null,
                 "description": "A YOLOv2 model with confidence threshold set to 0.5",
                 "manager": {
-                    "type": "fiftyone.core.models.ModelManager",
+                    "type": "tensorgrid.core.models.ModelManager",
                     "config": {
                         "google_drive_id": "1ajuPZws47SOw3xJc4Wvk1yuiB3qv8ycr"
                     }
                 },
                 "default_deployment_config_dict": {
-                    "type": "fiftyone.utils.eta.ETAModel",
+                    "type": "tensorgrid.utils.eta.ETAModel",
                     "config": {
                         "type": "eta.detectors.YOLODetector",
                         "config": {
@@ -692,18 +692,18 @@ confidence is at least 0.5:
 
     In practice, there is no need to hard-code confidence thresholds in models,
     since the
-    :meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+    :meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
     method supports supplying an optional confidence threshold that is applied
     post-facto to the predictions generated by any model.
 
 Models manifest JSON files should have a ``models`` key that contains a list
 of serialized
-:class:`ZooModel class definitions <fiftyone.zoo.models.ZooModel>` that
+:class:`ZooModel class definitions <tensorgrid.zoo.models.ZooModel>` that
 describe how to download and load the model.
 
-Finally, expose your new models(s) to FiftyOne by adding your manifest to the
+Finally, expose your new models(s) to TensorGrid by adding your manifest to the
 ``model_zoo_manifest_paths`` parameter of your
-:ref:`FiftyOne config <configuring-fiftyone>`. One way to do this is to set the
+:ref:`TensorGrid config <configuring-fiftyone>`. One way to do this is to set the
 ``FIFTYONE_MODEL_ZOO_MANIFEST_PATHS`` environment variable:
 
 .. code-block:: shell
@@ -715,8 +715,8 @@ would any other zoo model:
 
 .. code-block:: python
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Load custom model
     model = foz.load_zoo_model("yolo-v2-coco-tf1-high-conf")

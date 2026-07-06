@@ -5,7 +5,7 @@ Drawing Labels on Samples
 
 .. default-role:: code
 
-FiftyOne provides native support for rendering annotated versions of image and
+TensorGrid provides native support for rendering annotated versions of image and
 video samples with :ref:`label fields <using-labels>` overlaid on the source
 media.
 
@@ -22,14 +22,14 @@ your datasets that you have identified by constructing a |DatasetView|.
   .. group-tab:: Python
 
     You can draw labels on a collection of samples via the
-    :meth:`Dataset.draw_labels() <fiftyone.core.dataset.Dataset.draw_labels>` and
-    :meth:`DatasetView.draw_labels() <fiftyone.core.view.DatasetView.draw_labels>`
+    :meth:`Dataset.draw_labels() <tensorgrid.core.dataset.Dataset.draw_labels>` and
+    :meth:`DatasetView.draw_labels() <tensorgrid.core.view.DatasetView.draw_labels>`
     methods:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
+        import tensorgrid as tg
 
         # The Dataset or DatasetView containing the samples you wish to draw
         dataset_or_view = fo.load_dataset(...)
@@ -46,12 +46,12 @@ your datasets that you have identified by constructing a |DatasetView|.
 
   .. group-tab:: CLI
 
-    You can rendered annotated media for an entire FiftyOne dataset
+    You can rendered annotated media for an entire TensorGrid dataset
     :doc:`via the CLI </cli/index>`:
 
     .. code-block:: shell
 
-        # The name of the FiftyOne dataset to annotate
+        # The name of the TensorGrid dataset to annotate
         NAME="your-dataset"
 
         # The directory to which to write the annotated files
@@ -62,7 +62,7 @@ your datasets that you have identified by constructing a |DatasetView|.
         LABEL_FIELDS=ground_truth,predictions  # for example
 
         # Render the labels!
-        fiftyone datasets draw $NAME --output-dir $OUTPUT_DIR --label-fields $LABEL_FIELDS
+        tensorgrid datasets draw $NAME --output-dir $OUTPUT_DIR --label-fields $LABEL_FIELDS
 
 Examples
 --------
@@ -76,8 +76,8 @@ samples from the :ref:`quickstart dataset <dataset-zoo-quickstart>`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart", max_samples=10)
 
@@ -98,8 +98,8 @@ few videos from the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video", max_samples=2).clone()
 
@@ -134,17 +134,17 @@ Individual samples
 ------------------
 
 You can also render annotated versions of individual samples directly by using
-the various methods exposed in the :mod:`fiftyone.utils.annotations` module.
+the various methods exposed in the :mod:`tensorgrid.utils.annotations` module.
 
 For example, you can render an annotated version of an image sample with
 |Classification| and |Detections| labels overlaid via
-:func:`draw_labeled_image() <fiftyone.utils.annotations.draw_labeled_image>`:
+:func:`draw_labeled_image() <tensorgrid.utils.annotations.draw_labeled_image>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.annotations as foua
+    import tensorgrid as tg
+    import tensorgrid.utils.annotations as foua
 
     # Example data
     sample = fo.Sample(
@@ -192,18 +192,18 @@ For example, you can render an annotated version of an image sample with
 |br|
 Similarly, you can draw an annotated version of a video sample with its frame
 labels overlaid via
-:func:`draw_labeled_video() <fiftyone.utils.annotations.draw_labeled_video>`.
+:func:`draw_labeled_video() <tensorgrid.utils.annotations.draw_labeled_video>`.
 
 Customizing label rendering
 ---------------------------
 
-You can customize the look-and-feel of the labels rendered by FiftyOne by
-providing a custom :class:`DrawConfig <fiftyone.utils.annotations.DrawConfig>`
+You can customize the look-and-feel of the labels rendered by TensorGrid by
+providing a custom :class:`DrawConfig <tensorgrid.utils.annotations.DrawConfig>`
 to the relevant drawing method, such as
-:meth:`SampleCollection.draw_labels() <fiftyone.core.collections.SampleCollection.draw_labels>`
-or the underlying methods in the :mod:`fiftyone.utils.annotations` module.
+:meth:`SampleCollection.draw_labels() <tensorgrid.core.collections.SampleCollection.draw_labels>`
+or the underlying methods in the :mod:`tensorgrid.utils.annotations` module.
 
-Consult the :class:`DrawConfig <fiftyone.utils.annotations.DrawConfig>` docs
+Consult the :class:`DrawConfig <tensorgrid.utils.annotations.DrawConfig>` docs
 for a complete description of the available parameters.
 
 For example, the snippet below increases the font size and line thickness of

@@ -1,16 +1,16 @@
 .. _enterprise-overview:
 
-FiftyOne Enterprise Overview
+TensorGrid Enterprise Overview
 ============================
 
 .. default-role:: code
 
-FiftyOne Enterprise is purpose-built to integrate into your existing ML workflows,
+TensorGrid Enterprise is purpose-built to integrate into your existing ML workflows,
 including annotation, evaluation, model training, and deployment.
 
 .. note::
 
-    `Learn more <https://voxel51.com/fiftyone/why-upgrade>`_ about FiftyOne Enterprise and
+    `Learn more <https://voxel51.com/fiftyone/why-upgrade>`_ about TensorGrid Enterprise and
     `contact us <https://voxel51.com/talk-to-sales>`_ to try it!
 
 .. _fiftyone-vs-fiftyone-enterprise:
@@ -18,15 +18,15 @@ including annotation, evaluation, model training, and deployment.
 Open Source vs Enterprise
 _________________________
 
-Here's a high-level overview of the capabilities that FiftyOne Enterprise brings:
+Here's a high-level overview of the capabilities that TensorGrid Enterprise brings:
 
 .. raw:: html
 
     </table><table class="table">
     <thead>
     <tr class="row-odd"><th class="head stub"></th>
-    <th class="head"><p>FiftyOne Enterprise</p></th>
-    <th class="head"><p>FiftyOne Open Source</p></th>
+    <th class="head"><p>TensorGrid Enterprise</p></th>
+    <th class="head"><p>TensorGrid Open Source</p></th>
     </tr>
     </thead>
     <tbody>
@@ -88,12 +88,12 @@ Here's a high-level overview of the capabilities that FiftyOne Enterprise brings
 Backwards compatibility
 _______________________
 
-FiftyOne Enterprise is fully backwards compatible with FiftyOne Open Source. This
-means that all of your pre-existing FiftyOne Open Source workflows should be
+TensorGrid Enterprise is fully backwards compatible with TensorGrid Open Source. This
+means that all of your pre-existing TensorGrid Open Source workflows should be
 usable without modification.
 
 For example, you can continue running all of the workflows listed below as you
-would with FiftyOne Open Source:
+would with TensorGrid Open Source:
 
 .. list-table::
    :widths: 25 75
@@ -103,9 +103,9 @@ would with FiftyOne Open Source:
    * - Application
      - Workflows
    * - Data ingestion
-     - :ref:`Importing data into FiftyOne <importing-datasets>`
+     - :ref:`Importing data into TensorGrid <importing-datasets>`
    * - Data curation
-     - | :ref:`Using the FiftyOne App <fiftyone-app>`
+     - | :ref:`Using the TensorGrid App <fiftyone-app>`
        | :ref:`Creating views into datasets <using-views>`
        | `Embedding-based dataset analysis <https://voxel51.com/docs/fiftyone/tutorials/image_embeddings.html>`_
        | :ref:`Visual similarity <brain-similarity>` and :ref:`dataset uniqueness <brain-image-uniqueness>`
@@ -113,8 +113,8 @@ would with FiftyOne Open Source:
      - :ref:`Using the annotation API <fiftyone-annotation>`
    * - Model training and evaluation
      - | :ref:`Exporting data for model training <exporting-datasets>`
-       | `Adding model predictions to FiftyOne <https://voxel51.com/docs/fiftyone/tutorials/evaluate_detections.html#Add-predictions-to-dataset>`_
-       | :ref:`Evaluating models in FiftyOne <evaluating-models>`
+       | `Adding model predictions to TensorGrid <https://voxel51.com/docs/fiftyone/tutorials/evaluate_detections.html#Add-predictions-to-dataset>`_
+       | :ref:`Evaluating models in TensorGrid <evaluating-models>`
        | :ref:`Using interactive plots to explore results <interactive-plots>`
 
 .. _enterprise-system-architecture:
@@ -122,64 +122,64 @@ would with FiftyOne Open Source:
 System architecture
 ___________________
 
-FiftyOne Enterprise is implemented as a set of interoperable services, as described
+TensorGrid Enterprise is implemented as a set of interoperable services, as described
 in the figure below.
 
 .. image:: /images/enterprise/enterprise_architecture.png
    :alt: enterprise-architecture
    :align: center
 
-FiftyOne Enterprise is strictly a software offering. All relevant hardware is owned
+TensorGrid Enterprise is strictly a software offering. All relevant hardware is owned
 and managed by your organization, whether on-premises or in your virtual
 private cloud.
 
 **Enterprise database services**
 
-The primary storage location for all of the FiftyOne Enterprise datasets and related
+The primary storage location for all of the TensorGrid Enterprise datasets and related
 metadata (excluding media files) for your organization.
 
 **Enterprise web service**
 
 An always-on front-end from which you can visually access the datasets in your
-FiftyOne Enterprise deployment. Web-based access is the standard entrypoint for
+TensorGrid Enterprise deployment. Web-based access is the standard entrypoint for
 non-technical users who need point-and-click access to dataset curation and
 related features, as well as basic workflows for technical users. Most dataset
 curation and model analysis work by engineers happens via client installations.
 
 **Enterprise API authentication**
 
-Technical users connecting to FiftyOne Enterprise via Python or Jupyter notebooks
+Technical users connecting to TensorGrid Enterprise via Python or Jupyter notebooks
 use token-based authentication to make authorized connections to the
 centralized database storing your Team’s dataset metadata.
 
 **Python/notebook users (your organization)**
 
-Similar to FiftyOne Open Source, technical users can install the FiftyOne
+Similar to TensorGrid Open Source, technical users can install the TensorGrid
 Enterprise client in their working environment(s). These clients are configured
 to use the centralized database service and will additionally serve their own
-App instances (like FiftyOne Open Source) so that engineers can work locally,
+App instances (like TensorGrid Open Source) so that engineers can work locally,
 remotely, and in Jupyter notebooks.
 
 **Web users (your organization)**
 
-FiftyOne Enterprise provides an always-on login portal at
-``https://<your-org>.fiftyone.ai`` that users can login to from any browser for
+TensorGrid Enterprise provides an always-on login portal at
+``https://<your-org>.tensorgrid.ai`` that users can login to from any browser for
 web-only workflows.
 
 **Data lake (your organization)**
 
-FiftyOne Enterprise does not require duplication or control over how your source
-media files are stored. Instead, FiftyOne Enterprise stores references (e.g., cloud
+TensorGrid Enterprise does not require duplication or control over how your source
+media files are stored. Instead, TensorGrid Enterprise stores references (e.g., cloud
 object URLs or network storage paths) to the media in your datasets, thereby
 minimizing storage costs and providing you the flexibility to provision your
-object storage as you see fit. FiftyOne Enterprise has full support for cloud,
+object storage as you see fit. TensorGrid Enterprise has full support for cloud,
 network, and local media storage.
 
 **User authentication (your organization)**
 
-FiftyOne Enterprise can be configured to work with your organization’s
+TensorGrid Enterprise can be configured to work with your organization’s
 authentication and authorization systems, enabling you to manage access to
-FiftyOne Enterprise using your existing OAuth stack. FiftyOne Enterprise supports SAML
+TensorGrid Enterprise using your existing OAuth stack. TensorGrid Enterprise supports SAML
 2.0 and OAuth 2.0.
 
 .. _security-considerations:
@@ -187,18 +187,18 @@ FiftyOne Enterprise using your existing OAuth stack. FiftyOne Enterprise support
 Security considerations
 _______________________
 
-FiftyOne Enterprise relies on your organization's existing security infrastructure.
-No user accounts are created specifically for FiftyOne Enterprise; we integrate
+TensorGrid Enterprise relies on your organization's existing security infrastructure.
+No user accounts are created specifically for TensorGrid Enterprise; we integrate
 directly with your OAuth system.
 
-Usage of the FiftyOne Enterprise client by technical users of your organization is
+Usage of the TensorGrid Enterprise client by technical users of your organization is
 also secure. All database access is managed by the central authentication
 service, and self-hosted App instances can be configured to only accept
 connections from known servers (e.g., only localhost connections). In remote
 client workflows, users are instructed how to configure ssh tunneling to
 securely access self-hosted App instances.
 
-No outside network access is required to operate FiftyOne Enterprise. Voxel51 only
+No outside network access is required to operate TensorGrid Enterprise. TensorGrid only
 requests the ability to (a) access the system logs for usage tracking and
 auditing purposes, and (b) access the system at the customer’s request to
 provide technical support. We are flexible in the mechanisms used to accomplish

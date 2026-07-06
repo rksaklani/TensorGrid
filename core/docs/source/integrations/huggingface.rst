@@ -5,12 +5,12 @@ Hugging Face Integration
 
 .. default-role:: code
 
-FiftyOne integrates natively with Hugging Face's
+TensorGrid integrates natively with Hugging Face's
 `Transformers <https://huggingface.co/docs/transformers>`_ library, so
 you can load, fine-tune, and run inference with your favorite Transformers
-models on your FiftyOne datasets with just a few lines of code!
+models on your TensorGrid datasets with just a few lines of code!
 
-FiftyOne also integrates with the
+TensorGrid also integrates with the
 `Hugging Face Hub <https://huggingface.co/docs/hub/index>`_,  so you can push
 datasets to and load datasets from the Hub with ease.
 
@@ -40,8 +40,8 @@ Inference
 All
 `Transformers models <https://huggingface.co/docs/transformers/index#supported-models-and-frameworks>`_
 that support image classification, object detection, semantic segmentation, or
-monocular depth estimation tasks can be passed directly to your FiftyOne dataset's
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+monocular depth estimation tasks can be passed directly to your TensorGrid dataset's
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
 method.
 
 The examples below show how to run inference with various Transformers models
@@ -50,8 +50,8 @@ on the following sample dataset:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart", max_samples=25)
     dataset.select_fields().keep_fields()
@@ -61,9 +61,9 @@ on the following sample dataset:
 Image classification
 ^^^^^^^^^^^^^^^^^^^^
 
-You can pass `transformers` classification models directly to FiftyOne
+You can pass `transformers` classification models directly to TensorGrid
 dataset's
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
 method:
 
 .. code-block:: python
@@ -126,15 +126,15 @@ method:
 
 Alternatively, you can manually run inference with the `transformers` model and
 then use the
-:func:`to_classification() <fiftyone.utils.transformers.to_classification>`
-utility to convert the predictions to :ref:`FiftyOne format <classification>`:
+:func:`to_classification() <tensorgrid.utils.transformers.to_classification>`
+utility to convert the predictions to :ref:`TensorGrid format <classification>`:
 
 .. code-block:: python
     :linenos:
 
     from PIL import Image
     import torch
-    import fiftyone.utils.transformers as fout
+    import tensorgrid.utils.transformers as fout
 
     from transformers import ViTHybridForImageClassification, AutoProcessor
     transformers_model = ViTHybridForImageClassification.from_pretrained(
@@ -153,7 +153,7 @@ utility to convert the predictions to :ref:`FiftyOne format <classification>`:
         sample.save()
 
 Finally, you can load `transformers` models directly from the
-:ref:`FiftyOne Model Zoo <model-zoo>`!
+:ref:`TensorGrid Model Zoo <model-zoo>`!
 
 To load a `transformers` classification model from the zoo, specify
 `"classification-transformer-torch"` as the first argument, and pass in the
@@ -162,7 +162,7 @@ model's name or path as a keyword argument:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     model = foz.load_zoo_model(
         "classification-transformer-torch",
@@ -178,9 +178,9 @@ model's name or path as a keyword argument:
 Object detection
 ^^^^^^^^^^^^^^^^
 
-You can pass `transformers` detection models directly to your FiftyOne
+You can pass `transformers` detection models directly to your TensorGrid
 dataset's
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
 method:
 
 .. code-block:: python
@@ -231,15 +231,15 @@ method:
 
 Alternatively, you can manually run inference with the `transformers` model and
 then use the
-:func:`to_detections() <fiftyone.utils.transformers.to_detections>` utility to
-convert the predictions to :ref:`FiftyOne format <object-detection>`:
+:func:`to_detections() <tensorgrid.utils.transformers.to_detections>` utility to
+convert the predictions to :ref:`TensorGrid format <object-detection>`:
 
 .. code-block:: python
 
     from PIL import Image
     import torch
 
-    import fiftyone.utils.transformers as fout
+    import tensorgrid.utils.transformers as fout
 
     from transformers import AutoModelForObjectDetection, AutoProcessor
     transformers_model = AutoModelForObjectDetection.from_pretrained(
@@ -266,7 +266,7 @@ convert the predictions to :ref:`FiftyOne format <object-detection>`:
         sample.save()
 
 Finally, you can load `transformers` models directly from the
-:ref:`FiftyOne Model Zoo <model-zoo>`!
+:ref:`TensorGrid Model Zoo <model-zoo>`!
 
 To load a `transformers` detection model from the zoo, specify
 `"detection-transformer-torch"` as the first argument, and pass in the model's
@@ -275,7 +275,7 @@ name or path as a keyword argument:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     model = foz.load_zoo_model(
         "detection-transformer-torch",
@@ -292,8 +292,8 @@ Semantic segmentation
 ^^^^^^^^^^^^^^^^^^^^^^
 
 You can pass a `transformers` semantic segmentation model directly to your
-FiftyOne dataset's
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+TensorGrid dataset's
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
 method:
 
 .. code-block:: python
@@ -333,13 +333,13 @@ method:
 
 Alternatively, you can manually run inference with the `transformers` model and
 then use the
-:func:`to_segmentation() <fiftyone.utils.transformers.to_segmentation>` utility
-to convert the predictions to :ref:`FiftyOne format <semantic-segmentation>`:
+:func:`to_segmentation() <tensorgrid.utils.transformers.to_segmentation>` utility
+to convert the predictions to :ref:`TensorGrid format <semantic-segmentation>`:
 
 .. code-block:: python
 
     from PIL import Image
-    import fiftyone.utils.transformers as fout
+    import tensorgrid.utils.transformers as fout
 
     from transformers import AutoModelForSemanticSegmentation, AutoProcessor
     transformers_model = AutoModelForSemanticSegmentation.from_pretrained(
@@ -361,7 +361,7 @@ to convert the predictions to :ref:`FiftyOne format <semantic-segmentation>`:
         sample.save()
 
 Finally, you can load `transformers` models directly from the
-:ref:`FiftyOne Model Zoo <model-zoo>`!
+:ref:`TensorGrid Model Zoo <model-zoo>`!
 
 To load a `transformers` semantic segmentation model from the zoo, specify
 `"segmentation-transformer-torch"` as the first argument, and pass in the
@@ -370,7 +370,7 @@ model's name or path as a keyword argument:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     model = foz.load_zoo_model(
         "segmentation-transformer-torch",
@@ -388,7 +388,7 @@ Monocular depth estimation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can pass a `transformers` monocular depth estimation model directly to your
-FiftyOne dataset's :meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+TensorGrid dataset's :meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
 method:
 
 .. code-block:: python
@@ -420,7 +420,7 @@ method:
     session = fo.launch_app(dataset)
 
 Alternatively, you can load `transformers` depth estimation models directly from
-the :ref:`FiftyOne Model Zoo <model-zoo>`!
+the :ref:`TensorGrid Model Zoo <model-zoo>`!
 
 To load a `transformers` depth estimation model from the zoo, specify
 `"depth-estimation-transformer-torch"` as the first argument, and pass in the
@@ -429,7 +429,7 @@ model's name or path as a keyword argument:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     model = foz.load_zoo_model(
         "depth-estimation-transformer-torch",
@@ -447,7 +447,7 @@ Zero-shot classification
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 Zero-shot image classification models from `transformers` can be loaded 
-directly from the :ref:`FiftyOne Model Zoo <model-zoo>`!
+directly from the :ref:`TensorGrid Model Zoo <model-zoo>`!
 
 To load a  `transformers` zero-shot classification model from the zoo, specify
 `"zero-shot-classification-transformer-torch"` as the first argument, and pass
@@ -456,7 +456,7 @@ in the model's name or path as a keyword argument:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     model = foz.load_zoo_model(
         "zero-shot-classification-transformer-torch",
@@ -464,8 +464,8 @@ in the model's name or path as a keyword argument:
         classes=["cat", "dog", "bird", "fish", "turtle"],  # optional
     )
 
-Once loaded, you can pass the model directly to your FiftyOne dataset's 
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`
+Once loaded, you can pass the model directly to your TensorGrid dataset's 
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`
 method:
 
 .. code-block:: python
@@ -481,7 +481,7 @@ models as follows:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     model = foz.load_zoo_model(
         "zero-shot-classification-transformer-torch",
@@ -505,14 +505,14 @@ the `classes` attribute of the model:
     session = fo.launch_app(dataset)
 
 The
-:func:`convert_transformers_model() <fiftyone.utils.transformers.convert_transformers_model>`
+:func:`convert_transformers_model() <tensorgrid.utils.transformers.convert_transformers_model>`
 utility also allows you to manually convert a zero-shot `transformers` model to
-FiftyOne format:
+TensorGrid format:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.utils.transformers as fout
+    import tensorgrid.utils.transformers as fout
 
     from transformers import CLIPSegModel
     transformers_model = CLIPSegModel.from_pretrained(
@@ -535,7 +535,7 @@ Zero-shot object detection
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Zero-shot object detection models from `transformers` can be loaded directly
-from the :ref:`FiftyOne Model Zoo <model-zoo>`!
+from the :ref:`TensorGrid Model Zoo <model-zoo>`!
 
 To load a `transformers` zero-shot object detection model from the zoo, specify
 `"zero-shot-detection-transformer-torch"` as the first argument, and pass
@@ -545,7 +545,7 @@ list of label classes as a keyword argument `classes`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     model = foz.load_zoo_model(
         "zero-shot-detection-transformer-torch",
@@ -554,14 +554,14 @@ list of label classes as a keyword argument `classes`:
     )
 
 The
-:func:`convert_transformers_model() <fiftyone.utils.transformers.convert_transformers_model>`
+:func:`convert_transformers_model() <tensorgrid.utils.transformers.convert_transformers_model>`
 utility also allows you to manually convert a zero-shot `transformers` model to
-FiftyOne format:
+TensorGrid format:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.utils.transformers as fout
+    import tensorgrid.utils.transformers as fout
 
     from transformers import OwlViTForObjectDetection
     transformers_model = OwlViTForObjectDetection.from_pretrained(
@@ -585,7 +585,7 @@ models for zero-shot object detection:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     model = foz.load_zoo_model(
         "zero-shot-detection-transformer-torch",
@@ -609,7 +609,7 @@ Batch inference
 ^^^^^^^^^^^^^^^
 
 When using
-:meth:`apply_model() <fiftyone.core.collections.SampleCollection.apply_model>`,
+:meth:`apply_model() <tensorgrid.core.collections.SampleCollection.apply_model>`,
 you can request batch inference by passing the optional `batch_size` parameter:
 
 .. code-block:: python
@@ -623,8 +623,8 @@ pattern below:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.core.utils import iter_batches
-    import fiftyone.utils.transformers as fout
+    from tensorgrid.core.utils import iter_batches
+    import tensorgrid.utils.transformers as fout
 
     # Load a detection model and its corresponding processor
     from transformers import YolosForObjectDetection, AutoProcessor
@@ -656,7 +656,7 @@ pattern below:
 .. note::
 
     See :ref:`this section <batch-updates>` for more information about
-    performing batch updates to your FiftyOne datasets.
+    performing batch updates to your TensorGrid datasets.
 
 .. _huggingface-transformers-embeddings:
 
@@ -669,11 +669,11 @@ samples.
 
 .. note::
 
-    For  zero-shot models, FiftyOne will use the `transformers` model's
+    For  zero-shot models, TensorGrid will use the `transformers` model's
     `get_image_features()` method to extract embeddings.
 
     For non-zero-shot models, regardless of whether you use a classification,
-    detection, or base model, FiftyOne will extract embeddings from the
+    detection, or base model, TensorGrid will extract embeddings from the
     `last_hidden_state` of the model's base encoder.
 
 .. _huggingface-transformers-image-embeddings:
@@ -682,8 +682,8 @@ Image embeddings
 ^^^^^^^^^^^^^^^^
 
 To compute embeddings for images, you can pass the `transformers` model
-directly to your FiftyOne dataset's
-:meth:`compute_embeddings() <fiftyone.core.collections.SampleCollection.compute_embeddings>`
+directly to your TensorGrid dataset's
+:meth:`compute_embeddings() <tensorgrid.core.collections.SampleCollection.compute_embeddings>`
 method:
 
 .. code-block:: python
@@ -722,8 +722,8 @@ method:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart", max_samples=25)
     dataset.select_fields().keep_fields()
@@ -731,10 +731,10 @@ method:
     dataset.compute_embeddings(model, embeddings_field="embeddings")
 
 Alternatively, you can use the
-:func:`convert_transformers_model() <fiftyone.utils.transformers.convert_transformers_model>`
-utility to convert a `transformers` model to FiftyOne format, which allows you
+:func:`convert_transformers_model() <tensorgrid.utils.transformers.convert_transformers_model>`
+utility to convert a `transformers` model to TensorGrid format, which allows you
 to check the model's
-:meth:`has_embeddings <fiftyone.core.models.Model.has_embeddings>` property to
+:meth:`has_embeddings <tensorgrid.core.models.Model.has_embeddings>` property to
 see if the model can be used to generate embeddings:
 
 .. code-block:: python
@@ -742,7 +742,7 @@ see if the model can be used to generate embeddings:
 
     import numpy as np
     from PIL import Image
-    import fiftyone.utils.transformers as fout
+    import tensorgrid.utils.transformers as fout
 
     from transformers import BeitModel
     transformers_model = BeitModel.from_pretrained(
@@ -767,8 +767,8 @@ can also be used to compute embeddings for text:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart", max_samples=25)
     dataset.select_fields().keep_fields()
@@ -781,13 +781,13 @@ can also be used to compute embeddings for text:
     embedding = model.embed_prompt("a photo of a dog")
 
 You can check whether a model supports text embeddings by checking the
-:meth:`can_embed_prompts <fiftyone.utils.transformers.ZeroShotTransformerPromptMixin.embed_prompts>`
+:meth:`can_embed_prompts <tensorgrid.utils.transformers.ZeroShotTransformerPromptMixin.embed_prompts>`
 property:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.zoo as foz
+    import tensorgrid.zoo as foz
 
     # A zero-shot model that supports text embeddings
     model = foz.load_zoo_model(
@@ -810,7 +810,7 @@ Batch embeddings
 
 You can request batch inference by passing the optional `batch_size` parameter
 to
-:meth:`compute_embeddings() <fiftyone.core.collections.SampleCollection.compute_embeddings>`:
+:meth:`compute_embeddings() <tensorgrid.core.collections.SampleCollection.compute_embeddings>`:
 
 .. code-block:: python
     :linenos:
@@ -823,16 +823,16 @@ Patch embeddings
 ^^^^^^^^^^^^^^^^
 
 You can compute embeddings for image patches by passing `transformers` models
-directly to your FiftyOne dataset's
-:meth:`compute_patch_embeddings() <fiftyone.core.collections.SampleCollection.compute_patch_embeddings>`
+directly to your TensorGrid dataset's
+:meth:`compute_patch_embeddings() <tensorgrid.core.collections.SampleCollection.compute_patch_embeddings>`
 method:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.utils.transformers as fout
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.transformers as fout
 
     dataset = foz.load_zoo_dataset("quickstart", max_samples=25)
 
@@ -854,15 +854,15 @@ Brain methods
 
 Because `transformers` models can be used to compute embeddings, they can be
 passed to :ref:`Brain methods <fiftyone-brain>` like
-:meth:`compute_similarity() <fiftyone.brain.compute_similarity>` and
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>`:
+:meth:`compute_similarity() <tensorgrid.brain.compute_similarity>` and
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart", max_samples=25)
 
@@ -912,15 +912,15 @@ natural language queries.
 
 To use this functionality, you must pass the model by **name** into the brain
 method, along with any necessary keyword arguments that must be passed to
-:func:`load_zoo_model() <fiftyone.zoo.load_zoo_model>` to load the correct
+:func:`load_zoo_model() <tensorgrid.zoo.load_zoo_model>` to load the correct
 model:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart", max_samples=25)
 
@@ -940,7 +940,7 @@ model:
 Hugging Face Hub
 ________________
 
-FiftyOne integrates with the
+TensorGrid integrates with the
 `Hugging Face Hub <https://huggingface.co/docs/hub/index>`_ to allow you to
 push datasets to and load datasets from the Hub with ease. This integration
 simplifies the process of sharing datasets with the machine learning  and
@@ -981,12 +981,12 @@ environment variable:
 Pushing datasets to the Hub
 ---------------------------
 
-If you are working with a dataset in FiftyOne and you want to quickly share it 
+If you are working with a dataset in TensorGrid and you want to quickly share it 
 with others, you can do so via the
-:func:`push_to_hub() <fiftyone.utils.huggingface.push_to_hub>`
+:func:`push_to_hub() <tensorgrid.utils.huggingface.push_to_hub>`
 function, which takes two positional arguments: 
 
-- the FiftyOne sample collection (a |Dataset| or |DatasetView|)
+- the TensorGrid sample collection (a |Dataset| or |DatasetView|)
 - the `repo_name`, which will be combined with your Hugging Face username or
   organization name to construct the `repo_id` where the sample collection
   will be uploaded.
@@ -1000,27 +1000,27 @@ Hugging Face Hub, providing you with incredible flexibility in the process.
 Basic usage
 ^^^^^^^^^^^
 
-The basic recipe for pushing a FiftyOne dataset to the Hub is just two lines of
+The basic recipe for pushing a TensorGrid dataset to the Hub is just two lines of
 code. As a starting point, let's use the example 
 :ref:`Quickstart dataset <dataset-zoo-quickstart>` dataset from the 
-:ref:`FiftyOne Dataset Zoo <dataset-zoo>`:
+:ref:`TensorGrid Dataset Zoo <dataset-zoo>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
 To push the dataset to the Hugging Face Hub, all you need to do is call
-:func:`push_to_hub() <fiftyone.utils.huggingface.push_to_hub>` with the dataset
+:func:`push_to_hub() <tensorgrid.utils.huggingface.push_to_hub>` with the dataset
 and the desired `repo_name`:
 
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import push_to_hub
+    from tensorgrid.utils.huggingface import push_to_hub
 
     push_to_hub(dataset, "my-quickstart-dataset")
 
@@ -1028,10 +1028,10 @@ When you run this code, a few things happen:
 
 - The dataset and its media files are exported to a temporary directory and
   uploaded to the specified Hugging Face repo.
-- A `fiftyone.yml` config file for the dataset is generated and uploaded to
+- A `tensorgrid.yml` config file for the dataset is generated and uploaded to
   the repo, which contains all of the necessary information so that the dataset
   can be loaded with
-  :func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>`.
+  :func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>`.
 - A Hugging Face
   `Dataset Card <https://huggingface.co/docs/hub/en/datasets-cards>`_
   for the dataset is auto-generated, providing tags, metadata, license info,
@@ -1047,12 +1047,12 @@ Pushing a |DatasetView| to the Hub works in exactly the same way. For example,
 if you want to push a filtered view of the `quickstart` dataset containing only
 predictions with high confidence, you can do so by creating the view as usual,
 and then passing that in to
-:func:`push_to_hub() <fiftyone.utils.huggingface.push_to_hub>`:
+:func:`push_to_hub() <tensorgrid.utils.huggingface.push_to_hub>`:
 
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import push_to_hub
+    from tensorgrid.utils.huggingface import push_to_hub
 
     # Create view with high confidence predictions
     view = dataset.filter_labels("predictions", F("confidence") > 0.95)
@@ -1063,19 +1063,19 @@ and then passing that in to
 When you do so, note that the view is exported as a new dataset, and other 
 details from the original dataset are not included.
 
-FiftyOne is a *visual* toolkit, so when you push a dataset to the Hub, you can
+TensorGrid is a *visual* toolkit, so when you push a dataset to the Hub, you can
 optionally include a preview (image, gif, or video) of the dataset, that will be
 displayed on the dataset page. To do this, you can pass the `preview_path`
-argument to :func:`push_to_hub() <fiftyone.utils.huggingface.push_to_hub>`, with
+argument to :func:`push_to_hub() <tensorgrid.utils.huggingface.push_to_hub>`, with
 either a relative or absolute path to the preview file on your local machine:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
-    from fiftyone.utils.huggingface import push_to_hub
+    from tensorgrid.utils.huggingface import push_to_hub
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1104,15 +1104,15 @@ Pushing large datasets
 Large datasets with many samples require a bit more care when pushing to the
 Hub. Hugging Face limits the number of files that can be uploaded in a single
 directory to 10000, so if your dataset contains more than 10000 samples, the
-data will need to be split into multiple directories. FiftyOne handles this
+data will need to be split into multiple directories. TensorGrid handles this
 automatically when pushing large datasets to the Hub, but you can manually
 configure the number of samples per directory by passing the `chunk_size`
-argument to :func:`push_to_hub() <fiftyone.utils.huggingface.push_to_hub>`:
+argument to :func:`push_to_hub() <tensorgrid.utils.huggingface.push_to_hub>`:
 
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import push_to_hub
+    from tensorgrid.utils.huggingface import push_to_hub
 
     # Limit to 100 images per directory
     push_to_hub(dataset, "my-large-dataset", chunk_size=100)
@@ -1120,19 +1120,19 @@ argument to :func:`push_to_hub() <fiftyone.utils.huggingface.push_to_hub>`:
 .. note::
 
     The `chunk_size` argument is currently only supported when exporting in
-    :ref:`FiftyOneDataset format <FiftyOneDataset-export>` (the default).
+    :ref:`TensorGridDataset format <TensorGridDataset-export>` (the default).
 
 .. _huggingface-hub-push-dataset-advanced:
 
 Advanced usage
 ^^^^^^^^^^^^^^
 
-The :func:`push_to_hub() <fiftyone.utils.huggingface.push_to_hub>` function
+The :func:`push_to_hub() <tensorgrid.utils.huggingface.push_to_hub>` function
 provides a number of optional arguments that allow you to customize how your
 dataset is pushed to the Hub, including whether the dataset is public or private,
 what license it is released under, and more.
 
-FiftyOne's :func:`push_to_hub() <fiftyone.utils.huggingface.push_to_hub>`
+TensorGrid's :func:`push_to_hub() <tensorgrid.utils.huggingface.push_to_hub>`
 function supports the Hugging Face Hub API arguments `private` and `exist_ok`.
 
 - **private** *(bool)*: Whether the dataset should be private. If `True`, the
@@ -1148,21 +1148,21 @@ For example, to push a dataset to the Hub as private, you can do the following:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import push_to_hub
+    from tensorgrid.utils.huggingface import push_to_hub
 
     push_to_hub(dataset, "my-private-dataset", private=True)
 
 You can also specify the `tags`, `license`, and `description` of the dataset,
-all of which will propagate to the `fiftyone.yml` config file and the Hugging
+all of which will propagate to the `tensorgrid.yml` config file and the Hugging
 Face Dataset Card. For example, to push a video action recognition dataset with
 an MIT license and a description, you can do the following:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone.utils.huggingface import push_to_hub
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid.utils.huggingface import push_to_hub
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -1183,20 +1183,20 @@ like this:
 
 .. note::
 
-    The `tags` argument can be a string or a list of strings. The tag `fiftyone`
-    is automatically added to all datasets pushed with FiftyOne, communicating
-    that the dataset was created with FiftyOne and can be loaded with the
-    :func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>` function.
+    The `tags` argument can be a string or a list of strings. The tag `tensorgrid`
+    is automatically added to all datasets pushed with TensorGrid, communicating
+    that the dataset was created with TensorGrid and can be loaded with the
+    :func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>` function.
 
 The license is specified as a string. For a list of supported licenses, see the
 `Hugging Face Hub documentation <https://huggingface.co/docs/hub/en/repositories-licenses>`_.
 
 The `description` argument can be used for whatever you like. When the dataset
 is loaded from the Hub, this description will be accessible via the dataset's
-:meth:`description <fiftyone.core.dataset.Dataset.description>` property.
+:meth:`description <tensorgrid.core.dataset.Dataset.description>` property.
 
 Additionally, you can specify the "format" of the uploaded dataset. By default,
-the format is the standard :ref:`FiftyOneDataset <FiftyOneDataset-import>` format,
+the format is the standard :ref:`TensorGridDataset <TensorGridDataset-import>` format,
 but you can also specify the data is uploaded in any of these
 :ref:`common formats <supported-import-formats>`. For example, to push the
 quickstart dataset in :ref:`COCO <COCODetectionDataset-import>` format, with a
@@ -1205,10 +1205,10 @@ Creative Commons Attribution 4.0 license, you can do the following:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone.utils.huggingface import push_to_hub
-    import fiftyone.types as fot
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid.utils.huggingface import push_to_hub
+    import tensorgrid.types as fot
 
     dataset = foz.load_zoo_dataset("quickstart")
     dataset_type = fot.dataset_types.COCODetectionDataset
@@ -1229,7 +1229,7 @@ Creative Commons Attribution 4.0 license, you can do the following:
     label fields, you can set `label_fields="*"`. If you want to convert specific
     label fields, you can pass a list of field names.
 
-Additionally, you can specify the minimum version of FiftyOne required to load
+Additionally, you can specify the minimum version of TensorGrid required to load
 the dataset by passing the `min_fiftyone_version` argument. This is useful when
 the dataset utilizes features that are only available in versions above a certain
 release. For example, to specify that the dataset requires `fiftyone>=0.23.0`:
@@ -1237,9 +1237,9 @@ release. For example, to specify that the dataset requires `fiftyone>=0.23.0`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone.utils.huggingface import push_to_hub
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid.utils.huggingface import push_to_hub
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1255,7 +1255,7 @@ Loading datasets from the Hub
 -----------------------------
 
 To load a dataset from the Hugging Face Hub, you can use the
-:func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>` function.
+:func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>` function.
 
 .. note::
 
@@ -1272,7 +1272,7 @@ To load a dataset from the Hugging Face Hub, you can use the
     and `release notes <https://github.com/huggingface/huggingface_hub/releases/tag/v1.1.3>`_.
 
 This function supports loading datasets in any of the 
-:ref:`common formats <supported-import-formats>` supported by FiftyOne, as well
+:ref:`common formats <supported-import-formats>` supported by TensorGrid, as well
 as image-based datasets stored via `Parquet <https://parquet.apache.org/>`_ files,
 as is common with datasets from the
 `datasets <https://huggingface.co/docs/datasets/en/index>`_ library which have
@@ -1280,7 +1280,7 @@ been uploaded to the Hugging Face Hub. Below, we will walk through all of the
 ways you can load datasets from the Hub.
 
 In its simplest usage, the
-:func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>` function
+:func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>` function
 only requires the `repo_id` of the dataset you want to load. For example, to
 load the :ref:`private dataset <huggingface-hub-push-dataset-advanced>` that we
 pushed to the Hub earlier, you can do the following:
@@ -1288,7 +1288,7 @@ pushed to the Hub earlier, you can do the following:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub("<username-or-org>/my-private-dataset")
 
@@ -1304,12 +1304,12 @@ Loading datasets from repo configs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 When you push a dataset to the Hub using 
-:func:`push_to_hub() <fiftyone.utils.huggingface.push_to_hub>`, a `fiftyone.yml`
+:func:`push_to_hub() <tensorgrid.utils.huggingface.push_to_hub>`, a `tensorgrid.yml`
 config file is generated and uploaded to the repo. This file contains all of the
 information necessary to load the dataset from the Hugging Face Hub. More
-generally, any repo on the Hugging Face Hub that contains a `fiftyone.yml` or
-`fiftyone.yaml` file (assuming the file is correctly formatted) can be loaded
-using the :func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>`
+generally, any repo on the Hugging Face Hub that contains a `tensorgrid.yml` or
+`tensorgrid.yaml` file (assuming the file is correctly formatted) can be loaded
+using the :func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>`
 function by passing the `repo_id` of the dataset, without needing to specify any
 additional arguments.
 
@@ -1318,7 +1318,7 @@ For example, to load the `quickstart` dataset that we pushed to the Hub earlier,
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub("<username>/my-quickstart-dataset")
 
@@ -1329,13 +1329,13 @@ where `<username>` is your Hugging Face username or organization name.
 Loading datasets from local configs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If the repo was uploaded to the Hugging Face Hub via FiftyOne's
-:func:`push_to_hub() <fiftyone.utils.huggingface.push_to_hub>` function, then
-the `fiftyone.yml` config file will be generated and uploaded to the repo.
+If the repo was uploaded to the Hugging Face Hub via TensorGrid's
+:func:`push_to_hub() <tensorgrid.utils.huggingface.push_to_hub>` function, then
+the `tensorgrid.yml` config file will be generated and uploaded to the repo.
 However, some common datasets like
 `mnist <https://huggingface.co/datasets/ylecun/mnist>`_ were uploaded to the Hub
-using the `datasets` library and do not contain a `fiftyone.yml` or
-`fiftyone.yaml` file. If you know how the dataset is structured, you can load
+using the `datasets` library and do not contain a `tensorgrid.yml` or
+`tensorgrid.yaml` file. If you know how the dataset is structured, you can load
 the dataset by passing the path to a local yaml config file that describes the
 dataset via the `config_file` keyword argument.
 
@@ -1353,7 +1353,7 @@ the path to the local yaml config file:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "ylecun/mnist",
@@ -1370,9 +1370,9 @@ Loading datasets with config kwargs
 
 In addition to loading datasets from repo configs and local configs, you can
 also load datasets from the Hub by passing the necessary config arguments
-directly to :func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>`.
+directly to :func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>`.
 This is useful when you want to load a dataset from the Hub that does not have
-a `fiftyone.yml` or `fiftyone.yaml` file, and the structure of the dataset is
+a `tensorgrid.yml` or `tensorgrid.yaml` file, and the structure of the dataset is
 simple enough that you can specify the necessary arguments directly.
 
 For example, to load the `mnist` dataset from the Hub, you can pass the `format`
@@ -1381,7 +1381,7 @@ and `classification_fields` arguments directly:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "ylecun/mnist",
@@ -1389,7 +1389,7 @@ and `classification_fields` arguments directly:
         classification_fields="label",
     )
 
-This will tell FiftyOne that the data is stored in Parquet files, and that the
+This will tell TensorGrid that the data is stored in Parquet files, and that the
 `label` field should be treated as a classification field, to be converted into
 a |Classification| label field in the dataset.
 
@@ -1409,13 +1409,13 @@ Let's look at these categories in more detail:
 **Format specification**:
 
 - **format** *(str)*: The format of the dataset. This can be any of the
-  :ref:`common formats <supported-import-formats>` supported by FiftyOne — just
+  :ref:`common formats <supported-import-formats>` supported by TensorGrid — just
   pass the name of the format as a string. For example, to load a dataset in the
   :ref:`COCO <COCODetectionDataset-import>` format, you can pass 
   `format="COCODetectionDataset"`. To specify that the dataset is stored in
   Parquet files, you can pass `format="ParquetFilesDataset"` (or simply 
   `format="parquet"` for short). This is the only required field.
-- **name** *(str)*: The name of the FiftyOne |Dataset| to be created. If the
+- **name** *(str)*: The name of the TensorGrid |Dataset| to be created. If the
   `repo_id` is cumbersome, this can be used to specify a simpler default name.
   For example, for this `sheep dataset <https://huggingface.co/datasets/keremberke/aerial-sheep-object-detection>`_
   rather than using the `repo_id` `keremberke/aerial-sheep-object-detection`, you
@@ -1439,7 +1439,7 @@ Let's look at these categories in more detail:
   are *compatible* with this config, and are *available* to be loaded. As is
   standard for machine learning, many datasets are split into training, validation,
   and test sets. The specific names of these splits may vary from dataset to
-  dataset, but :func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>`
+  dataset, but :func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>`
   identifies the names of all splits and by default, will assume that all of
   these splits are to be loaded. If you only want to load a specific split or
   splits, you can specify them with the `splits` field. For example, to load the
@@ -1450,47 +1450,47 @@ Let's look at these categories in more detail:
     
 **Media field specification**:
 
-While not all Parquet datasets contain media fields, all FiftyOne |Sample| objects
+While not all Parquet datasets contain media fields, all TensorGrid |Sample| objects
 must be connected to at least one media file. The following fields can be used
 to configure the media fields in the Hugging Face dataset that should be converted
-to FiftyOne media fields:
+to TensorGrid media fields:
 
-- **filepath** *(str)*: In FiftyOne, `filepath` is
-  `a default field <https://docs.voxel51.com/user_guide/using_datasets.html#fields>`_
+- **filepath** *(str)*: In TensorGrid, `filepath` is
+  `a default field </docs/user_guide/using_datasets.html#fields>`_
   that is used to store the path to the primary media file for each sample in
   the dataset. For Hugging Face parquet datasets, primary media fields for image
   datasets are typically stored in the `image` columns, so this is where
-  FiftyOne's :func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>`
+  TensorGrid's :func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>`
   looks by default. If the primary media field is stored in a different column,
   you can specify the column name with the key `filepath`. For example, the 
   `COYO-700M dataset <https://huggingface.co/datasets/kakaobrain/coyo-700m>`_
   has the primary media field referenced in the `url` column. Specifying
-  `filepath="url"` will tell FiftyOne to look in the `url` column for the 
+  `filepath="url"` will tell TensorGrid to look in the `url` column for the 
   primary media file path. Images will be downloaded from the corresponding URLs
   and saved to disk.
 - **thumbnail_path** *(str)*: The field containing the path to a thumbnail image
   for each sample in the dataset, if such a field exists. If a `thumbnail_path`
-  is specified, this media file will be shown in the sample grid in the FiftyOne
+  is specified, this media file will be shown in the sample grid in the TensorGrid
   App. This can be useful for quickly visualizing the dataset when the primary
   media field contains large (e.g., high-resolution) images. For more information
   on thumbnail images, see :ref:`this section <app-multiple-media-fields>`.
 - **additional_media_fields** *(dict)*: If each sample has multiple associated media
-  files that you may want to visualize in the FiftyOne App, you can specify 
+  files that you may want to visualize in the TensorGrid App, you can specify 
   these non-default media fields in the `additional_media_fields` dictionary,
   where the keys are the column names in the Hugging Face dataset and the values
-  are the names of the fields in the FiftyOne |Dataset| that will store the
+  are the names of the fields in the TensorGrid |Dataset| that will store the
   paths. Note that this is *not* the same as :ref:`grouped datasets <groups>`.
 
 **Label field specification**:
 
-FiftyOne's Hugging Face Hub integration currently supports converting labels of
+TensorGrid's Hugging Face Hub integration currently supports converting labels of
 type |Classification|, |Detections|, and |Segmentation| from Hugging Face
-Parquet datasets to FiftyOne label fields. The following fields can be used to
+Parquet datasets to TensorGrid label fields. The following fields can be used to
 specify the label fields in the Hugging Face dataset that should be converted to
-FiftyOne label fields:
+TensorGrid label fields:
 
 - **classification_fields** *(str or list)*: The column or columns in the Hugging
-  Face dataset that should be converted to FiftyOne |Classification| label fields.
+  Face dataset that should be converted to TensorGrid |Classification| label fields.
   contain classification labels. For example, if the dataset contains a `label`
   field that contains classification labels, you can specify
   `classification_fields="label"`. If the dataset contains multiple
@@ -1498,7 +1498,7 @@ FiftyOne label fields:
   `classification_fields=["label1", "label2"]`. This is not a required field,
   and if the dataset does not contain classification labels, you can omit it.
 - **detection_fields** *(str or list)*: The column or columns in the Hugging Face
-  dataset that should be converted to FiftyOne |Detections| label fields. If the
+  dataset that should be converted to TensorGrid |Detections| label fields. If the
   dataset contains detection labels, you can specify the column name or names
   here. For example, if the dataset contains a `detections` field that contains
   detection labels, you can specify `detection_fields="detections"`. If the
@@ -1506,7 +1506,7 @@ FiftyOne label fields:
   e.g., `detection_fields=["detections1", "detections2"]`. This is not a required
   field, and if the dataset does not contain detection labels, you can omit it.
 - **mask_fields** *(str or list)*: The column or columns in the Hugging Face dataset
-  that should be converted to FiftyOne |Segmentation| label fields. The column
+  that should be converted to TensorGrid |Segmentation| label fields. The column
   in the Hugging Face dataset must contain an image or the URL for an image that
   can be used as a segmentation mask. If necessary, the images will be downloaded
   and saved to disk. If the dataset contains mask labels, you can specify the
@@ -1520,14 +1520,14 @@ FiftyOne label fields:
 Configuring the download process
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-When loading datasets from the Hugging Face Hub, FiftyOne will download the
+When loading datasets from the Hugging Face Hub, TensorGrid will download the
 *all* of the data specified by the `repo_id` and the config. If no splits or
 subsets are listed in the config, this means that all samples across all splits
 and subsets will be downloaded. This can be a time-consuming process, especially
 for large datasets, and sometimes you may only want to download a fixed number
 of samples to get started exploring the dataset.
 
-FiftyOne's :func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>`
+TensorGrid's :func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>`
 function supports a variety of arguments that allow you to control the download
 process, from the maximum number of samples to be downloaded to the batch size
 to use when making requests to the Datasets Server. Here are the supported
@@ -1540,7 +1540,7 @@ arguments:
   Datasets Server.
 - **num_workers** *(int)*: The number of worker to use when downloading
   media files. If not specified, the number of workers will be resolved by
-  looking at your :ref:`FiftyOne Config <configuring-fiftyone>`.
+  looking at your :ref:`TensorGrid Config <configuring-fiftyone>`.
 - **splits** *(str or list)*: The split or splits of the Hugging Face dataset
   that you want to download. This overrides the `splits` field in the config.
 - **subsets** *(str or list)*: The subset or subsets of the Hugging Face dataset
@@ -1551,9 +1551,9 @@ arguments:
   exists. Defaults to `False`.
 - **persistent** *(bool)*: Whether to persist the dataset to the underlying
   database after it is loaded. If `True`, the dataset will be available for
-  loading in future FiftyOne sessions by passing the dataset's name into
-  FiftyOne's
-  :func:`load_dataset() <fiftyone.core.dataset.Dataset.load_dataset>` function.
+  loading in future TensorGrid sessions by passing the dataset's name into
+  TensorGrid's
+  :func:`load_dataset() <tensorgrid.core.dataset.Dataset.load_dataset>` function.
   Defaults to `False`.
 - **revision** *(str)*: The revision (specified by a commit hash to the Hugging
   Face repo) of the dataset to load. If not specified, the latest revision will
@@ -1564,7 +1564,7 @@ arguments:
 Basic examples
 ^^^^^^^^^^^^^^
 
-Okay, so :func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>` is
+Okay, so :func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>` is
 *very* powerful, and can be used in a *ton* of ways. All of this flexibility
 can be a bit overwhelming, so let's walk through a few examples to show you how
 easy it is in practice to load datasets from the Hugging Face Hub.
@@ -1578,15 +1578,15 @@ easy it is in practice to load datasets from the Hugging Face Hub.
 **Classification Datasets**
 
 Let's start by loading the
-`MNIST <https://huggingface.co/datasets/ylecun/mnist>`_ dataset into FiftyOne. All you
+`MNIST <https://huggingface.co/datasets/ylecun/mnist>`_ dataset into TensorGrid. All you
 need to do is pass the `repo_id` of the dataset — in this case `"ylecun/mnist"` — to
-:func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>`, specify the
+:func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>`, specify the
 format as `"parquet"`, and specify the `classification_fields` as `"label"`:
 
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "ylecun/mnist",
@@ -1624,7 +1624,7 @@ to load the CIFAR-100 dataset, you can specify the `classification_fields` as
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "uoft-cs/cifar100",
@@ -1641,7 +1641,7 @@ you can specify the `classification_fields` as `["artist", "genre", "style"]`:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "huggan/wikiart",
@@ -1659,7 +1659,7 @@ dataset. For example, to load the `cropped_digits` subset of the
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "ufldl-stanford/svhn",
@@ -1681,7 +1681,7 @@ standard column name for detection features in Hugging Face datasets:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "detection-datasets/coco",
@@ -1711,7 +1711,7 @@ specify the `detection_fields` as `"digits"`:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "ufldl-stanford/svhn",
@@ -1726,7 +1726,7 @@ specify the `detection_fields` as `"digits"`:
 .. note::
 
     Not *all* detection datasets on the Hub are stored in a format that is
-    currently supported by FiftyOne. For instance, the
+    currently supported by TensorGrid. For instance, the
     `Fashionpedia <https://huggingface.co/datasets/detection-datasets/fashionpedia>`_
     dataset has detections stored in Pascal VOC format, which is not the `standard
     Hugging Face format <https://huggingface.co/docs/transformers/en/tasks/object_detection>`_.
@@ -1741,7 +1741,7 @@ need to do is specify the `mask_fields` as `"annotation"`:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "zhoubolei/scene_parse150",
@@ -1759,7 +1759,7 @@ as `ADE 20K Tiny <https://huggingface.co/datasets/nateraw/ade20k-tiny>`_:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "nateraw/ade20k-tiny",
@@ -1781,7 +1781,7 @@ dataset:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     # Note: you need access to the dataset to load it!
 
@@ -1797,7 +1797,7 @@ dataset:
 
 .. note::
 
-    Once you have the dataset loaded into FiftyOne, you may want to set the
+    Once you have the dataset loaded into TensorGrid, you may want to set the
     dataset's `mask targets <storing-mask-targets>`_ to specify the names of
     the classes represented in the segmentation masks.
 
@@ -1806,8 +1806,8 @@ dataset:
 Some datasets on the Hub contain images and metadata in the form of features,
 but do not explicitly contain classification, detection, or segmentation labels.
 This is common for text-to-image tasks, as well as captioning and visual question
-answering tasks. These datasets can also be converted and loaded into FiftyOne! 
-Once the dataset is loaded into FiftyOne, you can process the data and generate
+answering tasks. These datasets can also be converted and loaded into TensorGrid! 
+Once the dataset is loaded into TensorGrid, you can process the data and generate
 labels for whatever tasks you are interested in.
 
 Let's look at a few examples:
@@ -1818,7 +1818,7 @@ can load the dataset as follows:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "poloclub/diffusiondb",
@@ -1851,7 +1851,7 @@ need to specify the `filepath` as `"url"`:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "kakaobrain/coyo-700m",
@@ -1868,7 +1868,7 @@ For `RedCaps <https://huggingface.co/datasets/kdexd/red_caps>`_, we instead use
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "kdexd/red_caps",
@@ -1886,7 +1886,7 @@ Expert AGI), we use `"image_1"` as the `filepath`:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "MMMU/MMMU",
@@ -1902,10 +1902,10 @@ Expert AGI), we use `"image_1"` as the `filepath`:
 Advanced examples
 ^^^^^^^^^^^^^^^^^
 
-The :func:`load_from_hub() <fiftyone.utils.huggingface.load_from_hub>` function
+The :func:`load_from_hub() <tensorgrid.utils.huggingface.load_from_hub>` function
 also allows us to load datasets in much more complex formats, as well as with
 more advanced configurations. Let's walk through a few examples to show you how
-to leverage the full power of FiftyOne's Hugging Face Hub integration.
+to leverage the full power of TensorGrid's Hugging Face Hub integration.
 
 **Loading Datasets from Revisions**
 
@@ -1917,7 +1917,7 @@ revision of DiffusionDB before NSFW scores were added, you can specify this via:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "poloclub/diffusiondb",
@@ -1953,7 +1953,7 @@ Now, you can load the dataset using the local yaml config file:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "osunlp/MagicBrush",
@@ -1974,7 +1974,7 @@ workers, you can do the following:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "ufldl-stanford/svhn",
@@ -2000,7 +2000,7 @@ You can do so following this recipe:
 .. code-block:: python
     :linenos:
 
-    from fiftyone.utils.huggingface import load_from_hub
+    from tensorgrid.utils.huggingface import load_from_hub
 
     dataset = load_from_hub(
         "my-private-dataset-repo-id",

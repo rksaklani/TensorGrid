@@ -5,10 +5,10 @@ Enterprise Management SDK
 
 .. default-role:: code
 
-One of FiftyOne's core design principles is that you should be able to do
+One of TensorGrid's core design principles is that you should be able to do
 everything *programmatically* if you want.
 
-To this end, the `fiftyone.management` module provides Enterprise-specific
+To this end, the `tensorgrid.management` module provides Enterprise-specific
 methods for managing users, invitations, dataset permissions, plugins, API
 keys, and more.
 
@@ -27,7 +27,7 @@ API reference
 Connections
 -----------
 
-.. autoapimodule:: fiftyone.management.connection
+.. autoapimodule:: tensorgrid.management.connection
    :members: test_api_connection, reload_connection
 
 .. _enterprise-sdk-api-keys:
@@ -35,7 +35,7 @@ Connections
 API keys
 --------
 
-.. autoapimodule:: fiftyone.management.api_key
+.. autoapimodule:: tensorgrid.management.api_key
    :members:
    :undoc-members:
 
@@ -44,7 +44,7 @@ API keys
 Cloud credentials
 -----------------
 
-.. autoapimodule:: fiftyone.management.cloud_credentials
+.. autoapimodule:: tensorgrid.management.cloud_credentials
    :members:
    :undoc-members:
 
@@ -53,7 +53,7 @@ Cloud credentials
 Dataset permissions
 -------------------
 
-.. autoapimodule:: fiftyone.management.dataset
+.. autoapimodule:: tensorgrid.management.dataset
    :members:
    :undoc-members:
 
@@ -62,7 +62,7 @@ Dataset permissions
 Organization settings
 ---------------------
 
-.. autoapimodule:: fiftyone.management.organization
+.. autoapimodule:: tensorgrid.management.organization
    :members:
    :undoc-members:
 
@@ -71,7 +71,7 @@ Organization settings
 Plugin management
 -----------------
 
-.. autoapimodule:: fiftyone.management.plugin
+.. autoapimodule:: tensorgrid.management.plugin
    :members:
    :undoc-members:
 
@@ -80,7 +80,7 @@ Plugin management
 Orchestrator management
 -----------------------
 
-.. autoapimodule:: fiftyone.management.orchestrator
+.. autoapimodule:: tensorgrid.management.orchestrator
    :members:
    :undoc-members:
 
@@ -89,7 +89,7 @@ Orchestrator management
 Secrets
 -------
 
-.. autoapimodule:: fiftyone.management.secret
+.. autoapimodule:: tensorgrid.management.secret
    :members:
    :undoc-members:
 
@@ -98,7 +98,7 @@ Secrets
 Snapshots
 ---------
 
-.. autoapimodule:: fiftyone.management.snapshot
+.. autoapimodule:: tensorgrid.management.snapshot
    :members:
    :undoc-members:
 
@@ -113,7 +113,7 @@ overview of service accounts, their roles, and UI management, see
 
 .. code-block:: python
 
-   import fiftyone.management as fom
+   import tensorgrid.management as fom
 
    # Create a service account
    sa = fom.create_service_account("my-pipeline-bot", fom.MEMBER)
@@ -137,7 +137,7 @@ API keys can be generated, listed, and deleted for service accounts:
 
 .. code-block:: python
 
-   import fiftyone.management as fom
+   import tensorgrid.management as fom
 
    sa = fom.get_service_account("some-id")
 
@@ -150,7 +150,7 @@ API keys can be generated, listed, and deleted for service accounts:
    # Delete a specific key
    fom.delete_api_key(keys[0].id, sa)
 
-.. autoapimodule:: fiftyone.management.service_account
+.. autoapimodule:: tensorgrid.management.service_account
    :members:
    :undoc-members:
 
@@ -159,7 +159,7 @@ API keys can be generated, listed, and deleted for service accounts:
 User management
 ---------------
 
-.. autoapimodule:: fiftyone.management.users
+.. autoapimodule:: tensorgrid.management.users
    :members:
    :undoc-members:
 
@@ -168,6 +168,6 @@ User management
 Group management
 ----------------
 
-.. autoapimodule:: fiftyone.management.user_groups
+.. autoapimodule:: tensorgrid.management.user_groups
    :members:
    :undoc-members:

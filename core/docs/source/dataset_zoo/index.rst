@@ -5,12 +5,12 @@ Dataset Zoo
 
 .. default-role:: code
 
-Welcome to the FiftyOne Dataset Zoo! 🚀
+Welcome to the TensorGrid Dataset Zoo! 🚀
 
 Here you'll discover dozens of popular benchmark datasets, ready to download
-and load into FiftyOne with a single command.
+and load into TensorGrid with a single command.
 
-The FiftyOne Dataset Zoo provides access to a curated collection of datasets
+The TensorGrid Dataset Zoo provides access to a curated collection of datasets
 from various sources, enabling you to quickly work with standard computer
 vision datasets for your research and development.
 

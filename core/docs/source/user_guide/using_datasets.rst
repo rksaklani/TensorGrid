@@ -1,16 +1,16 @@
 .. _using-datasets:
 
-Using FiftyOne Datasets
+Using TensorGrid Datasets
 =======================
 
 .. default-role:: code
 
-After a |Dataset| has been loaded or created, FiftyOne provides powerful
+After a |Dataset| has been loaded or created, TensorGrid provides powerful
 functionality to inspect, search, and modify it from a |Dataset|-wide down to
 a |Sample| level.
 
 The following sections provide details of how to use various aspects of a
-FiftyOne |Dataset|.
+TensorGrid |Dataset|.
 
 Datasets
 ________
@@ -20,14 +20,14 @@ Instantiating a |Dataset| object creates a new dataset.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset1 = fo.Dataset("my_first_dataset")
     dataset2 = fo.Dataset("my_second_dataset")
     dataset3 = fo.Dataset()  # generates a default unique name
 
 Check to see what datasets exist at any time via :meth:`list_datasets()
-<fiftyone.core.dataset.list_datasets>`:
+<tensorgrid.core.dataset.list_datasets>`:
 
 .. code-block:: python
     :linenos:
@@ -36,7 +36,7 @@ Check to see what datasets exist at any time via :meth:`list_datasets()
     # ['my_first_dataset', 'my_second_dataset', '2020.08.04.12.36.29']
 
 Load a dataset using
-:meth:`load_dataset() <fiftyone.core.dataset.load_dataset>`.
+:meth:`load_dataset() <tensorgrid.core.dataset.load_dataset>`.
 Dataset objects are singletons. Cool!
 
 .. code-block:: python
@@ -46,14 +46,14 @@ Dataset objects are singletons. Cool!
     _dataset2 is dataset2  # True
 
 If you try to load a dataset via `Dataset(...)` or create a new dataset via
-:meth:`load_dataset() <fiftyone.core.dataset.load_dataset>` you're going to
+:meth:`load_dataset() <tensorgrid.core.dataset.load_dataset>` you're going to
 have a bad time:
 
 .. code-block:: python
     :linenos:
 
     _dataset2 = fo.Dataset("my_second_dataset")
-    # Dataset 'my_second_dataset' already exists; use `fiftyone.load_dataset()`
+    # Dataset 'my_second_dataset' already exists; use `tensorgrid.load_dataset()`
     # to load an existing dataset
 
     dataset4 = fo.load_dataset("my_fourth_dataset")
@@ -67,13 +67,13 @@ Dataset media type
 The media type of a dataset is determined by the
 :ref:`media type <using-media-type>` of the |Sample| objects that it contains.
 
-The :meth:`media_type <fiftyone.core.dataset.Dataset.media_type>` property of a
+The :meth:`media_type <tensorgrid.core.dataset.Dataset.media_type>` property of a
 dataset is set based on the first sample added to it:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -129,7 +129,7 @@ The following media types are available:
 
 .. note::
 
-    † :ref:`FiftyOne Enterprise <fiftyone-enterprise>` users must upgrade their
+    † :ref:`TensorGrid Enterprise <fiftyone-enterprise>` users must upgrade their
     deployment to 2.8.0+ in order to use `unknown` or "custom" media types.
 
 .. _dataset-persistence:
@@ -138,12 +138,12 @@ Dataset persistence
 -------------------
 
 By default, datasets are non-persistent. Non-persistent datasets are deleted
-from the database each time the database is shut down. Note that FiftyOne does
+from the database each time the database is shut down. Note that TensorGrid does
 not store the raw data in datasets directly (only the labels), so your source
 files on disk are untouched.
 
 To make a dataset persistent, set its
-:meth:`persistent <fiftyone.core.dataset.Dataset.persistent>` property to
+:meth:`persistent <tensorgrid.core.dataset.Dataset.persistent>` property to
 `True`:
 
 .. code-block:: python
@@ -157,7 +157,7 @@ Without closing your current Python shell, open a new shell and run:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Verify that both persistent and non-persistent datasets still exist
     print(fo.list_datasets())
@@ -166,13 +166,13 @@ Without closing your current Python shell, open a new shell and run:
 All three datasets are still available, since the database connection has not
 been terminated.
 
-However, if you exit all processes with `fiftyone` imported, then open a new
+However, if you exit all processes with `tensorgrid` imported, then open a new
 shell and run the command again:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Verify that non-persistent datasets have been deleted
     print(fo.list_datasets())
@@ -186,11 +186,11 @@ been deleted because they were not persistent.
 Dataset version
 ---------------
 
-The version of the `fiftyone` package for which a dataset is formatted is
-stored in the :meth:`version <fiftyone.core.dataset.Dataset.version>` property
+The version of the `tensorgrid` package for which a dataset is formatted is
+stored in the :meth:`version <tensorgrid.core.dataset.Dataset.version>` property
 of the dataset.
 
-If you upgrade your `fiftyone` package and then load a dataset that was created
+If you upgrade your `tensorgrid` package and then load a dataset that was created
 with an older version of the package, it will be automatically migrated to the
 new package version (if necessary) the first time you load it.
 
@@ -200,13 +200,13 @@ Dataset tags
 ------------
 
 All |Dataset| instances have a
-:meth:`tags <fiftyone.core.dataset.Dataset.tags>` property that you can use to
+:meth:`tags <tensorgrid.core.dataset.Dataset.tags>` property that you can use to
 store an arbitrary list of string tags.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -221,8 +221,8 @@ store an arbitrary list of string tags.
 .. note::
 
     You must call
-    :meth:`dataset.save() <fiftyone.core.dataset.Dataset.save>` after updating
-    the dataset's :meth:`tags <fiftyone.core.dataset.Dataset.tags>` property
+    :meth:`dataset.save() <tensorgrid.core.dataset.Dataset.save>` after updating
+    the dataset's :meth:`tags <tensorgrid.core.dataset.Dataset.tags>` property
     in-place to save the changes to the database.
 
 .. _dataset-stats:
@@ -230,7 +230,7 @@ store an arbitrary list of string tags.
 Dataset stats
 -------------
 
-You can use the :meth:`stats() <fiftyone.core.dataset.Dataset.stats>` method on
+You can use the :meth:`stats() <tensorgrid.core.dataset.Dataset.stats>` method on
 a dataset to obtain information about the size of the dataset on disk,
 including its metadata in the database and optionally the size of the physical
 media on disk:
@@ -238,8 +238,8 @@ media on disk:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -258,7 +258,7 @@ media on disk:
     }
 
 You can also invoke
-:meth:`stats() <fiftyone.core.collections.SampleCollection.stats>` on a
+:meth:`stats() <tensorgrid.core.collections.SampleCollection.stats>` on a
 :ref:`dataset view <using-views>` to retrieve stats for a specific subset of
 the dataset:
 
@@ -287,7 +287,7 @@ Storing info
 ------------
 
 All |Dataset| instances have an
-:meth:`info <fiftyone.core.dataset.Dataset.info>` property, which contains a
+:meth:`info <tensorgrid.core.dataset.Dataset.info>` property, which contains a
 dictionary that you can use to store any JSON-serializable information you wish
 about your dataset.
 
@@ -298,7 +298,7 @@ Datasets can also store more specific types of ancillary information such as
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -315,8 +315,8 @@ Datasets can also store more specific types of ancillary information such as
 .. note::
 
     You must call
-    :meth:`dataset.save() <fiftyone.core.dataset.Dataset.save>` after updating
-    the dataset's :meth:`info <fiftyone.core.dataset.Dataset.info>` property
+    :meth:`dataset.save() <tensorgrid.core.dataset.Dataset.save>` after updating
+    the dataset's :meth:`info <tensorgrid.core.dataset.Dataset.info>` property
     in-place to save the changes to the database.
 
 .. _dataset-app-config:
@@ -325,16 +325,16 @@ Dataset App config
 ------------------
 
 All |Dataset| instances have an
-:meth:`app_config <fiftyone.core.dataset.Dataset.app_config>` property that
+:meth:`app_config <tensorgrid.core.dataset.Dataset.app_config>` property that
 contains a |DatasetAppConfig| that you can use to store dataset-specific
 settings that customize how the dataset is visualized in the
-:ref:`FiftyOne App <fiftyone-app>`.
+:ref:`TensorGrid App <fiftyone-app>`.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     session = fo.launch_app(dataset)
@@ -354,7 +354,7 @@ default:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.utils.image as foui
+    import tensorgrid.utils.image as foui
 
     # Generate some thumbnail images
     foui.transform_images(
@@ -500,8 +500,8 @@ You can disable frame filtering for a video dataset as follows:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -535,7 +535,7 @@ to `None`:
     session.refresh()
 
 or you can reset the entire App config by setting the
-:meth:`app_config <fiftyone.core.dataset.Dataset.app_config>` property to
+:meth:`app_config <tensorgrid.core.dataset.Dataset.app_config>` property to
 `None`:
 
 .. code-block:: python
@@ -558,30 +558,30 @@ Storing class lists
 -------------------
 
 All |Dataset| instances have
-:meth:`classes <fiftyone.core.dataset.Dataset.classes>` and
-:meth:`default_classes <fiftyone.core.dataset.Dataset.default_classes>`
+:meth:`classes <tensorgrid.core.dataset.Dataset.classes>` and
+:meth:`default_classes <tensorgrid.core.dataset.Dataset.default_classes>`
 properties that you can use to store the lists of possible classes for your
 annotations/models.
 
-The :meth:`classes <fiftyone.core.dataset.Dataset.classes>` property is a
+The :meth:`classes <tensorgrid.core.dataset.Dataset.classes>` property is a
 dictionary mapping field names to class lists for a single |Label| field of the
 dataset.
 
 If all |Label| fields in your dataset have the same semantics, you can store a
 single class list in the store a single target dictionary in the
-:meth:`default_classes <fiftyone.core.dataset.Dataset.default_classes>`
+:meth:`default_classes <tensorgrid.core.dataset.Dataset.default_classes>`
 property of your dataset.
 
 You can also pass your class lists to methods such as
-:meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`,
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`,
-and :meth:`export() <fiftyone.core.collections.SampleCollection.export>` that
+:meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`,
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`,
+and :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` that
 require knowledge of the possible classes in a dataset or field(s).
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -605,9 +605,9 @@ require knowledge of the possible classes in a dataset or field(s).
 .. note::
 
     You must call
-    :meth:`dataset.save() <fiftyone.core.dataset.Dataset.save>` after updating
-    the dataset's :meth:`classes <fiftyone.core.dataset.Dataset.classes>` and
-    :meth:`default_classes <fiftyone.core.dataset.Dataset.default_classes>`
+    :meth:`dataset.save() <tensorgrid.core.dataset.Dataset.save>` after updating
+    the dataset's :meth:`classes <tensorgrid.core.dataset.Dataset.classes>` and
+    :meth:`default_classes <tensorgrid.core.dataset.Dataset.default_classes>`
     properties in-place to save the changes to the database.
 
 .. _storing-mask-targets:
@@ -616,12 +616,12 @@ Storing mask targets
 --------------------
 
 All |Dataset| instances have
-:meth:`mask_targets <fiftyone.core.dataset.Dataset.mask_targets>` and
-:meth:`default_mask_targets <fiftyone.core.dataset.Dataset.default_mask_targets>`
+:meth:`mask_targets <tensorgrid.core.dataset.Dataset.mask_targets>` and
+:meth:`default_mask_targets <tensorgrid.core.dataset.Dataset.default_mask_targets>`
 properties that you can use to store label strings for the pixel values of
 |Segmentation| field masks.
 
-The :meth:`mask_targets <fiftyone.core.dataset.Dataset.mask_targets>` property
+The :meth:`mask_targets <tensorgrid.core.dataset.Dataset.mask_targets>` property
 is a dictionary mapping field names to target dicts, each of which is a
 dictionary defining the mapping between pixel values (2D masks) or RGB hex
 strings (3D masks) and label strings for the |Segmentation| masks in the
@@ -629,7 +629,7 @@ specified field of the dataset.
 
 If all |Segmentation| fields in your dataset have the same semantics, you can
 store a single target dictionary in the
-:meth:`default_mask_targets <fiftyone.core.dataset.Dataset.default_mask_targets>`
+:meth:`default_mask_targets <tensorgrid.core.dataset.Dataset.default_mask_targets>`
 property of your dataset.
 
 When you load datasets with |Segmentation| fields in the App that have
@@ -637,8 +637,8 @@ corresponding mask targets, the label strings will appear in the App's tooltip
 when you hover over pixels.
 
 You can also pass your mask targets to methods such as
-:meth:`evaluate_segmentations() <fiftyone.core.collections.SampleCollection.evaluate_segmentations>`
-and :meth:`export() <fiftyone.core.collections.SampleCollection.export>` that
+:meth:`evaluate_segmentations() <tensorgrid.core.collections.SampleCollection.evaluate_segmentations>`
+and :meth:`export() <tensorgrid.core.collections.SampleCollection.export>` that
 require knowledge of the mask targets for a dataset or field(s).
 
 If you are working with 2D segmentation masks, specify target keys as integers:
@@ -646,7 +646,7 @@ If you are working with 2D segmentation masks, specify target keys as integers:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -673,7 +673,7 @@ strings:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -699,10 +699,10 @@ strings:
 .. note::
 
     You must call
-    :meth:`dataset.save() <fiftyone.core.dataset.Dataset.save>` after updating
+    :meth:`dataset.save() <tensorgrid.core.dataset.Dataset.save>` after updating
     the dataset's
-    :meth:`mask_targets <fiftyone.core.dataset.Dataset.mask_targets>` and
-    :meth:`default_mask_targets <fiftyone.core.dataset.Dataset.default_mask_targets>`
+    :meth:`mask_targets <tensorgrid.core.dataset.Dataset.mask_targets>` and
+    :meth:`default_mask_targets <tensorgrid.core.dataset.Dataset.default_mask_targets>`
     properties in-place to save the changes to the database.
 
 .. _storing-keypoint-skeletons:
@@ -711,19 +711,19 @@ Storing keypoint skeletons
 --------------------------
 
 All |Dataset| instances have
-:meth:`skeletons <fiftyone.core.dataset.Dataset.skeletons>` and
-:meth:`default_skeleton <fiftyone.core.dataset.Dataset.default_skeleton>`
+:meth:`skeletons <tensorgrid.core.dataset.Dataset.skeletons>` and
+:meth:`default_skeleton <tensorgrid.core.dataset.Dataset.default_skeleton>`
 properties that you can use to store keypoint skeletons for |Keypoint| field(s)
 of a dataset.
 
-The :meth:`skeletons <fiftyone.core.dataset.Dataset.skeletons>` property is a
+The :meth:`skeletons <tensorgrid.core.dataset.Dataset.skeletons>` property is a
 dictionary mapping field names to |KeypointSkeleton| instances, each of which
 defines the keypoint label strings and edge connectivity for the |Keypoint|
 instances in the specified field of the dataset.
 
 If all |Keypoint| fields in your dataset have the same semantics, you can store
 a single |KeypointSkeleton| in the
-:meth:`default_skeleton <fiftyone.core.dataset.Dataset.default_skeleton>`
+:meth:`default_skeleton <tensorgrid.core.dataset.Dataset.default_skeleton>`
 property of your dataset.
 
 When you load datasets with |Keypoint| fields in the App that have
@@ -731,13 +731,13 @@ corresponding skeletons, the skeletons will automatically be rendered and label
 strings will appear in the App's tooltip when you hover over the keypoints.
 
 Keypoint skeletons can be associated with |Keypoint| or |Keypoints| fields
-whose :attr:`points <fiftyone.core.labels.Keypoint.points>` attributes all
+whose :attr:`points <tensorgrid.core.labels.Keypoint.points>` attributes all
 contain a fixed number of semantically ordered points.
 
-The :attr:`edges <fiftyone.core.odm.dataset.KeypointSkeleton.edges>` argument
+The :attr:`edges <tensorgrid.core.odm.dataset.KeypointSkeleton.edges>` argument
 contains lists of integer indexes that define the connectivity of the points in
 the skeleton, and the optional
-:attr:`labels <fiftyone.core.odm.dataset.KeypointSkeleton.labels>` argument
+:attr:`labels <tensorgrid.core.odm.dataset.KeypointSkeleton.labels>` argument
 defines the label strings for each node in the skeleton.
 
 For example, the skeleton below is defined by edges between the following
@@ -751,7 +751,7 @@ nodes:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -773,20 +773,20 @@ nodes:
 .. note::
 
     When using keypoint skeletons, each |Keypoint| instance's
-    :attr:`points <fiftyone.core.labels.Keypoint.points>` list must always
+    :attr:`points <tensorgrid.core.labels.Keypoint.points>` list must always
     respect the indexing defined by the field's |KeypointSkeleton|.
 
     If a particular keypoint is occluded or missing for an object, use
     `[float("nan"), float("nan")]` in its
-    :attr:`points <fiftyone.core.labels.Keypoint.points>` list.
+    :attr:`points <tensorgrid.core.labels.Keypoint.points>` list.
 
 .. note::
 
     You must call
-    :meth:`dataset.save() <fiftyone.core.dataset.Dataset.save>` after updating
+    :meth:`dataset.save() <tensorgrid.core.dataset.Dataset.save>` after updating
     the dataset's
-    :meth:`skeletons <fiftyone.core.dataset.Dataset.skeletons>` and
-    :meth:`default_skeleton <fiftyone.core.dataset.Dataset.default_skeleton>`
+    :meth:`skeletons <tensorgrid.core.dataset.Dataset.skeletons>` and
+    :meth:`default_skeleton <tensorgrid.core.dataset.Dataset.default_skeleton>`
     properties in-place to save the changes to the database.
 
 .. _storing-camera-calibration:
@@ -795,20 +795,20 @@ Storing camera calibration
 --------------------------
 
 All |Dataset| instances have
-:meth:`camera_intrinsics <fiftyone.core.dataset.Dataset.camera_intrinsics>` and
-:meth:`static_transforms <fiftyone.core.dataset.Dataset.static_transforms>`
+:meth:`camera_intrinsics <tensorgrid.core.dataset.Dataset.camera_intrinsics>` and
+:meth:`static_transforms <tensorgrid.core.dataset.Dataset.static_transforms>`
 properties that you can use to store camera calibration parameters for
 multi-sensor datasets.
 
-The :meth:`camera_intrinsics <fiftyone.core.dataset.Dataset.camera_intrinsics>`
+The :meth:`camera_intrinsics <tensorgrid.core.dataset.Dataset.camera_intrinsics>`
 property is a dictionary mapping sensor/camera names to |CameraIntrinsics|
 instances that define the internal parameters of each camera:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-groups")
 
@@ -819,7 +819,7 @@ instances that define the internal parameters of each camera:
     }
     dataset.save()
 
-The :meth:`static_transforms <fiftyone.core.dataset.Dataset.static_transforms>`
+The :meth:`static_transforms <tensorgrid.core.dataset.Dataset.static_transforms>`
 property is a dictionary mapping frame pairs to |StaticTransform| instances
 that define the 6-DOF rigid transformations between coordinate frames. Keys
 should be formatted as ``"source_frame::target_frame"`` or simply
@@ -828,7 +828,7 @@ should be formatted as ``"source_frame::target_frame"`` or simply
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Store sensor mounting positions relative to the vehicle center ("ego")
     dataset.static_transforms = {
@@ -864,23 +864,23 @@ should be formatted as ``"source_frame::target_frame"`` or simply
 .. note::
 
     You must call
-    :meth:`dataset.save() <fiftyone.core.dataset.Dataset.save>` after updating
+    :meth:`dataset.save() <tensorgrid.core.dataset.Dataset.save>` after updating
     the dataset's
-    :meth:`camera_intrinsics <fiftyone.core.dataset.Dataset.camera_intrinsics>`
+    :meth:`camera_intrinsics <tensorgrid.core.dataset.Dataset.camera_intrinsics>`
     and
-    :meth:`static_transforms <fiftyone.core.dataset.Dataset.static_transforms>`
+    :meth:`static_transforms <tensorgrid.core.dataset.Dataset.static_transforms>`
     properties in-place to save the changes to the database.
 
 Deleting a dataset
 ------------------
 
 Delete a dataset explicitly via
-:meth:`Dataset.delete() <fiftyone.core.dataset.Dataset.delete>`. Once a dataset
+:meth:`Dataset.delete() <tensorgrid.core.dataset.Dataset.delete>`. Once a dataset
 is deleted, any existing reference in memory will be in a volatile state.
-:class:`Dataset.name <fiftyone.core.dataset.Dataset>` and
-:class:`Dataset.deleted <fiftyone.core.dataset.Dataset>` will still be valid
+:class:`Dataset.name <tensorgrid.core.dataset.Dataset>` and
+:class:`Dataset.deleted <tensorgrid.core.dataset.Dataset>` will still be valid
 attributes, but calling any other attribute or method will raise a
-:class:`DoesNotExistError <fiftyone.core.dataset.DoesNotExistError>`.
+:class:`DoesNotExistError <tensorgrid.core.dataset.DoesNotExistError>`.
 
 .. code-block:: python
     :linenos:
@@ -977,7 +977,7 @@ Multiple samples can be efficiently added to a dataset in batches:
 Accessing samples in a dataset
 ------------------------------
 
-FiftyOne provides multiple ways to access a |Sample| in a |Dataset|.
+TensorGrid provides multiple ways to access a |Sample| in a |Dataset|.
 
 You can iterate over the samples in a dataset:
 
@@ -987,8 +987,8 @@ You can iterate over the samples in a dataset:
     for sample in dataset:
         print(sample)
 
-Use :meth:`first() <fiftyone.core.dataset.Dataset.first>` and
-:meth:`last() <fiftyone.core.dataset.Dataset.last>` to retrieve the first and
+Use :meth:`first() <tensorgrid.core.dataset.Dataset.first>` and
+:meth:`last() <tensorgrid.core.dataset.Dataset.last>` to retrieve the first and
 last samples in a dataset, respectively:
 
 .. code-block:: python
@@ -1033,7 +1033,7 @@ Deleting samples from a dataset
 
 Samples can be removed from a |Dataset| through their ID, either one at a time
 or in batches via
-:meth:`delete_samples() <fiftyone.core.dataset.Dataset.delete_samples>`:
+:meth:`delete_samples() <tensorgrid.core.dataset.Dataset.delete_samples>`:
 
 .. code-block:: python
     :linenos:
@@ -1074,7 +1074,7 @@ a |Sample| that has not been added to a |Dataset|:
     print(sample.id)
     # None
 
-The :meth:`last_deletion_at <fiftyone.core.dataset.Dataset.last_deletion_at>`
+The :meth:`last_deletion_at <tensorgrid.core.dataset.Dataset.last_deletion_at>`
 property of a |Dataset| tracks the datetime that a sample was last deleted
 from the dataset:
 
@@ -1127,7 +1127,7 @@ By default, all |Sample| instances have the following fields:
     | `tags`             | list                               | `[]`          | A list of string tags for the sample              |
     +--------------------+------------------------------------+---------------+---------------------------------------------------+
     | `metadata`         | :class:`Metadata                   | `None`        | Type-specific metadata about the source data      |
-    |                    | <fiftyone.core.metadata.Metadata>` |               |                                                   |
+    |                    | <tensorgrid.core.metadata.Metadata>` |               |                                                   |
     +--------------------+------------------------------------+---------------+---------------------------------------------------+
     | `created_at`       | datetime                           | `None`        | The datetime that the sample was added to its     |
     |                    |                                    |               | parent dataset, which is generated automatically, |
@@ -1148,7 +1148,7 @@ By default, all |Sample| instances have the following fields:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -1194,7 +1194,7 @@ Field schemas
 -------------
 
 You can use
-:meth:`get_field_schema() <fiftyone.core.dataset.Dataset.get_field_schema>` to
+:meth:`get_field_schema() <tensorgrid.core.dataset.Dataset.get_field_schema>` to
 retrieve detailed information about the schema of the samples in a dataset:
 
 .. code-block:: python
@@ -1208,12 +1208,12 @@ retrieve detailed information about the schema of the samples in a dataset:
 .. code-block:: text
 
     OrderedDict([
-        ('id', <fiftyone.core.fields.ObjectIdField at 0x7fbaa862b358>),
-        ('filepath', <fiftyone.core.fields.StringField at 0x11c77ae10>),
-        ('tags', <fiftyone.core.fields.ListField at 0x11c790828>),
-        ('metadata', <fiftyone.core.fields.EmbeddedDocumentField at 0x11c7907b8>),
-        ('created_at', <fiftyone.core.fields.DateTimeField at 0x7fea48361af0>),
-        ('last_modified_at', <fiftyone.core.fields.DateTimeField at 0x7fea48361b20>)]),
+        ('id', <tensorgrid.core.fields.ObjectIdField at 0x7fbaa862b358>),
+        ('filepath', <tensorgrid.core.fields.StringField at 0x11c77ae10>),
+        ('tags', <tensorgrid.core.fields.ListField at 0x11c790828>),
+        ('metadata', <tensorgrid.core.fields.EmbeddedDocumentField at 0x11c7907b8>),
+        ('created_at', <tensorgrid.core.fields.DateTimeField at 0x7fea48361af0>),
+        ('last_modified_at', <tensorgrid.core.fields.DateTimeField at 0x7fea48361b20>)]),
     ])
 
 You can also view helpful information about a dataset, including its schema, by
@@ -1232,12 +1232,12 @@ printing it:
     Persistent:     False
     Tags:           []
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
 
 .. note::
 
@@ -1273,13 +1273,13 @@ be updated to reflect the new field:
     Persistent:     False
     Tags:           []
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        integer_field:    fiftyone.core.fields.IntField
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        integer_field:    tensorgrid.core.fields.IntField
 
 A |Field| can be any primitive type, such as `bool`, `int`, `float`, `str`,
 `date`, `datetime`, `list`, `dict`, or more complex data structures
@@ -1306,7 +1306,7 @@ Setting a field to an inappropriate type raises an error:
 
 .. note::
 
-    You must call :meth:`sample.save() <fiftyone.core.sample.Sample.save>` in
+    You must call :meth:`sample.save() <tensorgrid.core.sample.Sample.save>` in
     order to persist changes to the database when editing samples that are in
     datasets.
 
@@ -1316,14 +1316,14 @@ Adding fields to a dataset
 --------------------------
 
 You can also use
-:meth:`add_sample_field() <fiftyone.core.dataset.Dataset.add_sample_field>` to
+:meth:`add_sample_field() <tensorgrid.core.dataset.Dataset.add_sample_field>` to
 declare new sample fields directly on datasets without explicitly populating
 any values on its samples:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(
         filepath="image.jpg",
@@ -1356,19 +1356,19 @@ any values on its samples:
 .. code-block:: text
 
     {
-        'id': <fiftyone.core.fields.ObjectIdField object at 0x7f9280803910>,
-        'filepath': <fiftyone.core.fields.StringField object at 0x7f92d273e0d0>,
-        'tags': <fiftyone.core.fields.ListField object at 0x7f92d2654f70>,
-        'metadata': <fiftyone.core.fields.EmbeddedDocumentField object at 0x7f9280803d90>,
-        'created_at': <fiftyone.core.fields.DateTimeField object at 0x7fea48361af0>,
-        'last_modified_at': <fiftyone.core.fields.DateTimeField object at 0x7fea48361b20>,
-        'ground_truth': <fiftyone.core.fields.EmbeddedDocumentField object at 0x7f92d2605190>,
-        'scene_id': <fiftyone.core.fields.StringField object at 0x7f9280803490>,
-        'quality': <fiftyone.core.fields.FloatField object at 0x7f92d2605bb0>,
-        'more_tags': <fiftyone.core.fields.ListField object at 0x7f92d08e4550>,
-        'info': <fiftyone.core.fields.ListField object at 0x7f92d264f9a0>,
-        'also_tags': <fiftyone.core.fields.ListField object at 0x7f92d264ff70>,
-        'predictions': <fiftyone.core.fields.EmbeddedDocumentField object at 0x7f92d2605640>,
+        'id': <tensorgrid.core.fields.ObjectIdField object at 0x7f9280803910>,
+        'filepath': <tensorgrid.core.fields.StringField object at 0x7f92d273e0d0>,
+        'tags': <tensorgrid.core.fields.ListField object at 0x7f92d2654f70>,
+        'metadata': <tensorgrid.core.fields.EmbeddedDocumentField object at 0x7f9280803d90>,
+        'created_at': <tensorgrid.core.fields.DateTimeField object at 0x7fea48361af0>,
+        'last_modified_at': <tensorgrid.core.fields.DateTimeField object at 0x7fea48361b20>,
+        'ground_truth': <tensorgrid.core.fields.EmbeddedDocumentField object at 0x7f92d2605190>,
+        'scene_id': <tensorgrid.core.fields.StringField object at 0x7f9280803490>,
+        'quality': <tensorgrid.core.fields.FloatField object at 0x7f92d2605bb0>,
+        'more_tags': <tensorgrid.core.fields.ListField object at 0x7f92d08e4550>,
+        'info': <tensorgrid.core.fields.ListField object at 0x7f92d264f9a0>,
+        'also_tags': <tensorgrid.core.fields.ListField object at 0x7f92d264ff70>,
+        'predictions': <tensorgrid.core.fields.EmbeddedDocumentField object at 0x7f92d2605640>,
     }
 
 Whenever a new field is added to a dataset, the field is immediately available
@@ -1418,10 +1418,10 @@ notation:
     See :ref:`this section <dynamic-attributes>` for more options for
     dynamically expanding the schema of nested lists and embedded documents.
 
-You can use :meth:`get_field() <fiftyone.core.dataset.Dataset.get_field>` to
+You can use :meth:`get_field() <tensorgrid.core.dataset.Dataset.get_field>` to
 retrieve a |Field| instance by its name or ``embedded.field.name``. And, if the
 field contains an embedded document, you can call
-:meth:`get_field_schema() <fiftyone.core.fields.EmbeddedDocumentField.get_field_schema>`
+:meth:`get_field_schema() <tensorgrid.core.fields.EmbeddedDocumentField.get_field_schema>`
 to recursively inspect its nested fields:
 
 .. code-block:: python
@@ -1429,7 +1429,7 @@ to recursively inspect its nested fields:
 
     field = dataset.get_field("predictions")
     print(field.document_type)
-    # <class 'fiftyone.core.labels.Classification'>
+    # <class 'tensorgrid.core.labels.Classification'>
 
     print(set(field.get_field_schema().keys()))
     # {'logits', 'confidence', 'breed', 'tags', 'label', 'id'}
@@ -1437,7 +1437,7 @@ to recursively inspect its nested fields:
     # Directly retrieve a nested field
     field = dataset.get_field("predictions.breed")
     print(type(field))
-    # <class 'fiftyone.core.fields.StringField'>
+    # <class 'tensorgrid.core.fields.StringField'>
 
 If your dataset contains a |ListField| with no value type declared, you can add
 the type later by appending `[]` to the field path:
@@ -1505,7 +1505,7 @@ You can make any edits you wish to the fields of an existing |Sample|:
 
 .. note::
 
-    You must call :meth:`sample.save() <fiftyone.core.sample.Sample.save>` in
+    You must call :meth:`sample.save() <tensorgrid.core.sample.Sample.save>` in
     order to persist changes to the database when editing samples that are in
     datasets.
 
@@ -1519,7 +1519,7 @@ A common workflow is to iterate over a dataset
         sample["new_field"] = ...
         sample.save()
 
-The :meth:`iter_samples() <fiftyone.core.dataset.Dataset.iter_samples>` method
+The :meth:`iter_samples() <tensorgrid.core.dataset.Dataset.iter_samples>` method
 is an equivalent way to iterate over a dataset that provides a
 ``progress=True`` option that prints a progress bar tracking the status of the
 iteration:
@@ -1532,7 +1532,7 @@ iteration:
         sample["new_field"] = ...
         sample.save()
 
-The :meth:`iter_samples() <fiftyone.core.dataset.Dataset.iter_samples>` method
+The :meth:`iter_samples() <tensorgrid.core.dataset.Dataset.iter_samples>` method
 also provides an ``autosave=True`` option that causes all changes to samples
 emitted by the iterator to be automatically saved using efficient batch
 updates:
@@ -1583,13 +1583,13 @@ You can store metadata such as descriptions and other info on the fields of
 your dataset.
 
 One approach is to manually declare the field with
-:meth:`add_sample_field() <fiftyone.core.dataset.Dataset.add_sample_field>`
+:meth:`add_sample_field() <tensorgrid.core.dataset.Dataset.add_sample_field>`
 with the appropriate metadata provided:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
     dataset.add_sample_field(
@@ -1600,44 +1600,44 @@ with the appropriate metadata provided:
     print(field.description)  # An integer field
 
 You can also use
-:meth:`get_field() <fiftyone.core.collections.SampleCollection.get_field>` to
+:meth:`get_field() <tensorgrid.core.collections.SampleCollection.get_field>` to
 retrieve a field and update it's metadata at any time:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     dataset.add_dynamic_sample_fields()
 
     field = dataset.get_field("ground_truth")
     field.description = "Ground truth annotations"
-    field.info = {"url": "https://fiftyone.ai"}
+    field.info = {"url": "https://tensorgrid.ai"}
     field.save()  # must save after edits
 
     field = dataset.get_field("ground_truth.detections.area")
     field.description = "Area of the box, in pixels^2"
-    field.info = {"url": "https://fiftyone.ai"}
+    field.info = {"url": "https://tensorgrid.ai"}
     field.save()  # must save after edits
 
     dataset.reload()
 
     field = dataset.get_field("ground_truth")
     print(field.description)  # Ground truth annotations
-    print(field.info)  # {'url': 'https://fiftyone.ai'}
+    print(field.info)  # {'url': 'https://tensorgrid.ai'}
 
     field = dataset.get_field("ground_truth.detections.area")
     print(field.description)  # Area of the box, in pixels^2
-    print(field.info)  # {'url': 'https://fiftyone.ai'}
+    print(field.info)  # {'url': 'https://tensorgrid.ai'}
 
 .. note::
 
     You must call
-    :meth:`field.save() <fiftyone.core.fields.Field.save>` after updating
-    a fields's :attr:`description <fiftyone.core.fields.Field.description>`
-    and :meth:`info <fiftyone.core.fields.Field.info>` attributes in-place to
+    :meth:`field.save() <tensorgrid.core.fields.Field.save>` after updating
+    a fields's :attr:`description <tensorgrid.core.fields.Field.description>`
+    and :meth:`info <tensorgrid.core.fields.Field.info>` attributes in-place to
     save the changes to the database.
 
 .. note::
@@ -1657,7 +1657,7 @@ and `last_modified_at` are read-only and thus cannot be manually edited:
     :linenos:
 
     from datetime import datetime
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.jpg")
 
@@ -1676,8 +1676,8 @@ at any time:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1706,8 +1706,8 @@ at any time:
 .. note::
 
     You must call
-    :meth:`field.save() <fiftyone.core.fields.Field.save>` after updating
-    a fields's :attr:`read_only <fiftyone.core.fields.Field.read_only>`
+    :meth:`field.save() <tensorgrid.core.fields.Field.save>` after updating
+    a fields's :attr:`read_only <tensorgrid.core.fields.Field.read_only>`
     attributes in-place to save the changes to the database.
 
 Note that read-only fields do not interfere with the ability to add/delete
@@ -1760,9 +1760,9 @@ interested in finding videos that contain specific classes of interest, eg
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart-video")
     dataset.set_field("frames.detections.detections.confidence", F.rand()).save()
@@ -1780,7 +1780,7 @@ queries are inefficient, as they cannot unlock
 full collection scans over all frames to retrieve the relevant samples.
 
 A more efficient approach is to first use
-:meth:`create_summary_field() <fiftyone.core.dataset.Dataset.create_summary_field>`
+:meth:`create_summary_field() <tensorgrid.core.dataset.Dataset.create_summary_field>`
 to summarize the relevant input field path(s):
 
 .. code-block:: python
@@ -1897,7 +1897,7 @@ performant filtering:
     intended to be directly modified.
 
 You can use
-:meth:`list_summary_fields() <fiftyone.core.dataset.Dataset.list_summary_fields>`
+:meth:`list_summary_fields() <tensorgrid.core.dataset.Dataset.list_summary_fields>`
 to list the names of the summary fields on your dataset:
 
 .. code-block:: python
@@ -1908,7 +1908,7 @@ to list the names of the summary fields on your dataset:
 
 Since a summary field is derived from the contents of another field, it must be
 updated whenever there have been modifications to its source field. You can use
-:meth:`check_summary_fields() <fiftyone.core.dataset.Dataset.check_summary_fields>`
+:meth:`check_summary_fields() <tensorgrid.core.dataset.Dataset.check_summary_fields>`
 to check for summary fields that *may* need to be updated:
 
 .. code-block:: python
@@ -1929,11 +1929,11 @@ to check for summary fields that *may* need to be updated:
 .. note::
 
     Note that inclusion in
-    :meth:`check_summary_fields() <fiftyone.core.dataset.Dataset.check_summary_fields>`
+    :meth:`check_summary_fields() <tensorgrid.core.dataset.Dataset.check_summary_fields>`
     is only a heuristic, as any sample modifications *may not* have affected
     the summary's source field.
 
-Use :meth:`update_summary_field() <fiftyone.core.dataset.Dataset.update_summary_field>`
+Use :meth:`update_summary_field() <tensorgrid.core.dataset.Dataset.update_summary_field>`
 to regenerate a summary field based on the current values of its source field:
 
 .. code-block:: python
@@ -1942,8 +1942,8 @@ to regenerate a summary field based on the current values of its source field:
     dataset.update_summary_field("frames_detections_label")
 
 Finally, use
-:meth:`delete_summary_field() <fiftyone.core.dataset.Dataset.delete_summary_field>`
-or :meth:`delete_summary_fields() <fiftyone.core.dataset.Dataset.delete_summary_fields>`
+:meth:`delete_summary_field() <tensorgrid.core.dataset.Dataset.delete_summary_field>`
+or :meth:`delete_summary_fields() <tensorgrid.core.dataset.Dataset.delete_summary_fields>`
 to delete existing summary field(s) that you no longer need:
 
 .. code-block:: python
@@ -2035,23 +2035,23 @@ The `tags` field can be used like a standard Python list:
 
 .. note::
 
-    You must call :meth:`sample.save() <fiftyone.core.sample.Sample.save>` in
+    You must call :meth:`sample.save() <tensorgrid.core.sample.Sample.save>` in
     order to persist changes to the database when editing samples that are in
     datasets.
 
 Datasets and views provide helpful methods such as
-:meth:`count_sample_tags() <fiftyone.core.collections.SampleCollection.count_sample_tags>`,
-:meth:`tag_samples() <fiftyone.core.collections.SampleCollection.tag_samples>`,
-:meth:`untag_samples() <fiftyone.core.collections.SampleCollection.untag_samples>`,
+:meth:`count_sample_tags() <tensorgrid.core.collections.SampleCollection.count_sample_tags>`,
+:meth:`tag_samples() <tensorgrid.core.collections.SampleCollection.tag_samples>`,
+:meth:`untag_samples() <tensorgrid.core.collections.SampleCollection.untag_samples>`,
 and
-:meth:`match_tags() <fiftyone.core.collections.SampleCollection.match_tags>`
+:meth:`match_tags() <tensorgrid.core.collections.SampleCollection.match_tags>`
 that you can use to perform batch queries and edits to sample tags:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart").clone()
     print(dataset.count_sample_tags())  # {'validation': 200}
@@ -2073,8 +2073,8 @@ ________
 
 All |Sample| instances have a `metadata` field, which can optionally be
 populated with a |Metadata| instance that stores data type-specific metadata
-about the raw data in the sample. The :ref:`FiftyOne App <fiftyone-app>` and
-the :ref:`FiftyOne Brain <fiftyone-brain>` will use this provided metadata in
+about the raw data in the sample. The :ref:`TensorGrid App <fiftyone-app>` and
+the :ref:`TensorGrid Brain <fiftyone-brain>` will use this provided metadata in
 some workflows when it is available.
 
 .. tabs::
@@ -2083,19 +2083,19 @@ some workflows when it is available.
 
         For image samples, the |ImageMetadata| class is used to store
         information about images, including their
-        :attr:`size_bytes <fiftyone.core.metadata.ImageMetadata.size_bytes>`,
-        :attr:`mime_type <fiftyone.core.metadata.ImageMetadata.mime_type>`,
-        :attr:`width <fiftyone.core.metadata.ImageMetadata.width>`,
-        :attr:`height <fiftyone.core.metadata.ImageMetadata.height>`, and
-        :attr:`num_channels <fiftyone.core.metadata.ImageMetadata.num_channels>`.
+        :attr:`size_bytes <tensorgrid.core.metadata.ImageMetadata.size_bytes>`,
+        :attr:`mime_type <tensorgrid.core.metadata.ImageMetadata.mime_type>`,
+        :attr:`width <tensorgrid.core.metadata.ImageMetadata.width>`,
+        :attr:`height <tensorgrid.core.metadata.ImageMetadata.height>`, and
+        :attr:`num_channels <tensorgrid.core.metadata.ImageMetadata.num_channels>`.
 
         You can populate the `metadata` field of an existing dataset by calling
-        :meth:`Dataset.compute_metadata() <fiftyone.core.collections.SampleCollection.compute_metadata>`:
+        :meth:`Dataset.compute_metadata() <tensorgrid.core.collections.SampleCollection.compute_metadata>`:
 
         .. code-block:: python
             :linenos:
 
-            import fiftyone.zoo as foz
+            import tensorgrid.zoo as foz
 
             dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2104,8 +2104,8 @@ some workflows when it is available.
 
             print(dataset.first())
 
-        Alternatively, FiftyOne provides a
-        :meth:`ImageMetadata.build_for() <fiftyone.core.metadata.ImageMetadata.build_for>`
+        Alternatively, TensorGrid provides a
+        :meth:`ImageMetadata.build_for() <tensorgrid.core.metadata.ImageMetadata.build_for>`
         factory method that you can use to compute the metadata for your images
         when constructing |Sample| instances:
 
@@ -2142,22 +2142,22 @@ some workflows when it is available.
 
         For video samples, the |VideoMetadata| class is used to store
         information about videos, including their
-        :attr:`size_bytes <fiftyone.core.metadata.VideoMetadata.size_bytes>`,
-        :attr:`mime_type <fiftyone.core.metadata.VideoMetadata.mime_type>`,
-        :attr:`frame_width <fiftyone.core.metadata.VideoMetadata.frame_width>`,
-        :attr:`frame_height <fiftyone.core.metadata.VideoMetadata.frame_height>`,
-        :attr:`frame_rate <fiftyone.core.metadata.VideoMetadata.frame_rate>`,
-        :attr:`total_frame_count <fiftyone.core.metadata.VideoMetadata.total_frame_count>`,
-        :attr:`duration <fiftyone.core.metadata.VideoMetadata.duration>`, and
-        :attr:`encoding_str <fiftyone.core.metadata.VideoMetadata.encoding_str>`.
+        :attr:`size_bytes <tensorgrid.core.metadata.VideoMetadata.size_bytes>`,
+        :attr:`mime_type <tensorgrid.core.metadata.VideoMetadata.mime_type>`,
+        :attr:`frame_width <tensorgrid.core.metadata.VideoMetadata.frame_width>`,
+        :attr:`frame_height <tensorgrid.core.metadata.VideoMetadata.frame_height>`,
+        :attr:`frame_rate <tensorgrid.core.metadata.VideoMetadata.frame_rate>`,
+        :attr:`total_frame_count <tensorgrid.core.metadata.VideoMetadata.total_frame_count>`,
+        :attr:`duration <tensorgrid.core.metadata.VideoMetadata.duration>`, and
+        :attr:`encoding_str <tensorgrid.core.metadata.VideoMetadata.encoding_str>`.
 
         You can populate the `metadata` field of an existing dataset by calling
-        :meth:`Dataset.compute_metadata() <fiftyone.core.collections.SampleCollection.compute_metadata>`:
+        :meth:`Dataset.compute_metadata() <tensorgrid.core.collections.SampleCollection.compute_metadata>`:
 
         .. code-block:: python
             :linenos:
 
-            import fiftyone.zoo as foz
+            import tensorgrid.zoo as foz
 
             dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -2166,8 +2166,8 @@ some workflows when it is available.
 
             print(dataset.first())
 
-        Alternatively, FiftyOne provides a
-        :meth:`VideoMetadata.build_for() <fiftyone.core.metadata.VideoMetadata.build_for>`
+        Alternatively, TensorGrid provides a
+        :meth:`VideoMetadata.build_for() <tensorgrid.core.metadata.VideoMetadata.build_for>`
         factory method that you can use to compute the metadata for your videos
         when constructing |Sample| instances:
 
@@ -2218,14 +2218,14 @@ Datasets and samples have various builtin datetime fields that are
 automatically updated when certain events occur.
 
 The
-:attr:`Dataset.last_loaded_at <fiftyone.core.dataset.Dataset.last_loaded_at>`
+:attr:`Dataset.last_loaded_at <tensorgrid.core.dataset.Dataset.last_loaded_at>`
 property tracks the datetime that the dataset was last loaded:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -2233,17 +2233,17 @@ property tracks the datetime that the dataset was last loaded:
     # 2025-05-04 21:00:45.559520
 
 The
-:attr:`Dataset.last_modified_at <fiftyone.core.dataset.Dataset.last_modified_at>`
+:attr:`Dataset.last_modified_at <tensorgrid.core.dataset.Dataset.last_modified_at>`
 property tracks the datetime that dataset-level metadata was last modified,
 including:
 
 -   when properties such as
-    :attr:`name <fiftyone.core.dataset.Dataset.name>`,
-    :attr:`persistent <fiftyone.core.dataset.Dataset.persistent>`,
-    :attr:`tags <fiftyone.core.dataset.Dataset.tags>`,
-    :attr:`description <fiftyone.core.dataset.Dataset.description>`,
-    :attr:`info <fiftyone.core.dataset.Dataset.info>`, and
-    :attr:`app_config <fiftyone.core.dataset.Dataset.app_config>` are edited
+    :attr:`name <tensorgrid.core.dataset.Dataset.name>`,
+    :attr:`persistent <tensorgrid.core.dataset.Dataset.persistent>`,
+    :attr:`tags <tensorgrid.core.dataset.Dataset.tags>`,
+    :attr:`description <tensorgrid.core.dataset.Dataset.description>`,
+    :attr:`info <tensorgrid.core.dataset.Dataset.info>`, and
+    :attr:`app_config <tensorgrid.core.dataset.Dataset.app_config>` are edited
 -   when fields are added or deleted from the dataset's schema
 -   when group slices are added or deleted from the dataset's schema
 -   when saved views or workspaces are added, edited, or deleted
@@ -2274,7 +2274,7 @@ including:
 .. note::
 
     The
-    :attr:`Dataset.last_modified_at <fiftyone.core.dataset.Dataset.last_modified_at>`
+    :attr:`Dataset.last_modified_at <tensorgrid.core.dataset.Dataset.last_modified_at>`
     property is **not** updated when samples are added, edited, or deleted from
     a dataset.
 
@@ -2297,7 +2297,7 @@ the datetime that each sample was last modified:
 
 The ``last_modified_at`` field is indexed by default, which means you can
 efficiently check when a dataset's samples were last modified via
-:meth:`max() <fiftyone.core.collections.SampleCollection.max>`:
+:meth:`max() <tensorgrid.core.collections.SampleCollection.max>`:
 
 .. code-block:: python
     :linenos:
@@ -2315,7 +2315,7 @@ efficiently check when a dataset's samples were last modified via
     assert last_modified_at3 > last_modified_at2
 
 The
-:attr:`Dataset.last_deletion_at <fiftyone.core.dataset.Dataset.last_deletion_at>`
+:attr:`Dataset.last_deletion_at <tensorgrid.core.dataset.Dataset.last_deletion_at>`
 property tracks the datetime that a sample was last deleted
 from the dataset:
 
@@ -2338,8 +2338,8 @@ frame was last modified:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -2355,7 +2355,7 @@ frame was last modified:
 
 The ``last_modified_at`` frame field is indexed by default, which means you can
 efficiently check when a dataset's frames were last modified via
-:meth:`max() <fiftyone.core.collections.SampleCollection.max>`:
+:meth:`max() <tensorgrid.core.collections.SampleCollection.max>`:
 
 .. code-block:: python
     :linenos:
@@ -2392,14 +2392,14 @@ parent samples are automatically updated:
 Custom datetime fields
 ----------------------
 
-You can store date information in FiftyOne datasets by populating fields with
+You can store date information in TensorGrid datasets by populating fields with
 `date` or `datetime` values:
 
 .. code-block:: python
     :linenos:
 
     from datetime import date, datetime
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
     dataset.add_samples(
@@ -2425,7 +2425,7 @@ You can store date information in FiftyOne datasets by populating fields with
     Did you know? You can :ref:`create dataset views <date-views>` with
     date-based queries!
 
-Internally, FiftyOne stores all dates as UTC timestamps, but you can provide
+Internally, TensorGrid stores all dates as UTC timestamps, but you can provide
 any valid `datetime` object when setting a |DateTimeField| of a sample,
 including timezone-aware datetimes, which are internally converted to UTC
 format for safekeeping.
@@ -2451,16 +2451,16 @@ By default, when you access a datetime field of a sample in a dataset, it is
 retrieved as a naive `datetime` instance expressed in UTC format.
 
 However, if you prefer, you can
-:ref:`configure FiftyOne <configuring-timezone>` to load datetime fields as
+:ref:`configure TensorGrid <configuring-timezone>` to load datetime fields as
 timezone-aware `datetime` instances in a timezone of your choice.
 
 .. warning::
 
-    FiftyOne assumes that all `datetime` instances with no explicit timezone
+    TensorGrid assumes that all `datetime` instances with no explicit timezone
     are stored in UTC format.
 
     Therefore, never use `datetime.datetime.now()` when populating a datetime
-    field of a FiftyOne dataset! Instead, use `datetime.datetime.utcnow()`.
+    field of a TensorGrid dataset! Instead, use `datetime.datetime.utcnow()`.
 
 .. _using-labels:
 
@@ -2472,8 +2472,8 @@ truth or predicted labels in a sample.
 
 Although such information can be stored in custom sample fields
 (e.g, in a |DictField|), it is recommended that you store label information in
-|Label| instances so that the :ref:`FiftyOne App <fiftyone-app>` and the
-:ref:`FiftyOne Brain <fiftyone-brain>` can visualize and compute on your
+|Label| instances so that the :ref:`TensorGrid App <fiftyone-app>` and the
+:ref:`TensorGrid Brain <fiftyone-brain>` can visualize and compute on your
 labels.
 
 .. note::
@@ -2497,7 +2497,7 @@ labels.
     dataset's schema, which allows you to enforce type constraints, filter by
     these custom attributes :ref:`in the App <app-filtering>`, and more.
 
-FiftyOne provides a dedicated |Label| subclass for many common tasks. The
+TensorGrid provides a dedicated |Label| subclass for many common tasks. The
 subsections below describe them.
 
 .. _regression:
@@ -2507,11 +2507,11 @@ Regression
 
 The |Regression| class represents a numeric regression value for an image. The
 value itself is stored in the
-:attr:`value <fiftyone.core.labels.Regression.value>` attribute of the
+:attr:`value <tensorgrid.core.labels.Regression.value>` attribute of the
 |Regression| object. This may be a ground truth value or a model prediction.
 
 The optional
-:attr:`confidence <fiftyone.core.labels.Regression.confidence>` attribute can
+:attr:`confidence <tensorgrid.core.labels.Regression.confidence>` attribute can
 be used to store a score associated with the model prediction and can be
 visualized in the App or used, for example, when
 :ref:`evaluating regressions <evaluating-regressions>`.
@@ -2519,7 +2519,7 @@ visualized in the App or used, for example, when
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -2561,13 +2561,13 @@ Classification
 
 The |Classification| class represents a classification label for an image. The
 label itself is stored in the
-:attr:`label <fiftyone.core.labels.Classification.label>` attribute of the
+:attr:`label <tensorgrid.core.labels.Classification.label>` attribute of the
 |Classification| object. This may be a ground truth label or a model
 prediction.
 
 The optional
-:attr:`confidence <fiftyone.core.labels.Classification.confidence>` and
-:attr:`logits <fiftyone.core.labels.Classification.logits>` attributes may be
+:attr:`confidence <tensorgrid.core.labels.Classification.confidence>` and
+:attr:`logits <tensorgrid.core.labels.Classification.logits>` attributes may be
 used to store metadata about the model prediction. These additional fields can
 be visualized in the App or used by Brain methods, e.g., when
 :ref:`computing label mistakes <brain-label-mistakes>`.
@@ -2575,7 +2575,7 @@ be visualized in the App or used by Brain methods, e.g., when
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -2622,19 +2622,19 @@ The |Classifications| class represents a list of classification labels for an
 image. The typical use case is to represent multilabel annotations/predictions
 for an image, where multiple labels from a model may apply to a given image.
 The labels are stored in a
-:attr:`classifications <fiftyone.core.labels.Classifications.classifications>`
+:attr:`classifications <tensorgrid.core.labels.Classifications.classifications>`
 attribute of the object, which contains a list of |Classification| instances.
 
 Metadata about individual labels can be stored in the |Classification|
 instances as usual; additionally, you can optionally store logits for the
 overarching model (if applicable) in the
-:attr:`logits <fiftyone.core.labels.Classifications.logits>` attribute of the
+:attr:`logits <tensorgrid.core.labels.Classifications.logits>` attribute of the
 |Classifications| object.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -2725,18 +2725,18 @@ Object detection
 
 The |Detections| class represents a list of object detections in an image. The
 detections are stored in the
-:attr:`detections <fiftyone.core.labels.Detections.detections>` attribute of
+:attr:`detections <tensorgrid.core.labels.Detections.detections>` attribute of
 the |Detections| object.
 
 Each individual object detection is represented by a |Detection| object. The
 string label of the object should be stored in the
-:attr:`label <fiftyone.core.labels.Detection.label>` attribute, and the
+:attr:`label <tensorgrid.core.labels.Detection.label>` attribute, and the
 bounding box for the object should be stored in the
-:attr:`bounding_box <fiftyone.core.labels.Detection.bounding_box>` attribute.
+:attr:`bounding_box <tensorgrid.core.labels.Detection.bounding_box>` attribute.
 
 .. note::
 
-    FiftyOne stores box coordinates as floats in `[0, 1]` relative to the
+    TensorGrid stores box coordinates as floats in `[0, 1]` relative to the
     dimensions of the image. Bounding boxes are represented by a length-4 list
     in the format:
 
@@ -2746,16 +2746,16 @@ bounding box for the object should be stored in the
 
 .. note::
 
-    Did you know? FiftyOne also supports :ref:`3D detections <3d-detections>`!
+    Did you know? TensorGrid also supports :ref:`3D detections <3d-detections>`!
 
 In the case of model predictions, an optional confidence score for each
 detection can be stored in the
-:attr:`confidence <fiftyone.core.labels.Detection.confidence>` attribute.
+:attr:`confidence <tensorgrid.core.labels.Detection.confidence>` attribute.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -2823,7 +2823,7 @@ by dynamically adding new fields to each |Detection| instance:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     detection = fo.Detection(
         label="cat",
@@ -2863,18 +2863,18 @@ Object detections stored in |Detections| may also have instance segmentation
 masks.
 
 These masks can be stored in one of two ways: either directly in the database
-via the :attr:`mask <fiftyone.core.labels.Detection.mask>` attribute, or on
+via the :attr:`mask <tensorgrid.core.labels.Detection.mask>` attribute, or on
 disk referenced by the
-:attr:`mask_path <fiftyone.core.labels.Detection.mask_path>` attribute.
+:attr:`mask_path <tensorgrid.core.labels.Detection.mask_path>` attribute.
 
 Masks stored directly in the database must be 2D numpy arrays
 containing either booleans or 0/1 integers that encode the extent of the
 instance mask within the
-:attr:`bounding_box <fiftyone.core.labels.Detection.bounding_box>` of the
+:attr:`bounding_box <tensorgrid.core.labels.Detection.bounding_box>` of the
 object.
 
 For masks stored on disk, the
-:attr:`mask_path <fiftyone.core.labels.Detection.mask_path>` attribute should
+:attr:`mask_path <tensorgrid.core.labels.Detection.mask_path>` attribute should
 contain the file path to the mask image. We recommend storing masks as
 single-channel PNG images, where a pixel value of 0 indicates the
 background (rendered as transparent in the App), and any other
@@ -2889,7 +2889,7 @@ object's bounding box when visualizing in the App.
     import numpy as np
     from PIL import Image
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Example instance mask
     mask = ((np.random.randn(32, 32) > 0) * 255).astype(np.uint8)
@@ -2945,7 +2945,7 @@ segmentations by dynamically adding new fields to each |Detection| instance:
     :linenos:
 
     import numpy as np
-    import fiftyone as fo
+    import tensorgrid as tg
 
     detection = fo.Detection(
         label="cat",
@@ -2986,35 +2986,35 @@ The |Polylines| class represents a list of
 `polylines <https://en.wikipedia.org/wiki/Polygonal_chain>`__ or
 `polygons <https://en.wikipedia.org/wiki/Polygon>`__ in an image. The polylines
 are stored in the
-:attr:`polylines <fiftyone.core.labels.Polylines.polylines>` attribute of the
+:attr:`polylines <tensorgrid.core.labels.Polylines.polylines>` attribute of the
 |Polylines| object.
 
 Each individual polyline is represented by a |Polyline| object, which
 represents a set of one or more semantically related shapes in an image. The
-:attr:`points <fiftyone.core.labels.Polyline.points>` attribute contains a
+:attr:`points <tensorgrid.core.labels.Polyline.points>` attribute contains a
 list of lists of ``(x, y)`` coordinates defining the vertices of each shape
 in the polyline. If the polyline represents a closed curve, you can set the
-:attr:`closed <fiftyone.core.labels.Polyline.closed>` attribute to ``True`` to
+:attr:`closed <tensorgrid.core.labels.Polyline.closed>` attribute to ``True`` to
 indicate that a line segment should be drawn from the last vertex to the first
 vertex of each shape in the polyline. If the shapes should be filled when
 rendering them, you can set the
-:attr:`filled <fiftyone.core.labels.Polyline.filled>` attribute to ``True``.
+:attr:`filled <tensorgrid.core.labels.Polyline.filled>` attribute to ``True``.
 Polylines can also have string labels, which are stored in their
-:attr:`label <fiftyone.core.labels.Polyline.label>` attribute.
+:attr:`label <tensorgrid.core.labels.Polyline.label>` attribute.
 
 .. note::
 
-    FiftyOne stores vertex coordinates as floats in `[0, 1]` relative to the
+    TensorGrid stores vertex coordinates as floats in `[0, 1]` relative to the
     dimensions of the image.
 
 .. note::
 
-    Did you know? FiftyOne also supports :ref:`3D polylines <3d-polylines>`!
+    Did you know? TensorGrid also supports :ref:`3D polylines <3d-polylines>`!
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -3077,7 +3077,7 @@ dynamically adding new fields to each |Polyline| instance:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     polyline = fo.Polyline(
         label="triangle",
@@ -3114,8 +3114,8 @@ dynamically adding new fields to each |Polyline| instance:
 Cuboids
 -------
 
-You can store and visualize cuboids in FiftyOne using the
-:meth:`Polyline.from_cuboid() <fiftyone.core.labels.Polyline.from_cuboid>`
+You can store and visualize cuboids in TensorGrid using the
+:meth:`Polyline.from_cuboid() <tensorgrid.core.labels.Polyline.from_cuboid>`
 method.
 
 The method accepts a list of 8 ``(x, y)`` points describing the vertices of the
@@ -3134,7 +3134,7 @@ cuboid in the format depicted below:
 
 .. note::
 
-    FiftyOne stores vertex coordinates as floats in `[0, 1]` relative to the
+    TensorGrid stores vertex coordinates as floats in `[0, 1]` relative to the
     dimensions of the image.
 
 .. code-block:: python
@@ -3142,7 +3142,7 @@ cuboid in the format depicted below:
 
     import cv2
     import numpy as np
-    import fiftyone as fo
+    import tensorgrid as tg
 
     def random_cuboid(frame_size):
         width, height = frame_size
@@ -3199,14 +3199,14 @@ dynamically adding new fields to each |Polyline| instance:
 Rotated bounding boxes
 ----------------------
 
-You can store and visualize rotated bounding boxes in FiftyOne using the
-:meth:`Polyline.from_rotated_box() <fiftyone.core.labels.Polyline.from_rotated_box>`
+You can store and visualize rotated bounding boxes in TensorGrid using the
+:meth:`Polyline.from_rotated_box() <tensorgrid.core.labels.Polyline.from_rotated_box>`
 method, which accepts rotated boxes described by their center coordinates,
 width/height, and counter-clockwise rotation, in radians.
 
 .. note::
 
-    FiftyOne stores vertex coordinates as floats in `[0, 1]` relative to the
+    TensorGrid stores vertex coordinates as floats in `[0, 1]` relative to the
     dimensions of the image.
 
 .. code-block:: python
@@ -3214,7 +3214,7 @@ width/height, and counter-clockwise rotation, in radians.
 
     import cv2
     import numpy as np
-    import fiftyone as fo
+    import tensorgrid as tg
 
     def random_rotated_box(frame_size):
         width, height = frame_size
@@ -3269,9 +3269,9 @@ Keypoints
 
 The |Keypoints| class represents a collection of keypoint groups in an image.
 The keypoint groups are stored in the
-:attr:`keypoints <fiftyone.core.labels.Keypoints.keypoints>` attribute of the
+:attr:`keypoints <tensorgrid.core.labels.Keypoints.keypoints>` attribute of the
 |Keypoints| object. Each element of this list is a |Keypoint| object whose
-:attr:`points <fiftyone.core.labels.Keypoint.points>` attribute contains a
+:attr:`points <tensorgrid.core.labels.Keypoint.points>` attribute contains a
 list of ``(x, y)`` coordinates defining a group of semantically related
 keypoints in the image.
 
@@ -3282,18 +3282,18 @@ the list of people in the image.
 
 .. note::
 
-    FiftyOne stores keypoint coordinates as floats in `[0, 1]` relative to the
+    TensorGrid stores keypoint coordinates as floats in `[0, 1]` relative to the
     dimensions of the image.
 
 Each |Keypoint| object can have a string label, which is stored in its
-:attr:`label <fiftyone.core.labels.Keypoint.label>` attribute, and it can
+:attr:`label <tensorgrid.core.labels.Keypoint.label>` attribute, and it can
 optionally have a list of per-point confidences in `[0, 1]` in its
-:attr:`confidence <fiftyone.core.labels.Keypoint.confidence>` attribute:
+:attr:`confidence <tensorgrid.core.labels.Keypoint.confidence>` attribute:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -3342,7 +3342,7 @@ attributes and rendered as such in the App:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     keypoint = fo.Keypoint(
         label="rectangle",
@@ -3403,17 +3403,17 @@ The |Segmentation| class represents a semantic segmentation mask for an image
 with integer values encoding the semantic labels for each pixel in the image.
 
 The mask can either be stored on disk and referenced via the
-:attr:`mask_path <fiftyone.core.labels.Segmentation.mask_path>` attribute or
+:attr:`mask_path <tensorgrid.core.labels.Segmentation.mask_path>` attribute or
 stored directly in the database via the
-:attr:`mask <fiftyone.core.labels.Segmentation.mask>` attribute.
+:attr:`mask <tensorgrid.core.labels.Segmentation.mask>` attribute.
 
 .. note::
 
     It is recommended to store segmentations on disk and reference them via the
-    :attr:`mask_path <fiftyone.core.labels.Segmentation.mask_path>` attribute,
+    :attr:`mask_path <tensorgrid.core.labels.Segmentation.mask_path>` attribute,
     for efficiency.
 
-    Note that :attr:`mask_path <fiftyone.core.labels.Segmentation.mask_path>`
+    Note that :attr:`mask_path <tensorgrid.core.labels.Segmentation.mask_path>`
     must contain the **absolute path** to the mask on disk in order to use the
     dataset from different current working directories in the future.
 
@@ -3431,7 +3431,7 @@ the image's extent when visualizing in the App.
     import cv2
     import numpy as np
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Example segmentation mask
     mask_path = "/tmp/segmentation.png"
@@ -3503,16 +3503,16 @@ Heatmaps
 The |Heatmap| class represents a continuous-valued heatmap for an image.
 
 The map can either be stored on disk and referenced via the
-:attr:`map_path <fiftyone.core.labels.Heatmap.map_path>` attribute or stored
-directly in the database via the :attr:`map <fiftyone.core.labels.Heatmap.map>`
+:attr:`map_path <tensorgrid.core.labels.Heatmap.map_path>` attribute or stored
+directly in the database via the :attr:`map <tensorgrid.core.labels.Heatmap.map>`
 attribute. When using the
-:attr:`map_path <fiftyone.core.labels.Heatmap.map_path>` attribute, heatmaps
+:attr:`map_path <tensorgrid.core.labels.Heatmap.map_path>` attribute, heatmaps
 may be 8-bit or 16-bit grayscale images. When using the
-:attr:`map <fiftyone.core.labels.Heatmap.map>` attribute, heatmaps should be 2D
+:attr:`map <tensorgrid.core.labels.Heatmap.map>` attribute, heatmaps should be 2D
 numpy arrays. By default, the map values are assumed to be in `[0, 1]` for
 floating point arrays and `[0, 255]` for integer-valued arrays, but you can
 specify a custom `[min, max]` range for a map by setting its optional
-:attr:`range <fiftyone.core.labels.Heatmap.range>` attribute.
+:attr:`range <tensorgrid.core.labels.Heatmap.range>` attribute.
 
 Heatmaps can have any size; they are stretched as necessary to fit the
 image's extent when visualizing in the App.
@@ -3520,10 +3520,10 @@ image's extent when visualizing in the App.
 .. note::
 
     It is recommended to store heatmaps on disk and reference them via the
-    :attr:`map_path <fiftyone.core.labels.Heatmap.map_path>` attribute, for
+    :attr:`map_path <tensorgrid.core.labels.Heatmap.map_path>` attribute, for
     efficiency.
 
-    Note that :attr:`map_path <fiftyone.core.labels.Heatmap.map_path>`
+    Note that :attr:`map_path <tensorgrid.core.labels.Heatmap.map_path>`
     must contain the **absolute path** to the map on disk in order to use the
     dataset from different current working directories in the future.
 
@@ -3533,7 +3533,7 @@ image's extent when visualizing in the App.
     import cv2
     import numpy as np
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Example heatmap
     map_path = "/tmp/heatmap.png"
@@ -3581,7 +3581,7 @@ image's extent when visualizing in the App.
 When visualizing heatmaps :ref:`in the App <fiftyone-app>`, when the App is
 in color-by-field mode, heatmaps are rendered in their field's color with
 opacity proportional to the magnitude of the heatmap's values. For example, for
-a heatmap whose :attr:`range <fiftyone.core.labels.Heatmap.range>` is
+a heatmap whose :attr:`range <tensorgrid.core.labels.Heatmap.range>` is
 `[-10, 10]`, pixels with the value +9 will be rendered with 90% opacity, and
 pixels with the value -3 will be rendered with 30% opacity.
 
@@ -3616,8 +3616,8 @@ dataset and configuring the App's colorscale in various ways on-the-fly:
 
     import os
     import numpy as np
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     def random_kernel(metadata):
         h = metadata.height // 2
@@ -3685,13 +3685,13 @@ Temporal detection
 The |TemporalDetection| class represents an event occurring during a specified
 range of frames in a video.
 
-The :attr:`label <fiftyone.core.labels.TemporalDetection.label>` attribute
+The :attr:`label <tensorgrid.core.labels.TemporalDetection.label>` attribute
 stores the detection label, and the
-:attr:`support <fiftyone.core.labels.TemporalDetection.support>` attribute
+:attr:`support <tensorgrid.core.labels.TemporalDetection.support>` attribute
 stores the `[first, last]` frame range of the detection in the video.
 
 The optional
-:attr:`confidence <fiftyone.core.labels.TemporalDetection.confidence>`
+:attr:`confidence <tensorgrid.core.labels.TemporalDetection.confidence>`
 attribute can be used to store a model prediction score, and you can add
 :ref:`custom attributes <using-labels>` as well, which can be visualized in the
 App.
@@ -3699,7 +3699,7 @@ App.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/video.mp4")
     sample["events"] = fo.TemporalDetection(label="meeting", support=[10, 20])
@@ -3728,15 +3728,15 @@ App.
 
 If your temporal detection data is represented as timestamps in seconds, you
 can use the
-:meth:`from_timestamps() <fiftyone.core.labels.TemporalDetection.from_timestamps>`
+:meth:`from_timestamps() <tensorgrid.core.labels.TemporalDetection.from_timestamps>`
 factory method to perform the necessary conversion to frames automatically
 based on the sample's :ref:`video metadata <using-metadata>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Download a video to work with
     dataset = foz.load_zoo_dataset("quickstart-video", max_samples=1)
@@ -3786,7 +3786,7 @@ sample:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/video.mp4")
     sample["events"] = fo.TemporalDetections(
@@ -3846,7 +3846,7 @@ detections represented as |Detection| instances with their `label`, `location`,
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Object label
     label = "vehicle"
@@ -3885,7 +3885,7 @@ attributes populated as shown below:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Object label
     label = "lane"
@@ -3910,14 +3910,14 @@ Geolocation
 The |GeoLocation| class can store single pieces of location data in its
 properties:
 
--   :attr:`point <fiftyone.core.labels.GeoLocation.point>`: a
+-   :attr:`point <tensorgrid.core.labels.GeoLocation.point>`: a
     ``[longitude, latitude]`` point
--   :attr:`line <fiftyone.core.labels.GeoLocation.line>`: a line of longitude
+-   :attr:`line <tensorgrid.core.labels.GeoLocation.line>`: a line of longitude
     and latitude coordinates stored in the following format::
 
         [[lon1, lat1], [lon2, lat2], ...]
 
--   :attr:`polygon <fiftyone.core.labels.GeoLocation.polygon>`: a polygon of
+-   :attr:`polygon <tensorgrid.core.labels.GeoLocation.polygon>`: a polygon of
     longitude and latitude coordinates stored in the format below, where the
     first element describes the boundary of the polygon and any remaining
     entries describe holes::
@@ -3940,7 +3940,7 @@ properties to do so.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -4000,8 +4000,8 @@ can easily retrieve the raw GeoJSON data for a slice of your dataset using the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-geo")
 
@@ -4041,20 +4041,20 @@ information like whether the label is incorrect:
     :ref:`directly in the App <app-tagging>`.
 
 Datasets and views provide helpful methods such as
-:meth:`count_label_tags() <fiftyone.core.collections.SampleCollection.count_label_tags>`,
-:meth:`tag_labels() <fiftyone.core.collections.SampleCollection.tag_labels>`,
-:meth:`untag_labels() <fiftyone.core.collections.SampleCollection.untag_labels>`,
-:meth:`match_labels() <fiftyone.core.collections.SampleCollection.match_labels>`,
+:meth:`count_label_tags() <tensorgrid.core.collections.SampleCollection.count_label_tags>`,
+:meth:`tag_labels() <tensorgrid.core.collections.SampleCollection.tag_labels>`,
+:meth:`untag_labels() <tensorgrid.core.collections.SampleCollection.untag_labels>`,
+:meth:`match_labels() <tensorgrid.core.collections.SampleCollection.match_labels>`,
 and
-:meth:`select_labels() <fiftyone.core.collections.SampleCollection.select_labels>`
+:meth:`select_labels() <tensorgrid.core.collections.SampleCollection.select_labels>`
 that you can use to perform batch queries and edits to label tags:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart").clone()
 
@@ -4082,17 +4082,17 @@ Label attributes
 ----------------
 
 The |Detection|, |Polyline|, and |Keypoint| label types have an optional
-:attr:`attributes <fiftyone.core.labels.Detection.attributes>` field that you
+:attr:`attributes <tensorgrid.core.labels.Detection.attributes>` field that you
 can use to store custom attributes on the object.
 
-The :attr:`attributes <fiftyone.core.labels.Detection.attributes>` field is a
+The :attr:`attributes <tensorgrid.core.labels.Detection.attributes>` field is a
 dictionary mapping attribute names to |Attribute| instances, which contain the
-:attr:`value <fiftyone.core.labels.Attribute.value>` of the attribute and any
+:attr:`value <tensorgrid.core.labels.Attribute.value>` of the attribute and any
 associated metadata.
 
 .. warning::
 
-    The :attr:`attributes <fiftyone.core.labels.Detection.attributes>` field
+    The :attr:`attributes <tensorgrid.core.labels.Detection.attributes>` field
     will be removed in an upcoming release.
 
     Instead, :ref:`add custom attributes directly <using-labels>` to your
@@ -4111,7 +4111,7 @@ associated metadata.
         )
 
 There are |Attribute| subclasses for various types of attributes you may want
-to store. Use the appropriate subclass when possible so that FiftyOne knows the
+to store. Use the appropriate subclass when possible so that TensorGrid knows the
 schema of the attributes that you're storing.
 
 .. table::
@@ -4120,21 +4120,21 @@ schema of the attributes that you're storing.
     +---------------------------------------------------------------------------+------------+---------------------------------+
     | Attribute class                                                           | Value type | Description                     |
     +===========================================================================+============+=================================+
-    | :class:`BooleanAttribute <fiftyone.core.labels.BooleanAttribute>`         | `bool`     | A boolean attribute             |
+    | :class:`BooleanAttribute <tensorgrid.core.labels.BooleanAttribute>`         | `bool`     | A boolean attribute             |
     +---------------------------------------------------------------------------+------------+---------------------------------+
-    | :class:`CategoricalAttribute <fiftyone.core.labels.CategoricalAttribute>` | `string`   | A categorical attribute         |
+    | :class:`CategoricalAttribute <tensorgrid.core.labels.CategoricalAttribute>` | `string`   | A categorical attribute         |
     +---------------------------------------------------------------------------+------------+---------------------------------+
-    | :class:`NumericAttribute <fiftyone.core.labels.NumericAttribute>`         | `float`    | A numeric attribute             |
+    | :class:`NumericAttribute <tensorgrid.core.labels.NumericAttribute>`         | `float`    | A numeric attribute             |
     +---------------------------------------------------------------------------+------------+---------------------------------+
-    | :class:`ListAttribute <fiftyone.core.labels.ListAttribute>`               | `list`     | A list attribute                |
+    | :class:`ListAttribute <tensorgrid.core.labels.ListAttribute>`               | `list`     | A list attribute                |
     +---------------------------------------------------------------------------+------------+---------------------------------+
-    | :class:`Attribute <fiftyone.core.labels.Attribute>`                       | arbitrary  | A generic attribute of any type |
+    | :class:`Attribute <tensorgrid.core.labels.Attribute>`                       | arbitrary  | A generic attribute of any type |
     +---------------------------------------------------------------------------+------------+---------------------------------+
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -4228,7 +4228,7 @@ schema of the attributes that you're storing.
 Converting label types
 ----------------------
 
-FiftyOne provides a number of utility methods to convert between different
+TensorGrid provides a number of utility methods to convert between different
 representations of certain label types, such as converting between
 :ref:`instance segmentations <instance-segmentation>`,
 :ref:`semantic segmentations <semantic-segmentation>`,
@@ -4240,8 +4240,8 @@ action:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset(
         "coco-2017",
@@ -4257,7 +4257,7 @@ action:
     detections = sample["instances"]
 
 For example, you can use
-:meth:`Detections.to_polylines() <fiftyone.core.labels.Detections.to_polylines>`
+:meth:`Detections.to_polylines() <tensorgrid.core.labels.Detections.to_polylines>`
 to convert instance segmentations to polylines:
 
 .. code-block:: python
@@ -4268,7 +4268,7 @@ to convert instance segmentations to polylines:
     print(polylines)
 
 Or you can use
-:meth:`Detections.to_segmentation() <fiftyone.core.labels.Detections.to_segmentation>`
+:meth:`Detections.to_segmentation() <tensorgrid.core.labels.Detections.to_segmentation>`
 to convert instance segmentations to semantic segmentation masks:
 
 .. code-block:: python
@@ -4288,18 +4288,18 @@ to convert instance segmentations to semantic segmentation masks:
     print(segmentation)
 
 Methods such as
-:meth:`Segmentation.to_detections() <fiftyone.core.labels.Segmentation.to_detections>`
-and :meth:`Segmentation.to_polylines() <fiftyone.core.labels.Segmentation.to_polylines>`
+:meth:`Segmentation.to_detections() <tensorgrid.core.labels.Segmentation.to_detections>`
+and :meth:`Segmentation.to_polylines() <tensorgrid.core.labels.Segmentation.to_polylines>`
 also exist to transform semantic segmentations back into individual shapes.
 
-In addition, the :mod:`fiftyone.utils.labels` module contains a variety of
+In addition, the :mod:`tensorgrid.utils.labels` module contains a variety of
 utility methods for converting entire collections' labels between common
 formats:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone.utils.labels as foul
+    import tensorgrid.utils.labels as foul
 
     # Convert instance segmentations to semantic segmentations stored on disk
     foul.objects_to_segmentations(
@@ -4332,18 +4332,18 @@ formats:
     Persistent:  False
     Tags:        []
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.ImageMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        instances:        fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
-        segmentations:    fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Segmentation)
-        polylines:        fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Polylines)
-        instances2:       fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.ImageMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        instances:        tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
+        segmentations:    tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Segmentation)
+        polylines:        tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Polylines)
+        instances2:       tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
 
-Note that, if your goal is to export the labels to disk, FiftyOne can
+Note that, if your goal is to export the labels to disk, TensorGrid can
 :ref:`automatically coerce <export-label-coercion>` the labels into the correct
 format based on the type of the `label_field` and the `dataset_type` that you
 specify for the export without explicitly storing the transformed labels as a
@@ -4366,8 +4366,8 @@ new field on your dataset:
 Projecting 3D detections to 2D
 ------------------------------
 
-FiftyOne provides functionality through 
-:meth:`detections_3d_to_cuboids_2d <fiftyone.utils.labels.detections_3d_to_cuboids_2d>` 
+TensorGrid provides functionality through 
+:meth:`detections_3d_to_cuboids_2d <tensorgrid.utils.labels.detections_3d_to_cuboids_2d>` 
 to project 3D object detections into 2D images as polylines. This functionality
 is specific to grouped datasets with multiple modalities such as images and
 point clouds. 
@@ -4413,8 +4413,8 @@ the following additional information for the projections:
     - ``camera_params``: a dictionary of camera parameters required by the
       projection function
 
-  FiftyOne provides a pinhole camera model via the
-  :meth:`utils3d.pinhole_projector <fiftyone.utils.utils3d.pinhole_projector>`
+  TensorGrid provides a pinhole camera model via the
+  :meth:`utils3d.pinhole_projector <tensorgrid.utils.utils3d.pinhole_projector>`
   function, which is used by default if no camera model is specified.
 
   .. note::
@@ -4442,13 +4442,13 @@ the following additional information for the projections:
 
 
 The example code below demonstrates how to perform this projection using
-FiftyOne:
+TensorGrid:
 
 .. code-block:: python
    :linenos:
 
-   import fiftyone as fo
-   from fiftyone.utils.labels import detections_3d_to_cuboids_2d
+   import tensorgrid as tg
+   from tensorgrid.utils.labels import detections_3d_to_cuboids_2d
    import numpy as np
 
    dataset = fo.load_dataset("your_grouped_dataset")
@@ -4500,7 +4500,7 @@ FiftyOne:
 Dynamic attributes
 __________________
 
-Any field(s) of your FiftyOne datasets that contain |DynamicEmbeddedDocument|
+Any field(s) of your TensorGrid datasets that contain |DynamicEmbeddedDocument|
 values can have arbitrary custom attributes added to their instances.
 
 For example, all :ref:`Label classes <using-labels>` and
@@ -4524,20 +4524,20 @@ By default, dynamic attributes are not included in a
 :ref:`dataset's schema <field-schemas>`, which means that these attributes may
 contain arbitrary heterogeneous values across the dataset's samples.
 
-However, FiftyOne provides methods that you can use to formally declare custom
+However, TensorGrid provides methods that you can use to formally declare custom
 dynamic attributes, which allows you to enforce type constraints, filter by
 these custom attributes :ref:`in the App <app-filtering>`, and more.
 
 You can use
-:meth:`get_dynamic_field_schema() <fiftyone.core.dataset.Dataset.get_dynamic_field_schema>`
+:meth:`get_dynamic_field_schema() <tensorgrid.core.dataset.Dataset.get_dynamic_field_schema>`
 to detect the names and type(s) of any undeclared dynamic embedded document
 attributes on a dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -4546,12 +4546,12 @@ attributes on a dataset:
 .. code-block:: text
 
     {
-        'ground_truth.detections.iscrowd': <fiftyone.core.fields.FloatField>,
-        'ground_truth.detections.area': <fiftyone.core.fields.FloatField>,
+        'ground_truth.detections.iscrowd': <tensorgrid.core.fields.FloatField>,
+        'ground_truth.detections.area': <tensorgrid.core.fields.FloatField>,
     }
 
 You can then use
-:meth:`add_sample_field() <fiftyone.core.dataset.Dataset.add_sample_field>` to
+:meth:`add_sample_field() <tensorgrid.core.dataset.Dataset.add_sample_field>` to
 declare a specific dynamic embedded document attribute:
 
 .. code-block:: python
@@ -4560,7 +4560,7 @@ declare a specific dynamic embedded document attribute:
     dataset.add_sample_field("ground_truth.detections.iscrowd", fo.FloatField)
 
 or you can use the
-:meth:`add_dynamic_sample_fields() <fiftyone.core.dataset.Dataset.add_dynamic_sample_fields>`
+:meth:`add_dynamic_sample_fields() <tensorgrid.core.dataset.Dataset.add_dynamic_sample_fields>`
 method to declare all dynamic embedded document attribute(s) that contain
 values of a single type:
 
@@ -4572,12 +4572,12 @@ values of a single type:
 .. note::
 
     Pass the `add_mixed=True` option to
-    :meth:`add_dynamic_sample_fields() <fiftyone.core.dataset.Dataset.add_dynamic_sample_fields>`
+    :meth:`add_dynamic_sample_fields() <tensorgrid.core.dataset.Dataset.add_dynamic_sample_fields>`
     if you wish to declare all dynamic attributes that contain mixed values
     using a generic |Field| type.
 
 You can provide the optional `flat=True` option to
-:meth:`get_field_schema() <fiftyone.core.dataset.Dataset.get_field_schema>` to
+:meth:`get_field_schema() <tensorgrid.core.dataset.Dataset.get_field_schema>` to
 retrieve a flattened version of a dataset's schema that includes all embedded
 document attributes as top-level keys:
 
@@ -4589,24 +4589,24 @@ document attributes as top-level keys:
 .. code-block:: text
 
     {
-        'id': <fiftyone.core.fields.ObjectIdField>,
-        'filepath': <fiftyone.core.fields.StringField>,
-        'tags': <fiftyone.core.fields.ListField>,
-        'metadata': <fiftyone.core.fields.EmbeddedDocumentField>,
-        'metadata.size_bytes': <fiftyone.core.fields.IntField>,
-        'metadata.mime_type': <fiftyone.core.fields.StringField>,
-        'metadata.width': <fiftyone.core.fields.IntField>,
-        'metadata.height': <fiftyone.core.fields.IntField>,
-        'metadata.num_channels': <fiftyone.core.fields.IntField>,
-        'created_at': <fiftyone.core.fields.DateTimeField object at 0x7fea584bc730>,
-        'last_modified_at': <fiftyone.core.fields.DateTimeField object at 0x7fea584bc280>,
-        'ground_truth': <fiftyone.core.fields.EmbeddedDocumentField>,
-        'ground_truth.detections': <fiftyone.core.fields.ListField>,
-        'ground_truth.detections.id': <fiftyone.core.fields.ObjectIdField>,
-        'ground_truth.detections.tags': <fiftyone.core.fields.ListField>,
+        'id': <tensorgrid.core.fields.ObjectIdField>,
+        'filepath': <tensorgrid.core.fields.StringField>,
+        'tags': <tensorgrid.core.fields.ListField>,
+        'metadata': <tensorgrid.core.fields.EmbeddedDocumentField>,
+        'metadata.size_bytes': <tensorgrid.core.fields.IntField>,
+        'metadata.mime_type': <tensorgrid.core.fields.StringField>,
+        'metadata.width': <tensorgrid.core.fields.IntField>,
+        'metadata.height': <tensorgrid.core.fields.IntField>,
+        'metadata.num_channels': <tensorgrid.core.fields.IntField>,
+        'created_at': <tensorgrid.core.fields.DateTimeField object at 0x7fea584bc730>,
+        'last_modified_at': <tensorgrid.core.fields.DateTimeField object at 0x7fea584bc280>,
+        'ground_truth': <tensorgrid.core.fields.EmbeddedDocumentField>,
+        'ground_truth.detections': <tensorgrid.core.fields.ListField>,
+        'ground_truth.detections.id': <tensorgrid.core.fields.ObjectIdField>,
+        'ground_truth.detections.tags': <tensorgrid.core.fields.ListField>,
         ...
-        'ground_truth.detections.iscrowd': <fiftyone.core.fields.FloatField>,
-        'ground_truth.detections.area': <fiftyone.core.fields.FloatField>,
+        'ground_truth.detections.iscrowd': <tensorgrid.core.fields.FloatField>,
+        'ground_truth.detections.area': <tensorgrid.core.fields.FloatField>,
         ...
     }
 
@@ -4616,7 +4616,7 @@ samples are added to it:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(
         filepath="/path/to/image.jpg",
@@ -4644,11 +4644,11 @@ samples are added to it:
     assert "ground_truth.detections.mood" not in schema
 
 However, methods such as
-:meth:`add_sample() <fiftyone.core.dataset.Dataset.add_sample>`,
-:meth:`add_samples() <fiftyone.core.dataset.Dataset.add_samples>`,
-:meth:`add_dir() <fiftyone.core.dataset.Dataset.add_dir>`,
-:meth:`from_dir() <fiftyone.core.dataset.Dataset.from_dir>`, and
-:meth:`merge_samples() <fiftyone.core.dataset.Dataset.merge_samples>`
+:meth:`add_sample() <tensorgrid.core.dataset.Dataset.add_sample>`,
+:meth:`add_samples() <tensorgrid.core.dataset.Dataset.add_samples>`,
+:meth:`add_dir() <tensorgrid.core.dataset.Dataset.add_dir>`,
+:meth:`from_dir() <tensorgrid.core.dataset.Dataset.from_dir>`, and
+:meth:`merge_samples() <tensorgrid.core.dataset.Dataset.merge_samples>`
 provide an optional `dynamic=True` option that you can provide to automatically
 declare any dynamic embedded document attributes encountered while importing
 data:
@@ -4666,17 +4666,17 @@ data:
 Note that, when declaring dynamic attributes on non-empty datasets, you must
 ensure that the attribute's type is consistent with any existing values in that
 field, e.g., by first running
-:meth:`get_dynamic_field_schema() <fiftyone.core.dataset.Dataset.get_dynamic_field_schema>`
+:meth:`get_dynamic_field_schema() <tensorgrid.core.dataset.Dataset.get_dynamic_field_schema>`
 to check the existing type(s). Methods like
-:meth:`add_sample_field() <fiftyone.core.dataset.Dataset.add_sample_field>`
+:meth:`add_sample_field() <tensorgrid.core.dataset.Dataset.add_sample_field>`
 and
-:meth:`add_samples(..., dynamic=True) <fiftyone.core.dataset.Dataset.add_samples>`
+:meth:`add_samples(..., dynamic=True) <tensorgrid.core.dataset.Dataset.add_samples>`
 do not validate newly declared field's types against existing field values:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample1 = fo.Sample(
         filepath="/path/to/image1.jpg",
@@ -4709,7 +4709,7 @@ do not validate newly declared field's types against existing field values:
 If you declare a dynamic attribute with a type that is not compatible with
 existing values in that field, you will need to remove that field from the
 dataset's schema using
-:meth:`remove_dynamic_sample_field() <fiftyone.core.dataset.Dataset.remove_dynamic_sample_field>`
+:meth:`remove_dynamic_sample_field() <tensorgrid.core.dataset.Dataset.remove_dynamic_sample_field>`
 in order for the dataset to be usable again:
 
 .. code-block:: python
@@ -4719,9 +4719,9 @@ in order for the dataset to be usable again:
     dataset.remove_dynamic_sample_field("ground_truth.age")
 
 You can use
-:meth:`select_fields() <fiftyone.core.collections.SampleCollection.select_fields>`
+:meth:`select_fields() <tensorgrid.core.collections.SampleCollection.select_fields>`
 and
-:meth:`exclude_fields() <fiftyone.core.collections.SampleCollection.exclude_fields>`
+:meth:`exclude_fields() <tensorgrid.core.collections.SampleCollection.exclude_fields>`
 to create :ref:`views <using-views>` that select/exclude specific dynamic
 attributes from your dataset and its schema:
 
@@ -4759,13 +4759,13 @@ custom |EmbeddedDocument| and |DynamicEmbeddedDocument| classes to populate
 your datasets.
 
 Using custom embedded document classes enables you to access your data using
-the same object-oriented interface enjoyed by FiftyOne's
+the same object-oriented interface enjoyed by TensorGrid's
 :ref:`builtin label types <using-labels>`.
 
 The |EmbeddedDocument| class represents a fixed collection of fields with
 predefined types and optional default values, while the
 |DynamicEmbeddedDocument| class supports predefined fields but also allows
-users to populate arbitrary custom fields at runtime, like FiftyOne's
+users to populate arbitrary custom fields at runtime, like TensorGrid's
 :ref:`builtin label types <using-labels>`.
 
 .. _defining-custom-documents-on-the-fly:
@@ -4782,7 +4782,7 @@ To illustrate, let's start by defining an empty embedded document field:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.Dataset()
 
@@ -4797,7 +4797,7 @@ From here, there are a variety of ways to add new embedded attributes to the
 field.
 
 You can explicitly declare new fields using
-:meth:`add_sample_field() <fiftyone.core.dataset.Dataset.add_sample_field>`:
+:meth:`add_sample_field() <tensorgrid.core.dataset.Dataset.add_sample_field>`:
 
 .. code-block:: python
     :linenos:
@@ -4808,7 +4808,7 @@ You can explicitly declare new fields using
     assert "camera_info.camera_id" in dataset.get_field_schema(flat=True)
 
 or you can implicitly declare new fields using
-:meth:`add_samples() <fiftyone.core.dataset.Dataset.add_samples>` with the
+:meth:`add_samples() <tensorgrid.core.dataset.Dataset.add_samples>` with the
 `dynamic=True` flag:
 
 .. code-block:: python
@@ -4834,7 +4834,7 @@ or you can implicitly declare new fields using
     assert "camera_info.quality" in dataset.get_field_schema(flat=True)
 
 or you can implicitly declare new fields using
-:meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`
+:meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`
 with the `dynamic=True` flag:
 
 .. code-block:: python
@@ -4852,7 +4852,7 @@ Defining custom documents in modules
 
 You can also define custom embedded document classes in Python modules and
 packages that you maintain, using the appropriate types from the
-:mod:`fiftyone.core.fields` module to declare your fields and their types,
+:mod:`tensorgrid.core.fields` module to declare your fields and their types,
 defaults, etc.
 
 The benefit of this approach over the on-the-fly definition from the previous
@@ -4878,7 +4878,7 @@ For example, suppose you add the following embedded document classes to a
 
     from datetime import datetime
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     class CameraInfo(fo.EmbeddedDocument):
         camera_id = fo.StringField(required=True)
@@ -4889,7 +4889,7 @@ For example, suppose you add the following embedded document classes to a
         created_at = fo.DateTimeField(default=datetime.utcnow)
         model_name = fo.StringField()
 
-and then  `foo.bar` to FiftyOne's `module_path` config setting (see
+and then  `foo.bar` to TensorGrid's `module_path` config setting (see
 :ref:`this page <configuring-fiftyone>` for more ways to register this):
 
 .. code-block:: shell
@@ -4897,7 +4897,7 @@ and then  `foo.bar` to FiftyOne's `module_path` config setting (see
     export FIFTYONE_MODULE_PATH=foo.bar
 
     # Verify module path
-    fiftyone config
+    tensorgrid config
 
 You're now free to use your custom embedded document classes as you please,
 whether this be top-level sample fields or nested fields:
@@ -4905,7 +4905,7 @@ whether this be top-level sample fields or nested fields:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
     import foo.bar as fb
 
     sample = fo.Sample(
@@ -4936,7 +4936,7 @@ future sessions and manipulated as usual:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     dataset = fo.load_dataset("test")
     print(dataset.first())
@@ -4982,7 +4982,7 @@ as a image sample, and datasets composed of image samples have media type
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/image.png")
 
@@ -5013,8 +5013,8 @@ To get started exploring image datasets, try loading the
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -5041,7 +5041,7 @@ as a video sample, and datasets composed of video samples have media type
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/video.mp4")
 
@@ -5072,7 +5072,7 @@ primitive-type fields for the frame.
 
 .. note::
 
-    FiftyOne uses 1-based indexing for video frame numbers.
+    TensorGrid uses 1-based indexing for video frame numbers.
 
 You can add, modify, and delete :ref:`labels of any type <using-labels>` as
 well as primitive fields such as integers, strings, and booleans using the same
@@ -5099,7 +5099,7 @@ dynamic attribute syntax that you use to
 
 .. note::
 
-    You must call :meth:`sample.save() <fiftyone.core.sample.Sample.save>` in
+    You must call :meth:`sample.save() <tensorgrid.core.sample.Sample.save>` in
     order to persist changes to the database when editing video samples and/or
     their frames that are in datasets.
 
@@ -5187,24 +5187,24 @@ Notice that the dataset's summary indicates that the dataset has media type
     Persistent:     False
     Tags:           []
     Sample fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        filepath:         fiftyone.core.fields.StringField
-        tags:             fiftyone.core.fields.ListField(fiftyone.core.fields.StringField)
-        metadata:         fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.metadata.VideoMetadata)
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
+        id:               tensorgrid.core.fields.ObjectIdField
+        filepath:         tensorgrid.core.fields.StringField
+        tags:             tensorgrid.core.fields.ListField(tensorgrid.core.fields.StringField)
+        metadata:         tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.metadata.VideoMetadata)
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
     Frame fields:
-        id:               fiftyone.core.fields.ObjectIdField
-        frame_number:     fiftyone.core.fields.FrameNumberField
-        created_at:       fiftyone.core.fields.DateTimeField
-        last_modified_at: fiftyone.core.fields.DateTimeField
-        quality:          fiftyone.core.fields.FloatField
-        weather:          fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Classification)
-        objects:          fiftyone.core.fields.EmbeddedDocumentField(fiftyone.core.labels.Detections)
+        id:               tensorgrid.core.fields.ObjectIdField
+        frame_number:     tensorgrid.core.fields.FrameNumberField
+        created_at:       tensorgrid.core.fields.DateTimeField
+        last_modified_at: tensorgrid.core.fields.DateTimeField
+        quality:          tensorgrid.core.fields.FloatField
+        weather:          tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Classification)
+        objects:          tensorgrid.core.fields.EmbeddedDocumentField(tensorgrid.core.labels.Detections)
 
 You can retrieve detailed information about the schema of the frames of a
 video |Dataset| using
-:meth:`dataset.get_frame_field_schema() <fiftyone.core.dataset.Dataset.get_frame_field_schema>`.
+:meth:`dataset.get_frame_field_schema() <tensorgrid.core.dataset.Dataset.get_frame_field_schema>`.
 
 The samples in video datasets can be accessed
 :ref:`like usual <accessing-samples-in-a-dataset>`, and the sample's frame
@@ -5238,7 +5238,7 @@ labels can be modified by updating the `frames` attribute of a |Sample|:
 
 .. note::
 
-    You must call :meth:`sample.save() <fiftyone.core.sample.Sample.save>` in
+    You must call :meth:`sample.save() <tensorgrid.core.sample.Sample.save>` in
     order to persist changes to the database when editing video samples and/or
     their frames that are in datasets.
 
@@ -5254,8 +5254,8 @@ To get started exploring video datasets, try loading the
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -5286,7 +5286,7 @@ objects across the frames of a |Sample|:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/video.mp4")
 
@@ -5317,7 +5317,7 @@ objects across the frames of a |Sample|:
 
 .. note::
 
-    Linking labels in this way enables helpful interactions in the FiftyOne
+    Linking labels in this way enables helpful interactions in the TensorGrid
     App. See :ref:`this section <app-linking-labels>` for more details.
 
 .. _3d-datasets:
@@ -5334,7 +5334,7 @@ Direct assets are the simplest choice when a sample is a single
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     samples = [
         fo.Sample(filepath="/path/to/model.glb", media_type="3d"),
@@ -5356,7 +5356,7 @@ available whether your sample points directly to a
 Wrap assets in `.fo3d` when you need advanced scene customization such as
 lights, camera configuration, transformations, materials, shapes, or multiple
 assets in one scene. An FO3D file encapsulates a 3D scene constructed using the
-:class:`Scene <fiftyone.core.threed.Scene>` class, which provides methods
+:class:`Scene <tensorgrid.core.threed.Scene>` class, which provides methods
 to add, remove, and manipulate 3D objects in the scene. A scene is
 internally represented as a n-ary tree of 3D objects, where each
 object is a node in the tree. A 3D object is either a
@@ -5364,20 +5364,20 @@ object is a node in the tree. A 3D object is either a
 or a :ref:`3D shape geometry <3d-shapes>`.
 
 A scene may be explicitly initialized with additional attributes, such as
-:class:`camera <fiftyone.core.threed.camera>`,
-:class:`lights <fiftyone.core.threed.lights>`, and
-:class:`background <fiftyone.core.threed.SceneBackground>`. By default, a
+:class:`camera <tensorgrid.core.threed.camera>`,
+:class:`lights <tensorgrid.core.threed.lights>`, and
+:class:`background <tensorgrid.core.threed.SceneBackground>`. By default, a
 scene is created with neutral lighting, and a perspective camera whose
 `up` is set to `Y` axis in a right-handed coordinate system.
 
 After a scene is constructed, it should be written to the disk using the
-:meth:`scene.write() <fiftyone.core.threed.Scene.write>` method, which
+:meth:`scene.write() <tensorgrid.core.threed.Scene.write>` method, which
 serializes the scene into an FO3D file.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     scene = fo.Scene()
     scene.camera = fo.PerspectiveCamera(up="Z")
@@ -5405,13 +5405,13 @@ serializes the scene into an FO3D file.
     print(dataset.media_type)  # 3d
 
 To modify an existing scene, load it via
-:meth:`Scene.from_fo3d() <fiftyone.core.threed.Scene.from_fo3d>`, perform any
+:meth:`Scene.from_fo3d() <tensorgrid.core.threed.Scene.from_fo3d>`, perform any
 necessary updates, and then re-write it to disk:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     scene = fo.Scene.from_fo3d("/path/to/scene.fo3d")
 
@@ -5429,34 +5429,34 @@ necessary updates, and then re-write it to disk:
 A 3D mesh is a collection of vertices, edges, and faces that define the shape
 of a 3D object. Whereas some mesh formats store only the geometry of the mesh,
 others also store the material properties and textures of the mesh. If a
-mesh file contains material properties and textures, FiftyOne will
+mesh file contains material properties and textures, TensorGrid will
 automatically load and display them. You may also
 assign default material for your meshes by setting the
-:attr:`default_material <fiftyone.core.threed.mesh.Mesh.default_material>`
+:attr:`default_material <tensorgrid.core.threed.mesh.Mesh.default_material>`
 attribute of the mesh. In the absence of any material information,
 meshes are assigned a
-:class:`MeshStandardMaterial <fiftyone.core.threed.MeshStandardMaterial>`
+:class:`MeshStandardMaterial <tensorgrid.core.threed.MeshStandardMaterial>`
 with reasonable defaults that can also be dynamically configured from the app.
-Please refer to :mod:`material_3d <fiftyone.core.threed.material_3d>` for more
+Please refer to :mod:`material_3d <tensorgrid.core.threed.material_3d>` for more
 details.
 
-FiftyOne currently supports
-:class:`GLTF <fiftyone.core.threed.GltfMesh>`,
-:class:`OBJ <fiftyone.core.threed.ObjMesh>`,
-:class:`PLY <fiftyone.core.threed.PlyMesh>`,
-:class:`STL <fiftyone.core.threed.StlMesh>`, and
-:class:`FBX 7.x+ <fiftyone.core.threed.FbxMesh>` mesh formats.
+TensorGrid currently supports
+:class:`GLTF <tensorgrid.core.threed.GltfMesh>`,
+:class:`OBJ <tensorgrid.core.threed.ObjMesh>`,
+:class:`PLY <tensorgrid.core.threed.PlyMesh>`,
+:class:`STL <tensorgrid.core.threed.StlMesh>`, and
+:class:`FBX 7.x+ <tensorgrid.core.threed.FbxMesh>` mesh formats.
 
 .. note::
 
-    We recommend the :class:`GLTF <fiftyone.core.threed.GltfMesh>` format for
+    We recommend the :class:`GLTF <tensorgrid.core.threed.GltfMesh>` format for
     3D meshes where possible, as it is the most compact, efficient, and
     web-friendly format for storing and transmitting 3D models.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     scene = fo.Scene()
 
@@ -5477,15 +5477,15 @@ FiftyOne currently supports
 3D point clouds
 ---------------
 
-FiftyOne supports the
+TensorGrid supports the
 `PCD <https://pointclouds.org/documentation/tutorials/pcd_file_format.html>`_
 point cloud format. A code snippet to create a PCD object that can be added
-to a FiftyOne 3D scene is shown below:
+to a TensorGrid 3D scene is shown below:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     pcd = fo.PointCloud("my-pcd", "point-cloud.pcd")
     pcd.default_material.shading_mode = "custom"
@@ -5500,7 +5500,7 @@ to a FiftyOne 3D scene is shown below:
 You can customize the appearance of a point cloud by setting the
 `default_material` attribute of the point cloud object, or dynamically from
 the app. Please refer to the
-:class:`PointCloudMaterial <fiftyone.core.threed.PointCloudMaterial>`
+:class:`PointCloudMaterial <tensorgrid.core.threed.PointCloudMaterial>`
 class for more details.
 
 .. note::
@@ -5542,13 +5542,13 @@ Here's how a typical PCD file is structured:
 3D shapes
 ---------
 
-FiftyOne provides a set of primitive 3D shape geometries that can be added to
+TensorGrid provides a set of primitive 3D shape geometries that can be added to
 a 3D scene. The following 3D shape geometries are supported:
 
-- Box: :class:`BoxGeometry <fiftyone.core.threed.BoxGeometry>`
-- Sphere: :class:`SphereGeometry <fiftyone.core.threed.SphereGeometry>`
-- Cylinder: :class:`CylinderGeometry <fiftyone.core.threed.CylinderGeometry>`
-- Plane: :class:`PlaneGeometry <fiftyone.core.threed.PlaneGeometry>`
+- Box: :class:`BoxGeometry <tensorgrid.core.threed.BoxGeometry>`
+- Sphere: :class:`SphereGeometry <tensorgrid.core.threed.SphereGeometry>`
+- Cylinder: :class:`CylinderGeometry <tensorgrid.core.threed.CylinderGeometry>`
+- Plane: :class:`PlaneGeometry <tensorgrid.core.threed.PlaneGeometry>`
 
 Similar to meshes and point clouds, shapes can be manipulated by setting their
 position, rotation, and scale. Their appearance can be customized either by
@@ -5558,7 +5558,7 @@ from the app.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     scene = fo.Scene()
 
@@ -5598,7 +5598,7 @@ just like other primitive/label fields.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     scene = fo.Scene()
     scene.add(fo.GltfMesh("mesh", "mesh.gltf"))
@@ -5622,15 +5622,15 @@ Orthographic projection images
 ------------------------------
 
 In order to visualize 3D datasets in the App's grid view, you can use
-:func:`compute_orthographic_projection_images() <fiftyone.utils.utils3d.compute_orthographic_projection_images>`
+:func:`compute_orthographic_projection_images() <tensorgrid.utils.utils3d.compute_orthographic_projection_images>`
 to generate orthographic projection images of each scene:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.utils3d as fou3d
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.utils.utils3d as fou3d
+    import tensorgrid.zoo as foz
 
     # Load an example 3D dataset
     dataset = foz.load_zoo_dataset("quickstart-3d")
@@ -5654,9 +5654,9 @@ contain 3D slice(s):
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.utils3d as fou3d
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.utils.utils3d as fou3d
+    import tensorgrid.zoo as foz
 
     # Load an example group dataset that contains a 3D slice
     dataset = foz.load_zoo_dataset("quickstart-groups")
@@ -5682,13 +5682,13 @@ information to properly
 :ref:`visualize it in the App <app-3d-orthographic-projections>`.
 
 Refer to the
-:func:`compute_orthographic_projection_images() <fiftyone.utils.utils3d.compute_orthographic_projection_images>`
+:func:`compute_orthographic_projection_images() <tensorgrid.utils.utils3d.compute_orthographic_projection_images>`
 documentation for available parameters to customize the projections.
 
 .. note::
 
     Did you know? You can use the :ref:`inbuilt projection <projecting-3d-detections>`
-    capabilities in FiftyOne to visualize 3D bounding boxes of 3D slices in grouped 
+    capabilities in TensorGrid to visualize 3D bounding boxes of 3D slices in grouped 
     datasets on 2D images.
 
 .. _example-3d-datasets:
@@ -5702,8 +5702,8 @@ To get started exploring 3D datasets, try loading the
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-3d")
 
@@ -5723,9 +5723,9 @@ contains a point cloud slice:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.utils.utils3d as fou3d
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.utils.utils3d as fou3d
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-groups")
 
@@ -5767,7 +5767,7 @@ composed of point cloud samples have media type `point-cloud`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/point-cloud.pcd")
 
@@ -5799,7 +5799,7 @@ which are natively visualizable by the App's
 Camera intrinsics and extrinsics
 ________________________________
 
-FiftyOne provides support for storing and working with camera intrinsic and
+TensorGrid provides support for storing and working with camera intrinsic and
 extrinsic parameters, which are essential for 3D computer vision tasks such as
 multi-sensor fusion, depth estimation, and 3D reconstruction.
 
@@ -5814,7 +5814,7 @@ Camera intrinsics
 -----------------
 
 Camera intrinsics describe the internal parameters of a camera, including focal
-length, principal point, and lens distortion. FiftyOne provides several
+length, principal point, and lens distortion. TensorGrid provides several
 |CameraIntrinsics| subclasses for different camera models:
 
 -   |PinholeCameraIntrinsics|: Simple pinhole camera model with no distortion
@@ -5825,7 +5825,7 @@ length, principal point, and lens distortion. FiftyOne provides several
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Create OpenCV camera intrinsics with distortion
     intrinsics = fo.OpenCVCameraIntrinsics(
@@ -5863,7 +5863,7 @@ coordinate frames, defined by a translation vector and a rotation quaternion.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Create a camera-to-ego transformation
     extrinsics = fo.StaticTransform(
@@ -5891,7 +5891,7 @@ You can also create extrinsics from a transformation matrix:
     :linenos:
 
     import numpy as np
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # 4x4 homogeneous transformation matrix
     T = np.eye(4)
@@ -5907,7 +5907,7 @@ You can also create extrinsics from a transformation matrix:
 
     For low-level transformation utilities such as quaternion math, coordinate
     system conversions (OpenCV, OpenGL, ROS, etc.), and matrix operations, see
-    the :mod:`fiftyone.utils.transforms` module.
+    the :mod:`tensorgrid.utils.transforms` module.
 
 .. _resolving-calibration:
 
@@ -5915,8 +5915,8 @@ Resolving calibration
 ---------------------
 
 When working with samples, you can resolve camera calibration parameters using
-the :meth:`resolve_intrinsics() <fiftyone.core.dataset.Dataset.resolve_intrinsics>`
-and :meth:`resolve_transformation() <fiftyone.core.dataset.Dataset.resolve_transformation>`
+the :meth:`resolve_intrinsics() <tensorgrid.core.dataset.Dataset.resolve_intrinsics>`
+and :meth:`resolve_transformation() <tensorgrid.core.dataset.Dataset.resolve_transformation>`
 methods. These methods implement a resolution chain that checks multiple
 sources in order of precedence.
 
@@ -5966,8 +5966,8 @@ stored at the sample level:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-groups")
 
@@ -6029,7 +6029,7 @@ world coordinates and 2D image coordinates.
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Using intrinsics and extrinsics resolved from the previous example
     projector = fo.CameraProjector(intrinsics, extrinsics)
@@ -6048,7 +6048,7 @@ You can also unproject 2D points back to 3D if you have depth information:
     :linenos:
 
     import numpy as np
-    import fiftyone as fo
+    import tensorgrid as tg
 
     # Unproject pixel coordinates to 3D using known depth
     pixels = np.array([[960.0, 540.0]])  # image center
@@ -6068,7 +6068,7 @@ result in a generic dataset with a media type of `unknown`.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/file.json")
 
@@ -6103,12 +6103,12 @@ to extend functionality for sample types that are not natively supported.
 For App support in the grid or the modal, pair custom media types with
 :ref:`custom sample renderers <custom-sample-renderers>`. This plugin feature
 lets you provide domain-specific rendering for custom media types whose samples
-may not be handled by FiftyOne's built-in media renderers.
+may not be handled by TensorGrid's built-in media renderers.
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     sample = fo.Sample(filepath="/path/to/file.aac", media_type="audio")
 
@@ -6134,12 +6134,12 @@ DatasetViews
 ____________
 
 Previous sections have demonstrated how to add and interact with |Dataset|
-components like samples, fields, and labels. The true power of FiftyOne lies in
+components like samples, fields, and labels. The true power of TensorGrid lies in
 the ability to search, sort, filter, and explore the contents of a |Dataset|.
 
 Behind this power is the |DatasetView|. Whenever an operation
-like :meth:`match() <fiftyone.core.view.DatasetView.match>` or
-:meth:`sort_by() <fiftyone.core.view.DatasetView.sort_by>` is applied to a
+like :meth:`match() <tensorgrid.core.view.DatasetView.match>` or
+:meth:`sort_by() <tensorgrid.core.view.DatasetView.sort_by>` is applied to a
 dataset, a |DatasetView| is returned. As the name implies, a |DatasetView|
 is a *view* into the data in your |Dataset| that was produced by a series of
 operations that manipulated your data in different ways.
@@ -6159,9 +6159,9 @@ of a sample with |Detections| below a specified threshold filtered out.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
     dataset.compute_metadata()
@@ -6187,7 +6187,7 @@ Merging datasets
 ________________
 
 The |Dataset| class provides a powerful
-:meth:`merge_samples() <fiftyone.core.dataset.Dataset.merge_samples>` method
+:meth:`merge_samples() <tensorgrid.core.dataset.Dataset.merge_samples>` method
 that you can use to merge the contents of another |Dataset| or |DatasetView|
 into an existing dataset.
 
@@ -6199,7 +6199,7 @@ for those fields, with the exception of list fields (e.g.,
 themselves are merged. In the case of label list fields, labels with the same
 `id` in both collections are updated rather than duplicated.
 
-The :meth:`merge_samples() <fiftyone.core.dataset.Dataset.merge_samples>`
+The :meth:`merge_samples() <tensorgrid.core.dataset.Dataset.merge_samples>`
 method can be configured in numerous ways, including:
 
 -   Which field to use as a merge key, or an arbitrary function defining the
@@ -6218,8 +6218,8 @@ existing dataset:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset1 = foz.load_zoo_dataset("quickstart")
 
@@ -6239,7 +6239,7 @@ existing dataset:
     print(dataset2.count("predictions.detections"))  # 5620
 
 Note that the argument to
-:meth:`merge_samples() <fiftyone.core.dataset.Dataset.merge_samples>` can be a
+:meth:`merge_samples() <tensorgrid.core.dataset.Dataset.merge_samples>` can be a
 |DatasetView|, which means that you can perform possibly-complex
 :ref:`transformations <using-views>` to the source dataset to select the
 desired content to merge.
@@ -6251,7 +6251,7 @@ existing |Detections| in the same field:
 .. code:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     # Create a new dataset that only contains predictions with confidence >= 0.9
     dataset3 = (
@@ -6297,11 +6297,11 @@ which samples to merge:
 .. note::
 
     Did you know? You can use
-    :meth:`merge_dir() <fiftyone.core.dataset.Dataset.merge_dir>` to directly
-    merge the contents of a dataset on disk into an existing FiftyOne
+    :meth:`merge_dir() <tensorgrid.core.dataset.Dataset.merge_dir>` to directly
+    merge the contents of a dataset on disk into an existing TensorGrid
     dataset without first :ref:`loading it <importing-datasets>` into a
     temporary dataset and then using
-    :meth:`merge_samples() <fiftyone.core.dataset.Dataset.merge_samples>` to
+    :meth:`merge_samples() <tensorgrid.core.dataset.Dataset.merge_samples>` to
     perform the merge.
 
 .. _cloning-datasets:
@@ -6309,14 +6309,14 @@ which samples to merge:
 Cloning datasets
 ________________
 
-You can use :meth:`clone() <fiftyone.core.dataset.Dataset.clone>` to create a
+You can use :meth:`clone() <tensorgrid.core.dataset.Dataset.clone>` to create a
 copy of a dataset:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -6339,7 +6339,7 @@ By default, cloned datasets also retain all
 :ref:`custom indexes <app-optimizing-query-performance>` that you've created on
 the source collection, but you can control this by passing the optional
 `include_indexes` parameter to
-:meth:`clone() <fiftyone.core.dataset.Dataset.clone>`:
+:meth:`clone() <tensorgrid.core.dataset.Dataset.clone>`:
 
 .. code-block:: python
     :linenos:
@@ -6370,20 +6370,20 @@ Cloning, renaming, clearing, and deleting fields
 ------------------------------------------------
 
 You can use the
-:meth:`clone_sample_field() <fiftyone.core.dataset.Dataset.clone_sample_field>`,
-:meth:`rename_sample_field() <fiftyone.core.dataset.Dataset.rename_sample_field>`,
-:meth:`clear_sample_field() <fiftyone.core.dataset.Dataset.clear_sample_field>`,
+:meth:`clone_sample_field() <tensorgrid.core.dataset.Dataset.clone_sample_field>`,
+:meth:`rename_sample_field() <tensorgrid.core.dataset.Dataset.rename_sample_field>`,
+:meth:`clear_sample_field() <tensorgrid.core.dataset.Dataset.clear_sample_field>`,
 and
-:meth:`delete_sample_field() <fiftyone.core.dataset.Dataset.delete_sample_field>`
+:meth:`delete_sample_field() <tensorgrid.core.dataset.Dataset.delete_sample_field>`
 methods to efficiently perform common actions on the sample fields of a
 |Dataset|:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -6445,9 +6445,9 @@ its contents and editing the samples directly:
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -6460,10 +6460,10 @@ its contents and editing the samples directly:
     print(dataset.bounds("random")) # (0.0007, 0.9987)
 
 However, the above pattern can be inefficient for large datasets because each
-:meth:`sample.save() <fiftyone.core.sample.Sample.save>` call makes a new
+:meth:`sample.save() <tensorgrid.core.sample.Sample.save>` call makes a new
 connection to the database.
 
-The :meth:`iter_samples() <fiftyone.core.dataset.Dataset.iter_samples>` method
+The :meth:`iter_samples() <tensorgrid.core.dataset.Dataset.iter_samples>` method
 provides an ``autosave=True`` option that causes all changes to samples
 emitted by the iterator to be automatically saved using an efficient batch
 update strategy:
@@ -6481,13 +6481,13 @@ update strategy:
     :ref:`selecting only <efficient-iteration-views>` the required fields.
 
 You can configure the default batching strategy that is used via your
-:ref:`FiftyOne config <configuring-fiftyone>`, or you can configure the
+:ref:`TensorGrid config <configuring-fiftyone>`, or you can configure the
 batching strategy on a per-method call basis by passing the optional
 ``batch_size`` and ``batching_strategy`` arguments to
-:meth:`iter_samples() <fiftyone.core.dataset.Dataset.iter_samples>`.
+:meth:`iter_samples() <tensorgrid.core.dataset.Dataset.iter_samples>`.
 
 You can also use the
-:meth:`save_context() <fiftyone.core.collections.SampleCollection.save_context>`
+:meth:`save_context() <tensorgrid.core.collections.SampleCollection.save_context>`
 method to perform batched edits using the pattern below:
 
 .. code-block:: python
@@ -6500,8 +6500,8 @@ method to perform batched edits using the pattern below:
             context.save(sample)
 
 The benefit of the above approach versus passing ``autosave=True`` to
-:meth:`iter_samples() <fiftyone.core.dataset.Dataset.iter_samples>` is that
-:meth:`context.save() <fiftyone.core.collections.SaveContext.save>` allows you
+:meth:`iter_samples() <tensorgrid.core.dataset.Dataset.iter_samples>` is that
+:meth:`context.save() <tensorgrid.core.collections.SaveContext.save>` allows you
 to be explicit about which samples you are editing, which avoids unnecessary
 computations if your loop only edits certain samples.
 
@@ -6511,15 +6511,15 @@ Updating samples
 ----------------
 
 The
-:meth:`update_samples() <fiftyone.core.collections.SampleCollection.update_samples>`
+:meth:`update_samples() <tensorgrid.core.collections.SampleCollection.update_samples>`
 method provides an efficient interface for applying a function to each sample
 in a collection and saving the sample edits:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("cifar10", split="train")
     view = dataset.select_fields("ground_truth")
@@ -6537,10 +6537,10 @@ in a collection and saving the sample edits:
     :ref:`selecting only <efficient-iteration-views>` the required fields.
 
 By default,
-:meth:`update_samples() <fiftyone.core.collections.SampleCollection.update_samples>`
+:meth:`update_samples() <tensorgrid.core.collections.SampleCollection.update_samples>`
 leverages a multiprocessing pool to parallelize the work across a number of
 workers, resulting in significant performance improvements over the equivalent
-:meth:`iter_samples(autosave=True) <fiftyone.core.dataset.Dataset.iter_samples>`
+:meth:`iter_samples(autosave=True) <tensorgrid.core.dataset.Dataset.iter_samples>`
 syntax:
 
 .. code-block:: python
@@ -6550,7 +6550,7 @@ syntax:
         update_fcn(sample)
 
 Keep the following points in mind while using
-:meth:`update_samples() <fiftyone.core.collections.SampleCollection.update_samples>`:
+:meth:`update_samples() <tensorgrid.core.collections.SampleCollection.update_samples>`:
 
 -   The samples are not processed in any particular order
 
@@ -6558,22 +6558,22 @@ Keep the following points in mind while using
     outside of the function
 
 You can configure the number of workers that
-:meth:`update_samples() <fiftyone.core.collections.SampleCollection.update_samples>`
+:meth:`update_samples() <tensorgrid.core.collections.SampleCollection.update_samples>`
 uses in a variety of ways:
 
 -   Configure the default number of workers used by all
-    :meth:`update_samples() <fiftyone.core.collections.SampleCollection.update_samples>`
+    :meth:`update_samples() <tensorgrid.core.collections.SampleCollection.update_samples>`
     calls by setting the ``default_process_pool_workers`` value in your
-    :ref:`FiftyOne config <configuring-fiftyone>`
+    :ref:`TensorGrid config <configuring-fiftyone>`
 
 -   Manually configure the number of workers for a particular
-    :meth:`update_samples() <fiftyone.core.collections.SampleCollection.update_samples>`
+    :meth:`update_samples() <tensorgrid.core.collections.SampleCollection.update_samples>`
     call by passing the ``num_workers`` parameter
 
 -   If neither of the above settings are applied,
-    :meth:`update_samples() <fiftyone.core.collections.SampleCollection.update_samples>`
+    :meth:`update_samples() <tensorgrid.core.collections.SampleCollection.update_samples>`
     will use
-    :func:`recommend_process_pool_workers() <fiftyone.core.utils.recommend_process_pool_workers>`
+    :func:`recommend_process_pool_workers() <tensorgrid.core.utils.recommend_process_pool_workers>`
     to choose a number of worker processes, unless the method is called in a
     daemon process (subprocess), in which case no workers are used
 
@@ -6581,10 +6581,10 @@ uses in a variety of ways:
 
     You can set ``default_process_pool_workers<=1`` or ``num_workers<=1`` to
     disable the use of multiprocessing pools in
-    :meth:`update_samples() <fiftyone.core.collections.SampleCollection.update_samples>`.
+    :meth:`update_samples() <tensorgrid.core.collections.SampleCollection.update_samples>`.
 
 By default,
-:meth:`update_samples() <fiftyone.core.collections.SampleCollection.update_samples>`
+:meth:`update_samples() <tensorgrid.core.collections.SampleCollection.update_samples>`
 evenly distributes samples to all workers in a single batch per worker.
 However, you can pass the ``batch_size`` parameter to customize the number of
 samples sent to each worker at a time:
@@ -6595,7 +6595,7 @@ samples sent to each worker at a time:
     view.update_samples(update_fcn, batch_size=50, num_workers=4)
 
 You can also pass `progress="workers"` to
-:meth:`update_samples() <fiftyone.core.collections.SampleCollection.update_samples>`
+:meth:`update_samples() <tensorgrid.core.collections.SampleCollection.update_samples>`
 to render progress bar(s) for each worker:
 
 .. code-block:: python
@@ -6628,7 +6628,7 @@ Map operations
 --------------
 
 The
-:meth:`map_samples() <fiftyone.core.collections.SampleCollection.map_samples>`
+:meth:`map_samples() <tensorgrid.core.collections.SampleCollection.map_samples>`
 method provides a powerful and efficient interface for iterating over samples,
 applying a function to each sample, and returning the results as a generator.
 
@@ -6637,8 +6637,8 @@ applying a function to each sample, and returning the results as a generator.
 
     from collections import Counter
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("cifar10", split="train")
     view = dataset.select_fields("ground_truth")
@@ -6659,10 +6659,10 @@ applying a function to each sample, and returning the results as a generator.
     :ref:`selecting only <efficient-iteration-views>` the required fields.
 
 By default,
-:meth:`map_samples() <fiftyone.core.collections.SampleCollection.map_samples>`
+:meth:`map_samples() <tensorgrid.core.collections.SampleCollection.map_samples>`
 leverages a multiprocessing pool to parallelize the work across a number of
 workers, resulting in significant performance improvements over the equivalent
-:meth:`iter_samples() <fiftyone.core.dataset.Dataset.iter_samples>` syntax:
+:meth:`iter_samples() <tensorgrid.core.dataset.Dataset.iter_samples>` syntax:
 
 .. code-block:: python
     :linenos:
@@ -6673,7 +6673,7 @@ workers, resulting in significant performance improvements over the equivalent
         counter[label] += 1
 
 Keep the following points in mind while using
-:meth:`map_samples() <fiftyone.core.collections.SampleCollection.map_samples>`:
+:meth:`map_samples() <tensorgrid.core.collections.SampleCollection.map_samples>`:
 
 -   The samples are not processed in any particular order
 
@@ -6691,22 +6691,22 @@ Keep the following points in mind while using
     :ref:`dataset views <using-views>`.
 
 You can configure the number of workers that
-:meth:`map_samples() <fiftyone.core.collections.SampleCollection.map_samples>`
+:meth:`map_samples() <tensorgrid.core.collections.SampleCollection.map_samples>`
 uses in a variety of ways:
 
 -   Configure the default number of workers used by all
-    :meth:`map_samples() <fiftyone.core.collections.SampleCollection.map_samples>`
+    :meth:`map_samples() <tensorgrid.core.collections.SampleCollection.map_samples>`
     calls by setting the ``default_process_pool_workers`` value in your
-    :ref:`FiftyOne config <configuring-fiftyone>`
+    :ref:`TensorGrid config <configuring-fiftyone>`
 
 -   Manually configure the number of workers for a particular
-    :meth:`map_samples() <fiftyone.core.collections.SampleCollection.map_samples>`
+    :meth:`map_samples() <tensorgrid.core.collections.SampleCollection.map_samples>`
     call by passing the ``num_workers`` parameter
 
 -   If neither of the above settings are applied,
-    :meth:`map_samples() <fiftyone.core.collections.SampleCollection.map_samples>`
+    :meth:`map_samples() <tensorgrid.core.collections.SampleCollection.map_samples>`
     will use
-    :func:`recommend_process_pool_workers() <fiftyone.core.utils.recommend_process_pool_workers>`
+    :func:`recommend_process_pool_workers() <tensorgrid.core.utils.recommend_process_pool_workers>`
     to choose a number of worker processes, unless the method is called in a
     daemon process (subprocess), in which case no workers are used
 
@@ -6714,10 +6714,10 @@ uses in a variety of ways:
 
     You can set ``default_process_pool_workers<=1`` or ``num_workers<=1`` to
     disable the use of multiprocessing pools in
-    :meth:`map_samples() <fiftyone.core.collections.SampleCollection.map_samples>`.
+    :meth:`map_samples() <tensorgrid.core.collections.SampleCollection.map_samples>`.
 
 By default,
-:meth:`map_samples() <fiftyone.core.collections.SampleCollection.map_samples>`
+:meth:`map_samples() <tensorgrid.core.collections.SampleCollection.map_samples>`
 evenly distributes samples to all workers in a single shard per worker.
 However, you can pass the ``batch_size`` parameter to customize the number of
 samples sent to each worker at a time:
@@ -6730,7 +6730,7 @@ samples sent to each worker at a time:
         counter[label] += 1
 
 You can also pass `progress="workers"` to
-:meth:`map_samples() <fiftyone.core.collections.SampleCollection.map_samples>`
+:meth:`map_samples() <tensorgrid.core.collections.SampleCollection.map_samples>`
 to render progress bar(s) for each worker:
 
 .. code-block:: python
@@ -6765,7 +6765,7 @@ Setting values
 --------------
 
 Another strategy for performing efficient batch edits is to use
-:meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>` to
+:meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>` to
 set a field (or embedded field) on each sample in the dataset in a single
 batch operation:
 
@@ -6774,9 +6774,9 @@ batch operation:
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -6797,13 +6797,13 @@ batch operation:
     # (0.0055, 0.9996)
 
 When applicable, using
-:meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`
+:meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`
 is more efficient than performing the equivalent operation via an explicit
 iteration over the |Dataset| because it avoids the need to read |Sample|
 instances into memory and sequentially save them.
 
 As demonstrated above, you can use
-:meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>`
+:meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>`
 in two ways:
 
 -   **Dict syntax (recommended):** provide values as a dict whose keys specify
@@ -6820,7 +6820,7 @@ in two ways:
     internally convert to these IDs before ultimately performing the updates.
 
 You can also use
-:meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>` to
+:meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>` to
 optimize more complex operations, such as editing attributes of specific
 object detections in a nested list.
 
@@ -6842,9 +6842,9 @@ in a field:
     # {'low_confidence': 447}
 
 An equivalent but more efficient approach is to use
-:meth:`values() <fiftyone.core.collections.SampleCollection.values>` to
+:meth:`values() <tensorgrid.core.collections.SampleCollection.values>` to
 extract the slice of data you wish to modify and then use
-:meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>` to
+:meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>` to
 save the updated data in a single batch operation:
 
 .. code-block:: python
@@ -6869,7 +6869,7 @@ save the updated data in a single batch operation:
     # {'low_confidence': 447}
 
 You can also use
-:meth:`set_values() <fiftyone.core.collections.SampleCollection.set_values>` to
+:meth:`set_values() <tensorgrid.core.collections.SampleCollection.set_values>` to
 perform batch updates to frame-level fields:
 
 .. code-block:: python
@@ -6877,8 +6877,8 @@ perform batch updates to frame-level fields:
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video")
 
@@ -6908,15 +6908,15 @@ Setting label values
 Often when working with |Label| fields, the edits you want to make may be
 naturally represented as a mapping between label IDs and corresponding
 attribute values to set on each |Label| instance. In such cases, you can use
-:meth:`set_label_values() <fiftyone.core.collections.SampleCollection.set_label_values>`
+:meth:`set_label_values() <tensorgrid.core.collections.SampleCollection.set_label_values>`
 to efficiently perform the updates:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -6945,7 +6945,7 @@ to efficiently perform the updates:
     # {True: 25, None: 5595}
 
 As demonstrated above, you can use
-:meth:`set_label_values() <fiftyone.core.collections.SampleCollection.set_label_values>`
+:meth:`set_label_values() <tensorgrid.core.collections.SampleCollection.set_label_values>`
 in two ways:
 
 -   **List syntax (recommended):** provide a list of dicts of the form
@@ -6955,6 +6955,6 @@ in two ways:
 
 .. note::
 
-    :meth:`set_label_values() <fiftyone.core.collections.SampleCollection.set_label_values>`
+    :meth:`set_label_values() <tensorgrid.core.collections.SampleCollection.set_label_values>`
     is most efficient when you use the list syntax for values that includes
     the sample/frame ID of each label that you are modifying.

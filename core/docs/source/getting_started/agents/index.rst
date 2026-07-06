@@ -5,31 +5,31 @@ Building Plugins with AI Agents
 
 .. default-role:: code
 
-**Use AI Coding Agents to Build Custom FiftyOne Plugins**
+**Use AI Coding Agents to Build Custom TensorGrid Plugins**
 
 **Level:** Beginner | **Estimated Time:** 15-20 minutes | **Tags:** Agents, Plugin Development, Skills
 
-This guide walks you through building a custom FiftyOne plugin using an
+This guide walks you through building a custom TensorGrid plugin using an
 AI coding agent. Describe what you want in plain language, and the agent
 handles the implementation: file structure, operator logic, and live
 testing in the App.
 
 .. image:: https://cdn.voxel51.com/getting_started_agents/agentic_plugin_dev.webp
-   :alt: Building FiftyOne plugins with an AI coding agent
+   :alt: Building TensorGrid plugins with an AI coding agent
    :align: center
 
 .. note::
 
    This guide covers **AI coding agents** (Claude Code, Cursor, VS Code
-   Copilot, Gemini CLI, and others) used to build FiftyOne plugins from
+   Copilot, Gemini CLI, and others) used to build TensorGrid plugins from
    your terminal. If you are looking for the built-in AI assistant inside
-   the FiftyOne Enterprise App, see :ref:`FiftyOne Agent <enterprise-agent>`
+   the TensorGrid Enterprise App, see :ref:`TensorGrid Agent <enterprise-agent>`
    instead.
 
 You'll learn how to:
 
-- Set up your AI agent with FiftyOne Skills
-- Launch the FiftyOne App in debug mode for live development
+- Set up your AI agent with TensorGrid Skills
+- Launch the TensorGrid App in debug mode for live development
 - Prompt your agent to build a custom operator or panel
 - Test and iterate on the plugin inside the running App
 
@@ -40,7 +40,7 @@ Guide Overview
 
 This guide covers the following steps:
 
-1. **Launch the App in Debug Mode** - Start FiftyOne in development mode so you can see logs and test plugins live as you build them
+1. **Launch the App in Debug Mode** - Start TensorGrid in development mode so you can see logs and test plugins live as you build them
 2. **Prompt Your Agent** - Use the ``fiftyone-develop-plugin`` skill to describe and build a custom operator or panel
 3. **Test in the App** - Install and run your plugin, paste any errors back to the agent
 4. **Iterate** - Tighten the loop between prompt, test, and fix until the plugin works as expected
@@ -50,7 +50,7 @@ This guide covers the following steps:
 Prerequisites
 -------------
 
-- **FiftyOne installed**: see :ref:`Installation <installing-fiftyone>`
+- **TensorGrid installed**: see :ref:`Installation <installing-fiftyone>`
 - **An AI coding agent**: Claude Code, Cursor, VS Code Copilot, Gemini CLI, or Antigravity
 - **Skills configured**: follow :ref:`Using Agents <agents-using-agents>` to install the
   MCP server and skills for your specific agent (takes about 5 minutes)
@@ -65,13 +65,13 @@ running throughout development so you see errors immediately.
 
 .. code-block:: bash
 
-   fiftyone app debug
+   tensorgrid app debug
 
 The App opens at ``http://localhost:5151``. To load a specific dataset:
 
 .. code-block:: bash
 
-   fiftyone app debug <dataset-name>
+   tensorgrid app debug <dataset-name>
 
 .. note::
 
@@ -87,10 +87,10 @@ Open your AI agent in a separate terminal window inside your project
 directory and describe the plugin you want to build.
 
 The ``fiftyone-develop-plugin`` skill gives your agent a complete
-end-to-end workflow for building FiftyOne operators and panels. When you
+end-to-end workflow for building TensorGrid operators and panels. When you
 describe a plugin goal, the skill guides the agent through:
 
-- Creating the directory structure and ``fiftyone.yml`` manifest
+- Creating the directory structure and ``tensorgrid.yml`` manifest
 - Implementing the operator with inputs, execution logic, and output
 - Installing the plugin locally
 - Validating it is ready to test
@@ -99,20 +99,20 @@ describe a plugin goal, the skill guides the agent through:
 
 .. code-block:: text
 
-   Build me a FiftyOne operator that shows a histogram of confidence
+   Build me a TensorGrid operator that shows a histogram of confidence
    scores for predicted labels in the current dataset. Display the
    result in a panel.
 
 Be specific about what the plugin does, what inputs it accepts, what
-media type you are working with, and which FiftyOne primitive you want
+media type you are working with, and which TensorGrid primitive you want
 (operator, panel, or delegated operator).
 
 .. note::
 
    Not sure what to build? See the
-   `Plugin Ideas Board <https://github.com/voxel51/fiftyone-plugins/discussions>`_
+   `Plugin Ideas Board <https://github.com/rksaklani/TensorGrid-plugins/discussions>`_
    for community-sourced ideas, or browse the
-   `official plugin collection <https://github.com/voxel51/fiftyone-plugins>`_
+   `official plugin collection <https://github.com/rksaklani/TensorGrid-plugins>`_
    for reference examples close to what you want.
 
 .. _getting-started-agents-step3:
@@ -124,7 +124,7 @@ After the agent creates the plugin, confirm it is installed:
 
 .. code-block:: bash
 
-   fiftyone plugins list
+   tensorgrid plugins list
 
 Then find and run it in the App:
 
@@ -166,8 +166,8 @@ Next Steps
 - :ref:`Using Agents <agents-using-agents>`: full setup guide and available MCP tools
 - :ref:`Agent Ecosystem <agents-ecosystem>`: browse all available skills for your agent
 - :ref:`Developing Skills <agents-developing>`: build your own agent skills
-- :ref:`FiftyOne Plugins <fiftyone-plugins>`: the full plugin system reference
-- :ref:`FiftyOne Agent <enterprise-agent>`: the built-in AI assistant in FiftyOne Enterprise
+- :ref:`TensorGrid Plugins <fiftyone-plugins>`: the full plugin system reference
+- :ref:`TensorGrid Agent <enterprise-agent>`: the built-in AI assistant in TensorGrid Enterprise
 
 .. _getting-started-agents-resources:
 

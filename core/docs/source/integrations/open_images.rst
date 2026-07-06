@@ -8,12 +8,12 @@ Open Images Integration
 We've collaborated with the team behind the
 `Open Images Dataset <https://storage.googleapis.com/openimages/web/download.html>`_
 to make it easy to download, visualize, and evaluate on the Open Images dataset
-natively in FiftyOne!
+natively in TensorGrid!
 
 .. note::
 
     Check out :doc:`this tutorial </tutorials/open_images>` to see how you can
-    use FiftyOne to download and evaluate models on Open Images.
+    use TensorGrid to download and evaluate models on Open Images.
 
 .. image:: /images/dataset_zoo/open-images-v6.png
    :alt: open-images-v6
@@ -24,19 +24,19 @@ natively in FiftyOne!
 Loading Open Images
 ___________________
 
-The FiftyOne Dataset Zoo provides support for loading the 
+The TensorGrid Dataset Zoo provides support for loading the 
 :ref:`Open Images V6 <dataset-zoo-open-images-v6>` and 
 :ref:`Open Images V7 <dataset-zoo-open-images-v7>` datasets.
 
 Like all other zoo datasets, you can use
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>` to download
-and load an Open Images V7 split into FiftyOne:
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>` to download
+and load an Open Images V7 split into TensorGrid:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Download and load the validation split of Open Images V7
     dataset = foz.load_zoo_dataset("open-images-v7", split="validation")
@@ -45,25 +45,25 @@ and load an Open Images V7 split into FiftyOne:
 
 .. note::
 
-    FiftyOne supports loading annotations for classification, detection,
+    TensorGrid supports loading annotations for classification, detection,
     segmentation, and visual relationship tasks for the 600 boxable classes
     (`cf. dataset overview <https://storage.googleapis.com/openimages/web/factsfigures.html>`_).
 
     By default, all label types are loaded, but you can customize this via the
     optional ``label_types`` argument (see below for details).
 
-In addition, FiftyOne provides parameters that can be used to efficiently
+In addition, TensorGrid provides parameters that can be used to efficiently
 download specific subsets of the Open Images dataset, allowing you to quickly
 explore different slices of the dataset without downloading the entire split.
 
-When performing partial downloads, FiftyOne will use existing downloaded data
+When performing partial downloads, TensorGrid will use existing downloaded data
 first if possible before resorting to downloading additional data from the web.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     #
     # Load 50 random samples from the validation split of Open Images V7.
@@ -125,7 +125,7 @@ first if possible before resorting to downloading additional data from the web.
 
 The following parameters are available to configure a partial download of Open
 Images V6 or Open Images V7 by passing them to
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`:
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`:
 
 -   **split** (*None*) and **splits** (*None*): a string or list of strings,
     respectively, specifying the splits to load. Supported values are
@@ -140,8 +140,8 @@ Images V6 or Open Images V7 by passing them to
 -   **classes** (*None*): a string or list of strings specifying required
     classes to load. If provided, only samples containing at least one instance
     of a specified class will be loaded. You can use
-    :func:`get_classes() <fiftyone.utils.openimages.get_classes>` and
-    :func:`get_segmentation_classes() <fiftyone.utils.openimages.get_segmentation_classes>`
+    :func:`get_classes() <tensorgrid.utils.openimages.get_classes>` and
+    :func:`get_segmentation_classes() <tensorgrid.utils.openimages.get_segmentation_classes>`
     to see the available classes and segmentation classes, respectively
 
 -   **attrs** (*None*): a string or list of strings specifying required
@@ -149,7 +149,7 @@ Images V6 or Open Images V7 by passing them to
     ``label_types`` contains ``"relationships"``. If provided, only samples
     containing at least one instance of a specified attribute will be loaded.
     You can use
-    :func:`get_attributes() <fiftyone.utils.openimages.get_attributes>`
+    :func:`get_attributes() <tensorgrid.utils.openimages.get_attributes>`
     to see the available attributes
 
 -   **image_ids** (*None*): a list of specific image IDs to load. The IDs can
@@ -184,19 +184,19 @@ Images V6 or Open Images V7 by passing them to
 .. note::
 
     See
-    :class:`OpenImagesV7Dataset <fiftyone.zoo.datasets.base.OpenImagesV6Dataset>`
+    :class:`OpenImagesV7Dataset <tensorgrid.zoo.datasets.base.OpenImagesV6Dataset>`
     , 
-    :class:`OpenImagesV7Dataset <fiftyone.zoo.datasets.base.OpenImagesV7Dataset>`
-    and :class:`OpenImagesDatasetImporter <fiftyone.utils.openimages.OpenImagesDatasetImporter>`
+    :class:`OpenImagesV7Dataset <tensorgrid.zoo.datasets.base.OpenImagesV7Dataset>`
+    and :class:`OpenImagesDatasetImporter <tensorgrid.utils.openimages.OpenImagesDatasetImporter>`
     for complete descriptions of the optional keyword arguments that you can
-    pass to :func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`.
+    pass to :func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`.
 
 .. _open-images-evaluation:
 
 Open Images-style evaluation
 ____________________________
 
-The :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+The :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 method provides builtin support for running
 `Open Images-style evaluation <https://storage.googleapis.com/openimages/web/evaluation.html>`_.
 
@@ -205,7 +205,7 @@ parameter to ``"open-images"``.
 
 .. note::
 
-    FiftyOne's implementation of Open Images-style evaluation matches the
+    TensorGrid's implementation of Open Images-style evaluation matches the
     reference implementation available via the
     `TF Object Detection API <https://github.com/tensorflow/models/tree/master/research/object_detection>`_.
 
@@ -270,7 +270,7 @@ populated on each sample and its predicted/ground truth objects:
 
     See |OpenImagesEvaluationConfig| for complete descriptions of the optional
     keyword arguments that you can pass to
-    :meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+    :meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
     when running Open Images-style evaluation.
 
 Example evaluation
@@ -282,9 +282,9 @@ The example below demonstrates Open Images-style detection evaluation on the
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
     print(dataset)
@@ -349,19 +349,19 @@ mAP and PR curves
 
 You can easily compute mean average precision (mAP) and precision-recall (PR)
 curves using the results object returned by
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`:
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`:
 
 .. note::
 
-    FiftyOne's implementation of Open Images-style evaluation matches the
+    TensorGrid's implementation of Open Images-style evaluation matches the
     reference implementation available via the
     `TF Object Detection API <https://github.com/tensorflow/models/tree/master/research/object_detection>`_.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     print(dataset)
@@ -390,15 +390,15 @@ the results of Open Images-style evaluations.
 
 In order for the confusion matrix to capture anything other than false
 positive/negative counts, you will likely want to set the
-:class:`classwise <fiftyone.utils.eval.openimages.OpenImagesEvaluationConfig>`
+:class:`classwise <tensorgrid.utils.eval.openimages.OpenImagesEvaluationConfig>`
 parameter to ``False`` during evaluation so that predicted objects can be
 matched with ground truth objects of different classes.
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -421,7 +421,7 @@ matched with ground truth objects of different classes.
 .. note::
 
     Did you know? :ref:`Confusion matrices <confusion-matrices>` can be
-    attached to your |Session| object and dynamically explored using FiftyOne's
+    attached to your |Session| object and dynamically explored using TensorGrid's
     :ref:`interactive plotting features <interactive-plots>`!
 
 .. _open-images-challenge:
@@ -429,21 +429,21 @@ matched with ground truth objects of different classes.
 Open Images Challenge
 _____________________
 
-Since FiftyOne's implementation of Open Images-style evaluation matches the
+Since TensorGrid's implementation of Open Images-style evaluation matches the
 reference implementation from the
 `TF Object Detection API <https://github.com/tensorflow/models/tree/master/research/object_detection>`_
 used in the
 `Open Images detection challenges <https://storage.googleapis.com/openimages/web/evaluation.html>`_.
 you can use it to compute the official mAP for your model while also enjoying
-the benefits of working in the FiftyOne ecosystem, including
+the benefits of working in the TensorGrid ecosystem, including
 :ref:`using views <using-views>` to manipulate your dataset and visually
-exploring your model's predictions in the :ref:`FiftyOne App <fiftyone-app>`!
+exploring your model's predictions in the :ref:`TensorGrid App <fiftyone-app>`!
 
 In order to compute the official Open Images mAP for a model, your dataset
 **must** include the appropriate positive and negative sample-level labels, and
 you must provide the class hierarchy. Fortunately, when you load the Open
 Images dataset
-:ref:`from the FiftyOne Dataset Zoo <dataset-zoo-open-images-v6>`, all of the
+:ref:`from the TensorGrid Dataset Zoo <dataset-zoo-open-images-v6>`, all of the
 necessary information is automatically loaded for you!
 
 The example snippet below loads the
@@ -455,8 +455,8 @@ official Open Images evaluation protocol on some mock model predictions:
 
     import random
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     # Load some samples from the Open Images V6 dataset from the zoo
     dataset = foz.load_zoo_dataset(
@@ -491,14 +491,14 @@ official Open Images evaluation protocol on some mock model predictions:
 
 Most models trained on Open Images return the predictions for every class in
 the hierarchy. However, if your model does not, then you can set the
-:class:`expand_pred_hierarchy <fiftyone.utils.eval.openimages.OpenImagesEvaluationConfig>`
+:class:`expand_pred_hierarchy <tensorgrid.utils.eval.openimages.OpenImagesEvaluationConfig>`
 parameter to ``False`` to automatically generate predictions for parent classes
 in the hierarchy for evaluation purposes.
 
 .. note::
 
     Check out :doc:`this recipe </recipes/adding_detections>` to learn how to
-    add your model's predictions to a FiftyOne Dataset.
+    add your model's predictions to a TensorGrid Dataset.
 
 .. _open-images-map:
 

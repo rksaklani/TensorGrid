@@ -72,7 +72,7 @@ When to Use What
 - High-volume annotation with distributed teams
 - Complex labeling pipelines requiring external infrastructure
 
-FiftyOne integrates with external annotation tools. See :ref:`Integrations <integrations>` for details.
+TensorGrid integrates with external annotation tools. See :ref:`Integrations <integrations>` for details.
 
 What's Next
 -----------
@@ -85,11 +85,11 @@ What's Next
 Resources
 ---------
 
-* :ref:`FiftyOne 3D Visualizer <app-3d-visualizer>`
+* :ref:`TensorGrid 3D Visualizer <app-3d-visualizer>`
 
-* :doc:`FiftyOne Brain - Embeddings </brain>`
+* :doc:`TensorGrid Brain - Embeddings </brain>`
 
-* :doc:`FiftyOne Evaluation API </user_guide/evaluation>`
+* :doc:`TensorGrid Evaluation API </user_guide/evaluation>`
 
 * :doc:`Annotation Integrations </integrations/index>`
 
@@ -102,4 +102,4 @@ Resources
 Feedback
 --------
 
-Questions or suggestions? Reach us at `support@voxel51.com` or join our `Discord <https://community.voxel51.com>`_.
+Questions or suggestions? Reach us at `support@voxel51.com` or join our `Discord <https://github.com/rksaklani/TensorGrid/discussions>`_.

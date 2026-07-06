@@ -15,7 +15,7 @@ version of the dataset.
 .. note::
 
     Check out :ref:`this guide <activitynet>` for more details on using
-    FiftyOne to work with ActivityNet.
+    TensorGrid to work with ActivityNet.
 
 **Notes**
 
@@ -37,7 +37,7 @@ version of the dataset.
 -   Tags: ``video, classification, action-recognition, temporal-detection``
 -   Supported splits: ``train, validation, test``
 -   ZooDataset class:
-    :class:`ActivityNet200Dataset <fiftyone.zoo.datasets.base.ActivityNet200Dataset>`
+    :class:`ActivityNet200Dataset <tensorgrid.zoo.datasets.base.ActivityNet200Dataset>`
 
 **Full split stats**
 
@@ -47,14 +47,14 @@ version of the dataset.
 
 **Partial downloads**
 
-FiftyOne provides parameters that can be used to efficiently download specific
+TensorGrid provides parameters that can be used to efficiently download specific
 subsets of the ActivityNet dataset to suit your needs. When new subsets are
-specified, FiftyOne will use existing downloaded data first if possible before
+specified, TensorGrid will use existing downloaded data first if possible before
 resorting to downloading additional data from YouTube.
 
 The following parameters are available to configure a partial download of
 ActivityNet 200 by passing them to
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`:
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`:
 
 -   **split** (*None*) and **splits** (*None*): a string or list of strings,
     respectively, specifying the splits to load. Supported values are
@@ -92,24 +92,24 @@ ActivityNet 200 by passing them to
 .. note::
 
     See
-    :class:`ActivityNet200Dataset <fiftyone.zoo.datasets.base.ActivityNet200Dataset>` and
-    :class:`ActivityNetDatasetImporter <fiftyone.utils.activitynet.ActivityNetDatasetImporter>`
+    :class:`ActivityNet200Dataset <tensorgrid.zoo.datasets.base.ActivityNet200Dataset>` and
+    :class:`ActivityNetDatasetImporter <tensorgrid.utils.activitynet.ActivityNetDatasetImporter>`
     for complete descriptions of the optional keyword arguments that you can
-    pass to :func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`.
+    pass to :func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`.
 
 **Full split downloads**
 
 Many videos have been removed from YouTube since the creation of ActivityNet.
 As a result, if you do not specify any partial download parameters defined in
 the previous section, you must first download the official source files from
-the ActivityNet maintainers in order to load a full split into FiftyOne.
+the ActivityNet maintainers in order to load a full split into TensorGrid.
 
 To download the source files, you must fill out
 `this form <https://docs.google.com/forms/d/e/1FAIpQLSeKaFq9ZfcmZ7W0B0PbEhfbTHY41GeEgwsa7WobJgGUhn4DTQ/viewform>`_.
 
 Refer to :ref:`this page <activitynet-full-split-downloads>` to see how to load
 full splits by passing the `source_dir` parameter to
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`.
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`.
 
 **Example usage**
 
@@ -120,8 +120,8 @@ full splits by passing the `source_dir` parameter to
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         #
         # Load 10 random samples from the validation split
@@ -172,11 +172,11 @@ full splits by passing the `source_dir` parameter to
         # Only the required videos will be downloaded (if necessary)
         #
 
-        fiftyone zoo datasets load activitynet-200 \
+        tensorgrid zoo datasets load activitynet-200 \
             --split validation \
             --kwargs max_samples=10
 
-        fiftyone app launch activitynet-200-validation-10
+        tensorgrid app launch activitynet-200-validation-10
 
         #
         # Load 10 samples from the validation split that
@@ -193,13 +193,13 @@ full splits by passing the `source_dir` parameter to
         # downloading any videos
         #
 
-        fiftyone zoo datasets load activitynet-100 \
+        tensorgrid zoo datasets load activitynet-100 \
             --split validation \
             --kwargs \
                 classes=Archery,Cricket \
                 max_samples=10
 
-        fiftyone app launch activitynet-100-validation-10
+        tensorgrid app launch activitynet-100-validation-10
 
 .. note::
 

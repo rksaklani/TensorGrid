@@ -32,7 +32,7 @@ viewpoint, etc.
 -   Tags: ``video, action-recognition``
 -   Supported splits: ``train, test``
 -   ZooDataset class:
-    :class:`UCF101Dataset <fiftyone.zoo.datasets.base.UCF101Dataset>`
+    :class:`UCF101Dataset <tensorgrid.zoo.datasets.base.UCF101Dataset>`
 
 **Example usage**
 
@@ -43,9 +43,9 @@ viewpoint, etc.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
-        import fiftyone.utils.video as fouv
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
+        import tensorgrid.utils.video as fouv
 
         dataset = foz.load_zoo_dataset("ucf101", split="test")
 
@@ -58,12 +58,12 @@ viewpoint, etc.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load ucf101 --split test
+        tensorgrid zoo datasets load ucf101 --split test
 
         # Re-encode source videos as H.264 MP4s so they can be viewed in the App
-        fiftyone utils transform-videos ucf101-test --reencode
+        tensorgrid utils transform-videos ucf101-test --reencode
 
-        fiftyone app launch ucf101-test
+        tensorgrid app launch ucf101-test
 
 .. note::
 

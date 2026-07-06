@@ -5,32 +5,32 @@ Interactive Plots
 
 .. default-role:: code
 
-FiftyOne provides a powerful :mod:`fiftyone.core.plots` framework that contains
+TensorGrid provides a powerful :mod:`tensorgrid.core.plots` framework that contains
 a variety of interactive plotting methods that enable you to visualize your
 datasets and uncover patterns that are not apparent from inspecting either the
 :ref:`raw media files <fiftyone-app>` or
 :ref:`aggregate statistics <using-aggregations>`.
 
-With FiftyOne, you can visualize geolocated data on maps, generate interactive
+With TensorGrid, you can visualize geolocated data on maps, generate interactive
 evaluation reports such as confusion matrices and PR curves, create dashboards
 of custom statistics, and even generate low-dimensional representations of your
 data that you can use to identify data clusters corresponding to model failure
 modes, annotation gaps, and more.
 
-What do we mean by **interactive plots**? First, FiftyOne plots are
+What do we mean by **interactive plots**? First, TensorGrid plots are
 `powered by Plotly <https://plotly.com/python>`_, which means they are
 responsive JavaScript-based plots that can be zoomed, panned, and lasso-ed.
-Second, FiftyOne plots can be linked to the :ref:`FiftyOne App <fiftyone-app>`,
+Second, TensorGrid plots can be linked to the :ref:`TensorGrid App <fiftyone-app>`,
 so that selecting points in a plot will automatically load the corresponding
 samples/labels in the App (and vice versa) for you to visualize! Linking plots
 to their source media is a paradigm that should play a critical part in any
 visual dataset analysis pipeline.
 
-The builtin plots provided by FiftyOne are chosen to help you analyze and
+The builtin plots provided by TensorGrid are chosen to help you analyze and
 improve the quality of your datasets and models, with minimal customization
 required on your part to get started. At the same time, data/model
 interpretability is not a narrowly-defined space that can be fully automated.
-That's why FiftyOne's plotting framework is highly customizable and extensible,
+That's why TensorGrid's plotting framework is highly customizable and extensible,
 all by writing pure Python (no JavaScript knowledge required).
 
 .. note::
@@ -46,22 +46,22 @@ Overview
 ________
 
 All |Session| instances provide a
-:meth:`plots attribute <fiftyone.core.session.Session.plots>` attribute that
-you can use to attach |ResponsivePlot| instances to the FiftyOne App.
+:meth:`plots attribute <tensorgrid.core.session.Session.plots>` attribute that
+you can use to attach |ResponsivePlot| instances to the TensorGrid App.
 
 When |ResponsivePlot| instances are attached to a |Session|, they are
 automatically updated whenever
-:meth:`session.view <fiftyone.core.session.Session.view>` changes for any
+:meth:`session.view <tensorgrid.core.session.Session.view>` changes for any
 reason, whether you modify your view in the App, or programmatically change it
-by setting :meth:`session.view <fiftyone.core.session.Session.view>`, or if
+by setting :meth:`session.view <tensorgrid.core.session.Session.view>`, or if
 multiple plots are connected and another plot triggers a |Session| update!
 
 .. note::
 
     Interactive plots are currently only supported in Jupyter notebooks. In the
-    meantime, you can still use FiftyOne's plotting features in other
+    meantime, you can still use TensorGrid's plotting features in other
     environments, but you must manually call
-    :meth:`plot.show() <fiftyone.core.plots.base.Plot.show>` to update the
+    :meth:`plot.show() <tensorgrid.core.plots.base.Plot.show>` to update the
     state of a plot to match the state of a connected |Session|, and any
     callbacks that would normally be triggered in response to interacting with
     a plot will not be triggered.
@@ -76,9 +76,9 @@ Interactive plots
 |InteractivePlot| is a class of plots that are bidirectionally linked to a
 |Session| via the IDs of either samples or individual labels in the dataset.
 When the user performs a selection in the plot, the
-:meth:`session.view <fiftyone.core.session.Session.view>` is automatically
+:meth:`session.view <tensorgrid.core.session.Session.view>` is automatically
 updated to select the corresponding samples/labels, and, conversely, when
-:meth:`session.view <fiftyone.core.session.Session.view>` changes, the contents
+:meth:`session.view <tensorgrid.core.session.Session.view>` changes, the contents
 of the current view is automatically selected in the plot.
 
 Examples of |InteractivePlot| types include
@@ -94,7 +94,7 @@ View plots
 ----------
 
 |ViewPlot| is a class of plots whose state is automatically updated whenever
-the current :meth:`session.view <fiftyone.core.session.Session.view>` changes.
+the current :meth:`session.view <tensorgrid.core.session.Session.view>` changes.
 View plots can be used to construct :ref:`dynamic dashboards <view-plots>` that
 update to reflect the contents of your current view.
 
@@ -111,12 +111,12 @@ Current varieties include |CategoricalHistogram|, |NumericalHistogram|, and
 Working in notebooks
 ____________________
 
-The recommended way to work with FiftyOne's interactive plots is in
+The recommended way to work with TensorGrid's interactive plots is in
 `Jupyter notebooks <https://jupyter.org>`_ or
 `JupyterLab <https://jupyterlab.readthedocs.io/en/stable>`_.
 
 In these environments, you can leverage the full power of plots by
-:ref:`attaching them to the FiftyOne App <attaching-plots>` and bidirectionally
+:ref:`attaching them to the TensorGrid App <attaching-plots>` and bidirectionally
 interacting with the plots and the App to identify interesting subsets of your
 data.
 
@@ -125,9 +125,9 @@ data.
     Support for interactive plots in non-notebook contexts and in
     `Google Colab <https://colab.research.google.com>`_ and
     `Databricks <https://docs.databricks.com/en/notebooks/index.html>`_
-    is coming soon! In the meantime, you can still use FiftyOne's plotting
+    is coming soon! In the meantime, you can still use TensorGrid's plotting
     features in these environments, but you must manually call
-    :meth:`plot.show() <fiftyone.core.plots.base.Plot.show>` to update the
+    :meth:`plot.show() <tensorgrid.core.plots.base.Plot.show>` to update the
     state of a plot to match the state of a connected |Session|, and any
     callbacks that would normally be triggered in response to interacting with
     a plot will not be triggered.
@@ -170,11 +170,11 @@ to :ref:`this section <matplotlib-in-notebooks>` for setup instructions.
 Visualizing embeddings
 ______________________
 
-The :ref:`FiftyOne Brain <fiftyone-brain>` provides a powerful
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>` method
+The :ref:`TensorGrid Brain <fiftyone-brain>` provides a powerful
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>` method
 that can be used to generate low-dimensional representations of the
 samples/object patches in a dataset that can be visualized using interactive
-FiftyOne plots.
+TensorGrid plots.
 
 To learn more about the available embedding methods, dimensionality reduction
 techniques, and their applications to dataset analysis, refer to
@@ -184,7 +184,7 @@ cover the basic mechanics of creating scatterplots and interacting with them.
 .. note::
 
     The visualizations in this section are rendered under the hood via the
-    :meth:`scatterplot() <fiftyone.core.plots.base.scatterplot>` method, which
+    :meth:`scatterplot() <tensorgrid.core.plots.base.scatterplot>` method, which
     you can directly use to generate interactive plots for arbitrary 2D or 3D
     representations of your data.
 
@@ -192,10 +192,10 @@ Standalone plots
 ----------------
 
 Let's use
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>` to
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>` to
 generate a 2D visualization of the images in the test split of the
 :ref:`MNIST dataset <dataset-zoo-mnist>` and then visualize it using the
-:meth:`results.visualize() <fiftyone.brain.visualization.VisualizationResults.visualize>`
+:meth:`results.visualize() <tensorgrid.brain.visualization.VisualizationResults.visualize>`
 method of the returned results object, where each point is colored by its
 ground truth label:
 
@@ -205,9 +205,9 @@ ground truth label:
     import cv2
     import numpy as np
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("mnist", split="test")
 
@@ -236,7 +236,7 @@ Interactive plots
 -----------------
 
 The full power of
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>` comes
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>` comes
 when you associate the scatterpoints with the samples or objects in a |Dataset|
 and then attach it to a |Session|.
 
@@ -246,20 +246,20 @@ test split of the :ref:`MNIST dataset <dataset-zoo-mnist>` that is
 
 In this setup, the scatterplot renders each sample using its corresponding 2D
 embedding generated by
-:meth:`compute_visualization() <fiftyone.brain.compute_visualization>`, colored
+:meth:`compute_visualization() <tensorgrid.brain.compute_visualization>`, colored
 by the sample's ground truth label.
 
 Since the ``labels`` argument to
-:meth:`results.visualize() <fiftyone.brain.visualization.VisualizationResults.visualize>`
+:meth:`results.visualize() <tensorgrid.brain.visualization.VisualizationResults.visualize>`
 is categorical, each class is rendered as its own trace and you can click on
 the legend entries to show/hide individual classes, or double-click to
 show/hide all other classes.
 
 When points are lasso-ed in the plot, the corresponding
 samples are automatically selected in the session's current
-:meth:`view <fiftyone.core.session.Session.view>`. Likewise, whenever you
+:meth:`view <tensorgrid.core.session.Session.view>`. Likewise, whenever you
 modify the session's view, either in the App or by programmatically setting
-:meth:`session.view <fiftyone.core.session.Session.view>`, the corresponding
+:meth:`session.view <tensorgrid.core.session.Session.view>`, the corresponding
 locations will be selected in the scatterplot.
 
 Each block in the example code below denotes a separate cell in a Jupyter
@@ -271,9 +271,9 @@ notebook:
     import cv2
     import numpy as np
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("mnist", split="test")
 
@@ -320,7 +320,7 @@ Geolocation plots
 _________________
 
 You can use
-:meth:`location_scatterplot() <fiftyone.core.plots.base.location_scatterplot>`
+:meth:`location_scatterplot() <tensorgrid.core.plots.base.location_scatterplot>`
 to generate interactive plots of datasets with geolocation data.
 
 You can store arbitrary location data in
@@ -329,7 +329,7 @@ using the |GeoLocation| and |GeoLocations| label types. See
 :ref:`this section <geolocation>` for more information.
 
 The
-:meth:`location_scatterplot() <fiftyone.core.plots.base.location_scatterplot>`
+:meth:`location_scatterplot() <tensorgrid.core.plots.base.location_scatterplot>`
 method only supports simple ``[longitude, latitude]`` coordinate points, which
 can be stored in the ``point`` attribute of a |GeoLocation| field.
 
@@ -354,10 +354,10 @@ contains |GeoLocation| data in its ``location`` field:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart-geo")
     fob.compute_uniqueness(dataset)
@@ -410,7 +410,7 @@ Interactive plots
 -----------------
 
 The real power of
-:meth:`location_scatterplot() <fiftyone.core.plots.base.location_scatterplot>`
+:meth:`location_scatterplot() <tensorgrid.core.plots.base.location_scatterplot>`
 comes when you associate the location coordinates with the samples in a
 |Dataset| and then attach it to a |Session|.
 
@@ -422,9 +422,9 @@ In this setup, the location plot renders each sample using its corresponding
 ``[longitude, latitude]`` coordinates from the dataset's only |GeoLocation|
 field, ``location``. When points are lasso-ed in the plot, the corresponding
 samples are automatically selected in the session's current
-:meth:`view <fiftyone.core.session.Session.view>`. Likewise, whenever you
+:meth:`view <tensorgrid.core.session.Session.view>`. Likewise, whenever you
 modify the Session's view, either in the App or by programmatically setting
-:meth:`session.view <fiftyone.core.session.Session.view>`, the corresponding
+:meth:`session.view <tensorgrid.core.session.Session.view>`, the corresponding
 locations will be selected in the scatterplot.
 
 Each block in the example code below denotes a separate cell in a Jupyter
@@ -433,9 +433,9 @@ notebook:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.brain as fob
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.brain as fob
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-geo")
     fob.compute_uniqueness(dataset)
@@ -445,7 +445,7 @@ notebook:
 .. code-block:: python
     :linenos:
 
-    from fiftyone import ViewField as F
+    from tensorgrid import ViewField as F
 
     # Computes the number of ground truth objects in each sample
     num_objects = F("ground_truth.detections").length()
@@ -471,16 +471,16 @@ Regression plots
 ________________
 
 When you use evaluation methods such as
-:meth:`evaluate_regressions() <fiftyone.core.collections.SampleCollection.evaluate_regressions>`
+:meth:`evaluate_regressions() <tensorgrid.core.collections.SampleCollection.evaluate_regressions>`
 to evaluate model predictions, the regression plots that you can generate by
-calling the :meth:`plot_results() <fiftyone.utils.eval.regression.RegressionResults.plot_results>`
+calling the :meth:`plot_results() <tensorgrid.utils.eval.regression.RegressionResults.plot_results>`
 method are responsive plots that can be attached to App instances to
 interactively explore specific cases of your model's performance.
 
 .. note::
 
     See :ref:`this page <evaluating-regressions>` for an in-depth guide to using
-    FiftyOne to evaluate regression models.
+    TensorGrid to evaluate regression models.
 
 The example below demonstrates using an interactive regression plot to explore
 the results of some fake regression data on the
@@ -491,7 +491,7 @@ in the App.
 
 Likewise, whenever you modify the Session's view, either in the App or by
 programmatically setting
-:meth:`session.view <fiftyone.core.session.Session.view>`, the regression plot
+:meth:`session.view <tensorgrid.core.session.Session.view>`, the regression plot
 is automatically updated to select the scatter points that are included in the
 current view.
 
@@ -504,9 +504,9 @@ notebook:
     import random
     import numpy as np
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart").select_fields().clone()
 
@@ -549,7 +549,7 @@ notebook:
 Line plots
 __________
 
-You can use :func:`lines() <fiftyone.core.plots.base.lines>` to generate
+You can use :func:`lines() <tensorgrid.core.plots.base.lines>` to generate
 interactive line plots whose points represent data associated with the samples,
 frames, or labels of a dataset. These plots can then be attached to App
 instances to interactively explore specific slices of your dataset based on
@@ -567,9 +567,9 @@ notebook:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart-video").clone()
 
@@ -610,19 +610,19 @@ Confusion matrices
 __________________
 
 When you use evaluation methods such as
-:meth:`evaluate_classifications() <fiftyone.core.collections.SampleCollection.evaluate_classifications>`
+:meth:`evaluate_classifications() <tensorgrid.core.collections.SampleCollection.evaluate_classifications>`
 and
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`
 to evaluate model predictions, the confusion matrices that you can generate
 by calling the
-:meth:`plot_confusion_matrix() <fiftyone.utils.eval.classification.ClassificationResults.plot_confusion_matrix>`
+:meth:`plot_confusion_matrix() <tensorgrid.utils.eval.classification.ClassificationResults.plot_confusion_matrix>`
 method are responsive plots that can be attached to App instances to
 interactively explore specific cases of your model's performance.
 
 .. note::
 
     See :ref:`this page <evaluating-models>` for an in-depth guide to using
-    FiftyOne to evaluate models.
+    TensorGrid to evaluate models.
 
 The example below demonstrates using an interactive confusion matrix to explore
 the results of an evaluation on the ``predictions`` field of the
@@ -635,7 +635,7 @@ see the true positive examples of that class in the App.
 
 Likewise, whenever you modify the Session's view, either in the App or by
 programmatically setting
-:meth:`session.view <fiftyone.core.session.Session.view>`, the confusion matrix
+:meth:`session.view <tensorgrid.core.session.Session.view>`, the confusion matrix
 is automatically updated to show the cell counts for only those detections that
 are included in the current view.
 
@@ -645,9 +645,9 @@ notebook:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -674,7 +674,7 @@ notebook:
    :align: center
 
 When you pass an `eval_key` to
-:meth:`evaluate_detections() <fiftyone.core.collections.SampleCollection.evaluate_detections>`,
+:meth:`evaluate_detections() <tensorgrid.core.collections.SampleCollection.evaluate_detections>`,
 confusion matrices attached to App instances have a different default behavior:
 when you select cell(s), the corresponding
 :ref:`evaluation patches <evaluation-patches>` for the run are shown in the
@@ -711,7 +711,7 @@ View plots
 __________
 
 |ViewPlot| is a class of plots whose state is automatically updated whenever
-the current :meth:`session.view <fiftyone.core.session.Session.view>` changes.
+the current :meth:`session.view <tensorgrid.core.session.Session.view>` changes.
 
 Current varieties of view plots include |CategoricalHistogram|,
 |NumericalHistogram|, and |ViewGrid|.
@@ -720,12 +720,12 @@ Current varieties of view plots include |CategoricalHistogram|,
 
     New |ViewPlot| subclasses will be continually added over time, and it is
     also straightforward to implement your own custom view plots. Contributions
-    are welcome at https://github.com/voxel51/fiftyone!
+    are welcome at https://github.com/rksaklani/TensorGrid!
 
 The example below demonstrates the use of |ViewGrid| to construct a dashboard
 of histograms of various aspects of a dataset, which can then be attached to a
 |Session| in order to automatically see how the statistics change when the
-session's :meth:`view <fiftyone.core.session.Session.view>` is modified.
+session's :meth:`view <tensorgrid.core.session.Session.view>` is modified.
 
 Each block in the example code below denotes a separate cell in a Jupyter
 notebook:
@@ -733,9 +733,9 @@ notebook:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
     dataset.compute_metadata()
@@ -767,22 +767,22 @@ Attaching plots to the App
 __________________________
 
 All |Session| instances provide a
-:meth:`plots <fiftyone.core.session.Session.plots>` attribute that you can use
-to attach |ResponsivePlot| instances to the FiftyOne App.
+:meth:`plots <tensorgrid.core.session.Session.plots>` attribute that you can use
+to attach |ResponsivePlot| instances to the TensorGrid App.
 
 When |ResponsivePlot| instances are attached to a |Session|, they are
 automatically updated whenever
-:meth:`session.view <fiftyone.core.session.Session.view>` changes for any
+:meth:`session.view <tensorgrid.core.session.Session.view>` changes for any
 reason, whether you modify your view in the App, or programmatically change it
-by setting :meth:`session.view <fiftyone.core.session.Session.view>`, or if
+by setting :meth:`session.view <tensorgrid.core.session.Session.view>`, or if
 multiple plots are connected and another plot triggers a |Session| update!
 
 .. note::
 
     Interactive plots are currently only supported in Jupyter notebooks. In the
-    meantime, you can still use FiftyOne's plotting features in other
+    meantime, you can still use TensorGrid's plotting features in other
     environments, but you must manually call
-    :meth:`plot.show() <fiftyone.core.plots.base.Plot.show>` to update the
+    :meth:`plot.show() <tensorgrid.core.plots.base.Plot.show>` to update the
     state of a plot to match the state of a connected |Session|, and any
     callbacks that would normally be triggered in response to interacting with
     a plot will not be triggered.
@@ -798,8 +798,8 @@ to a |Session|:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-geo")
 
@@ -829,11 +829,11 @@ You can view details about the plots attached to a |Session| by printing it:
     Selected labels:  0
     Session URL:      http://localhost:5151/
     Connected plots:
-        plot1: fiftyone.core.plots.plotly.InteractiveScatter
+        plot1: tensorgrid.core.plots.plotly.InteractiveScatter
 
 By default, plots are given sequential names ``plot1``, ``plot2``, etc., but
 you can customize their names via the optional ``name`` parameter of
-:meth:`session.plots.attach() <fiftyone.core.plots.manager.PlotManager.attach>`.
+:meth:`session.plots.attach() <tensorgrid.core.plots.manager.PlotManager.attach>`.
 
 You can retrieve a |ResponsivePlot| instance from its connected session by its
 name:
@@ -850,7 +850,7 @@ Connecting and disconnecting plots
 By default, when plots are attached to a |Session|, they are *connected*, which
 means that any necessary state updates will happen automatically. If you wish
 to temporarily suspend updates for an individual plot, you can use
-:meth:`plot.disconnect() <fiftyone.core.plots.base.ResponsivePlot.disconnect>`:
+:meth:`plot.disconnect() <tensorgrid.core.plots.base.ResponsivePlot.disconnect>`:
 
 .. code-block:: python
     :linenos:
@@ -871,10 +871,10 @@ to temporarily suspend updates for an individual plot, you can use
     Selected labels:  0
     Session URL:      http://localhost:5151/
     Disconnected plots:
-        plot1: fiftyone.core.plots.plotly.InteractiveScatter
+        plot1: tensorgrid.core.plots.plotly.InteractiveScatter
 
 You can reconnect a plot by calling
-:meth:`plot.connect() <fiftyone.core.plots.base.ResponsivePlot.connect>`:
+:meth:`plot.connect() <tensorgrid.core.plots.base.ResponsivePlot.connect>`:
 
 .. code-block:: python
     :linenos:
@@ -894,21 +894,21 @@ You can reconnect a plot by calling
     Selected labels:  0
     Session URL:      http://localhost:5151/
     Connected plots:
-        plot1: fiftyone.core.plots.plotly.InteractiveScatter
+        plot1: tensorgrid.core.plots.plotly.InteractiveScatter
 
 You can disconnect and reconnect all plots currently attached to a |Session|
 via
-:meth:`session.plots.disconnect() <fiftyone.core.plots.manager.PlotManager.disconnect>`
+:meth:`session.plots.disconnect() <tensorgrid.core.plots.manager.PlotManager.disconnect>`
 and
-:meth:`session.plots.connect() <fiftyone.core.plots.manager.PlotManager.connect>`,
+:meth:`session.plots.connect() <tensorgrid.core.plots.manager.PlotManager.connect>`,
 respectively.
 
 Detaching plots
 ---------------
 
 If you would like to permanently detach a plot from a |Session|, use
-:meth:`session.plots.pop() <fiftyone.core.plots.manager.PlotManager.pop>` or
-:meth:`session.plots.remove() <fiftyone.core.plots.manager.PlotManager.remove>`:
+:meth:`session.plots.pop() <tensorgrid.core.plots.manager.PlotManager.pop>` or
+:meth:`session.plots.remove() <tensorgrid.core.plots.manager.PlotManager.remove>`:
 
 .. code-block:: python
     :linenos:
@@ -939,7 +939,7 @@ them to rerun all of the cells to reproduce your results, you may want to
 
 You can conveniently freeze your currently active App instance and any attached
 plots by calling
-:meth:`session.freeze() <fiftyone.core.session.Session.freeze>`:
+:meth:`session.freeze() <tensorgrid.core.session.Session.freeze>`:
 
 .. code-block:: python
     :linenos:
@@ -952,7 +952,7 @@ will be replaced by static images that will be visible when you save + reopen
 your notebook later.
 
 You can also freeze an individual plot by calling
-:meth:`plot.freeze() <fiftyone.core.plots.base.ResponsivePlot.freeze>`:
+:meth:`plot.freeze() <tensorgrid.core.plots.base.ResponsivePlot.freeze>`:
 
 .. code-block:: python
     :linenos:
@@ -965,8 +965,8 @@ cells in which they were defined and shown.
 
 .. note::
 
-    :meth:`session.freeze() <fiftyone.core.session.Session.freeze>` and
-    :meth:`plot.freeze() <fiftyone.core.plots.base.ResponsivePlot.freeze>` are
+    :meth:`session.freeze() <tensorgrid.core.session.Session.freeze>` and
+    :meth:`plot.freeze() <tensorgrid.core.plots.base.ResponsivePlot.freeze>` are
     only applicable when working in notebook contexts.
 
 .. _saving-plots:
@@ -974,11 +974,11 @@ cells in which they were defined and shown.
 Saving plots
 ____________
 
-You can use :meth:`plot.save() <fiftyone.core.plots.base.Plot.save>` to save
+You can use :meth:`plot.save() <tensorgrid.core.plots.base.Plot.save>` to save
 any |InteractivePlot| or |ViewPlot| as a static image or HTML.
 
 Consult the documentation of your plot's
-:meth:`save() <fiftyone.core.plots.base.Plot.save>` method for details on
+:meth:`save() <tensorgrid.core.plots.base.Plot.save>` method for details on
 configuring the export.
 
 For example, you can save a :ref:`histogram view plot <view-plots>`:
@@ -986,8 +986,8 @@ For example, you can save a :ref:`histogram view plot <view-plots>`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1010,7 +1010,7 @@ Or you can save an :ref:`embedding scatterplot <embeddings-plots>`:
 .. code-block:: python
     :linenos:
 
-    import fiftyone.brain as fob
+    import tensorgrid.brain as fob
 
     results = fob.compute_visualization(dataset)
 
@@ -1050,16 +1050,16 @@ ______________
 Customizing plot layouts
 ------------------------
 
-The :meth:`plot.show() <fiftyone.core.plots.base.Plot.show>` method used to
-display plots in FiftyOne supports optional keyword arguments that you can use
+The :meth:`plot.show() <tensorgrid.core.plots.base.Plot.show>` method used to
+display plots in TensorGrid supports optional keyword arguments that you can use
 to customize the look-and-feel of plots.
 
 In general, consult the documentation of the relevant
-:meth:`plot.show() <fiftyone.core.plots.base.Plot.show>` method for details on
+:meth:`plot.show() <tensorgrid.core.plots.base.Plot.show>` method for details on
 the supported parameters.
 
 If you are using the default :ref:`plotly backend <plotting-backend>`,
-:meth:`plot.show() <fiftyone.core.plots.base.Plot.show>` will accept any valid
+:meth:`plot.show() <tensorgrid.core.plots.base.Plot.show>` will accept any valid
 keyword arguments for :meth:`plotly:plotly.graph_objects.Figure.update_layout`.
 
 The examples below demonstrate some common layout customizations that you may
@@ -1094,12 +1094,12 @@ may wish to see the samples containing the objects but with all other labels
 also visible.
 
 You can use the
-:meth:`selection_mode <fiftyone.core.plots.base.InteractivePlot.selection_mode>`
+:meth:`selection_mode <tensorgrid.core.plots.base.InteractivePlot.selection_mode>`
 property of |InteractivePlot| instances to change the behavior of App updates
 when selections are made in :ref:`connected plots <attaching-plots>`.
 
 When a plot is linked to frames, the available
-:meth:`selection_mode <fiftyone.core.plots.base.InteractivePlot.selection_mode>`
+:meth:`selection_mode <tensorgrid.core.plots.base.InteractivePlot.selection_mode>`
 options are:
 
 -   `"select"` (*default*): show video samples with labels only for the
@@ -1109,7 +1109,7 @@ options are:
 -   `"frames"`: show only the selected frames in a frames view
 
 When a plot is linked to labels, the available
-:meth:`selection_mode <fiftyone.core.plots.base.InteractivePlot.selection_mode>`
+:meth:`selection_mode <tensorgrid.core.plots.base.InteractivePlot.selection_mode>`
 options are:
 
 -   `"patches"` (*default*): show the selected labels in a patches view
@@ -1125,9 +1125,9 @@ code blocks below in Jupyter notebook cells to see this:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1150,7 +1150,7 @@ code blocks below in Jupyter notebook cells to see this:
     session.plots.attach(plot, name="eval")
 
 However, you can change this behavior by updating the
-:meth:`selection_mode <fiftyone.core.plots.base.InteractivePlot.selection_mode>`
+:meth:`selection_mode <tensorgrid.core.plots.base.InteractivePlot.selection_mode>`
 property of the plot like so:
 
 .. code-block:: python
@@ -1179,7 +1179,7 @@ show the corresponding objects in the App as a
 .. code-block:: python
     :linenos:
 
-    import fiftyone.brain as fob
+    import tensorgrid.brain as fob
 
     results = fob.compute_visualization(
         dataset, patches_field="ground_truth", brain_key="gt_viz"
@@ -1200,7 +1200,7 @@ show the corresponding objects in the App as a
     session.plots.attach(plot, name="gt_viz")
 
 However, you can change this behavior by updating the
-:meth:`selection_mode <fiftyone.core.plots.base.InteractivePlot.selection_mode>`
+:meth:`selection_mode <tensorgrid.core.plots.base.InteractivePlot.selection_mode>`
 property of the plot:
 
 .. code-block:: python
@@ -1218,7 +1218,7 @@ property of the plot:
 .. note::
 
     The App will immediately update when you set the
-    :meth:`selection_mode <fiftyone.core.plots.base.InteractivePlot.selection_mode>`
+    :meth:`selection_mode <tensorgrid.core.plots.base.InteractivePlot.selection_mode>`
     property of an |InteractivePlot| connected to the App.
 
 .. _plotting-backend:
@@ -1226,7 +1226,7 @@ property of the plot:
 Plotting backend
 ----------------
 
-Most plotting methods in the :meth:`fiftyone.core.plots` module provide an
+Most plotting methods in the :meth:`tensorgrid.core.plots` module provide an
 optional ``backend`` parameter that you can use to control the plotting backend
 used to render plots.
 
@@ -1241,9 +1241,9 @@ matplotlib-powered plot types support interactivity, but you must
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
     results = dataset.evaluate_detections("predictions", gt_field="ground_truth")
@@ -1284,7 +1284,7 @@ Interactive matplotlib plots
 ----------------------------
 
 If you are using the :ref:`matplotlib backend <plotting-backend>`, many
-FiftyOne plots still support interactivity in notebooks, but you must enable
+TensorGrid plots still support interactivity in notebooks, but you must enable
 this behavior by running the appropriate magic command in your notebook
 *before* you generate your first plot.
 

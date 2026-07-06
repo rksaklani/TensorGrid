@@ -6,11 +6,11 @@ Developing Tools & Skills
 
 .. default-role:: code
 
-There are two ways to extend what agents can do in FiftyOne:
+There are two ways to extend what agents can do in TensorGrid:
 
-- **Operators**: write a :ref:`FiftyOne operator <developing-operators>` and it becomes immediately
+- **Operators**: write a :ref:`TensorGrid operator <developing-operators>` and it becomes immediately
   callable by any agent through the MCP server, no extra wiring required
-- **Skills**: write a :ref:`FiftyOne skill <developing-skills-authoring>` that teaches the agent *when* and *how* to execute a sequence of code/operator invocations to achieve a specific higher-level task
+- **Skills**: write a :ref:`TensorGrid skill <developing-skills-authoring>` that teaches the agent *when* and *how* to execute a sequence of code/operator invocations to achieve a specific higher-level task
 
 Together, an operator handles the execution and a skill provides the guidance.
 You can ship both in the same :ref:`plugin <developing-plugins>`.
@@ -20,7 +20,7 @@ You can ship both in the same :ref:`plugin <developing-plugins>`.
 Operators as Agent Tools
 ________________________
 
-Any operator you register in a :ref:`FiftyOne plugin <developing-plugins>` is automatically available to
+Any operator you register in a :ref:`TensorGrid plugin <developing-plugins>` is automatically available to
 agents. When an agent connects via the MCP server it can:
 
 1. Call ``list_operators`` to discover all installed operators
@@ -33,9 +33,9 @@ Here is a minimal operator that filters samples by confidence:
 
 .. code-block:: python
 
-    import fiftyone.operators as foo
-    from fiftyone.operators import types
-    from fiftyone import ViewField as F
+    import tensorgrid.operators as foo
+    from tensorgrid.operators import types
+    from tensorgrid import ViewField as F
 
     class ShowHighConfidence(foo.Operator):
         @property
@@ -110,7 +110,7 @@ to follow.
     What this skill does in one paragraph.
 
     # Prerequisites
-    - FiftyOne installed
+    - TensorGrid installed
     - MCP server configured (if interacting with live datasets)
 
     # Key Directives
@@ -128,7 +128,7 @@ to follow.
     The ``description`` field is the most important: it determines when the
     agent decides to invoke this skill. Make it specific and action-oriented:
     *"Import a dataset from local disk, Hugging Face Hub, or cloud storage into
-    FiftyOne"* is better than *"import data"*.
+    TensorGrid"* is better than *"import data"*.
 
 .. _developing-skills-from-plugins:
 
@@ -136,7 +136,7 @@ Skills from Plugins
 ___________________
 
 The cleanest way to ship an operator and its skill together is to declare the
-skill in your plugin's :ref:`fiftyone.yml <plugin-fiftyone-yml>`:
+skill in your plugin's :ref:`tensorgrid.yml <plugin-fiftyone-yml>`:
 
 .. code-block:: yaml
 
@@ -150,14 +150,14 @@ skill in your plugin's :ref:`fiftyone.yml <plugin-fiftyone-yml>`:
 .. note::
 
     The name declared under ``skills:`` must match the ``name`` field in the
-    corresponding skill's YAML frontmatter. FiftyOne resolves skills by
+    corresponding skill's YAML frontmatter. TensorGrid resolves skills by
     scanning the plugin's ``skills/`` directory and matching on that field.
 
 When a user installs your plugin, the skill is available automatically. The
 agent can discover the operator via MCP *and* has structured guidance on how
 to use it, without any manual setup on the user's side.
 
-This is how the FiftyOne plugin ecosystem becomes an agent capability
+This is how the TensorGrid plugin ecosystem becomes an agent capability
 ecosystem: every plugin that ships a skill extends what agents can do out
 of the box.
 
@@ -173,7 +173,7 @@ ____________________
     workflow are better kept in your own plugin.
 
 To add a skill to the `voxel51/fiftyone-skills
-<https://github.com/voxel51/fiftyone-skills>`_ repository:
+<https://github.com/rksaklani/TensorGrid-skills>`_ repository:
 
 1. **Fork** the repository
 2. **Copy** an existing skill folder as a starting point (e.g., ``skills/fiftyone-find-duplicates/``)
@@ -193,11 +193,11 @@ _________
 
    * - Resource
      - Description
-   * - `FiftyOne Skills <https://github.com/voxel51/fiftyone-skills>`_
+   * - `TensorGrid Skills <https://github.com/rksaklani/TensorGrid-skills>`_
      - Skills repository and contributing guide
    * - :ref:`Developing plugins <developing-plugins>`
      - Full operator and panel API reference
-   * - `FiftyOne MCP Server <https://github.com/voxel51/fiftyone-mcp-server>`_
+   * - `TensorGrid MCP Server <https://github.com/rksaklani/TensorGrid-mcp-server>`_
      - MCP server for AI integration
    * - `Agent Skills Spec <https://agentskills.io>`_
      - SKILL.md format specification

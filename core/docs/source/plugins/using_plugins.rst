@@ -35,13 +35,13 @@ You can download plugins using any of the methods described below:
     .. code-block:: shell
 
         # Download plugin(s) from a GitHub repository
-        fiftyone plugins download https://github.com/<user>/<repo>[/tree/branch]
+        tensorgrid plugins download https://github.com/<user>/<repo>[/tree/branch]
 
         # Download plugin(s) by specifying the GitHub repository details
-        fiftyone plugins download <user>/<repo>[/<ref>]
+        tensorgrid plugins download <user>/<repo>[/<ref>]
 
         # Download specific plugins from a GitHub repository
-        fiftyone plugins download \
+        tensorgrid plugins download \
             https://github.com/<user>/<repo>[/tree/branch] \
             --plugin-names <name1> <name2> <name3>
 
@@ -50,7 +50,7 @@ You can download plugins using any of the methods described below:
     .. code-block:: python
         :linenos:
 
-        import fiftyone.plugins as fop
+        import tensorgrid.plugins as fop
 
         # Download plugin(s) from a GitHub repository
         fop.download_plugin("https://github.com/<user>/<repo>[/tree/branch]")
@@ -85,7 +85,7 @@ ______________________
 
 All plugins must be stored and are automatically
 :ref:`downloaded to <plugins-download>` your plugins directory in order for
-FiftyOne to find them.
+TensorGrid to find them.
 
 By default, plugins are downloaded to `~/fiftyone/__plugins__`, but you can
 customize this directory by setting the `FIFTYONE_PLUGINS_DIR` environment
@@ -96,7 +96,7 @@ variable:
     export FIFTYONE_PLUGINS_DIR=/path/to/your/plugins
 
 You can also permanently configure this directory by adding it to your
-:ref:`FiftyOne config <configuring-fiftyone>`.
+:ref:`TensorGrid config <configuring-fiftyone>`.
 
 .. code-block:: json
 
@@ -108,42 +108,42 @@ You can locate your current plugins directory by running the following command:
 
 .. code-block:: shell
 
-    fiftyone config plugins_dir
+    tensorgrid config plugins_dir
     # ~/fiftyone/__plugins__
 
 .. note::
 
-    Your plugins directory must be readable by the FiftyOne server.
+    Your plugins directory must be readable by the TensorGrid server.
 
 .. _plugins-managing:
 
 Managing plugins
 ________________
 
-You can use the :ref:`fiftyone plugins <cli-fiftyone-plugins>` and
-:ref:`fiftyone operators <cli-fiftyone-operators>` CLI methods to perform a
+You can use the :ref:`tensorgrid plugins <cli-fiftyone-plugins>` and
+:ref:`tensorgrid operators <cli-fiftyone-operators>` CLI methods to perform a
 variety of plugin-related actions.
 
 Listing plugins
 ---------------
 
-You can use the :ref:`fiftyone plugins list <cli-fiftyone-plugins-list>`
+You can use the :ref:`tensorgrid plugins list <cli-fiftyone-plugins-list>`
 command to list the plugins that you've downloaded or created locally:
 
 .. code-block:: shell
 
     # List all locally available plugins
-    fiftyone plugins list
+    tensorgrid plugins list
 
 .. code-block:: shell
 
     # List enabled plugins
-    fiftyone plugins list --enabled
+    tensorgrid plugins list --enabled
 
 .. code-block:: shell
 
     # List disabled plugins
-    fiftyone plugins list --disabled
+    tensorgrid plugins list --disabled
 
 .. code-block:: text
 
@@ -161,29 +161,29 @@ command to list the plugins that you've downloaded or created locally:
 Listing operators
 -----------------
 
-You can use the :ref:`fiftyone operators list <cli-fiftyone-operators-list>`
+You can use the :ref:`tensorgrid operators list <cli-fiftyone-operators-list>`
 command to list the individual operators and panels within the plugins that
 you've installed locally:
 
 .. code-block:: shell
 
     # List all available operators and panels
-    fiftyone operators list
+    tensorgrid operators list
 
 .. code-block:: shell
 
     # List enabled operators and panels
-    fiftyone operators list --enabled
+    tensorgrid operators list --enabled
 
 .. code-block:: shell
 
     # List disabled operators and panels
-    fiftyone operators list --disabled
+    tensorgrid operators list --disabled
 
 .. code-block:: shell
 
     # Only list panels
-    fiftyone operators list --panels-only
+    tensorgrid operators list --panels-only
 
 .. code-block:: text
 
@@ -236,23 +236,23 @@ Downloading plugins
 -------------------
 
 You can use the
-:ref:`fiftyone plugins download <cli-fiftyone-plugins-download>` command to
+:ref:`tensorgrid plugins download <cli-fiftyone-plugins-download>` command to
 list the plugins that you've downloaded or created locally:
 
 .. code-block:: shell
 
     # Download plugins from a GitHub repository URL
-    fiftyone plugins download <github-repo-url>
+    tensorgrid plugins download <github-repo-url>
 
 .. code-block:: shell
 
     # Download plugins by specifying the GitHub repository details
-    fiftyone plugins download <user>/<repo>[/<ref>]
+    tensorgrid plugins download <user>/<repo>[/<ref>]
 
 .. code-block:: shell
 
     # Download specific plugins from a URL with a custom search depth
-    fiftyone plugins download \
+    tensorgrid plugins download \
         <url> \
         --plugin-names <name1> <name2> <name3> \
         --max-depth 2  # search nested directories for plugins
@@ -261,12 +261,12 @@ Getting plugin info
 -------------------
 
 You can use the
-:ref:`fiftyone plugins info <cli-fiftyone-plugins-info>` command to view the
+:ref:`tensorgrid plugins info <cli-fiftyone-plugins-info>` command to view the
 available metadata about a plugin:
 
 .. code-block:: shell
 
-    fiftyone plugins info @voxel51/annotation
+    tensorgrid plugins info @voxel51/annotation
 
 .. code-block:: text
 
@@ -275,9 +275,9 @@ available metadata about a plugin:
     name                    @voxel51/annotation
     author
     version                 1.0.0
-    url                     https://github.com/voxel51/fiftyone-plugins/.../annotation/README.md
+    url                     https://github.com/rksaklani/TensorGrid-plugins/.../annotation/README.md
     license                 Apache 2.0
-    description             Utilities for integrating FiftyOne with annotation tools
+    description             Utilities for integrating TensorGrid with annotation tools
     fiftyone_compatibility  >=0.22
     operators               request_annotations
                             load_annotations
@@ -305,13 +305,13 @@ available metadata about a plugin:
 Getting operator info
 ---------------------
 
-You can use the :ref:`fiftyone operators info <cli-fiftyone-operators-info>` to
+You can use the :ref:`tensorgrid operators info <cli-fiftyone-operators-info>` to
 view the available metadata about an individual operator or panel within a
 plugin:
 
 .. code-block:: shell
 
-    fiftyone operators info @voxel51/io/import_samples
+    tensorgrid operators info @voxel51/io/import_samples
 
 .. code-block:: text
 
@@ -339,53 +339,53 @@ Installing plugin requirements
 ------------------------------
 
 You can use the
-:ref:`fiftyone plugins requirements <cli-fiftyone-plugins-requirements>`
+:ref:`tensorgrid plugins requirements <cli-fiftyone-plugins-requirements>`
 command to view, install, and ensure installation of a plugin's requirements:
 
 .. code-block:: shell
 
     # Print requirements for a plugin
-    fiftyone plugins requirements <name> --print
+    tensorgrid plugins requirements <name> --print
 
 .. code-block:: shell
 
     # Install any requirements for the plugin
-    fiftyone plugins requirements <name> --install
+    tensorgrid plugins requirements <name> --install
 
 .. code-block:: shell
 
     # Ensures that the requirements for the plugin are satisfied
-    fiftyone plugins requirements <name> --ensure
+    tensorgrid plugins requirements <name> --ensure
 
 Enabling and disabling plugins
 ------------------------------
 
 You can use the
-:ref:`fiftyone plugins enable <cli-fiftyone-plugins-enable>` and
-:ref:`fiftyone plugins disable <cli-fiftyone-plugins-disable>` commands to
+:ref:`tensorgrid plugins enable <cli-fiftyone-plugins-enable>` and
+:ref:`tensorgrid plugins disable <cli-fiftyone-plugins-disable>` commands to
 enable and disable plugins that you've downloaded:
 
 .. code-block:: shell
 
     # Enable a plugin
-    fiftyone plugins enable <name>
+    tensorgrid plugins enable <name>
 
     # Enable multiple plugins
-    fiftyone plugins enable <name1> <name2> ...
+    tensorgrid plugins enable <name1> <name2> ...
 
     # Enable all plugins
-    fiftyone plugins enable --all
+    tensorgrid plugins enable --all
 
 .. code-block:: shell
 
     # Disable a plugin
-    fiftyone plugins disable <name>
+    tensorgrid plugins disable <name>
 
     # Disable multiple plugins
-    fiftyone plugins disable <name1> <name2> ...
+    tensorgrid plugins disable <name1> <name2> ...
 
     # Disable all plugins
-    fiftyone plugins disable --all
+    tensorgrid plugins disable --all
 
 .. note::
 
@@ -397,8 +397,8 @@ Plugin disablement is stored as an `enabled: false` entry in the plugin's
 
 .. code-block:: shell
 
-    fiftyone plugins disable @voxel51/zoo
-    fiftyone app config plugins
+    tensorgrid plugins disable @voxel51/zoo
+    tensorgrid app config plugins
 
 .. code-block:: text
 
@@ -416,23 +416,23 @@ Deleting plugins
 ----------------
 
 You can use the
-:ref:`fiftyone plugins delete <cli-fiftyone-plugins-delete>` command to delete
+:ref:`tensorgrid plugins delete <cli-fiftyone-plugins-delete>` command to delete
 plugins from your local machine.
 
 .. code-block:: shell
 
     # Delete a plugin from local disk
-    fiftyone plugins delete <name>
+    tensorgrid plugins delete <name>
 
 .. code-block:: shell
 
     # Delete multiple plugins from local disk
-    fiftyone plugins delete <name1> <name2> ...
+    tensorgrid plugins delete <name1> <name2> ...
 
 .. code-block:: shell
 
     # Delete all plugins from local disk
-    fiftyone plugins delete --all
+    tensorgrid plugins delete --all
 
 .. _plugins-configuration:
 
@@ -456,10 +456,10 @@ ______________
 
 Some plugins may require sensitive information such as API tokens and login
 credentials in order to function. Any secrets that a plugin requires are
-documented under the `secrets` key of its `fiftyone.yml` file.
+documented under the `secrets` key of its `tensorgrid.yml` file.
 
 For example, the
-`@voxel51/annotation <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/annotation/fiftyone.yml>`_
+`@voxel51/annotation <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/annotation/tensorgrid.yml>`_
 plugin declares the following secrets:
 
 .. code-block:: yaml
@@ -477,14 +477,14 @@ plugin declares the following secrets:
 
 .. note::
 
-    You can use the :ref:`fiftyone plugins info <cli-fiftyone-plugins-info>`
+    You can use the :ref:`tensorgrid plugins info <cli-fiftyone-plugins-info>`
     CLI command to print information about a plugin, including its required
     secrets.
 
 As the naming convention implies, any necessary secrets are provided by setting
 environment variables with the appropriate names. For example, if you want to
 use the CVAT backend with the
-`@voxel51/annotation <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/annotation/fiftyone.yml>`_
+`@voxel51/annotation <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/annotation/tensorgrid.yml>`_
 plugin, you would set:
 
 .. code-block:: shell
@@ -517,7 +517,7 @@ Panels are miniature full-featured data applications that you can open in
 dataset and update/respond to updates from other spaces that are currently open
 in the App.
 
-FiftyOne natively includes the following Panels:
+TensorGrid natively includes the following Panels:
 
 -   :ref:`Samples panel <app-samples-panel>`: the media grid that loads by
     default when you launch the App
@@ -545,7 +545,7 @@ Click the `+` icon next to the "Samples" tab to open a new panel:
 Using operators
 _______________
 
-Operators are a powerful feature in FiftyOne that allow plugin developers to
+Operators are a powerful feature in TensorGrid that allow plugin developers to
 define custom operations that can be executed from within the App.
 
 Some operators may expose themselves as custom buttons, icons, or menu items
@@ -584,15 +584,15 @@ should implement `__call__()` so that users have a well-documented interface
 for invoking the operator as a function.
 
 For example, the
-`@voxel51/utils/compute_metadata <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/utils>`_
+`@voxel51/utils/compute_metadata <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/utils>`_
 operator can be invoked like so:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.operators as foo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.operators as foo
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     compute_metadata = foo.get_operator("@voxel51/utils/compute_metadata")
@@ -602,7 +602,7 @@ operator can be invoked like so:
 
 .. note::
 
-    Notice that :func:`get_operator() <fiftyone.operators.get_operator>` is
+    Notice that :func:`get_operator() <tensorgrid.operators.get_operator>` is
     used to retrieve the operator by its URI.
 
 Behind the scenes, the operator's `__call__()` method is implemented as
@@ -627,13 +627,13 @@ follows:
 
 which simply packages up the provided keyword arguments into the correct format
 for the operator's `ctx.params` and then passes them to
-:func:`execute_operator() <fiftyone.operators.execute_operator>`, which
+:func:`execute_operator() <tensorgrid.operators.execute_operator>`, which
 performs the execution.
 
 For operators whose
-:meth:`execute() <fiftyone.operators.operator.Operator.execute>` method returns
+:meth:`execute() <tensorgrid.operators.operator.Operator.execute>` method returns
 data, you can access it via the ``result`` property of the returned
-:class:`ExecutionResult <fiftyone.operators.executor.ExecutionResult>` object:
+:class:`ExecutionResult <tensorgrid.operators.executor.ExecutionResult>` object:
 
 .. code-block:: python
     :linenos:
@@ -647,7 +647,7 @@ data, you can access it via the ``result`` property of the returned
 
     When working in notebook contexts, executing operators returns an
     ``asyncio.Task`` that you can ``await`` to retrieve the
-    :class:`ExecutionResult <fiftyone.operators.executor.ExecutionResult>`:
+    :class:`ExecutionResult <tensorgrid.operators.executor.ExecutionResult>`:
 
     .. code-block:: python
 
@@ -662,10 +662,10 @@ Requesting delegation
 Operators that support :ref:`delegated execution <delegated-operations>` can
 support this via the `__call__()` syntax by passing the
 `request_delegation=True` flag to
-:func:`execute_operator() <fiftyone.operators.execute_operator>`.
+:func:`execute_operator() <tensorgrid.operators.execute_operator>`.
 
 In fact, the
-`@voxel51/utils/compute_metadata <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/utils>`_
+`@voxel51/utils/compute_metadata <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/utils>`_
 operator does just that:
 
 .. code-block:: python
@@ -713,14 +713,14 @@ Direct execution
 ----------------
 
 You can programmatically execute any operator by directly calling
-:func:`execute_operator() <fiftyone.operators.execute_operator>`:
+:func:`execute_operator() <tensorgrid.operators.execute_operator>`:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.operators as foo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.operators as foo
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -739,15 +739,15 @@ You can programmatically execute any operator by directly calling
 .. note::
 
     In general, to use
-    :func:`execute_operator() <fiftyone.operators.execute_operator>` you must
+    :func:`execute_operator() <tensorgrid.operators.execute_operator>` you must
     inspect the operator's
-    :meth:`execute() <fiftyone.operators.operator.Operator.execute>`
+    :meth:`execute() <tensorgrid.operators.operator.Operator.execute>`
     implementation to understand what parameters are required.
 
 For operators whose
-:meth:`execute() <fiftyone.operators.operator.Operator.execute>` method returns
+:meth:`execute() <tensorgrid.operators.operator.Operator.execute>` method returns
 data, you can access it via the ``result`` property of the returned
-:class:`ExecutionResult <fiftyone.operators.executor.ExecutionResult>` object:
+:class:`ExecutionResult <tensorgrid.operators.executor.ExecutionResult>` object:
 
 .. code-block:: python
     :linenos:
@@ -759,7 +759,7 @@ data, you can access it via the ``result`` property of the returned
 
     When working in notebook contexts, executing operators returns an
     ``asyncio.Task`` that you can ``await`` to retrieve the
-    :class:`ExecutionResult <fiftyone.operators.executor.ExecutionResult>`:
+    :class:`ExecutionResult <tensorgrid.operators.executor.ExecutionResult>`:
 
     .. code-block:: python
 
@@ -773,7 +773,7 @@ If an operation supports both immediate and
 :ref:`delegated execution <delegated-operations>` as specified by its
 :ref:`execution options <operator-execution-options>`, you can request
 delegated execution by passing the `request_delegation=True` flag to
-:func:`execute_operator() <fiftyone.operators.execute_operator>`:
+:func:`execute_operator() <tensorgrid.operators.execute_operator>`:
 
 .. code-block:: python
     :linenos:
@@ -788,7 +788,7 @@ operator's input modal when executing it from within the App:
 
 .. note::
 
-    :ref:`FiftyOne Enterprise <fiftyone-enterprise>` users can also specify an optional
+    :ref:`TensorGrid Enterprise <fiftyone-enterprise>` users can also specify an optional
     delegation target for their delegated operations:
 
     .. code-block:: python
@@ -806,7 +806,7 @@ Delegating function calls
 -------------------------
 
 The
-`@voxel51/utils/delegate <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/utils>`_
+`@voxel51/utils/delegate <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/utils>`_
 operator provides a general purpose utility for
 :ref:`delegating execution <delegated-operations>` of an arbitrary function
 call that can be expressed in any of the following forms:
@@ -823,9 +823,9 @@ above forms:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.operators as foo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.operators as foo
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     delegate = foo.get_operator("@voxel51/utils/delegate")
@@ -835,7 +835,7 @@ above forms:
 
     # Compute visualization
     delegate(
-        "fiftyone.brain.compute_visualization",
+        "tensorgrid.brain.compute_visualization",
         dataset=dataset,
         brain_key="img_viz",
     )
@@ -845,15 +845,15 @@ above forms:
         "export",
         view=dataset.to_patches("ground_truth"),
         export_dir="/tmp/patches",
-        dataset_type="fiftyone.types.ImageClassificationDirectoryTree",
+        dataset_type="tensorgrid.types.ImageClassificationDirectoryTree",
         label_field="ground_truth",
     )
 
     # Load the exported patches into a new dataset
     delegate(
-        "fiftyone.Dataset.from_dir",
+        "tensorgrid.Dataset.from_dir",
         dataset_dir="/tmp/patches",
-        dataset_type="fiftyone.types.ImageClassificationDirectoryTree",
+        dataset_type="tensorgrid.types.ImageClassificationDirectoryTree",
         label_field="ground_truth",
         name="patches",
         persistent=True,
@@ -864,35 +864,35 @@ above forms:
 Delegated operations
 ____________________
 
-Delegated operations are a powerful feature of FiftyOne's plugin framework that
+Delegated operations are a powerful feature of TensorGrid's plugin framework that
 allows you to schedule potentially long-running tasks from within the App that
 are executed in the background while you continue to work.
 
 .. note::
 
-    :ref:`FiftyOne Enterprise <enterprise-delegated-operations>` deployments
+    :ref:`TensorGrid Enterprise <enterprise-delegated-operations>` deployments
     come out of the box with a connected compute cluster for executing
     delegated operations at scale.
 
-    In FiftyOne Open Source, you can use delegated operations at small scale
+    In TensorGrid Open Source, you can use delegated operations at small scale
     by :ref:`running them locally <delegated-orchestrator-open-source>`.
 
 For example, have model predictions on your dataset that you want to evaluate?
-The `@voxel51/evaluation <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/evaluation/README.md>`_
+The `@voxel51/evaluation <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/evaluation/README.md>`_
 plugin makes it easy:
 
 .. image:: /images/plugins/operators/examples/evaluation.gif
 
 Need to compute embedding for your dataset so you can visualize them in the
 :ref:`Embeddings panel <app-embeddings-panel>`? Kick off the task with the
-`@voxel51/brain <https://github.com/voxel51/fiftyone-plugins/blob/main/plugins/brain/README.md>`_
+`@voxel51/brain <https://github.com/rksaklani/TensorGrid-plugins/blob/main/plugins/brain/README.md>`_
 plugin and proceed with other work while the execution happens in the background:
 
 .. image:: /images/plugins/operators/examples/embeddings.gif
 
 Why is this awesome? Your AI stack needs a flexible data-centric component that
 enables you to organize and compute on your data. With delegated operations,
-FiftyOne becomes both a dataset management/visualization tool and a workflow
+TensorGrid becomes both a dataset management/visualization tool and a workflow
 automation tool that defines how your data-centric workflows like ingestion,
 curation, and evaluation are performed.
 
@@ -900,11 +900,11 @@ curation, and evaluation are performed.
 
     Want to run delegated operations at scale?
     `Contact us <https://voxel51.com/talk-to-sales>`_ about
-    :ref:`FiftyOne Enterprise <fiftyone-enterprise>`, an open source-compatible
-    enterprise deployment of FiftyOne with multiuser collaboration features,
+    :ref:`TensorGrid Enterprise <fiftyone-enterprise>`, an open source-compatible
+    enterprise deployment of TensorGrid with multiuser collaboration features,
     native cloud dataset support, and much more!
 
-    Think of FiftyOne Enterprise as the single source of truth on which you
+    Think of TensorGrid Enterprise as the single source of truth on which you
     co-develop your data and models together 📈
 
 .. _delegated-orchestrator:
@@ -914,15 +914,15 @@ __________________________
 
 .. _delegated-orchestrator-open-source:
 
-FiftyOne Open Source
+TensorGrid Open Source
 --------------------
 
-FiftyOne Open Source users can run delegated operations via the
-:ref:`fiftyone delegated launch <cli-fiftyone-delegated-launch>` CLI command:
+TensorGrid Open Source users can run delegated operations via the
+:ref:`tensorgrid delegated launch <cli-fiftyone-delegated-launch>` CLI command:
 
 .. code-block:: shell
 
-    fiftyone delegated launch
+    tensorgrid delegated launch
 
 This command starts a service that will continuously check for any queued
 delegated operations and execute them serially in its process.
@@ -937,10 +937,10 @@ in the environment where you run the App/SDK, e.g. by setting:
 
 .. _delegated-orchestrator-enterprise:
 
-FiftyOne Enterprise
+TensorGrid Enterprise
 -------------------
 
-:ref:`FiftyOne Enterprise <enterprise-delegated-operations>` deployments come
+:ref:`TensorGrid Enterprise <enterprise-delegated-operations>` deployments come
 out of the box with a connected compute cluster for executing delegated
 operations at scale. They can also be connected to your own compute solution,
 such as Databricks or Anyscale.
@@ -953,11 +953,11 @@ other work in the App.
 
     Want to take advantage of this functionality?
     `Contact us <https://voxel51.com/talk-to-sales>`_ about
-    :ref:`FiftyOne Enterprise <fiftyone-enterprise>`, an open source-compatible
-    enterprise deployment of FiftyOne with multiuser collaboration features,
+    :ref:`TensorGrid Enterprise <fiftyone-enterprise>`, an open source-compatible
+    enterprise deployment of TensorGrid with multiuser collaboration features,
     native cloud dataset support, and much more!
 
-    Think of FiftyOne Enterprise as the single source of truth on which you
+    Think of TensorGrid Enterprise as the single source of truth on which you
     co-develop your data and models together 📈
 
 .. _managing-delegated-operations:
@@ -965,24 +965,24 @@ other work in the App.
 Managing delegated operations
 _____________________________
 
-The :ref:`fiftyone delegated <cli-fiftyone-delegated>` CLI command contains a
+The :ref:`tensorgrid delegated <cli-fiftyone-delegated>` CLI command contains a
 number of useful utilities for viewing the status of your delegated operations.
 
 Listing delegated operations
 ----------------------------
 
-You can use the :ref:`fiftyone delegated list <cli-fiftyone-delegated-list>`
+You can use the :ref:`tensorgrid delegated list <cli-fiftyone-delegated-list>`
 command to list the delegated operations that you've run:
 
 .. code-block:: shell
 
     # List all delegated operations
-    fiftyone delegated list
+    tensorgrid delegated list
 
 .. code-block:: shell
 
     # List some specific delegated operations
-    fiftyone delegated list \
+    tensorgrid delegated list \
         --dataset quickstart \
         --operator @voxel51/io/export_samples \
         --state COMPLETED \
@@ -993,33 +993,33 @@ Getting delegated operation info
 --------------------------------
 
 You can use the
-:ref:`fiftyone delegated info <cli-fiftyone-delegated-info>` command to view
+:ref:`tensorgrid delegated info <cli-fiftyone-delegated-info>` command to view
 the available metadata about a delegated operation, including its inputs,
 execution status, and error stack trace, if applicable.
 
 .. code-block:: text
 
     # Print information about a delegated operation
-    fiftyone delegated info <id>
+    tensorgrid delegated info <id>
 
 Cleaning up delegated operations
 --------------------------------
 
 You can use the
-:ref:`fiftyone delegated cleanup <cli-fiftyone-delegated-cleanup>` command to
+:ref:`tensorgrid delegated cleanup <cli-fiftyone-delegated-cleanup>` command to
 cleanup delegated operations:
 
 .. code-block:: shell
 
     # Delete all failed operations associated with a given dataset
-    fiftyone delegated cleanup --dataset quickstart --state FAILED
+    tensorgrid delegated cleanup --dataset quickstart --state FAILED
 
 .. code-block:: shell
 
     # Delete all delegated operations associated with non-existent datasets
-    fiftyone delegated cleanup --orphan
+    tensorgrid delegated cleanup --orphan
 
 .. code-block:: shell
 
     # Print information about operations rather than actually deleting them
-    fiftyone delegated cleanup --orphan --dry-run
+    tensorgrid delegated cleanup --orphan --dry-run

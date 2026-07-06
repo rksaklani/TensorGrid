@@ -19,8 +19,8 @@ images per class. There are 50,000 training images and 10,000 test images.
 -   Supported splits: ``train, test``
 -   ZooDataset classes:
 
-    -   :class:`CIFAR10Dataset <fiftyone.zoo.datasets.tf.CIFAR10Dataset>` (TF backend)
-    -   :class:`CIFAR10Dataset <fiftyone.zoo.datasets.torch.CIFAR10Dataset>` (Torch backend)
+    -   :class:`CIFAR10Dataset <tensorgrid.zoo.datasets.tf.CIFAR10Dataset>` (TF backend)
+    -   :class:`CIFAR10Dataset <tensorgrid.zoo.datasets.torch.CIFAR10Dataset>` (Torch backend)
 
 .. note::
 
@@ -37,8 +37,8 @@ images per class. There are 50,000 training images and 10,000 test images.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("cifar10", split="test")
 
@@ -48,9 +48,9 @@ images per class. There are 50,000 training images and 10,000 test images.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load cifar10 --split test
+        tensorgrid zoo datasets load cifar10 --split test
 
-        fiftyone app launch cifar10-test
+        tensorgrid app launch cifar10-test
 
 .. image:: /images/dataset_zoo/cifar10-test.png
    :alt: cifar10-test

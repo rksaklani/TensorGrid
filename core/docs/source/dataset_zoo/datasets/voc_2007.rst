@@ -24,8 +24,8 @@ contain annotations.
 -   Supported splits: ``train, validation, test``
 -   ZooDataset classes:
 
-    -   :class:`VOC2007Dataset <fiftyone.zoo.datasets.tf.VOC2007Dataset>` (TF backend)
-    -   :class:`VOC2007Dataset <fiftyone.zoo.datasets.torch.VOC2007Dataset>` (Torch backend)
+    -   :class:`VOC2007Dataset <tensorgrid.zoo.datasets.tf.VOC2007Dataset>` (TF backend)
+    -   :class:`VOC2007Dataset <tensorgrid.zoo.datasets.torch.VOC2007Dataset>` (Torch backend)
 
 .. note::
 
@@ -47,8 +47,8 @@ contain annotations.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("voc-2007", split="validation")
 
@@ -58,9 +58,9 @@ contain annotations.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load voc-2007 --split validation
+        tensorgrid zoo datasets load voc-2007 --split validation
 
-        fiftyone app launch voc-2007-validation
+        tensorgrid app launch voc-2007-validation
 
 .. image:: /images/dataset_zoo/voc-2007-validation.png
    :alt: voc-2007-validation

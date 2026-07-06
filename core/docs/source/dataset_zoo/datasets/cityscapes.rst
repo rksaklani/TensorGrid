@@ -43,7 +43,7 @@ The dataset is intended for:
 -   Tags: ``image, multilabel, automotive, manual``
 -   Supported splits: ``train, validation, test``
 -   ZooDataset class:
-    :class:`CityscapesDataset <fiftyone.zoo.datasets.base.CityscapesDataset>`
+    :class:`CityscapesDataset <tensorgrid.zoo.datasets.base.CityscapesDataset>`
 
 **Example usage**
 
@@ -54,8 +54,8 @@ The dataset is intended for:
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         # The path to the source files that you manually downloaded
         source_dir = "/path/to/dir-with-cityscapes-files"
@@ -75,10 +75,10 @@ The dataset is intended for:
         # The path to the source files that you manually downloaded
         SOURCE_DIR="/path/to/dir-with-cityscapes-files"
 
-        fiftyone zoo datasets load cityscapes --split validation \
+        tensorgrid zoo datasets load cityscapes --split validation \
             --kwargs "source_dir=${SOURCE_DIR}"
 
-        fiftyone app launch cityscapes-validation
+        tensorgrid app launch cityscapes-validation
 
 .. image:: /images/dataset_zoo/cityscapes-validation.png
    :alt: cityscapes-validation

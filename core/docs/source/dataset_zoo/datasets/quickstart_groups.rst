@@ -19,7 +19,7 @@ annotation data.
 -   Tags: ``image, point-cloud, quickstart``
 -   Supported splits: ``N/A``
 -   ZooDataset class:
-    :class:`QuickstartGroupsDataset <fiftyone.zoo.datasets.base.QuickstartGroupsDataset>`
+    :class:`QuickstartGroupsDataset <tensorgrid.zoo.datasets.base.QuickstartGroupsDataset>`
 
 **Example usage**
 
@@ -30,8 +30,8 @@ annotation data.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("quickstart-groups")
 
@@ -41,9 +41,9 @@ annotation data.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load quickstart-groups
+        tensorgrid zoo datasets load quickstart-groups
 
-        fiftyone app launch quickstart-groups
+        tensorgrid app launch quickstart-groups
 
 .. image:: /images/dataset_zoo/quickstart-groups.png
    :alt: quickstart-groups

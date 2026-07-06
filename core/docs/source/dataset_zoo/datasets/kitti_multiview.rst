@@ -29,7 +29,7 @@ object development kit on the KITTI homepage.
 -   Tags: ``image, point-cloud, detection``
 -   Supported splits: ``train, test``
 -   ZooDataset class:
-    :class:`KITTIMultiviewDataset <fiftyone.zoo.datasets.base.KITTIMultiviewDataset>`
+    :class:`KITTIMultiviewDataset <tensorgrid.zoo.datasets.base.KITTIMultiviewDataset>`
 
 **Example usage**
 
@@ -40,8 +40,8 @@ object development kit on the KITTI homepage.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("kitti-multiview", split="train")
 
@@ -51,9 +51,9 @@ object development kit on the KITTI homepage.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load kitti-multiview --split train
+        tensorgrid zoo datasets load kitti-multiview --split train
 
-        fiftyone app launch kitti-multiview-train
+        tensorgrid app launch kitti-multiview-train
 
 .. image:: /images/dataset_zoo/kitti-multiview-train.png
    :alt: kitti-multiview-train

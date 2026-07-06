@@ -15,7 +15,7 @@ Downloads a subset of CIFAR-100 and stores it to disk as follows::
 
 A random 5% of the samples are duplicates, instead of the original samples.
 
-| Copyright 2017-2026, Voxel51, Inc.
+| Copyright 2017-2026, TensorGrid Contributors
 | `voxel51.com <https://voxel51.com/>`_
 |
 """
@@ -24,8 +24,8 @@ import random
 
 import eta.core.utils as etau
 
-import fiftyone.core.utils as fou
-import fiftyone.utils.image as foui
+import tensorgrid.core.utils as fou
+import tensorgrid.utils.image as foui
 
 fou.ensure_tf()
 from tensorflow.keras.datasets import cifar100  # pylint: disable=import-error

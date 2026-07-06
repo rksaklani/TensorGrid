@@ -43,14 +43,14 @@ Here's the basic recipe for working with remotely-sourced zoo datasets:
 
   .. group-tab:: Python
 
-    Use :meth:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>` to
-    download and load a remotely-sourced zoo dataset into a FiftyOne dataset:
+    Use :meth:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>` to
+    download and load a remotely-sourced zoo dataset into a TensorGrid dataset:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset(
             "https://github.com/voxel51/coco-2017",
@@ -61,8 +61,8 @@ Here's the basic recipe for working with remotely-sourced zoo datasets:
 
     Once you've downloaded all or part of a remotely-sourced zoo dataset, it
     will subsequently appear as an available zoo dataset under the name in the
-    dataset's :ref:`fiftyone.yml <zoo-dataset-remote-fiftyone-yml>` when you
-    call :meth:`list_zoo_datasets() <fiftyone.zoo.datasets.list_zoo_datasets>`:
+    dataset's :ref:`tensorgrid.yml <zoo-dataset-remote-fiftyone-yml>` when you
+    call :meth:`list_zoo_datasets() <tensorgrid.zoo.datasets.list_zoo_datasets>`:
 
     .. code-block:: python
         :linenos:
@@ -73,8 +73,8 @@ Here's the basic recipe for working with remotely-sourced zoo datasets:
         # [..., "voxel51/coco-2017", ...]
 
     You can also download a remotely-sourced zoo dataset without (yet) loading
-    it into a FiftyOne dataset by calling
-    :meth:`download_zoo_dataset() <fiftyone.zoo.datasets.download_zoo_dataset>`:
+    it into a TensorGrid dataset by calling
+    :meth:`download_zoo_dataset() <tensorgrid.zoo.datasets.download_zoo_dataset>`:
 
     .. code-block:: python
         :linenos:
@@ -86,7 +86,7 @@ Here's the basic recipe for working with remotely-sourced zoo datasets:
 
     You can delete the local copy of a remotely-sourced zoo dataset (or
     individual split(s) of it) via
-    :meth:`delete_zoo_dataset() <fiftyone.zoo.datasets.delete_zoo_dataset>`
+    :meth:`delete_zoo_dataset() <tensorgrid.zoo.datasets.delete_zoo_dataset>`
     by providing either the dataset's name or the remote source from which
     you downloaded it:
 
@@ -105,55 +105,55 @@ Here's the basic recipe for working with remotely-sourced zoo datasets:
 
   .. group-tab:: CLI
 
-    Use :ref:`fiftyone zoo datasets load <cli-fiftyone-zoo-datasets-load>` to
-    load a remotely-sourced zoo dataset into a FiftyOne dataset:
+    Use :ref:`tensorgrid zoo datasets load <cli-fiftyone-zoo-datasets-load>` to
+    load a remotely-sourced zoo dataset into a TensorGrid dataset:
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load \
+        tensorgrid zoo datasets load \
             https://github.com/voxel51/coco-2017 \
             --split validation \
             --dataset-name 'voxel51/coco-2017-validation'
 
-        fiftyone app launch 'voxel51/coco-2017-validation'
+        tensorgrid app launch 'voxel51/coco-2017-validation'
 
     Once you've downloaded all or part of a remotely-sourced zoo dataset, it
     will subsequently appear as an available zoo dataset under the name in the
-    dataset's :ref:`fiftyone.yml <zoo-dataset-remote-fiftyone-yml>` when you
-    call :ref:`fiftyone zoo datasets list <cli-fiftyone-zoo-datasets-list>`:
+    dataset's :ref:`tensorgrid.yml <zoo-dataset-remote-fiftyone-yml>` when you
+    call :ref:`tensorgrid zoo datasets list <cli-fiftyone-zoo-datasets-list>`:
 
     .. code-block:: shell
 
-        fiftyone zoo datasets list
+        tensorgrid zoo datasets list
 
         # contains row(s) for a dataset 'voxel51/coco-2017'
 
     You can also download a remotely-sourced zoo dataset without (yet) loading
-    it into a FiftyOne dataset by calling
-    :ref:`fiftyone zoo datasets download <cli-fiftyone-zoo-datasets-download>`:
+    it into a TensorGrid dataset by calling
+    :ref:`tensorgrid zoo datasets download <cli-fiftyone-zoo-datasets-download>`:
 
     .. code-block:: shell
 
-        fiftyone zoo datasets download \
+        tensorgrid zoo datasets download \
             https://github.com/voxel51/coco-2017 \
             --split validation
 
     You can delete the local copy of a remotely-sourced zoo dataset (or
     individual split(s) of it) via
-    :ref:`fiftyone zoo datasets delete <cli-fiftyone-zoo-datasets-delete>`
+    :ref:`tensorgrid zoo datasets delete <cli-fiftyone-zoo-datasets-delete>`
     by providing either the dataset's name or the remote source from which
     you downloaded it:
 
     .. code-block:: shell
 
         # These are equivalent
-        fiftyone zoo datasets delete voxel51/coco-2017 --split validation
-        fiftyone zoo datasets delete \
+        tensorgrid zoo datasets delete voxel51/coco-2017 --split validation
+        tensorgrid zoo datasets delete \
             https://github.com/voxel51/coco-2017 --split validation
 
         # These are equivalent
-        fiftyone zoo datasets delete voxel51/coco-2017
-        fiftyone zoo datasets delete https://github.com/voxel51/coco-2017
+        tensorgrid zoo datasets delete voxel51/coco-2017
+        tensorgrid zoo datasets delete https://github.com/voxel51/coco-2017
 
 .. _dataset-zoo-remote-creation:
 
@@ -165,7 +165,7 @@ contents:
 
 .. code-block:: text
 
-    fiftyone.yml
+    tensorgrid.yml
     __init__.py
         def download_and_prepare(dataset_dir, split=None, **kwargs):
             pass
@@ -183,10 +183,10 @@ Each component is described in detail below.
 
 .. _zoo-dataset-remote-fiftyone-yml:
 
-fiftyone.yml
+tensorgrid.yml
 ~~~~~~~~~~~~
 
-The dataset's `fiftyone.yml` or `fiftyone.yaml` file defines relevant metadata
+The dataset's `tensorgrid.yml` or `tensorgrid.yaml` file defines relevant metadata
 about the dataset:
 
 .. table::
@@ -216,18 +216,18 @@ about the dataset:
     +------------------------------+-----------+-----------------------------------------------------------------------------+
     | `description`                |           | A brief description of the dataset                                          |
     +------------------------------+-----------+-----------------------------------------------------------------------------+
-    | `fiftyone.version`           |           | A semver version specifier (or `*`) describing the required                 |
-    |                              |           | FiftyOne version for the dataset to load properly                           |
+    | `tensorgrid.version`           |           | A semver version specifier (or `*`) describing the required                 |
+    |                              |           | TensorGrid version for the dataset to load properly                           |
     +------------------------------+-----------+-----------------------------------------------------------------------------+
     | `supports_partial_downloads` |           | Specify `true` or `false` whether parts of the dataset can be               |
     |                              |           | downloaded/loaded by providing `kwargs` to                                  |
-    |                              |           | :meth:`download_zoo_dataset() <fiftyone.zoo.datasets.download_zoo_dataset>` |
-    |                              |           | or :meth:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>` as   |
+    |                              |           | :meth:`download_zoo_dataset() <tensorgrid.zoo.datasets.download_zoo_dataset>` |
+    |                              |           | or :meth:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>` as   |
     |                              |           | :ref:`described here <dataset-zoo-remote-partial-downloads>`. If omitted,   |
     |                              |           | this is assumed to be `false`                                               |
     +------------------------------+-----------+-----------------------------------------------------------------------------+
     | `tags`                       |           | A list of tags for the dataset. Useful in conjunction with                  |
-    |                              |           | :meth:`list_zoo_datasets() <fiftyone.zoo.datasets.list_zoo_datasets>`       |
+    |                              |           | :meth:`list_zoo_datasets() <tensorgrid.zoo.datasets.list_zoo_datasets>`       |
     +------------------------------+-----------+-----------------------------------------------------------------------------+
     | `splits`                     |           | A list of the dataset's supported splits. This should be omitted if the     |
     |                              |           | dataset does not contain splits                                             |
@@ -299,7 +299,7 @@ method with the signature below:
     :linenos:
 
     def download_and_prepare(dataset_dir, split=None, **kwargs):
-        """Downloads the dataset and prepares it for loading into FiftyOne.
+        """Downloads the dataset and prepares it for loading into TensorGrid.
 
         Args:
             dataset_dir: the directory in which to construct the dataset
@@ -312,7 +312,7 @@ method with the signature below:
         Returns:
             a tuple of
 
-            -   ``dataset_type``: a ``fiftyone.types.Dataset`` type that the
+            -   ``dataset_type``: a ``tensorgrid.types.Dataset`` type that the
                 dataset is stored in locally, or None if the dataset provides
                 its own ``load_dataset()`` method
             -   ``num_samples``: the total number of downloaded samples for the
@@ -339,21 +339,21 @@ method with the signature below:
         return dataset_type, num_samples, classes
 
 This method is called under-the-hood when a user calls
-:meth:`download_zoo_dataset() <fiftyone.zoo.datasets.download_zoo_dataset>` or
-:meth:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`, and its
+:meth:`download_zoo_dataset() <tensorgrid.zoo.datasets.download_zoo_dataset>` or
+:meth:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`, and its
 job is to download any relevant files from the web and organize and/or prepare
-them as necessary into a format that's ready to be loaded into a FiftyOne
+them as necessary into a format that's ready to be loaded into a TensorGrid
 dataset.
 
 The ``dataset_type`` that ``download_and_prepare()`` returns defines how it the
-dataset is ultimately loaded into FiftyOne:
+dataset is ultimately loaded into TensorGrid:
 
--   **Built-in importer**: in many cases, FiftyOne already contains a
+-   **Built-in importer**: in many cases, TensorGrid already contains a
     :ref:`built-in importer <supported-import-formats>` that can be leveraged
-    to load data on disk into FiftyOne. Remotely-sourced datasets can take
+    to load data on disk into TensorGrid. Remotely-sourced datasets can take
     advantage of this by simply returning the appropriate ``dataset_type`` from
     ``download_and_prepare()``, which is then used to load the data into
-    FiftyOne as follows:
+    TensorGrid as follows:
 
 .. code-block:: python
     :linenos:
@@ -366,7 +366,7 @@ dataset is ultimately loaded into FiftyOne:
 
 -   **Custom loader**: if ``dataset_type=None`` is returned, then
     ``__init__.py`` must also contain a ``load_dataset()`` method as described
-    below that handles loading the data into FiftyOne as follows:
+    below that handles loading the data into TensorGrid as follows:
 
 .. code-block:: python
     :linenos:
@@ -383,10 +383,10 @@ Datasets that don't use a built-in importer must also define a
     :linenos:
 
     def load_dataset(dataset, dataset_dir, split=None, **kwargs):
-        """Loads the dataset into the given FiftyOne dataset.
+        """Loads the dataset into the given TensorGrid dataset.
 
         Args:
-            dataset: a :class:`fiftyone.core.dataset.Dataset` to which to import
+            dataset: a :class:`tensorgrid.core.dataset.Dataset` to which to import
             dataset_dir: the directory to which the dataset was downloaded
             split (None): a split to load. The supported values are
                 ``("train", "validation", "test")``
@@ -402,7 +402,7 @@ Datasets that don't use a built-in importer must also define a
 
 This method's job is to load the filepaths and any relevant labels into
 |Sample| objects and then call
-:meth:`add_samples() <fiftyone.core.dataset.Dataset.add_samples>` or a similar
+:meth:`add_samples() <tensorgrid.core.dataset.Dataset.add_samples>` or a similar
 method to add them to the provided |Dataset|.
 
 .. _dataset-zoo-remote-partial-downloads:
@@ -419,7 +419,7 @@ variety of reasons, including:
     subset of the samples to get familiar with the dataset
 
 Datasets that support partial downloads should declare this in their
-:ref:`fiftyone.yml <zoo-dataset-remote-fiftyone-yml>`:
+:ref:`tensorgrid.yml <zoo-dataset-remote-fiftyone-yml>`:
 
 .. code-block:: yaml
 
@@ -438,11 +438,11 @@ dataset's ``__init__.py`` methods:
         pass
 
 When
-:meth:`download_zoo_dataset(url, ..., **kwargs) <fiftyone.zoo.datasets.download_zoo_dataset>`
+:meth:`download_zoo_dataset(url, ..., **kwargs) <tensorgrid.zoo.datasets.download_zoo_dataset>`
 is called, any `kwargs` declared by ``download_and_prepare()`` are passed
 through to it.
 
 When
-:meth:`load_zoo_dataset(name_or_url, ..., **kwargs) <fiftyone.zoo.datasets.load_zoo_dataset>`
+:meth:`load_zoo_dataset(name_or_url, ..., **kwargs) <tensorgrid.zoo.datasets.load_zoo_dataset>`
 is called, any `kwargs` declared by ``download_and_prepare()`` and
 ``load_dataset()`` are passed through to them, respectively.

@@ -20,8 +20,8 @@ images.
 -   Supported splits: ``train, test``
 -   ZooDataset classes:
 
-    -   :class:`CIFAR100Dataset <fiftyone.zoo.datasets.tf.CIFAR100Dataset>` (TF backend)
-    -   :class:`CIFAR100Dataset <fiftyone.zoo.datasets.torch.CIFAR100Dataset>` (Torch backend)
+    -   :class:`CIFAR100Dataset <tensorgrid.zoo.datasets.tf.CIFAR100Dataset>` (TF backend)
+    -   :class:`CIFAR100Dataset <tensorgrid.zoo.datasets.torch.CIFAR100Dataset>` (Torch backend)
 
 .. note::
 
@@ -38,8 +38,8 @@ images.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("cifar100", split="test")
 
@@ -49,9 +49,9 @@ images.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load cifar100 --split test
+        tensorgrid zoo datasets load cifar100 --split test
 
-        fiftyone app launch cifar100-test
+        tensorgrid app launch cifar100-test
 
 .. image:: /images/dataset_zoo/cifar100-test.png
    :alt: cifar100-test

@@ -1,8 +1,8 @@
 from argparse import ArgumentParser
 import os
 
-import fiftyone as fo
-from fiftyone.utils.torch import all_gather, FiftyOneTorchDataset
+import tensorgrid as tg
+from tensorgrid.utils.torch import all_gather, TensorGridTorchDataset
 
 import torch
 from tqdm import tqdm
@@ -19,7 +19,7 @@ def main(local_rank, dataset_name, num_classes, num_epochs, save_dir):
     local_group = torch.distributed.new_group()
     torch.distributed.barrier()
 
-    dataset = FiftyOneTorchDataset.distributed_init(
+    dataset = TensorGridTorchDataset.distributed_init(
         dataset_name, local_process_group=local_group
     )
     #### END FIFTYONE DISTRIBUTED INIT CODE ####
@@ -201,7 +201,7 @@ if __name__ == "__main__":
 
     argparser = ArgumentParser()
     argparser.add_argument(
-        "-d", "--dataset", type=str, help="name of fiftyone dataset"
+        "-d", "--dataset", type=str, help="name of tensorgrid dataset"
     )
     argparser.add_argument(
         "-n",
@@ -236,7 +236,7 @@ if __name__ == "__main__":
     local_rank = int(os.environ["LOCAL_RANK"])
 
     torch.multiprocessing.set_start_method("spawn")
-    # torch.multiprocessing.set_forkserver_preload(["torch", "fiftyone"])
+    # torch.multiprocessing.set_forkserver_preload(["torch", "tensorgrid"])
 
     main(
         local_rank, args.dataset, args.num_classes, args.epochs, args.save_dir

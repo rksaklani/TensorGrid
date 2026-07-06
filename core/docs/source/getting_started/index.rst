@@ -5,7 +5,7 @@ Getting Started Guides
 
 .. default-role:: code
 
-Welcome to FiftyOne's guided learning experiences! These step-by-step tutorials will walk you through complete workflows, helping you master FiftyOne's capabilities through hands-on practice.
+Welcome to TensorGrid's guided learning experiences! These step-by-step tutorials will walk you through complete workflows, helping you master TensorGrid's capabilities through hands-on practice.
 
 Each guide is designed as a sequential learning experience with navigation between steps, allowing you to progress through the material at your own pace.
 
@@ -36,17 +36,17 @@ Each guide is designed as a sequential learning experience with navigation betwe
 
 .. customcarditem::
     :header: Building Plugins with AI Agents __SUB_NEW__
-    :description: Build custom FiftyOne operators and panels using natural language. Prompt your AI coding agent to create, test, and iterate on plugins end to end, without writing boilerplate.
+    :description: Build custom TensorGrid operators and panels using natural language. Prompt your AI coding agent to create, test, and iterate on plugins end to end, without writing boilerplate.
     :link: agents/index.html
     :image: https://cdn.voxel51.com/getting_started_agents/agentic_plugin_dev.webp
     :tags: Core-Fiftyone,Development
 
 .. customcarditem::
     :header: Auto Labeling Guide
-    :description: Bootstrap datasets rapidly with FiftyOne Auto Labeling. Generate auto labels with foundation models and systematically review predictions with confidence-based filtering and embeddings.
+    :description: Bootstrap datasets rapidly with TensorGrid Auto Labeling. Generate auto labels with foundation models and systematically review predictions with confidence-based filtering and embeddings.
     :link: auto_labeling/index.html
     :image: https://cdn.voxel51.com/getting_started_val/notebook3/val_review_ui.webp
-    :tags: FiftyOne-Enterprise,Annotation
+    :tags: TensorGrid-Enterprise,Annotation
 
 .. customcarditem::
     :header: Annotation Guide __SUB_NEW__
@@ -80,7 +80,7 @@ Each guide is designed as a sequential learning experience with navigation betwe
     :header: 3D Visual AI Guide
     :description: Master 3D computer vision workflows with point clouds, mesh data, and spatial analysis. Learn to load, visualize, and analyze 3D datasets effectively.
     :link: threed_visual_ai/index.html
-    :image: https://docs.voxel51.com/_images/pointe_headphones_fo.gif
+    :image: /docs/_images/pointe_headphones_fo.gif
     :tags: Manufacturing,Robotics,Research
 
 .. customcarditem::
@@ -106,7 +106,7 @@ Each guide is designed as a sequential learning experience with navigation betwe
 
 .. customcarditem::
     :header: Model Dataset Zoo Guide
-    :description: Master the FiftyOne Zoo with datasets and models. Learn to explore built-in datasets, apply pre-trained models, and integrate custom models from GitHub or public URLs.
+    :description: Master the TensorGrid Zoo with datasets and models. Learn to explore built-in datasets, apply pre-trained models, and integrate custom models from GitHub or public URLs.
     :link: model_dataset_zoo/index.html
     :image: https://cdn.voxel51.com/getting_started_model_dataset_zoo/notebook2/imagenet.webp
     :tags: Core-Fiftyone,Research

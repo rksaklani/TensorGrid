@@ -7,20 +7,20 @@ CVAT Integration
 
 `CVAT <https://github.com/opencv/cvat>`_ is one of the most popular
 open-source image and video annotation tools available, and we've made it easy
-to upload your data directly from FiftyOne to CVAT to add or edit labels.
+to upload your data directly from TensorGrid to CVAT to add or edit labels.
 
 You can use CVAT either through the hosted server at
 `app.cvat.ai <https://app.cvat.ai>`_ or through a
 `self-hosted server <https://opencv.github.io/cvat/docs/administration/basics/installation/>`_.
-In either case, FiftyOne provides :ref:`simple setup <cvat-setup>` instructions
+In either case, TensorGrid provides :ref:`simple setup <cvat-setup>` instructions
 that you can use to specify the necessary account credentials and server
 endpoint to use.
 
 .. note::
 
     Did you know? You can request, manage, and import annotations from within
-    the FiftyOne App by installing the
-    `@voxel51/annotation <https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/annotation>`_
+    the TensorGrid App by installing the
+    `@voxel51/annotation <https://github.com/rksaklani/TensorGrid-plugins/tree/main/plugins/annotation>`_
     plugin!
 
 CVAT provides three levels of abstraction for annotation workflows: projects,
@@ -29,7 +29,7 @@ specific annotator or reviewer. A task defines the label schema to use for
 annotation and contains one or more jobs. A project can optionally be created
 to group multiple tasks together under a shared label schema.
 
-FiftyOne provides an API to create tasks and jobs, upload data, define label
+TensorGrid provides an API to create tasks and jobs, upload data, define label
 schemas, and download annotations using CVAT, all programmatically in Python.
 All of the following label types are supported, for both image and video
 datasets:
@@ -49,7 +49,7 @@ datasets:
 .. note::
 
     Check out :doc:`this tutorial </tutorials/cvat_annotation>` to see how
-    you can use FiftyOne to upload your data to CVAT to create, delete, and fix
+    you can use TensorGrid to upload your data to CVAT to create, delete, and fix
     annotations.
 
 .. _cvat-basic-recipe:
@@ -57,28 +57,28 @@ datasets:
 Basic recipe
 ____________
 
-The basic workflow to use CVAT to add or edit labels on your FiftyOne datasets
+The basic workflow to use CVAT to add or edit labels on your TensorGrid datasets
 is as follows:
 
-1) :ref:`Load a dataset <importing-datasets>` into FiftyOne
+1) :ref:`Load a dataset <importing-datasets>` into TensorGrid
 
 2) Explore the dataset using the :ref:`App <fiftyone-app>` or
    :ref:`dataset views <using-views>` to locate either unlabeled samples that
    you wish to annotate or labeled samples whose annotations you want to edit
 
 3) Use the
-   :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+   :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
    method on your dataset or view to upload the samples and optionally their
    existing labels to CVAT
 
 4) In CVAT, perform the necessary annotation work
 
-5) Back in FiftyOne, load your dataset and use the
-   :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
-   method to merge the annotations back into your FiftyOne dataset
+5) Back in TensorGrid, load your dataset and use the
+   :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
+   method to merge the annotations back into your TensorGrid dataset
 
 6) If desired, delete the CVAT tasks and the record of the annotation run from
-   your FiftyOne dataset
+   your TensorGrid dataset
 
 |br|
 The example below demonstrates this workflow.
@@ -97,11 +97,11 @@ First, we create the annotation tasks in CVAT:
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
-    # Step 1: Load your data into FiftyOne
+    # Step 1: Load your data into TensorGrid
 
     dataset = foz.load_zoo_dataset(
         "quickstart", dataset_name="cvat-annotation-example"
@@ -143,16 +143,16 @@ First, we create the annotation tasks in CVAT:
     # Step 4: Perform annotation in CVAT and save the tasks
 
 Then, once the annotation work is complete, we merge the annotations back into
-FiftyOne:
+TensorGrid:
 
 .. code-block:: python
     :linenos:
 
-    import fiftyone as fo
+    import tensorgrid as tg
 
     anno_key = "cvat_basic_recipe"
 
-    # Step 5: Merge annotations back into FiftyOne dataset
+    # Step 5: Merge annotations back into TensorGrid dataset
 
     dataset = fo.load_dataset("cvat-annotation-example")
     dataset.load_annotations(anno_key)
@@ -167,7 +167,7 @@ FiftyOne:
     results = dataset.load_annotation_results(anno_key)
     results.cleanup()
 
-    # Delete run record (not the labels) from FiftyOne
+    # Delete run record (not the labels) from TensorGrid
     dataset.delete_annotation_run(anno_key)
 
 .. note::
@@ -180,7 +180,7 @@ FiftyOne:
 Setup
 _____
 
-FiftyOne supports both `app.cvat.ai <https://app.cvat.ai>`_ and
+TensorGrid supports both `app.cvat.ai <https://app.cvat.ai>`_ and
 `self-hosted servers <https://opencv.github.io/cvat/docs/administration/basics/installation/>`_.
 
 The easiest way to get started is to use the default server
@@ -189,10 +189,10 @@ then providing your authentication credentials as shown below.
 
 .. note::
 
-    CVAT is the default annotation backend used by FiftyOne. However, if you
+    CVAT is the default annotation backend used by TensorGrid. However, if you
     have changed your default backend, you can opt-in to using CVAT on a
     one-off basis by passing the optional `backend` parameter to
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`:
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`:
 
     .. code:: python
 
@@ -211,7 +211,7 @@ which can be done in a variety of ways.
 
 The recommended way to configure your CVAT login credentials is to store them
 in the `FIFTYONE_CVAT_USERNAME` and `FIFTYONE_CVAT_PASSWORD` environment
-variables. These are automatically accessed by FiftyOne whenever a connection
+variables. These are automatically accessed by TensorGrid whenever a connection
 to CVAT is made.
 
 .. code-block:: shell
@@ -220,7 +220,7 @@ to CVAT is made.
     export FIFTYONE_CVAT_PASSWORD=...
     export FIFTYONE_CVAT_EMAIL=...  # if applicable
 
-**FiftyOne annotation config**
+**TensorGrid annotation config**
 
 You can also store your credentials in your
 :ref:`annotation config <annotation-config>` located at
@@ -250,8 +250,8 @@ Note that this file will not exist until you create it.
 
 You can manually provide your login credentials as keyword arguments each time
 you call methods like
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` and
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` and
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
 that require connections to CVAT:
 
 .. code:: python
@@ -308,7 +308,7 @@ you can configure the URL of your server in any of the following ways:
     }
 
 -   Pass the `url` parameter manually each time you call
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`:
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`:
 
 .. code:: python
     :linenos:
@@ -337,9 +337,9 @@ requests, you can provide them in either of the following ways:
     }
 
 -   Pass the `headers` parameter manually each time you call
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
     and
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`:
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`:
 
 .. code:: python
     :linenos:
@@ -353,7 +353,7 @@ Requesting annotations
 ______________________
 
 Use the
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` method
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` method
 to send the samples and optionally existing labels in a |Dataset| or
 |DatasetView| to CVAT for annotation.
 
@@ -367,28 +367,28 @@ The basic syntax is:
 
 The `anno_key` argument defines a unique identifier for the annotation run, and
 you will provide it to methods like
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`,
-:meth:`get_annotation_info() <fiftyone.core.collections.SampleCollection.load_annotations>`,
-:meth:`load_annotation_results() <fiftyone.core.collections.SampleCollection.load_annotation_results>`,
-:meth:`rename_annotation_run() <fiftyone.core.collections.SampleCollection.rename_annotation_run>`, and
-:meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
+:meth:`get_annotation_info() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
+:meth:`load_annotation_results() <tensorgrid.core.collections.SampleCollection.load_annotation_results>`,
+:meth:`rename_annotation_run() <tensorgrid.core.collections.SampleCollection.rename_annotation_run>`, and
+:meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
 to manage the run in the future.
 
 .. warning::
 
-    FiftyOne assumes that all labels in an annotation run can fit in memory.
+    TensorGrid assumes that all labels in an annotation run can fit in memory.
 
     If you are annotating very large scale video datasets with dense frame
     labels, you may violate this assumption. Instead, consider breaking the
     work into multiple smaller annotation runs that each contain limited
     subsets of the samples you wish to annotate.
 
-    You can use :meth:`Dataset.stats() <fiftyone.core.dataset.Dataset.stats>`
+    You can use :meth:`Dataset.stats() <tensorgrid.core.dataset.Dataset.stats>`
     to get a sense for the total size of the labels in a dataset as a rule of
     thumb to estimate the size of a candidate annotation run.
 
 In addition,
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
 provides various parameters that you can use to customize the annotation tasks
 that you wish to be performed.
 
@@ -396,8 +396,8 @@ The following parameters are supported by all annotation backends:
 
 -   **backend** (*None*): the annotation backend to use. Use `"cvat"` for the
     CVAT backend. The supported values are
-    `fiftyone.annotation_config.backends.keys()` and the default is
-    `fiftyone.annotation_config.default_backend`
+    `tensorgrid.annotation_config.backends.keys()` and the default is
+    `tensorgrid.annotation_config.default_backend`
 -   **media_field** (*"filepath"*): the sample field containing the path to the
     source media to upload
 -   **launch_editor** (*False*): whether to launch the annotation backend's
@@ -421,13 +421,13 @@ details:
         |Classifications| fields
     -   ``"detections"``: object detections stored in |Detections| fields
     -   ``"instances"``: instance segmentations stored in |Detections| fields
-        with their :attr:`mask <fiftyone.core.labels.Detection.mask>`
+        with their :attr:`mask <tensorgrid.core.labels.Detection.mask>`
         attributes populated
     -   ``"polylines"``: polylines stored in |Polylines| fields with their
-        :attr:`filled <fiftyone.core.labels.Polyline.filled>` attributes set to
+        :attr:`filled <tensorgrid.core.labels.Polyline.filled>` attributes set to
         `False`
     -   ``"polygons"``: polygons stored in |Polylines| fields with their
-        :attr:`filled <fiftyone.core.labels.Polyline.filled>` attributes set to
+        :attr:`filled <tensorgrid.core.labels.Polyline.filled>` attributes set to
         `True`
     -   ``"keypoints"``: keypoints stored in |Keypoints| fields
     -   ``"segmentation"``: semantic segmentations stored in |Segmentation|
@@ -479,7 +479,7 @@ details:
 
 |br|
 In addition, the following CVAT-specific parameters from
-:class:`CVATBackendConfig <fiftyone.utils.cvat.CVATBackendConfig>` can also be
+:class:`CVATBackendConfig <tensorgrid.utils.cvat.CVATBackendConfig>` can also be
 provided:
 
 -   **task_size** (*None*): an optional maximum number of images to upload per
@@ -555,12 +555,12 @@ Label schema
 
 The `label_schema`, `label_field`, `label_type`, `classes`, `attributes`, and
 `mask_targets` parameters to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` allow
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` allow
 you to define the annotation schema that you wish to be used.
 
 The label schema may define new label field(s) that you wish to populate, and
 it may also include existing label field(s), in which case you can add, delete,
-or edit the existing labels on your FiftyOne dataset.
+or edit the existing labels on your TensorGrid dataset.
 
 The `label_schema` argument is the most flexible way to define how to construct
 tasks in CVAT. In its most verbose form, it is a dictionary that defines the
@@ -678,8 +678,8 @@ individually:
 
 When you are annotating existing label fields, you can omit some of these
 parameters from
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`, as
-FiftyOne can infer the appropriate values to use:
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`, as
+TensorGrid can infer the appropriate values to use:
 
 -   **label_type**: if omitted, the |Label| type of the field will be used to
     infer the appropriate value for this parameter
@@ -687,8 +687,8 @@ FiftyOne can infer the appropriate values to use:
     to construct a classes list
 -   **mask_targets**: if omitted for a semantic segmentation field, the mask
     targets from the
-    :meth:`mask_targets <fiftyone.core.dataset.Dataset.mask_targets>` or
-    :meth:`default_mask_targets <fiftyone.core.dataset.Dataset.default_mask_targets>`
+    :meth:`mask_targets <tensorgrid.core.dataset.Dataset.mask_targets>` or
+    :meth:`default_mask_targets <tensorgrid.core.dataset.Dataset.default_mask_targets>`
     properties of your dataset will be used, if available
 
 .. _cvat-label-attributes:
@@ -771,7 +771,7 @@ Restricting additions, deletions, and edits
 When you create annotation runs that involve editing existing label fields, you
 can optionally specify that certain changes are not allowed by passing the
 following flags to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`:
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`:
 
 -   **allow_additions** (*True*): whether to allow new labels to be added
 -   **allow_deletions** (*True*): whether to allow labels to be deleted
@@ -784,7 +784,7 @@ following flags to
 
 If you are using the `label_schema` parameter to provide a full annotation
 schema to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`, you
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`, you
 can also directly include the above flags in the configuration dicts for any
 existing label field(s) you wish.
 
@@ -823,7 +823,7 @@ You can configure an annotation run for this as follows:
 You can also include a `read_only=True` parameter when uploading existing
 label attributes to specify that the attribute's value should be uploaded to
 the annotation backend for informational purposes, but any edits to the
-attribute's value should not be imported back into FiftyOne.
+attribute's value should not be imported back into TensorGrid.
 
 For example, if you have vehicles with their `make` attribute populated and you
 want to populate a new `model` attribute based on this information without
@@ -854,7 +854,7 @@ for this as follows:
 
 Note that, if you use CVAT projects to organize your annotation tasks, the
 above restrictions must be manually re-specified in your call to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` for
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` for
 each annotation task that you add to an existing project, since CVAT does not
 provide support for these settings natively.
 
@@ -865,12 +865,12 @@ provide support for these settings natively.
 
     However, any restrictions that you specify via the above parameters will
     still be enforced when you call
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
-    to merge the annotations back into FiftyOne.
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
+    to merge the annotations back into TensorGrid.
 
     **IMPORTANT**: When uploading existing labels to CVAT, the `id` of the
-    labels in FiftyOne are stored in a `label_id` attribute of the CVAT shapes.
-    If a `label_id` is modified in CVAT, then FiftyOne may not be able to merge
+    labels in TensorGrid are stored in a `label_id` attribute of the CVAT shapes.
+    If a `label_id` is modified in CVAT, then TensorGrid may not be able to merge
     the annotation with its existing |Label| instance; it must instead delete
     the existing label and create a new |Label| with the shape's contents. In
     such cases, if `allow_additions` and/or `allow_deletions` were set to
@@ -941,10 +941,10 @@ will be uploaded to CVAT.
 
 .. warning::
 
-    When uploading existing labels to CVAT, the `id` of the labels in FiftyOne
+    When uploading existing labels to CVAT, the `id` of the labels in TensorGrid
     are stored in a `label_id` attribute of the CVAT shapes.
 
-    **IMPORTANT**:  If a `label_id` is modified in CVAT, then FiftyOne may not
+    **IMPORTANT**:  If a `label_id` is modified in CVAT, then TensorGrid may not
     be able to merge the annotation with its existing |Label| instance; in such
     cases, it must instead delete the existing label and create a new |Label|
     with the shape's contents. See :ref:`this section <cvat-limitations>` for
@@ -955,16 +955,16 @@ will be uploaded to CVAT.
 CVAT limitations
 ----------------
 
-When uploading existing labels to CVAT, FiftyOne uses two sources of provenance
-to associate |Label| instances in FiftyOne with their corresponding CVAT
+When uploading existing labels to CVAT, TensorGrid uses two sources of provenance
+to associate |Label| instances in TensorGrid with their corresponding CVAT
 shapes:
 
 -   The `id` of each |Label| is stored in a `label_id` attribute of the CVAT
-    shape. When importing annotations from CVAT back into FiftyOne, if the
+    shape. When importing annotations from CVAT back into TensorGrid, if the
     `label_id` of a shape matches the ID of a label that was included in the
     annotation run, the shape will be merged into the existing |Label|
 
--   FiftyOne also maintains a mapping between |Label| IDs and the internal
+-   TensorGrid also maintains a mapping between |Label| IDs and the internal
     CVAT shape IDs that are created when the CVAT tasks are created. If, during
     download, a CVAT shape whose `label_id` has been deleted or otherwise
     modified and doesn't match an existing label ID *but does have* a
@@ -989,7 +989,7 @@ CVAT automatically clears/edits all attributes of a shape, including the
 
 -   When splitting or merging video tracks, CVAT may clear or duplicate the
     shape's attributes during the process. If this results in missing or
-    duplicate `label_id` values, then, although FiftyOne will gracefully
+    duplicate `label_id` values, then, although TensorGrid will gracefully
     proceed with the import, provenance has still been lost and thus existing
     |Label| instances whose IDs no longer exist must be deleted and replaced
     with newly created |Label| instances.
@@ -997,7 +997,7 @@ CVAT automatically clears/edits all attributes of a shape, including the
 The primary issues that can arise due to modified/deleted `label_id` attributes
 are:
 
--   If the original |Label| in FiftyOne contained additional attributes that
+-   If the original |Label| in TensorGrid contained additional attributes that
     weren't included in the CVAT annotation run, then those attributes will be
     lost whenever loading annotations requires deleting the existing label and
     creating a new one.
@@ -1007,7 +1007,7 @@ are:
     `label_id` changes may need to be rejected. For example, if
     `allow_additions` and `allow_deletions` are set to `False` and editing a
     CVAT shape's class label causes its attributes to be cleared, then this
-    change will be rejected by FiftyOne because it would require both deleting
+    change will be rejected by TensorGrid because it would require both deleting
     an existing label and creating a new one.
 
 .. note::
@@ -1036,8 +1036,8 @@ ___________________
 
 After your annotations tasks in the annotation backend are complete, you can
 use the
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
-method to download them and merge them back into your FiftyOne dataset.
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
+method to download them and merge them back into your TensorGrid dataset.
 
 .. code:: python
     :linenos:
@@ -1046,15 +1046,15 @@ method to download them and merge them back into your FiftyOne dataset.
 
 The `anno_key` parameter is the unique identifier for the annotation run that
 you provided when calling
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`. You
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`. You
 can use
-:meth:`list_annotation_runs() <fiftyone.core.collections.SampleCollection.list_annotation_runs>`
+:meth:`list_annotation_runs() <tensorgrid.core.collections.SampleCollection.list_annotation_runs>`
 to see the available keys on a dataset.
 
 .. note::
 
     By default, calling
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
     will not delete any information for the run from the annotation backend.
 
     However, you can pass `cleanup=True` to delete all information associated
@@ -1070,7 +1070,7 @@ dictionary mapping label schema field names to destination field names.
 Note that CVAT cannot explicitly prevent annotators from creating labels that
 don't obey the run's label schema. However, you can pass the optional
 `unexpected` parameter to
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
 to configure how to deal with any such unexpected labels that are found. The
 supported values are:
 
@@ -1088,11 +1088,11 @@ See :ref:`this section <cvat-unexpected-annotations>` for more details.
 Managing annotation runs
 ________________________
 
-FiftyOne provides a variety of methods that you can use to manage in-progress
+TensorGrid provides a variety of methods that you can use to manage in-progress
 or completed annotation runs.
 
 For example, you can call
-:meth:`list_annotation_runs() <fiftyone.core.collections.SampleCollection.list_annotation_runs>`
+:meth:`list_annotation_runs() <tensorgrid.core.collections.SampleCollection.list_annotation_runs>`
 to see the available annotation keys on a dataset:
 
 .. code:: python
@@ -1101,7 +1101,7 @@ to see the available annotation keys on a dataset:
     dataset.list_annotation_runs()
 
 Or, you can use
-:meth:`get_annotation_info() <fiftyone.core.collections.SampleCollection.get_annotation_info>`
+:meth:`get_annotation_info() <tensorgrid.core.collections.SampleCollection.get_annotation_info>`
 to retrieve information about the configuration of an annotation run:
 
 .. code:: python
@@ -1110,11 +1110,11 @@ to retrieve information about the configuration of an annotation run:
     info = dataset.get_annotation_info(anno_key)
     print(info)
 
-Use :meth:`load_annotation_results() <fiftyone.core.collections.SampleCollection.load_annotation_results>`
-to load the :class:`AnnotationResults <fiftyone.utils.annotations.AnnotationResults>`
+Use :meth:`load_annotation_results() <tensorgrid.core.collections.SampleCollection.load_annotation_results>`
+to load the :class:`AnnotationResults <tensorgrid.utils.annotations.AnnotationResults>`
 instance for an annotation run.
 
-All results objects provide a :class:`cleanup() <fiftyone.utils.annotations.AnnotationResults.cleanup>`
+All results objects provide a :class:`cleanup() <tensorgrid.utils.annotations.AnnotationResults.cleanup>`
 method that you can use to delete all information associated with a run from
 the annotation backend.
 
@@ -1125,12 +1125,12 @@ the annotation backend.
     results.cleanup()
 
 In addition, the
-:class:`AnnotationResults <fiftyone.utils.annotations.AnnotationResults>`
+:class:`AnnotationResults <tensorgrid.utils.annotations.AnnotationResults>`
 subclasses for each backend may provide additional utilities such as support
 for programmatically monitoring the status of the annotation tasks in the run.
 
 You can use
-:meth:`rename_annotation_run() <fiftyone.core.collections.SampleCollection.rename_annotation_run>`
+:meth:`rename_annotation_run() <tensorgrid.core.collections.SampleCollection.rename_annotation_run>`
 to rename the annotation key associated with an existing annotation run:
 
 .. code:: python
@@ -1139,8 +1139,8 @@ to rename the annotation key associated with an existing annotation run:
     dataset.rename_annotation_run(anno_key, new_anno_key)
 
 Finally, you can use
-:meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
-to delete the record of an annotation run from your FiftyOne dataset:
+:meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
+to delete the record of an annotation run from your TensorGrid dataset:
 
 .. code:: python
     :linenos:
@@ -1150,10 +1150,10 @@ to delete the record of an annotation run from your FiftyOne dataset:
 .. note::
 
     Calling
-    :meth:`delete_annotation_run() <fiftyone.core.collections.SampleCollection.delete_annotation_run>`
-    only deletes the **record** of the annotation run from your FiftyOne
+    :meth:`delete_annotation_run() <tensorgrid.core.collections.SampleCollection.delete_annotation_run>`
+    only deletes the **record** of the annotation run from your TensorGrid
     dataset; it will not delete any annotations loaded onto your dataset via
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`,
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`,
     nor will it delete any associated information from the annotation backend.
 
 .. _cvat-examples:
@@ -1162,7 +1162,7 @@ Examples
 ________
 
 This section demonstrates how to perform some common annotation workflows on a
-FiftyOne dataset using the CVAT backend.
+TensorGrid dataset using the CVAT backend.
 
 .. note::
 
@@ -1176,14 +1176,14 @@ Adding new label fields
 
 In order to annotate a new label field, you can provide the `label_field`,
 `label_type`, and `classes` parameters to
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` to
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` to
 define the annotation schema for the field:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1210,8 +1210,8 @@ labeling task:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1243,17 +1243,17 @@ Editing existing labels
 -----------------------
 
 A common use case is to fix annotation mistakes that you discovered in your
-datasets through FiftyOne.
+datasets through TensorGrid.
 
-You can easily edit the labels in an existing field of your FiftyOne dataset
+You can easily edit the labels in an existing field of your TensorGrid dataset
 by simply passing the name of the field via the `label_field` parameter of
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`:
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1274,14 +1274,14 @@ by simply passing the name of the field via the `label_field` parameter of
 
 |br|
 The above code snippet will infer the possible classes and label attributes
-from your FiftyOne dataset. However, the `classes` and `attributes` parameters
+from your TensorGrid dataset. However, the `classes` and `attributes` parameters
 can be used to annotate new classes and/or attributes:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1321,10 +1321,10 @@ can be used to annotate new classes and/or attributes:
 
 .. warning::
 
-    When uploading existing labels to CVAT, the `id` of the labels in FiftyOne
+    When uploading existing labels to CVAT, the `id` of the labels in TensorGrid
     are stored in a `label_id` attribute of the CVAT shapes.
 
-    **IMPORTANT**:  If a `label_id` is modified in CVAT, then FiftyOne may not
+    **IMPORTANT**:  If a `label_id` is modified in CVAT, then TensorGrid may not
     be able to merge the annotation with its existing |Label| instance; in such
     cases, it must instead delete the existing label and create a new |Label|
     with the shape's contents. See :ref:`this section <cvat-limitations>` for
@@ -1350,9 +1350,9 @@ You can configure an annotation run for this as follows:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    from fiftyone import ViewField as F
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    from tensorgrid import ViewField as F
 
     dataset = foz.load_zoo_dataset("quickstart")
 
@@ -1397,7 +1397,7 @@ You can configure an annotation run for this as follows:
 Similarly, you can include a `read_only=True` parameter when uploading existing
 label attributes to specify that the attribute's value should be uploaded to
 the annotation backend for informational purposes, but any edits to the
-attribute's value should not be imported back into FiftyOne.
+attribute's value should not be imported back into TensorGrid.
 
 For example, the snippet below uploads the vehicle tracks in a video dataset
 along with their existing `type` attributes and requests that a new `make`
@@ -1406,8 +1406,8 @@ attribute be populated without allowing edits to the vehicle's `type`:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video")
     view = dataset.take(1)
@@ -1447,12 +1447,12 @@ attribute be populated without allowing edits to the vehicle's `type`:
 
     However, any restrictions that you specify via the above parameters will
     still be enforced when you call
-    :meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
-    to merge the annotations back into FiftyOne.
+    :meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
+    to merge the annotations back into TensorGrid.
 
     **IMPORTANT**: When uploading existing labels to CVAT, the `id` of the
-    labels in FiftyOne are stored in a `label_id` attribute of the CVAT shapes.
-    If a `label_id` is modified in CVAT, then FiftyOne may not be able to merge
+    labels in TensorGrid are stored in a `label_id` attribute of the CVAT shapes.
+    If a `label_id` is modified in CVAT, then TensorGrid may not be able to merge
     the annotation with its existing |Label| instance; it must instead delete
     the existing label and create a new |Label| with the shape's contents. In
     such cases, if `allow_additions` and/or `allow_deletions` were set to
@@ -1470,8 +1470,8 @@ involves multiple fields:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1518,14 +1518,14 @@ involves multiple fields:
 Unexpected annotations
 ----------------------
 
-The :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+The :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
 method allows you to define the annotation schema that should be followed in
 CVAT. However, CVAT does not explicitly allow for restricting the label types
 that can be created, so it is possible that your annotators may accidentally
 violate a task's intended schema.
 
 You can pass the optional `unexpected` parameter to
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
 to configure how to deal with any such unexpected labels that are found. The
 supported values are:
 
@@ -1538,15 +1538,15 @@ supported values are:
 
 For example, suppose you upload a |Detections| field to CVAT for editing, but
 then polyline annotations are added instead. When
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`
 is called, the default behavior is to present a command prompt asking you what
 field(s) (if any) to store these unexpected labels in:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1583,13 +1583,13 @@ the tasks to be organized together in one place.
 
 As with tasks, you can delete the project associated with an annotation run by
 passing the `cleanup=True` option to
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`.
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`.
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video")
     view = dataset.take(3)
@@ -1621,7 +1621,7 @@ annotation tasks.
 
 A typical use case for this workflow is when you use the same annotation schema
 for multiple datasets, since this allows you to organize the tasks under one
-CVAT project and avoid the need to re-specify the label schema in FiftyOne.
+CVAT project and avoid the need to re-specify the label schema in TensorGrid.
 
 .. note::
 
@@ -1629,7 +1629,7 @@ CVAT project and avoid the need to re-specify the label schema in FiftyOne.
     inherited from the CVAT project definition, any class/attribute
     specifications that you attempt to provide via arguments such as
     `label_schema`, `classes`, and `attributes` to
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
     will be ignored.
 
     You can, however, use the `label_schema` and `label_field` arguments for
@@ -1649,8 +1649,8 @@ CVAT project and avoid the need to re-specify the label schema in FiftyOne.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart").clone()
     view = dataset.take(3)
@@ -1712,7 +1712,7 @@ Assigning users
 ---------------
 
 When using the CVAT backend, you can provide the following optional parameters
-to :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` to
+to :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` to
 specify which users will be assigned to the created tasks:
 
 -   `segment_size`: the maximum number of images to include in a single job
@@ -1729,8 +1729,8 @@ will be assigned using a round-robin strategy.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(5)
@@ -1796,8 +1796,8 @@ well as the number of images per job within each task.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart", max_samples=20).clone()
 
@@ -1827,7 +1827,7 @@ Scalar labels
 -------------
 
 |Label| fields are the preferred way to store information for common tasks
-such as classification and detection in your FiftyOne datasets. However, you
+such as classification and detection in your TensorGrid datasets. However, you
 can also store CVAT annotations in scalar fields of type `float`, `int`, `str`,
 or  `bool` .
 
@@ -1842,8 +1842,8 @@ enter the appropriate scalar in the `value` attribute of the tag.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1884,9 +1884,9 @@ you may have a dataset with personal information like faces or license plates
 that must be anonymized before uploading for annotation.
 
 The recommended approach in this case is to store the alternative media files
-for each sample on disk and record these paths in a new field of your FiftyOne
+for each sample on disk and record these paths in a new field of your TensorGrid
 dataset. You can then specify this field via the `media_field` parameter of
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`.
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`.
 
 For example, let's upload some blurred images to CVAT for annotation:
 
@@ -1896,8 +1896,8 @@ For example, let's upload some blurred images to CVAT for annotation:
     import os
     import cv2
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -1945,7 +1945,7 @@ The CVAT UI provides a variety of builtin widgets on each label you create that
 control properties like occluded, hidden, locked, and pinned.
 
 You can configure CVAT annotation runs so that the state of the occlusion
-widget is read/written to a FiftyOne label attribute of your choice by
+widget is read/written to a TensorGrid label attribute of your choice by
 specifying the attribute's type as `occluded` in your label schema.
 
 In addition, if you are editing existing labels using the `attributes=True`
@@ -1962,8 +1962,8 @@ linked to the occlusion widget.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart").clone()
     view = dataset.take(1)
@@ -2002,8 +2002,8 @@ attributes between annotation runs.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart").clone()
     view = dataset.take(1)
@@ -2043,7 +2043,7 @@ The CVAT UI provides a way to group objects together both visually and through
 a group id in the API.
 
 You can configure CVAT annotation runs so that the state of the group id is
-read/written to a FiftyOne label attribute of your choice by
+read/written to a TensorGrid label attribute of your choice by
 specifying the attribute's type as `group_id` in your label schema.
 
 In addition, if you are editing existing labels using the `attributes=True`
@@ -2060,8 +2060,8 @@ linked to CVAT groups.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart").clone()
     view = dataset.take(1)
@@ -2099,8 +2099,8 @@ attributes between annotation runs.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart").clone()
     view = dataset.take(1)
@@ -2136,7 +2136,7 @@ Changing destination field
 When annotating an existing label field, it can be useful to load the
 annotations into a different field than the one used to upload annotations. The
 `dest_field` parameter can be used for this purpose when calling
-:meth:`load_annotations() <fiftyone.core.collections.SampleCollection.load_annotations>`.
+:meth:`load_annotations() <tensorgrid.core.collections.SampleCollection.load_annotations>`.
 
 If your annotation run involves a single label field, set `dest_field`
 to the name of the (new or existing) field you wish to load annotations into.
@@ -2148,8 +2148,8 @@ destination fields.
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart").clone()
     view = dataset.take(1)
@@ -2196,8 +2196,8 @@ argument is not currently supported.
 .. code:: python
    :linenos:
 
-   import fiftyone as fo
-   import fiftyone.zoo as foz
+   import tensorgrid as tg
+   import tensorgrid.zoo as foz
 
    dataset = foz.load_zoo_dataset("quickstart-video", max_samples=2).clone()
    sample_fps = dataset.values("filepath")
@@ -2244,12 +2244,12 @@ _________________
 
 You can add or edit annotations for video datasets using the CVAT backend
 through the
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
 method.
 
 All CVAT label types except `tags` provide an option to annotate **tracks** in
 videos, which captures the identity of a single object as it moves through the
-video. When you import video tracks into FiftyOne, the `index` attribute of
+video. When you import video tracks into TensorGrid, the `index` attribute of
 each label will contain the integer number of its track, and any labels that
 are keyframes will have their `keyframe=True` attribute set.
 
@@ -2260,7 +2260,7 @@ frame-level fields to record classifications for your video datasets.
 .. note::
 
     CVAT only allows one video per task, so calling
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`
     on a video dataset will result multiple tasks per label field.
 
 Adding new frame labels
@@ -2274,13 +2274,13 @@ vehicle:
 .. note::
 
     Prepend `"frames."` to reference frame-level fields when calling
-    :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`.
+    :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`.
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video").clone()
     dataset.delete_frame_field("detections")  # delete existing labels
@@ -2344,8 +2344,8 @@ every 10th frame as a keyframe to provide a better editing experience in CVAT:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-video").clone()
 
@@ -2388,10 +2388,10 @@ every 10th frame as a keyframe to provide a better editing experience in CVAT:
 
 .. warning::
 
-    When uploading existing labels to CVAT, the `id` of the labels in FiftyOne
+    When uploading existing labels to CVAT, the `id` of the labels in TensorGrid
     are stored in a `label_id` attribute of the CVAT shapes.
 
-    **IMPORTANT**:  If a `label_id` is modified in CVAT, then FiftyOne may not
+    **IMPORTANT**:  If a `label_id` is modified in CVAT, then TensorGrid may not
     be able to merge the annotation with its existing |Label| instance; in such
     cases, it must instead delete the existing label and create a new |Label|
     with the shape's contents. See :ref:`this section <cvat-limitations>` for
@@ -2405,7 +2405,7 @@ __________________
 CVAT supports annotating 3D detections on point cloud data.
 
 In order to perform 3D annotation with CVAT on :ref:`3D datasets <3d-datasets>`
-in FiftyOne, you must populate a field on your FiftyOne dataset for each sample
+in TensorGrid, you must populate a field on your TensorGrid dataset for each sample
 that you wish to annotate that contains the path to the 3D asset(s) to upload
 in one of
 `CVAT's supported formats <https://docs.cvat.ai/docs/manual/basics/create_an_annotation_task/#data-formats-for-a-3d-task>`_,
@@ -2416,13 +2416,13 @@ which includes:
     reference images
 
 Then simply provide this field name via the `media_field` argument when you
-call :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`:
+call :meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>`:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart-groups")
     view = dataset.select_group_slices("pcd")
@@ -2447,7 +2447,7 @@ call :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`:
 
     view.load_annotations("test")
 
-    # View the newly created/edited cuboids in FiftyOne
+    # View the newly created/edited cuboids in TensorGrid
     session = fo.launch_app(dataset)
 
 .. _cvat-existing-tasks:
@@ -2455,21 +2455,21 @@ call :meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>`:
 Importing existing tasks
 ________________________
 
-FiftyOne's CVAT integration is designed to manage the full annotation workflow,
+TensorGrid's CVAT integration is designed to manage the full annotation workflow,
 from task creation to annotation import.
 
-However, if you have created CVAT tasks outside of FiftyOne, you can use the
-:func:`import_annotations() <fiftyone.utils.cvat.import_annotations>` utility
-to import individual task(s) or an entire project into a FiftyOne dataset.
+However, if you have created CVAT tasks outside of TensorGrid, you can use the
+:func:`import_annotations() <tensorgrid.utils.cvat.import_annotations>` utility
+to import individual task(s) or an entire project into a TensorGrid dataset.
 
 .. code:: python
     :linenos:
 
     import os
 
-    import fiftyone as fo
-    import fiftyone.utils.cvat as fouc
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.utils.cvat as fouc
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart", max_samples=3).clone()
 
@@ -2498,9 +2498,9 @@ to import individual task(s) or an entire project into a FiftyOne dataset.
     #
     # If you already have the media stored locally, you can instead provide a
     # mapping between filenames in the pre-existing CVAT project and the
-    # locations of the media locally on disk for the FiftyOne dataset
+    # locations of the media locally on disk for the TensorGrid dataset
     #
-    # Since we're using a CVAT task uploaded via FiftyOne, the mapping is a bit
+    # Since we're using a CVAT task uploaded via TensorGrid, the mapping is a bit
     # weird
     #
 
@@ -2520,7 +2520,7 @@ to import individual task(s) or an entire project into a FiftyOne dataset.
 
 .. note::
 
-    Another strategy for importing existing CVAT annotations into FiftyOne is
+    Another strategy for importing existing CVAT annotations into TensorGrid is
     to simply export the annotations from the CVAT UI and then import them via
     the :ref:`CVATImageDataset <CVATImageDataset-import>` or
     :ref:`CVATVideoDataset <CVATVideoDataset-import>` types.
@@ -2532,9 +2532,9 @@ ____________________
 
 You can perform additional CVAT-specific operations to monitor the progress
 of an annotation task initiated by
-:meth:`annotate() <fiftyone.core.collections.SampleCollection.annotate>` via
+:meth:`annotate() <tensorgrid.core.collections.SampleCollection.annotate>` via
 the returned
-:class:`CVATAnnotationResults <fiftyone.utils.cvat.CVATAnnotationResults>`
+:class:`CVATAnnotationResults <tensorgrid.utils.cvat.CVATAnnotationResults>`
 instance.
 
 The sections below highlight some common actions that you may want to perform.
@@ -2543,9 +2543,9 @@ Using the CVAT API
 ------------------
 
 You can use the
-:func:`connect_to_api() <fiftyone.utils.annotations.connect_to_api>`
+:func:`connect_to_api() <tensorgrid.utils.annotations.connect_to_api>`
 to retrieve a
-:class:`CVATAnnotationAPI <fiftyone.utils.cvat.CVATAnnotationAPI>` instance,
+:class:`CVATAnnotationAPI <tensorgrid.utils.cvat.CVATAnnotationAPI>` instance,
 which is a wrapper around the
 `CVAT REST API <https://opencv.github.io/cvat/docs/administration/basics/rest_api_guide/>`_
 that provides convenient methods for performing common actions on your CVAT
@@ -2554,9 +2554,9 @@ tasks:
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
-    import fiftyone.utils.annotations as foua
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
+    import tensorgrid.utils.annotations as foua
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)
@@ -2580,16 +2580,16 @@ Viewing task statuses
 ---------------------
 
 You can use the
-:meth:`get_status() <fiftyone.utils.cvat.CVATAnnotationResults.get_status>` and
-:meth:`print_status() <fiftyone.utils.cvat.CVATAnnotationResults.print_status>`
+:meth:`get_status() <tensorgrid.utils.cvat.CVATAnnotationResults.get_status>` and
+:meth:`print_status() <tensorgrid.utils.cvat.CVATAnnotationResults.print_status>`
 methods to get information about the current status of the task(s) and job(s)
 for that annotation run:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(3)
@@ -2615,7 +2615,7 @@ for that annotation run:
 
     Status for label field 'ground_truth':
 
-        Task 331 (FiftyOne_quickstart_ground_truth):
+        Task 331 (TensorGrid_quickstart_ground_truth):
             Status: annotation
             Assignee: user1
             Last updated: 2021-08-11T15:09:02.680181Z
@@ -2634,16 +2634,16 @@ for that annotation run:
 .. note::
 
     **Pro tip**: If you are iterating over many annotation runs, you can use
-    :func:`connect_to_api() <fiftyone.utils.annotations.connect_to_api>` and
-    :meth:`use_api() <fiftyone.utils.cvat.CVATAnnotationResults.use_api>` as
+    :func:`connect_to_api() <tensorgrid.utils.annotations.connect_to_api>` and
+    :meth:`use_api() <tensorgrid.utils.cvat.CVATAnnotationResults.use_api>` as
     shown below to reuse a single
-    :class:`CVATAnnotationAPI <fiftyone.utils.cvat.CVATAnnotationAPI>` instance
+    :class:`CVATAnnotationAPI <tensorgrid.utils.cvat.CVATAnnotationAPI>` instance
     and avoid reauthenticating with CVAT for each run:
 
     .. code-block:: python
         :linenos:
 
-        import fiftyone.utils.annotations as foua
+        import tensorgrid.utils.annotations as foua
 
         api = foua.connect_to_api()
 
@@ -2656,14 +2656,14 @@ Deleting tasks
 --------------
 
 You can use the
-:meth:`delete_task() <fiftyone.utils.cvat.CVATAnnotationAPI.delete_task>`
+:meth:`delete_task() <tensorgrid.utils.cvat.CVATAnnotationAPI.delete_task>`
 method to delete specific CVAT tasks associated with an annotation run:
 
 .. code:: python
     :linenos:
 
-    import fiftyone as fo
-    import fiftyone.zoo as foz
+    import tensorgrid as tg
+    import tensorgrid.zoo as foz
 
     dataset = foz.load_zoo_dataset("quickstart")
     view = dataset.take(1)

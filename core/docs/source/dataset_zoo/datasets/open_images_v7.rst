@@ -15,11 +15,11 @@ keypoints, and visual relationship tasks for the 600 boxable classes.
 
     We've collaborated with the
     `Open Images Team at Google <https://storage.googleapis.com/openimages/web/download.html>`_
-    to make FiftyOne a recommended tool for downloading, visualizing, and
+    to make TensorGrid a recommended tool for downloading, visualizing, and
     evaluating on the Open Images Dataset!
 
     Check out :ref:`this guide <open-images>` for more details on using
-    FiftyOne to work with Open Images.
+    TensorGrid to work with Open Images.
 
 **Details**
 
@@ -30,7 +30,7 @@ keypoints, and visual relationship tasks for the 600 boxable classes.
 -   Tags: ``image, detection, segmentation, classification, keypoint``
 -   Supported splits: ``train, test, validation``
 -   ZooDataset class:
-    :class:`OpenImagesV7Dataset <fiftyone.zoo.datasets.base.OpenImagesV7Dataset>`
+    :class:`OpenImagesV7Dataset <tensorgrid.zoo.datasets.base.OpenImagesV7Dataset>`
 
 **Notes**
 
@@ -46,15 +46,15 @@ keypoints, and visual relationship tasks for the 600 boxable classes.
 
 **Partial downloads**
 
-Open Images is a massive dataset, so FiftyOne provides parameters that can be
+Open Images is a massive dataset, so TensorGrid provides parameters that can be
 used to efficiently download specific subsets of the dataset to suit your
-needs. When new subsets are specified, FiftyOne will use existing downloaded
+needs. When new subsets are specified, TensorGrid will use existing downloaded
 data first if possible before resorting to downloading additional data from the
 web.
 
 The following parameters are available to configure a partial download of Open
 Images V7 by passing them to
-:func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`:
+:func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`:
 
 -   **split** (*None*) and **splits** (*None*): a string or list of strings,
     respectively, specifying the splits to load. Supported values are
@@ -69,8 +69,8 @@ Images V7 by passing them to
 -   **classes** (*None*): a string or list of strings specifying required
     classes to load. If provided, only samples containing at least one instance
     of a specified class will be loaded. You can use
-    :func:`get_classes() <fiftyone.utils.openimages.get_classes>` and
-    :func:`get_segmentation_classes() <fiftyone.utils.openimages.get_segmentation_classes>`
+    :func:`get_classes() <tensorgrid.utils.openimages.get_classes>` and
+    :func:`get_segmentation_classes() <tensorgrid.utils.openimages.get_segmentation_classes>`
     to see the available classes and segmentation classes, respectively
 
 -   **attrs** (*None*): a string or list of strings specifying required
@@ -78,7 +78,7 @@ Images V7 by passing them to
     ``label_types`` contains ``"relationships"``. If provided, only samples
     containing at least one instance of a specified attribute will be loaded.
     You can use
-    :func:`get_attributes() <fiftyone.utils.openimages.get_attributes>`
+    :func:`get_attributes() <tensorgrid.utils.openimages.get_attributes>`
     to see the available attributes
 
 -   **image_ids** (*None*): a list of specific image IDs to load. The IDs can
@@ -113,10 +113,10 @@ Images V7 by passing them to
 .. note::
 
     See
-    :class:`OpenImagesV7Dataset <fiftyone.zoo.datasets.base.OpenImagesV7Dataset>`
-    and :class:`OpenImagesV7DatasetImporter <fiftyone.utils.openimages.OpenImagesV7DatasetImporter>`
+    :class:`OpenImagesV7Dataset <tensorgrid.zoo.datasets.base.OpenImagesV7Dataset>`
+    and :class:`OpenImagesV7DatasetImporter <tensorgrid.utils.openimages.OpenImagesV7DatasetImporter>`
     for complete descriptions of the optional keyword arguments that you can
-    pass to :func:`load_zoo_dataset() <fiftyone.zoo.datasets.load_zoo_dataset>`.
+    pass to :func:`load_zoo_dataset() <tensorgrid.zoo.datasets.load_zoo_dataset>`.
 
 **Example usage**
 
@@ -127,8 +127,8 @@ Images V7 by passing them to
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         #
         # Load 50 random samples from the validation split
@@ -195,12 +195,12 @@ Images V7 by passing them to
         # By default, all label types are loaded
         #
 
-        fiftyone zoo datasets load open-images-v7 \
+        tensorgrid zoo datasets load open-images-v7 \
             --split validation \
             --kwargs \
                 max_samples=50
 
-        fiftyone app launch open-images-v7-validation-50
+        tensorgrid app launch open-images-v7-validation-50
 
         #
         # Load detections, classifications and points for 25 samples from the
@@ -215,14 +215,14 @@ Images V7 by passing them to
         # Images will only be downloaded if necessary
         #
 
-        fiftyone zoo datasets load open-images-v7 \
+        tensorgrid zoo datasets load open-images-v7 \
             --split validation \
             --kwargs \
                 label_types=segmentations,classifications,points \
                 classes=Fedora,Piano \
                 max_samples=25
 
-        fiftyone app launch open-images-v7-validation-25
+        tensorgrid app launch open-images-v7-validation-25
 
         #
         # Download the entire validation split and load detections
@@ -231,10 +231,10 @@ Images V7 by passing them to
         # downloading any images
         #
 
-        fiftyone zoo datasets load open-images-v7 \
+        tensorgrid zoo datasets load open-images-v7 \
             --split validation
 
-        fiftyone app launch open-images-v7-validation
+        tensorgrid app launch open-images-v7-validation
 
 .. image:: /images/dataset_zoo/open-images-v7.png
    :alt: open-images-v7

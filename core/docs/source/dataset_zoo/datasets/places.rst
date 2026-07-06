@@ -19,7 +19,7 @@ and diverse list of the types of environments encountered in the world.
 -   Tags: ``image, classification``
 -   Supported splits: ``train, validation, test``
 -   ZooDataset classes:
-    :class:`PlacesDataset <fiftyone.zoo.datasets.base.PlacesDataset>`
+    :class:`PlacesDataset <tensorgrid.zoo.datasets.base.PlacesDataset>`
 
 **Full split stats**
 
@@ -36,8 +36,8 @@ and diverse list of the types of environments encountered in the world.
     .. code-block:: python
         :linenos:
 
-        import fiftyone as fo
-        import fiftyone.zoo as foz
+        import tensorgrid as tg
+        import tensorgrid.zoo as foz
 
         dataset = foz.load_zoo_dataset("places", split="validation")
 
@@ -47,9 +47,9 @@ and diverse list of the types of environments encountered in the world.
 
     .. code-block:: shell
 
-        fiftyone zoo datasets load places --split validation
+        tensorgrid zoo datasets load places --split validation
 
-        fiftyone app launch places-validation
+        tensorgrid app launch places-validation
 
 .. image:: /images/dataset_zoo/places-validation.png
    :alt: places-validation

@@ -9,8 +9,8 @@ This page describes how to create a Python
 `virtual environment <https://docs.python.org/3/tutorial/venv.html>`_.
 
 Using a virtual environment is strongly recommended because it allows
-maintaining an isolated environment in which FiftyOne and its dependencies can
-be installed. FiftyOne has a variety of dependencies, some versions of which
+maintaining an isolated environment in which TensorGrid and its dependencies can
+be installed. TensorGrid has a variety of dependencies, some versions of which
 may conflict with versions already installed on your machine.
 
 Creating a virtual environment using `venv`
@@ -103,8 +103,8 @@ the path to the current folder is replaced with `...`):
       C:\Program Files\Python38\Scripts\pip.exe
 
 Before you continue, you should upgrade `pip` and some related packages in the
-virtual environment. FiftyOne's packages rely on some newer pip features, so
-older pip versions may fail to locate a downloadable version of FiftyOne
+virtual environment. TensorGrid's packages rely on some newer pip features, so
+older pip versions may fail to locate a downloadable version of TensorGrid
 entirely. To upgrade, run the following command:
 
 .. code-block:: shell
@@ -132,5 +132,5 @@ dealing with virtual environments frequently:
 
 .. warning::
 
-  We currently discourage using `pipenv` with FiftyOne, as it has known issues
+  We currently discourage using `pipenv` with TensorGrid, as it has known issues
   with installing packages from custom package indices.

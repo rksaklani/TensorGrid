@@ -507,97 +507,9 @@ function initMobileNavDropdown() {
   });
 }
 
-/* KAPA AI Integration */
+/* KAPA AI Integration — disabled for TensorGrid; search uses DocSearch only */
 const initKapaAI = () => {
-  const logo =
-    "https://user-images.githubusercontent.com/25985824/106288517-2422e000-6216-11eb-871d-26ad2e7b1e59.png";
-  const script = document.createElement("script");
-  Object.assign(script, {
-    src: "https://widget.kapa.ai/kapa-widget.bundle.js",
-    async: true,
-  });
-  Object.assign(script.dataset, {
-    websiteId: "eb6a5a18-9704-41fc-9351-cae28372e763",
-    projectName: "Voxel51",
-    projectColor: "#212529",
-    buttonHide: "true",
-    projectLogo: logo,
-    modalZIndex: "9999",
-    modalYOffset: "5vh",
-    modalExampleQuestions:
-      "How can I import my data?,How can I compute embeddings?, How can I create my own plugin?, How can I evaluate my model?",
-    modalDisclaimer:
-      "Your AI guide to all things FiftyOne and its community, powered by the complete [FiftyOne documentation](https://docs.voxel51.com/).\n\nNeed team collaboration, cloud storage, flexible deployment, and advanced workflows for production? [Get Enterprise](https://link.voxel51.com/docs-search-sales)",
-    mcpEnabled: "true",
-    mcpServerUrl: "https://voxel51.mcp.kapa.ai",
-    customizationId: "79381c29-919b-4c49-82eb-a90fd89b5501",
-  });
-
-  document.head.appendChild(script);
-
-  const floatingButton = Object.assign(document.createElement("button"), {
-    className: "kapa-ai-button",
-    innerHTML: `<span class="kapa-text">Ask AI</span><div class="kapa-logo"><img src="${logo}" alt="FiftyOne Logo" /></div>`,
-  });
-  floatingButton.addEventListener("click", () => {
-    if (window.Kapa) {
-      window.Kapa.open();
-    }
-  });
-  document.body.appendChild(floatingButton);
-
-  const createAskAIButton = (query) => {
-    const button = Object.assign(document.createElement("button"), {
-      className: "kapa-ask-ai-button",
-      innerHTML: `<span class="kapa-text"></span><div class="kapa-logo"><img src="${logo}" alt="FiftyOne Logo" /></div>`,
-    });
-    button.querySelector(".kapa-text").textContent = `Ask AI about "${query}"`;
-
-    button.addEventListener("click", () => {
-      if (window.Kapa) {
-        window.Kapa.open({ mode: "ai", query, submit: true });
-      }
-    });
-    return button;
-  };
-
-  let currentQuery = "",
-    askAIButton = null;
-  const addAskAIButton = (query) => {
-    const container = document.querySelector(".DocSearch-Container");
-    if (!container) return;
-
-    const hits = container.querySelector(".DocSearch-Hits");
-    if (!hits) return;
-
-    askAIButton?.remove();
-    askAIButton = createAskAIButton(query);
-    hits.insertBefore(askAIButton, hits.firstChild);
-    currentQuery = query;
-  };
-
-  const removeAskAIButton = () => {
-    askAIButton?.remove();
-    askAIButton = null;
-    currentQuery = "";
-  };
-
-  document.addEventListener("input", (e) => {
-    if (e.target.id === "docsearch-input") {
-      const query = e.target.value.trim();
-      if (query.length > 0) {
-        addAskAIButton(query);
-      } else {
-        removeAskAIButton();
-      }
-    }
-  });
-
-  document.addEventListener("click", (e) => {
-    if (e.target.closest(".DocSearch-Button")) {
-      removeAskAIButton();
-    }
-  });
+  // TensorGrid docs use built-in search. Third-party Voxel51 Kapa widget removed.
 };
 
 /* Add Enterprise Message to DocSearch Modal */
@@ -613,8 +525,8 @@ const addEnterpriseBanner = () => {
     banner.className = "docsearch-enterprise-banner";
     banner.innerHTML = `
       <div class="enterprise-banner-content">
-        <span class="enterprise-banner-text">Need team collaboration, cloud storage, flexible deployment, and advanced workflows for production?</span>
-        <a href="https://link.voxel51.com/docs-search-sales" target="_blank" rel="noopener" aria-label="Get enterprise features for team collaboration and production workflows" class="sd-btn sd-btn-primary book-a-demo" data-cta-dynamic="true">
+        <span class="enterprise-banner-text">Need team collaboration, cloud storage, and production workflows?</span>
+        <a href="/enterprise" rel="noopener" aria-label="TensorGrid Enterprise" class="sd-btn sd-btn-primary book-a-demo" data-cta-dynamic="true">
           <div class="arrow">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="size-3">
               <path stroke="currentColor" stroke-width="1.5" d="M1.458 11.995h20.125M11.52 22.063 21.584 12 11.521 1.937" vector-effect="non-scaling-stroke"></path>
@@ -814,7 +726,7 @@ function initScrollSpyFix() {
 
 function initNavIcons() {
   document.querySelectorAll(".nav.bd-sidenav a.reference").forEach((a) => {
-    if (a.textContent.trim() === "FiftyOne Labs") a.classList.add("nav-labs");
+    if (a.textContent.trim() === "TensorGrid Labs") a.classList.add("nav-labs");
   });
 }
 
