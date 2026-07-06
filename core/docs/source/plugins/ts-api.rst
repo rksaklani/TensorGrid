@@ -4,10 +4,10 @@ TypeScript API Reference
 .. toctree::
    :maxdepth: 2
 
-      @fiftyone/state <api/plugins.tensorgrid.state>
-      @fiftyone/plugins <api/plugins.tensorgrid.plugins>
-      @fiftyone/operators <api/plugins.tensorgrid.operators>
-      @fiftyone/spaces <api/plugins.tensorgrid.spaces>
-      @fiftyone/aggregations <api/plugins.tensorgrid.aggregations>
-      @fiftyone/relay <api/plugins.tensorgrid.relay>
-      @fiftyone/utilities <api/plugins.tensorgrid.utilities>
+      @fiftyone/state <api/plugins.fiftyone.state>
+      @fiftyone/plugins <api/plugins.fiftyone.plugins>
+      @fiftyone/operators <api/plugins.fiftyone.operators>
+      @fiftyone/spaces <api/plugins.fiftyone.spaces>
+      @fiftyone/aggregations <api/plugins.fiftyone.aggregations>
+      @fiftyone/relay <api/plugins.fiftyone.relay>
+      @fiftyone/utilities <api/plugins.fiftyone.utilities>

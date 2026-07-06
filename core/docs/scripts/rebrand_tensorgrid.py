@@ -58,6 +58,11 @@ PROTECTED = {
     "__FIFTYONE_DB_PKG__": "fiftyone_db",
     "__VOXEL51_ETA__": "voxel51-eta",
     "__VOXEL51_VOODO__": "@voxel51/voodo",
+    "__PLUGINS_FIFTYONE__": "plugins.fiftyone",
+    "__PLUGINS_API_FIFTYONE__": "plugins/api/plugins.fiftyone",
+    "__INSTALL_FIFTYONE_PNG__": "install_fiftyone.png",
+    "__FIFTYONE_ENTERPRISE__": "fiftyone-enterprise",
+    "__FIFTYONE_DATASET__": "FiftyOneDataset",
 }
 
 PROTECT_BEFORE = {
@@ -66,6 +71,11 @@ PROTECT_BEFORE = {
     "fiftyone_db": "__FIFTYONE_DB_PKG__",
     "voxel51-eta": "__VOXEL51_ETA__",
     "@voxel51/voodo": "__VOXEL51_VOODO__",
+    "plugins.fiftyone": "__PLUGINS_FIFTYONE__",
+    "plugins/api/plugins.fiftyone": "__PLUGINS_API_FIFTYONE__",
+    "install_fiftyone.png": "__INSTALL_FIFTYONE_PNG__",
+    "fiftyone-enterprise": "__FIFTYONE_ENTERPRISE__",
+    "FiftyOneDataset": "__FIFTYONE_DATASET__",
 }
 
 
@@ -95,16 +105,35 @@ def process_file(path: Path) -> bool:
         return False
 
     original = path.read_text(encoding="utf-8")
+
     if path.suffix == ".ipynb":
         data = json.loads(original)
         changed = False
+        skip_url_keys = {
+            "https://docs.voxel51.com/",
+            "https://docs.voxel51.com",
+            "docs.voxel51.com",
+            "/docs/",
+        }
+        notebook_replacements = [
+            (old, new)
+            for old, new in TEXT_REPLACEMENTS
+            if old not in skip_url_keys
+            and not old.startswith("https://docs.voxel51.com")
+            and not old.startswith("docs.voxel51.com")
+        ]
+
         for cell in data.get("cells", []):
-            if cell.get("cell_type") in {"markdown", "raw"}:
-                src = "".join(cell.get("source", []))
-                updated = rebrand_text(src)
-                if updated != src:
-                    cell["source"] = updated.splitlines(keepends=True)
-                    changed = True
+            if cell.get("cell_type") not in {"markdown", "raw"}:
+                continue
+            src = "".join(cell.get("source", []))
+            text = protect(src)
+            for old, new in notebook_replacements:
+                text = text.replace(old, new)
+            updated = restore(text)
+            if updated != src:
+                cell["source"] = updated.splitlines(keepends=True)
+                changed = True
         if not changed:
             return False
         path.write_text(json.dumps(data, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

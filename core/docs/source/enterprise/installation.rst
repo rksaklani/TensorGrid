@@ -1,7 +1,7 @@
 .. _enterprise-installation:
 
 TensorGrid Enterprise Installation
-================================
+==================================
 
 .. default-role:: code
 
@@ -36,7 +36,7 @@ cloud-backed media.
 You can find the installation instructions under the "Install TensorGrid" section
 of the Enterprise App by clicking on your user icon in the upper right corner:
 
-.. image:: /images/enterprise/install_tensorgrid.png
+.. image:: /images/enterprise/install_fiftyone.png
    :alt: install-enterprise
    :align: center
    :width: 300
@@ -122,7 +122,7 @@ If you have trouble configuring the credentials, see
 `more in the poetry docs here. <https://python-poetry.org/docs/repositories/#configuring-credentials>`_
 
 Add tensorgrid dependency
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Replace ``X.Y.Z`` with the proper version
 

@@ -92,5 +92,3 @@ will transform TensorGrid into your bespoke visual AI development workbench.
    Developing plugins <developing_plugins>
    Contributing plugins <contributing_plugins>
    API reference <api/plugins>
-   TypeScript API reference <ts-api>
-   plugins_ecosystem/*
