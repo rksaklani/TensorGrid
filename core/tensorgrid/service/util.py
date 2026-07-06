@@ -102,6 +102,92 @@ def find_processes_by_args(args):
             pass
 
 
+def _address_matches_listener(listener_ip, address):
+    """Returns whether *listener_ip* accepts connections for *address*."""
+    if address is None:
+        return True
+    if listener_ip in ("0.0.0.0", "::", ""):
+        return True
+    if address in ("127.0.0.1", "localhost") and listener_ip in (
+        "127.0.0.1",
+        "::1",
+    ):
+        return True
+    return listener_ip == address
+
+
+def find_processes_listening_on_port(port, address=None):
+    """Finds processes owned by the current user listening on a TCP port.
+
+    Args:
+        port (int): the port number
+        address (None): if specified, only listeners that accept connections on
+            this address are returned
+
+    Returns:
+        generator of psutil.Process objects
+    """
+    current_username = psutil.Process().username()
+    for process in psutil.process_iter(["username"]):
+        try:
+            if process.info["username"] != current_username:
+                continue
+            for conn in process.connections(kind="tcp"):
+                if (
+                    conn.status == psutil.CONN_LISTEN
+                    and conn.laddr.port == port
+                    and _address_matches_listener(conn.laddr.ip, address)
+                ):
+                    yield process
+                    break
+        except (psutil.NoSuchProcess, psutil.AccessDenied):
+            pass
+
+
+def kill_process_tree(process, timeout=5):
+    """Terminates a process and its descendants."""
+    process = normalize_wrapper_process(process)
+    try:
+        children = process.children(recursive=True)
+    except psutil.Error:
+        children = []
+
+    for child in reversed(children):
+        try:
+            child.terminate()
+        except psutil.NoSuchProcess:
+            pass
+
+    try:
+        process.terminate()
+    except psutil.NoSuchProcess:
+        return
+
+    _, alive = psutil.wait_procs([process] + children, timeout=timeout)
+    for proc in alive:
+        try:
+            proc.kill()
+        except psutil.NoSuchProcess:
+            pass
+
+
+def stop_server_on_port(port, address="127.0.0.1"):
+    """Stops TensorGrid server processes bound to the given port.
+
+    Args:
+        port (int): the port number
+        address (str): the server address
+    """
+    killed = set()
+    for process in find_processes_by_args(["main.py", "--port", str(port)]):
+        kill_process_tree(process)
+        killed.add(process.pid)
+
+    for process in find_processes_listening_on_port(port, address):
+        if process.pid not in killed:
+            kill_process_tree(process)
+
+
 def get_listening_tcp_ports(process):
     """Retrieves a list of TCP ports that the specified process is listening on.
 

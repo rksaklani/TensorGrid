@@ -10,6 +10,7 @@ import logging
 import os
 import subprocess
 import sys
+import time
 
 import psutil
 import requests
@@ -317,6 +318,26 @@ class ServerService(Service):
         except:
             server_version = None
 
+        if server_version is not None and server_version != foc.VERSION:
+            is_local = address in ("127.0.0.1", "localhost", "::1", "0.0.0.0")
+            if is_local:
+                logger.warning(
+                    "Stale TensorGrid server v%s on port %i (client is v%s); "
+                    "restarting",
+                    server_version,
+                    port,
+                    foc.VERSION,
+                )
+                fosu.stop_server_on_port(port, address)
+                time.sleep(1)
+                server_version = None
+            else:
+                logger.warning(
+                    "Remote TensorGrid server v%s does not match client v%s",
+                    server_version,
+                    foc.VERSION,
+                )
+
         if server_version is None:
             # There is likely not a fiftyone server running (remote or local),
             # so start a local server. If there actually is a fiftyone server
@@ -332,12 +353,6 @@ class ServerService(Service):
                 port,
                 address,
             )
-            if server_version != foc.VERSION:
-                logger.warning(
-                    "Server version (%s) does not match client version (%s)",
-                    server_version,
-                    foc.VERSION,
-                )
 
     @property
     def command(self):

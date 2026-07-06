@@ -10,7 +10,7 @@ Installs TensorGrid (fork of FiftyOne).
 import os
 from setuptools import setup, find_packages
 
-VERSION = "1.19.3"
+VERSION = "1.19.4"
 
 
 def get_version():
