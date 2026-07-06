@@ -1,0 +1,1115 @@
+"""
+FiftyOne utilities unit tests.
+
+| Copyright 2017-2026, Voxel51, Inc.
+| `voxel51.com <https://voxel51.com/>`_
+|
+"""
+
+from datetime import datetime
+import sys
+import unittest
+from unittest.mock import MagicMock, patch
+
+from bson import ObjectId
+from bson import json_util
+import numpy as np
+
+import fiftyone as fo
+import fiftyone.constants as foc
+import fiftyone.core.media as fom
+import fiftyone.core.odm as foo
+import fiftyone.core.utils as fou
+from fiftyone.migrations.runner import MigrationRunner
+import fiftyone.utils.data as foud
+from fiftyone import ViewField as F
+
+from decorators import drop_datasets
+
+
+class MapValuesTests(unittest.TestCase):
+    @drop_datasets
+    def test_map_values_dataset(self):
+        sample1 = fo.Sample(filepath="image1.jpg")
+        sample2 = fo.Sample(
+            filepath="image2.jpg",
+            tags=["cat", "dog", "fox"],
+            str_field="cat",
+            animal=fo.Classification(label="cat"),
+            animals=fo.Classifications(
+                classifications=[
+                    fo.Classification(label="cat"),
+                    fo.Classification(label="dog"),
+                    fo.Classification(label="fox"),
+                ]
+            ),
+        )
+
+        dataset = fo.Dataset()
+        dataset.add_samples([sample1, sample2])
+
+        mapping = {"cat": "CAT", "dog": "DOG"}
+
+        foud.map_values(dataset, "tags", mapping)
+
+        self.assertDictEqual(
+            dataset.count_values("tags"),
+            {"CAT": 1, "DOG": 1, "fox": 1},
+        )
+
+        foud.map_values(dataset, "str_field", mapping)
+
+        self.assertDictEqual(
+            dataset.count_values("str_field"),
+            {"CAT": 1, None: 1},
+        )
+
+        foud.map_values(dataset, "animal.label", mapping)
+
+        self.assertDictEqual(
+            dataset.count_values("animal.label"),
+            {"CAT": 1, None: 1},
+        )
+
+        foud.map_values(dataset, "animals.classifications.label", mapping)
+
+        self.assertDictEqual(
+            dataset.count_values("animals.classifications.label"),
+            {"CAT": 1, "DOG": 1, "fox": 1},
+        )
+
+    @drop_datasets
+    def test_map_values_edited_field(self):
+        sample1 = fo.Sample(filepath="image1.jpg")
+        sample2 = fo.Sample(
+            filepath="image2.jpg",
+            tags=["cat", "dog", "fox"],
+            str_field="cat",
+            animal=fo.Classification(label="cat"),
+            animals=fo.Classifications(
+                classifications=[
+                    fo.Classification(label="cat"),
+                    fo.Classification(label="dog"),
+                    fo.Classification(label="fox"),
+                ]
+            ),
+        )
+
+        dataset = fo.Dataset()
+        dataset.add_samples([sample1, sample2])
+
+        mapping = {"cat": "CAT", "dog": "DOG"}
+
+        view = dataset.set_field(
+            "tags", F("tags").map((F() == "cat").if_else("dog", F()))
+        )
+        foud.map_values(view, "tags", mapping)
+
+        self.assertTrue(view._edits_field("tags"))
+        self.assertDictEqual(
+            dataset.count_values("tags"),
+            {"DOG": 2, "fox": 1},
+        )
+
+        view = dataset.limit(1)
+        foud.map_values(view, "str_field", mapping)
+
+        self.assertDictEqual(
+            dataset.count_values("str_field"),
+            {"cat": 1, None: 1},
+        )
+
+        view = dataset.set_field(
+            "animal.label",
+            (F("label") == "cat").if_else("dog", None),
+        )
+        foud.map_values(view, "animal.label", mapping)
+
+        self.assertTrue(view._edits_field("animal"))
+        self.assertTrue(view._edits_field("animal.label"))
+        self.assertDictEqual(
+            dataset.count_values("animal.label"),
+            {"DOG": 1, None: 1},
+        )
+
+        view = dataset.filter_labels("animals", F("label") != "dog")
+        foud.map_values(view, "animals.classifications.label", mapping)
+
+        self.assertTrue(view._edits_field("animals"))
+        self.assertDictEqual(
+            dataset.count_values("animals.classifications.label"),
+            {"CAT": 1, "dog": 1, "fox": 1},
+        )
+
+    @drop_datasets
+    def test_map_frame_values_dataset(self):
+        sample = fo.Sample(filepath="video.mp4")
+        sample.frames[1] = fo.Frame()
+        sample.frames[2] = fo.Frame(
+            tags=["cat", "dog", "fox"],
+            str_field="cat",
+            animal=fo.Classification(label="cat"),
+            animals=fo.Classifications(
+                classifications=[
+                    fo.Classification(label="cat"),
+                    fo.Classification(label="dog"),
+                    fo.Classification(label="fox"),
+                ]
+            ),
+        )
+
+        dataset = fo.Dataset()
+        dataset.add_sample(sample)
+
+        mapping = {"cat": "CAT", "dog": "DOG"}
+
+        foud.map_values(dataset, "frames.tags", mapping)
+
+        self.assertDictEqual(
+            dataset.count_values("frames.tags"),
+            {"CAT": 1, "DOG": 1, "fox": 1},
+        )
+
+        foud.map_values(dataset, "frames.str_field", mapping)
+
+        self.assertDictEqual(
+            dataset.count_values("frames.str_field"),
+            {"CAT": 1, None: 1},
+        )
+
+        foud.map_values(dataset, "frames.animal.label", mapping)
+
+        self.assertDictEqual(
+            dataset.count_values("frames.animal.label"),
+            {"CAT": 1, None: 1},
+        )
+
+        foud.map_values(
+            dataset, "frames.animals.classifications.label", mapping
+        )
+
+        self.assertDictEqual(
+            dataset.count_values("frames.animals.classifications.label"),
+            {"CAT": 1, "DOG": 1, "fox": 1},
+        )
+
+    @drop_datasets
+    def test_map_frame_values_edited_field(self):
+        sample = fo.Sample(filepath="video.mp4")
+        sample.frames[1] = fo.Frame()
+        sample.frames[2] = fo.Frame(
+            tags=["cat", "dog", "fox"],
+            str_field="cat",
+            animal=fo.Classification(label="cat"),
+            animals=fo.Classifications(
+                classifications=[
+                    fo.Classification(label="cat"),
+                    fo.Classification(label="dog"),
+                    fo.Classification(label="fox"),
+                ]
+            ),
+        )
+
+        dataset = fo.Dataset()
+        dataset.add_sample(sample)
+
+        mapping = {"cat": "CAT", "dog": "DOG"}
+
+        view = dataset.set_field(
+            "frames.tags", F("tags").map((F() == "cat").if_else("dog", F()))
+        )
+        foud.map_values(view, "frames.tags", mapping)
+
+        self.assertTrue(view._edits_field("frames.tags"))
+        self.assertDictEqual(
+            dataset.count_values("frames.tags"),
+            {"DOG": 2, "fox": 1},
+        )
+
+        view = dataset.match_frames(F("frame_number") <= 1)
+        foud.map_values(view, "frames.str_field", mapping)
+
+        self.assertDictEqual(
+            dataset.count_values("frames.str_field"),
+            {"cat": 1, None: 1},
+        )
+
+        view = dataset.set_field(
+            "frames.animal.label",
+            (F("label") == "cat").if_else("dog", None),
+        )
+        foud.map_values(view, "frames.animal.label", mapping)
+
+        self.assertTrue(view._edits_field("frames.animal"))
+        self.assertTrue(view._edits_field("frames.animal.label"))
+        self.assertDictEqual(
+            dataset.count_values("frames.animal.label"),
+            {"DOG": 1, None: 1},
+        )
+
+        view = dataset.filter_labels("frames.animals", F("label") != "dog")
+        foud.map_values(view, "frames.animals.classifications.label", mapping)
+
+        self.assertTrue(view._edits_field("frames.animals"))
+        self.assertDictEqual(
+            dataset.count_values("frames.animals.classifications.label"),
+            {"CAT": 1, "dog": 1, "fox": 1},
+        )
+
+
+class BatcherTests(unittest.TestCase):
+    def test_get_default_batcher(self):
+        iterable = list(range(100))
+
+        target_latency = 0.25
+        with patch.object(fo.config, "default_batcher", "latency"):
+            with patch.object(
+                fo.config,
+                "batcher_target_latency",
+                target_latency,
+            ):
+                batcher = fou.get_default_batcher(iterable)
+                self.assertTrue(isinstance(batcher, fou.DynamicBatcher))
+                self.assertEqual(batcher.target_measurement, target_latency)
+
+        static_batch_size = 1000
+        with patch.object(fo.config, "default_batcher", "static"):
+            with patch.object(
+                fo.config,
+                "batcher_static_size",
+                static_batch_size,
+            ):
+                batcher = fou.get_default_batcher(iterable)
+                self.assertTrue(isinstance(batcher, fou.StaticBatcher))
+                self.assertEqual(batcher.batch_size, static_batch_size)
+
+        target_size = 2**16
+        with patch.object(fo.config, "default_batcher", "size"):
+            with patch.object(
+                fo.config,
+                "batcher_target_size_bytes",
+                target_size,
+            ):
+                batcher = fou.get_default_batcher(iterable)
+                self.assertTrue(isinstance(batcher, fou.ContentSizeBatcher))
+
+        with patch.object(fo.config, "default_batcher", "invalid"):
+            self.assertRaises(ValueError, fou.get_default_batcher, iterable)
+
+    def test_static_batcher(self):
+        iterable = list(range(105))
+        batcher = fou.StaticBatcher(iterable, batch_size=10, progress=False)
+        with batcher:
+            batches = [batch for batch in batcher]
+            expected = [list(range(i, i + 10)) for i in range(0, 95, 10)] + [
+                iterable[100:]
+            ]
+            self.assertListEqual(batches, expected)
+
+    def test_static_batcher_covered(self):
+        iterable = list(range(105))
+        batcher = fou.StaticBatcher(iterable, batch_size=200, progress=False)
+        with batcher:
+            batches = [batch for batch in batcher]
+            self.assertListEqual(batches, [iterable])
+
+    def test_content_size_batcher(self):
+        n = 10
+        samples = [fo.Sample(filepath=f"{i}.jpg") for i in range(n)]
+        # Test target size half of total
+        total_size = len(
+            json_util.dumps(
+                [sample.to_mongo_dict(include_id=True) for sample in samples]
+            )
+        )
+
+        # Test max batch size same as min_size and less than target
+        batcher = fou.ContentSizeBatcher(iter(samples), max_batch_size=1)
+        with batcher:
+            for batch in batcher:
+                self.assertEqual(len(batch), 1)
+
+        # Test default case
+        batcher = fou.ContentSizeBatcher(iter(samples))
+        with batcher:
+            for batch in batcher:
+                self.assertEqual(len(batch), n)
+
+        # Test target smaller than min
+        batcher = fou.ContentSizeBatcher(iter(samples), target_size=1)
+        with batcher:
+            for batch in batcher:
+                self.assertEqual(len(batch), 1)
+
+        target_size = (
+            total_size // 2
+        )  # offset because the items slightly differ in size
+        expected = [n // 2] * 2
+        batcher = fou.ContentSizeBatcher(
+            iter(samples), target_size=target_size
+        )
+        with batcher:
+            for batch in batcher:
+                self.assertEqual(len(batch), n // 2)
+
+        samples_with_none = [None] + samples
+        count = 0
+        batcher = fou.ContentSizeBatcher(
+            iter(samples_with_none), target_size=1
+        )
+        with batcher:
+            for batch in batcher:
+                if count == 0:
+                    self.assertIsNone(batch[0])
+                count += len(batch)
+        self.assertEqual(count, len(samples_with_none))
+
+    def test_static_batcher_perfect_boundary(self):
+        iterable = list(range(200))
+        batcher = fou.StaticBatcher(iterable, batch_size=100, progress=False)
+        with batcher:
+            batches = [batch for batch in batcher]
+            self.assertListEqual(batches, [iterable[:100], iterable[100:]])
+
+    def test_inexhaustible_static_batcher(self):
+        batcher = fou.StaticBatcher(None, batch_size=100, progress=False)
+        nt = 10
+        batches = [next(batcher) for _ in range(10)]
+        self.assertListEqual(batches, [100] * nt)
+
+    def test_inexhaustible_content_size_batcher(self):
+        batcher = fou.ContentSizeDynamicBatcher(
+            None, init_batch_size=100, target_size=1000
+        )
+        measurements = [500, 2000, 1000, 0.1, 1100, 0]
+        expected_batches = [
+            100,
+            200,
+            100,
+            100,
+            1000,  # capped at 1000 or 1B per object
+            int(round(10 / 11 * 1000)),
+        ]
+        batches = []
+        for m in measurements:
+            batches.append(next(batcher))
+            batcher.apply_backpressure(m)
+
+        self.assertListEqual(batches, expected_batches)
+
+    @drop_datasets
+    def test_batching_static_default(self):
+        with patch.object(fo.config, "default_batcher", "static"):
+            self._test_batching()
+
+    @drop_datasets
+    def test_batching_static_custom(self):
+        with patch.object(fo.config, "default_batcher", "static"):
+            with patch.object(fo.config, "batcher_static_size", 1):
+                self._test_batching()
+
+    @drop_datasets
+    def test_batching_latency_default(self):
+        with patch.object(fo.config, "default_batcher", "latency"):
+            self._test_batching()
+
+    @drop_datasets
+    def test_batching_latency_custom(self):
+        with patch.object(fo.config, "default_batcher", "latency"):
+            # test a value that forces batch size == 1
+            with patch.object(fo.config, "batcher_target_latency", 1e-6):
+                self._test_batching()
+
+    @drop_datasets
+    def test_batching_size_default(self):
+        with patch.object(fo.config, "default_batcher", "size"):
+            self._test_batching()
+
+    @drop_datasets
+    def test_batching_size_custom(self):
+        with patch.object(fo.config, "default_batcher", "size"):
+            # test a value that forces batch size == 1
+            with patch.object(fo.config, "batcher_target_size_bytes", 1):
+                self._test_batching()
+
+    def _test_batching(self):
+        n = 100
+        dataset = fo.Dataset()
+        dataset.add_samples([fo.Sample(filepath=f"{i}.jpg") for i in range(n)])
+
+        embeddings = np.random.randn(n, 512)
+        dataset.set_values("embeddings", embeddings)
+
+        self.assertEqual(len(dataset), n)
+        self.assertEqual(len(dataset.exists("embeddings")), n)
+
+        sample = dataset.view().first()
+        self.assertIsInstance(sample.embeddings, np.ndarray)
+
+
+class CoreUtilsTests(unittest.TestCase):
+    def test_validate_hex_color(self):
+        # Valid colors
+        fou.validate_hex_color("#FF6D04")
+        fou.validate_hex_color("#ff6d04")
+        fou.validate_hex_color("#000")
+        fou.validate_hex_color("#eee")
+
+        # Invalid colors
+        with self.assertRaises(ValueError):
+            fou.validate_hex_color("aaaaaa")
+
+        with self.assertRaises(ValueError):
+            fou.validate_hex_color("#bcedfg")
+
+        with self.assertRaises(ValueError):
+            fou.validate_hex_color("#ggg")
+
+        with self.assertRaises(ValueError):
+            fou.validate_hex_color("#FFFF")
+
+    def test_validate_color(self):
+        # valid
+        fou.validate_color("#ff6d04")
+        fou.validate_color("#000")
+        fou.validate_color("red")
+        fou.validate_color("lightpink")
+
+        # invalid
+        with self.assertRaises(ValueError):
+            fou.validate_color("#bcedfg")
+
+        with self.assertRaises(ValueError):
+            fou.validate_color("#ggg")
+
+        with self.assertRaises(ValueError):
+            fou.validate_color("yellowred")
+
+    def test_to_slug(self):
+        self.assertEqual(fou.to_slug("coco_2017"), "coco-2017")
+        self.assertEqual(fou.to_slug("c+o+c+o 2-0-1-7"), "c-o-c-o-2-0-1-7")
+        self.assertEqual(fou.to_slug("cat.DOG"), "cat-dog")
+        self.assertEqual(fou.to_slug("---z----"), "z")
+        self.assertEqual(
+            fou.to_slug("Brian's #$&@ [awesome?] dataset!"),
+            "brians-awesome-dataset",
+        )
+        self.assertEqual(
+            fou.to_slug("     sPaM     aNd  EgGs    "),
+            "spam-and-eggs",
+        )
+
+        with self.assertRaises(ValueError):
+            fou.to_slug("------")  # too short
+
+        with self.assertRaises(ValueError):
+            fou.to_slug("a" * 1552)  # too long
+
+    def test_get_module_name(self):
+        if sys.platform.startswith("win"):
+            self.assertEqual(
+                fou.get_module_name("C:\\tmp\\test\\module"),
+                "tmp.test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("C:\\tmp\\test\\module.py"),
+                "tmp.test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("C:\\tmp\\test\\module", "C:\\tmp"),
+                "test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("C:\\tmp\\test\\module.py", "C:\\tmp"),
+                "test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("C:\\tmp\\test\\module", "C:\\"),
+                "tmp.test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("C:\\tmp\\test\\module.py", "C:\\"),
+                "tmp.test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("C:\\tmp\\test\\module", "D:\\foo"),
+                "tmp.test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("C:\\tmp\\test\\module.py", "D:\\foo"),
+                "tmp.test.module",
+            )
+        else:
+            self.assertEqual(
+                fou.get_module_name("/tmp/test/module"),
+                "tmp.test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("/tmp/test/module.py"),
+                "tmp.test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("/tmp/test/module", "/tmp"),
+                "test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("/tmp/test/module.py", "/tmp"),
+                "test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("/tmp/test/module", "/"),
+                "tmp.test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("/tmp/test/module.py", "/"),
+                "tmp.test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("/tmp/test/module", "/foo"),
+                "tmp.test.module",
+            )
+            self.assertEqual(
+                fou.get_module_name("/tmp/test/module.py", "/foo"),
+                "tmp.test.module",
+            )
+
+
+class LabelsTests(unittest.TestCase):
+    @drop_datasets
+    def test_create(self):
+        labels = fo.Classification(label="cow", confidence=0.98)
+        self.assertIsInstance(labels, fo.Classification)
+
+        with self.assertRaises(Exception):
+            fo.Classification(label=100)
+
+    @drop_datasets
+    def test_copy(self):
+        dataset = fo.Dataset()
+
+        dataset.add_sample(
+            fo.Sample(
+                filepath="filepath1.jpg",
+                test_dets=fo.Detections(
+                    detections=[
+                        fo.Detection(
+                            label="friend",
+                            confidence=0.9,
+                            bounding_box=[0, 0, 0.5, 0.5],
+                        )
+                    ]
+                ),
+            )
+        )
+
+        sample = dataset.first()
+        sample2 = sample.copy()
+
+        self.assertIsNot(sample2, sample)
+        self.assertNotEqual(sample2.id, sample.id)
+        self.assertIsNot(sample2.test_dets, sample.test_dets)
+        det = sample.test_dets.detections[0]
+        det2 = sample2.test_dets.detections[0]
+        self.assertIsNot(det2, det)
+        self.assertNotEqual(det2.id, det.id)
+
+
+class SerializationTests(unittest.TestCase):
+    def test_embedded_document(self):
+        label1 = fo.Classification(label="cat", logits=np.arange(4))
+
+        label2 = fo.Classification(label="cat", logits=np.arange(4))
+
+        d1 = label1.to_dict()
+        d2 = label2.to_dict()
+        d1.pop("_id")
+        d2.pop("_id")
+        self.assertDictEqual(d1, d2)
+
+        d = label1.to_dict()
+        self.assertEqual(fo.Classification.from_dict(d), label1)
+
+        s = label1.to_json(pretty_print=False)
+        self.assertEqual(fo.Classification.from_json(s), label1)
+
+        s = label1.to_json(pretty_print=True)
+        self.assertEqual(fo.Classification.from_json(s), label1)
+
+    def test_sample_no_dataset(self):
+        """This test only works if the samples do not have Classification or
+        Detection fields because of the autogenerated ObjectIDs.
+        """
+        sample1 = fo.Sample(
+            filepath="~/Desktop/test.png",
+            tags=["test"],
+            vector=np.arange(5),
+            array=np.ones((2, 3)),
+            float=5.1,
+            bool=True,
+            int=51,
+        )
+
+        sample2 = fo.Sample(
+            filepath="~/Desktop/test.png",
+            tags=["test"],
+            vector=np.arange(5),
+            array=np.ones((2, 3)),
+            float=5.1,
+            bool=True,
+            int=51,
+        )
+        self.assertDictEqual(sample1.to_dict(), sample2.to_dict())
+
+        self.assertEqual(
+            fo.Sample.from_dict(sample1.to_dict()).to_dict(), sample1.to_dict()
+        )
+
+    @drop_datasets
+    def test_sample_in_dataset(self):
+        """This test only works if the samples do not have Classification or
+        Detection fields because of the autogenerated ObjectIDs.
+        """
+        dataset1 = fo.Dataset()
+        dataset2 = fo.Dataset()
+
+        sample1 = fo.Sample(
+            filepath="~/Desktop/test.png",
+            tags=["test"],
+            vector=np.arange(5),
+            array=np.ones((2, 3)),
+            float=5.1,
+            bool=True,
+            int=51,
+        )
+
+        sample2 = fo.Sample(
+            filepath="~/Desktop/test.png",
+            tags=["test"],
+            vector=np.arange(5),
+            array=np.ones((2, 3)),
+            float=5.1,
+            bool=True,
+            int=51,
+        )
+
+        self.assertDictEqual(sample1.to_dict(), sample2.to_dict())
+
+        dataset1.add_sample(sample1)
+        dataset2.add_sample(sample2)
+
+        self.assertNotEqual(sample1, sample2)
+
+        s1 = fo.Sample.from_dict(sample1.to_dict())
+        s2 = fo.Sample.from_dict(sample2.to_dict())
+
+        self.assertFalse(s1.in_dataset)
+        self.assertNotEqual(s1, sample1)
+
+        self.assertDictEqual(s1.to_dict(), s2.to_dict())
+
+
+class MediaTypeTests(unittest.TestCase):
+    @drop_datasets
+    def setUp(self):
+        self.img_sample = fo.Sample(filepath="image.png")
+        self.img_dataset = fo.Dataset()
+        self.img_dataset.add_sample(self.img_sample)
+
+        self.vid_sample = fo.Sample(filepath="video.mp4")
+        self.vid_dataset = fo.Dataset()
+        self.vid_dataset.add_sample(self.vid_sample)
+
+    def test_img_types(self):
+        self.assertEqual(self.img_sample.media_type, fom.IMAGE)
+        self.assertEqual(self.img_dataset.media_type, fom.IMAGE)
+
+    def test_vid_types(self):
+        self.assertEqual(self.vid_sample.media_type, fom.VIDEO)
+        self.assertEqual(self.vid_dataset.media_type, fom.VIDEO)
+
+    def test_img_change_attempts(self):
+        with self.assertRaises(fom.MediaTypeError):
+            self.img_sample.filepath = "video.mp4"
+
+    def test_vid_change_attempts(self):
+        with self.assertRaises(fom.MediaTypeError):
+            self.vid_sample.filepath = "image.png"
+
+
+class MigrationTests(unittest.TestCase):
+    def test_runner(self):
+        def revs(versions):
+            return [(v, v + ".py") for v in versions]
+
+        runner = MigrationRunner(
+            "0.0.1",
+            "0.3",
+            _revisions=revs(["0.1", "0.2", "0.3"]),
+        )
+        self.assertEqual(runner.revisions, ["0.1", "0.2", "0.3"])
+
+        runner = MigrationRunner(
+            "0.1",
+            "0.3",
+            _revisions=revs(["0.1", "0.2", "0.3"]),
+        )
+        self.assertEqual(runner.revisions, ["0.2", "0.3"])
+
+        runner = MigrationRunner(
+            "0.3",
+            "0.1",
+            _revisions=revs(["0.1", "0.2", "0.3"]),
+        )
+        self.assertEqual(runner.revisions, ["0.3", "0.2"])
+
+        runner = MigrationRunner(
+            "0.3",
+            "0.0.1",
+            _revisions=revs(["0.1", "0.2", "0.3"]),
+        )
+        self.assertEqual(runner.revisions, ["0.3", "0.2", "0.1"])
+
+    def test_future(self):
+        pkg_ver = foc.VERSION
+        future_ver = str(int(pkg_ver[0]) + 1) + pkg_ver[1:]
+
+        # Upgrading to a future version is not allowed
+
+        with self.assertRaises(EnvironmentError):
+            MigrationRunner(pkg_ver, future_ver)
+
+        with self.assertRaises(EnvironmentError):
+            MigrationRunner("0.1", future_ver)
+
+        # Downgrading from a future version is not allowed
+
+        with self.assertRaises(EnvironmentError):
+            MigrationRunner(future_ver, pkg_ver)
+
+        with self.assertRaises(EnvironmentError):
+            MigrationRunner(future_ver, "0.1")
+
+
+class ConfigTests(unittest.TestCase):
+    def test_multiple_config_cleanup(self):
+        # Note this is not a unit test and running this modifies the fiftyone
+        # config collection
+
+        db = foo.get_db_conn()
+        orig_config = foo.get_db_config()
+
+        # Add old configs so that they are cleaned up
+        new_config_ids = [
+            ObjectId.from_datetime(datetime(2022, 1, 1)),
+            ObjectId.from_datetime(datetime(2023, 1, 1)),
+        ]
+        try:
+            # Ensure that the fake configs are not already in the database due
+            # to failed cleanup
+            db.config.delete_many({"_id": {"$in": new_config_ids}})
+
+            # Add some duplicate documents
+            db.config.insert_one(
+                {
+                    "_id": new_config_ids[0],
+                    "version": "0.14.4",
+                    "type": "fiftyone",
+                }
+            )
+            db.config.insert_one(
+                {
+                    "_id": new_config_ids[1],
+                    "version": "0.1.4",
+                    "type": "fiftyone",
+                }
+            )
+
+            config = foo.get_db_config()
+
+            if fo.config.database_admin:
+                # Ensure that duplicate documents are automatically cleaned up
+                # if run by database admin
+                self.assertEqual(len(list(db.config.aggregate([]))), 1)
+            else:
+                # Otherwise, the duplicates are not cleaned up
+                self.assertEqual(len(list(db.config.aggregate([]))), 3)
+
+            # Regardless, the config should be the same
+            self.assertEqual(config, orig_config)
+        finally:
+            # Clean up the fake configs
+            db.config.delete_many({"_id": {"$in": new_config_ids}})
+
+
+class ProgressBarTests(unittest.TestCase):
+    def _test_correct_value(self, progress, global_progress, quiet, expected):
+        with fou.SetAttributes(fo.config, show_progress_bars=global_progress):
+            with fou.ProgressBar([], progress=progress, quiet=quiet) as pb:
+                assert pb._progress == expected
+
+    def test_progress_none_uses_global(self):
+        self._test_correct_value(
+            progress=None, global_progress=True, quiet=None, expected=True
+        )
+        self._test_correct_value(
+            progress=None, global_progress=False, quiet=None, expected=False
+        )
+
+    def test_progress_overwrites_global(self):
+        self._test_correct_value(
+            progress=True, global_progress=True, quiet=None, expected=True
+        )
+        self._test_correct_value(
+            progress=True, global_progress=False, quiet=None, expected=True
+        )
+        self._test_correct_value(
+            progress=False, global_progress=True, quiet=None, expected=False
+        )
+        self._test_correct_value(
+            progress=False, global_progress=False, quiet=None, expected=False
+        )
+
+    def test_quiet_overwrites_all(self):
+        # Careful, we expect here to have progress the opposite value of quiet
+        self._test_correct_value(
+            progress=True, global_progress=True, quiet=True, expected=False
+        )
+        self._test_correct_value(
+            progress=False, global_progress=False, quiet=False, expected=True
+        )
+
+
+class RecommendProcessPoolWorkersTests(unittest.TestCase):
+    @patch.object(fou.multiprocessing, "current_process")
+    def test_daemon(self, current_process_mock):
+        current_process_mock.return_value.daemon = True
+        self.assertEqual(fou.recommend_process_pool_workers(8, 4), 0)
+
+    def test_explicit(self):
+        with patch.object(fo.config, "default_process_pool_workers", None):
+            # Uses explicitly passed workers
+            self.assertEqual(fou.recommend_process_pool_workers(8, 4), 8)
+
+            # Negative number coerced to 0
+            self.assertEqual(fou.recommend_process_pool_workers(-1), 0)
+
+            # Number is capped by config
+            with patch.object(fo.config, "max_process_pool_workers", 2):
+                self.assertEqual(fou.recommend_process_pool_workers(8, 4), 2)
+
+    def test_default_from_config(self):
+        # Uses default from config
+        with patch.object(fo.config, "default_process_pool_workers", 4):
+            self.assertEqual(
+                fou.recommend_process_pool_workers(default_num_workers=8), 4
+            )
+
+            # Number is capped by config
+            with patch.object(fo.config, "max_process_pool_workers", 2):
+                self.assertEqual(fou.recommend_process_pool_workers(), 2)
+
+        # Test default from config is 0
+        with patch.object(fo.config, "default_process_pool_workers", 0):
+            self.assertEqual(
+                fou.recommend_process_pool_workers(default_num_workers=4), 0
+            )
+
+    def test_default_passed_in(self):
+        with patch.object(fo.config, "default_process_pool_workers", None):
+            # Uses default passed in
+            self.assertEqual(
+                fou.recommend_process_pool_workers(default_num_workers=8), 8
+            )
+            self.assertEqual(
+                fou.recommend_process_pool_workers(default_num_workers=-1), 0
+            )
+
+            # Number is capped by config
+            with patch.object(fo.config, "max_process_pool_workers", 2):
+                self.assertEqual(
+                    fou.recommend_process_pool_workers(default_num_workers=8),
+                    2,
+                )
+
+    @patch.object(fou, "get_cpu_count")
+    def test_cpucount(self, cpu_count_mock):
+        with patch.object(fo.config, "default_process_pool_workers", None):
+            cpu_count_mock.return_value = 10
+            self.assertEqual(fou.recommend_process_pool_workers(), 10)
+
+            # Number is capped by config
+            with patch.object(fo.config, "max_process_pool_workers", 2):
+                self.assertEqual(fou.recommend_process_pool_workers(), 2)
+
+
+class RecommendThreadPoolWorkersTests(unittest.TestCase):
+    def test_explicit(self):
+        with patch.object(fo.config, "default_thread_pool_workers", None):
+            # Uses explicitly passed workers
+            self.assertEqual(fou.recommend_thread_pool_workers(8, 4), 8)
+
+            # Negative number coerced to 0
+            self.assertEqual(fou.recommend_thread_pool_workers(-1), 0)
+
+            # Number is capped by config
+            with patch.object(fo.config, "max_thread_pool_workers", 2):
+                self.assertEqual(fou.recommend_thread_pool_workers(8, 4), 2)
+
+    def test_default_from_config(self):
+        # Uses default from config
+        with patch.object(fo.config, "default_thread_pool_workers", 4):
+            self.assertEqual(
+                fou.recommend_thread_pool_workers(default_num_workers=8), 4
+            )
+
+            # Number is capped by config
+            with patch.object(fo.config, "max_thread_pool_workers", 2):
+                self.assertEqual(fou.recommend_thread_pool_workers(), 2)
+
+        # Test default from config is 0
+        with patch.object(fo.config, "default_thread_pool_workers", 0):
+            self.assertEqual(
+                fou.recommend_thread_pool_workers(default_num_workers=4), 0
+            )
+
+    def test_default_passed_in(self):
+        with patch.object(fo.config, "default_thread_pool_workers", None):
+            # Uses default passed in
+            self.assertEqual(
+                fou.recommend_thread_pool_workers(default_num_workers=8), 8
+            )
+            self.assertEqual(
+                fou.recommend_thread_pool_workers(default_num_workers=-1), 0
+            )
+
+            # Number is capped by config
+            with patch.object(fo.config, "max_thread_pool_workers", 2):
+                self.assertEqual(
+                    fou.recommend_thread_pool_workers(default_num_workers=8),
+                    2,
+                )
+
+    @patch.object(fou, "get_cpu_count")
+    def test_cpucount(self, cpu_count_mock):
+        with patch.object(fo.config, "default_thread_pool_workers", None):
+            cpu_count_mock.return_value = 10
+            self.assertEqual(fou.recommend_thread_pool_workers(), 10)
+
+            # Number is capped by config
+            with patch.object(fo.config, "max_thread_pool_workers", 2):
+                self.assertEqual(fou.recommend_thread_pool_workers(), 2)
+
+
+class ResponseStreamTests(unittest.TestCase):
+    def _make_response(self, data, content_length=None):
+        """Create a mock requests.Response with given data and headers."""
+        response = MagicMock()
+
+        def iter_content(chunk_size=64):
+            for i in range(0, len(data), chunk_size):
+                yield data[i : i + chunk_size]
+
+        response.iter_content = iter_content
+        response.headers = {}
+        if content_length is not None:
+            response.headers["Content-Length"] = str(content_length)
+
+        return response
+
+    def test_read_all(self):
+        data = b"hello world"
+        stream = fou.ResponseStream(self._make_response(data))
+        self.assertEqual(stream.read(), data)
+
+    def test_read_partial(self):
+        data = b"hello world"
+        stream = fou.ResponseStream(self._make_response(data))
+        self.assertEqual(stream.read(5), b"hello")
+        self.assertEqual(stream.read(6), b" world")
+
+    def test_read_past_end(self):
+        data = b"short"
+        stream = fou.ResponseStream(self._make_response(data))
+        self.assertEqual(stream.read(100), b"short")
+
+    def test_tell(self):
+        data = b"hello world"
+        stream = fou.ResponseStream(self._make_response(data))
+        self.assertEqual(stream.tell(), 0)
+        stream.read(5)
+        self.assertEqual(stream.tell(), 5)
+
+    def test_seek_set(self):
+        data = b"hello world"
+        stream = fou.ResponseStream(self._make_response(data))
+        stream.read(5)
+        stream.seek(0)
+        self.assertEqual(stream.read(5), b"hello")
+
+    def test_seek_returns_position(self):
+        data = b"hello world"
+        stream = fou.ResponseStream(self._make_response(data))
+        stream.read()
+        pos = stream.seek(3)
+        self.assertEqual(pos, 3)
+
+    def test_seek_end(self):
+        data = b"hello world"
+        stream = fou.ResponseStream(self._make_response(data))
+        pos = stream.seek(0, 2)  # SEEK_END
+        self.assertEqual(pos, len(data))
+
+    def test_read_after_seek(self):
+        data = b"hello world"
+        stream = fou.ResponseStream(self._make_response(data))
+        stream.read()
+        stream.seek(6)
+        self.assertEqual(stream.read(), b"world")
+
+    def test_large_data(self):
+        data = b"x" * 10000
+        stream = fou.ResponseStream(self._make_response(data), chunk_size=64)
+        self.assertEqual(stream.read(), data)
+
+    def test_empty_data(self):
+        data = b""
+        stream = fou.ResponseStream(self._make_response(data))
+        self.assertEqual(stream.read(), b"")
+        self.assertEqual(stream.tell(), 0)
+
+    def test_seek_end_for_size_fallback(self):
+        """Test the pattern used in ImageMetadata._build_for_url for chunked
+        responses where Content-Length is missing."""
+        data = b"x" * 500
+        stream = fou.ResponseStream(self._make_response(data))
+        # Simulate reading some data first (like get_image_info would)
+        stream.read(100)
+        # Then seek to end to get total size (the fallback pattern)
+        size = stream.seek(0, 2)  # os.SEEK_END
+        self.assertEqual(size, len(data))
+
+    def test_seek_end_with_negative_offset(self):
+        data = b"hello world"
+        stream = fou.ResponseStream(self._make_response(data))
+        pos = stream.seek(-5, 2)  # SEEK_END, back 5 bytes
+        self.assertEqual(pos, len(data) - 5)
+        self.assertEqual(stream.read(), b"world")
+
+    def test_consume_size_with_content_length(self):
+        data = b"hello world"
+        stream = fou.ResponseStream(
+            self._make_response(data, content_length=len(data))
+        )
+        self.assertEqual(stream.consume_size(), len(data))
+
+    def test_consume_size_without_content_length(self):
+        data = b"x" * 1000
+        stream = fou.ResponseStream(self._make_response(data))
+        stream.read(100)
+        size = stream.consume_size()
+        self.assertEqual(size, len(data))
+
+
+if __name__ == "__main__":
+    fo.config.show_progress_bars = False
+    unittest.main(verbosity=2)

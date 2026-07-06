@@ -1,0 +1,275 @@
+"""
+| Copyright 2017-2026, Voxel51, Inc.
+| `voxel51.com <https://voxel51.com/>`_
+|
+"""
+
+from unittest import mock
+
+
+import pytest
+
+from fiftyone.server.utils.json.jsonpatch.exceptions import RootDeleteError
+from fiftyone.server.utils.json import jsonpatch
+
+
+class TestParse:
+    """Tests for jsonpatch .parse."""
+
+    @pytest.fixture(name="patches")
+    def fixture_patches(self):
+        """Returns a list of example patch dicts."""
+        return [
+            {"op": "add", "path": "/a/b/c", "value": mock.Mock()},
+            {"op": "copy", "path": "/d/e/f", "from": "/a/b/c"},
+            {"op": "move", "path": "/d/e/f", "from": "/a/b/c"},
+            {"op": "remove", "path": "/x/y/0"},
+            {"op": "replace", "path": "/x/y/0", "value": mock.Mock()},
+            {"op": "test", "path": "/x/y/0", "value": mock.Mock()},
+        ]
+
+    @staticmethod
+    def test_missing_common_fields(patches):
+        """Tests that 'op' and 'path' are required fields."""
+        for key in ("op", "path"):
+            patch = patches[0].copy()
+            patch.pop(key)
+
+            with pytest.raises(ValueError):
+                #####
+                jsonpatch.parse(patch)
+                #####
+
+    @staticmethod
+    def test_unsupported(patches):
+        """Tests that unsupported operations raise TypeError."""
+
+        invalid_patch = patches[0].copy()
+        invalid_patch["op"] = "invalid"
+
+        with pytest.raises(TypeError):
+            #####
+            jsonpatch.parse(invalid_patch)
+            #####
+
+    @staticmethod
+    def test_missing_required_values(patches):
+        """Tests that invalid patches raise ValueError."""
+
+        for patch in patches:
+            if patch["op"] == "remove":
+                continue
+
+            if patch["op"] in ("add", "replace", "test"):
+                patch.pop("value")
+
+            if patch["op"] in ("copy", "move"):
+                patch.pop("from")
+
+            with pytest.raises(ValueError):
+                #####
+                jsonpatch.parse(patch)
+                #####
+
+    @staticmethod
+    def test_invalid_path(patches):
+        """Tests that invalid patches raise ValueError."""
+
+        patch = patches[0]
+        patch["path"] = patch["path"][1:]
+
+        with pytest.raises(ValueError):
+            #####
+            jsonpatch.parse(patch)
+            #####
+
+    @staticmethod
+    def test_bad_transform(patches):
+        """Tests that exceptions in transform_fn raise ValueError."""
+
+        transform_fn = mock.Mock()
+        transform_fn.side_effect = Exception("Uh oh!")
+
+        for patch in patches:
+            if patch["op"] not in ("add", "replace", "test"):
+                continue
+
+            with pytest.raises(ValueError):
+                #####
+                jsonpatch.parse(patch, transform_fn=transform_fn)
+                #####
+
+            transform_fn.assert_called_with(patch["value"])
+
+        assert transform_fn.call_count == 3
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "transform_fn",
+        (
+            pytest.param(None, id=""),
+            pytest.param(mock.Mock(), id="transform"),
+        ),
+    )
+    def test_ok(transform_fn, patches):
+        """Tests that valid patches are parsed correctly."""
+
+        for patch in patches:
+            #####
+            res = jsonpatch.parse(patch, transform_fn=transform_fn)
+            #####
+
+            assert isinstance(res, jsonpatch.Patch)
+            res: jsonpatch.Patch
+            assert res.op == patch["op"]
+            assert res.path == patch["path"]
+
+            if patch["op"] in ("add", "replace", "test"):
+                if transform_fn is None:
+                    assert res.value == patch["value"]
+                else:
+                    transform_fn.assert_called_with(patch["value"])
+                    assert res.value == transform_fn.return_value
+
+            if patch["op"] in ("copy", "move"):
+                assert res.from_ == patch["from"]
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        "transform_fn",
+        (
+            pytest.param(None, id=""),
+            pytest.param(mock.Mock(), id="transform"),
+        ),
+    )
+    def test_ok_multi(transform_fn, patches):
+        """Tests that valid patches are parsed correctly."""
+
+        #####
+        res = jsonpatch.parse(patches, transform_fn=transform_fn)
+        #####
+
+        assert isinstance(res, list)
+
+        for i, patch in enumerate(res):
+            assert isinstance(patch, jsonpatch.Patch)
+
+            assert patch.op == patches[i]["op"]
+            assert patch.path == patches[i]["path"]
+
+            if hasattr(patch, "value"):
+                if transform_fn is None:
+                    assert patch.value == patches[i]["value"]
+                else:
+                    assert patch.value == transform_fn.return_value
+
+            if hasattr(patch, "from_"):
+                assert patch.from_ == patches[i]["from"]
+
+        if transform_fn is not None:
+            transform_fn.assert_has_calls(
+                [
+                    mock.call(patch["value"])
+                    for patch in patches
+                    if "value" in patch
+                ]
+            )
+
+
+class TestApplyRootDeleteError:
+    """Tests for RootDeleteError raised by jsonpatch.apply."""
+
+    def test_apply_raises_root_delete_error(self):
+        """apply() raises RootDeleteError for root delete operations."""
+        target = {"label": "cat"}
+        operations = [
+            {"op": "remove", "path": "/"},
+        ]
+
+        with pytest.raises(RootDeleteError):
+            jsonpatch.apply(target, operations)
+
+    def test_apply_does_not_raise_for_non_root_delete(self):
+        """apply() does not raise RootDeleteError for non-root operations."""
+        target = {"label": "cat", "confidence": 0.9}
+        operations = [
+            {"op": "remove", "path": "/confidence"},
+            {"op": "replace", "path": "/label", "value": "dog"},
+        ]
+
+        result, errors = jsonpatch.apply(target, operations)
+        assert errors == []
+        assert "confidence" not in result
+        assert "label" in result
+        assert result["label"] == "dog"
+
+    def test_apply_does_not_raise_for_replace_root(self):
+        """apply() does not raise RootDeleteError for multiple operations."""
+        target = {"label": "cat", "tags": ["auto"]}
+        operations = [
+            {
+                "op": "replace",
+                "path": "/",
+                "value": {"label": "car", "tags": ["modified"]},
+            },
+        ]
+
+        result, errors = jsonpatch.apply(target, operations)
+        assert errors == []
+        assert "label" in result
+        assert result["label"] == "car"
+        assert "tags" in result
+        assert result["tags"] == ["modified"]
+
+
+class TestApplyInstanceId:
+    """Regression tests for patching the ``_id`` of an embedded
+    :class:`fiftyone.core.labels.Instance`.
+
+    Deleting a detection with ``instance=fo.Instance()`` re-indexes the
+    remaining detections, producing a ``replace`` patch on
+    ``.../instance/_id``. This used to fail with "Unable to remove value with
+    path: .../instance/_id" because the ``_id`` property has no deleter.
+    """
+
+    def test_replace_instance_id(self):
+        """replace on an embedded Instance ``_id`` succeeds."""
+        import fiftyone as fo
+
+        det = fo.Detection(label="Pedestrian", instance=fo.Instance())
+        detections = fo.Detections(detections=[det])
+        new_id = str(fo.Instance().id)
+
+        result, errors = jsonpatch.apply(
+            detections,
+            [{"op": "replace", "path": "/detections/0/instance/_id",
+              "value": new_id}],
+        )
+
+        assert errors == []
+        assert str(result.detections[0].instance.id) == new_id
+
+    def test_delete_reindexes_detection_with_instance(self):
+        """Deleting one of two detections with instances and re-indexing the
+        survivor (the full client patch) applies cleanly."""
+        import fiftyone as fo
+
+        det0 = fo.Detection(label="Pedestrian", instance=fo.Instance())
+        det1 = fo.Detection(label="Pedestrian", instance=fo.Instance())
+        detections = fo.Detections(detections=[det0, det1])
+
+        result, errors = jsonpatch.apply(
+            detections,
+            [
+                {"op": "replace", "path": "/detections/0/_id",
+                 "value": str(det1.id)},
+                {"op": "replace", "path": "/detections/0/instance/_id",
+                 "value": str(det1.instance.id)},
+                {"op": "remove", "path": "/detections/1"},
+            ],
+        )
+
+        assert errors == []
+        assert len(result.detections) == 1
+        assert str(result.detections[0].id) == str(det1.id)
+        assert str(result.detections[0].instance.id) == str(det1.instance.id)

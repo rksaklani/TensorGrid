@@ -1,0 +1,38 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
+# Node / frontend
+node_modules/
+.next/
+.yarn/
+.pnp.*
+*.tsbuildinfo
+
+# Build outputs
+core/build/
+core/dist/
+core/app/packages/*/dist/
+*.log
+
+# Env / secrets
+.env
+.env.*
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Local data
+server.log

@@ -1,0 +1,35 @@
+{
+    "name": "@tensorgrid/similarity-search",
+    "version": "1.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "watch": "nodemon --watch ./src --ext js,jsx,ts,tsx --exec 'yarn build'"
+    },
+    "files": [
+        "dist"
+    ],
+    "main": "src/index.ts",
+    "dependencies": {
+        "@tensorgrid/components": "*",
+        "@tensorgrid/operators": "*",
+        "@tensorgrid/plugins": "*",
+        "@tensorgrid/spaces": "*",
+        "@tensorgrid/state": "*",
+        "@voxel51/voodo": "^0.0.35"
+    },
+    "devDependencies": {
+        "vite": "^7.3.2",
+        "vite-plugin-externals": "^0.5.0"
+    },
+    "fiftyone": {
+        "script": "dist/index.umd.js"
+    },
+    "packageManager": "yarn@4.9.1",
+    "peerDependencies": {
+        "@mui/icons-material": "*",
+        "jotai": "*",
+        "recoil": "*"
+    }
+}

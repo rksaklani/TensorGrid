@@ -1,0 +1,42 @@
+import * as foq from "@tensorgrid/relay";
+import { selector } from "recoil";
+import { transformDataset } from "../utils";
+import { State } from "./types";
+
+export const dataset = foq.graphQLSyncFragmentAtom<
+  foq.datasetFragment$key,
+  State.Dataset | null
+>(
+  {
+    fragments: [foq.datasetFragment],
+    keys: ["dataset"],
+    read: (dataset) => {
+      return { ...transformDataset(dataset) };
+    },
+    default: null,
+  },
+  {
+    key: "dataset",
+  },
+);
+
+const estimatedCounts =
+  foq.graphQLSyncFragmentAtom<foq.estimatedCountsFragment$key>(
+    {
+      keys: ["dataset"],
+      fragments: [foq.datasetFragment, foq.estimatedCounts],
+    },
+    {
+      key: "estimatedCounts",
+    },
+  );
+
+export const datasetSampleCount = selector<number | null>({
+  key: "datasetSampleCount",
+  get: ({ get }) => get(estimatedCounts)?.estimatedSampleCount ?? null,
+});
+
+export const datasetFrameCount = selector<number | null>({
+  key: "datasetFrameCount",
+  get: ({ get }) => get(estimatedCounts)?.estimatedFrameCount ?? null,
+});

@@ -1,0 +1,681 @@
+"""
+FiftyOne execution store related unit tests.
+
+| Copyright 2017-2026, Voxel51, Inc.
+| `voxel51.com <https://voxel51.com/>`_
+|
+"""
+
+from datetime import datetime
+import time
+import unittest
+from unittest.mock import patch, MagicMock, ANY, Mock
+
+from bson import ObjectId
+
+from fiftyone.operators.store import ExecutionStoreService
+from fiftyone.operators.store.models import KeyDocument
+from fiftyone.factory.repo_factory import MongoExecutionStoreRepo
+from fiftyone.operators.store import ExecutionStore
+
+
+EPSILON = 0.1
+
+
+class IsDateTime:
+    def __eq__(self, other):
+        return isinstance(other, datetime)
+
+
+def assert_delta_seconds_approx(time_delta, seconds, epsilon=EPSILON):
+    assert abs(time_delta.total_seconds() - seconds) < epsilon
+
+
+class TestKeyDocument(unittest.TestCase):
+    def test_get_expiration(self):
+        ttl = 1
+        now = datetime.utcnow()
+        expiration = KeyDocument.get_expiration(ttl)
+        time_delta = expiration - now
+        assert_delta_seconds_approx(time_delta, ttl)
+        assert isinstance(expiration, datetime)
+
+    def test_get_expiration_none(self):
+        ttl = None
+        expiration = KeyDocument.get_expiration(ttl)
+        assert expiration is None
+
+
+class ExecutionStoreServiceIntegrationTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.mock_collection = MagicMock()
+        self.store_repo = MongoExecutionStoreRepo(self.mock_collection)
+        self.store_service = ExecutionStoreService(self.store_repo)
+
+    def test_set_key(self):
+        store = "widgets"
+        key = "widget_1"
+        value = {"name": "Widget One", "value": 100}
+        ttl = 60000
+
+        self.store_repo.set_key(store, key, value, ttl=ttl)
+
+        self.mock_collection.update_one.assert_called_once()
+        args, kwargs = self.mock_collection.update_one.call_args
+
+        # Filter
+        self.assertEqual(
+            args[0],
+            {
+                "store_name": store,
+                "key": key,
+                "dataset_id": None,
+            },
+        )
+
+        # Update
+        update = args[1]
+        self.assertIn("$set", update)
+        self.assertIn("$setOnInsert", update)
+
+        self.assertEqual(update["$set"]["value"], value)
+        self.assertIsInstance(update["$set"]["updated_at"], datetime)
+
+        insert = update["$setOnInsert"]
+        self.assertEqual(insert["store_name"], store)
+        self.assertEqual(insert["key"], key)
+        self.assertIsInstance(insert["created_at"], datetime)
+        self.assertIsInstance(insert["expires_at"], datetime)
+        self.assertIsNone(insert["dataset_id"])
+        self.assertEqual(insert["policy"], "evict")
+
+        # Options
+        self.assertEqual(kwargs, {"upsert": True})
+
+    def test_get_key(self):
+        self.mock_collection.find_one.return_value = {
+            "store_name": "widgets",
+            "key": "widget_1",
+            "value": {"name": "Widget One", "value": 100},
+            "dataset_id": None,
+            "created_at": time.time(),
+            "updated_at": time.time(),
+            "expires_at": time.time() + 60000,
+            "policy": "evict",
+        }
+        self.store_service.get_key(store_name="widgets", key="widget_1")
+        self.mock_collection.find_one.assert_called_once()
+        self.mock_collection.find_one.assert_called_with(
+            {
+                "store_name": "widgets",
+                "key": "widget_1",
+                "dataset_id": None,
+            }
+        )
+
+    def test_create_store(self):
+        self.store_repo.create_store("widgets")
+        self.mock_collection.insert_one.assert_called_once()
+        self.mock_collection.insert_one.assert_called_with(
+            {
+                "store_name": "widgets",
+                "key": "__store__",
+                "value": None,
+                "created_at": IsDateTime(),
+                "updated_at": None,
+                "expires_at": None,
+                "dataset_id": None,
+                "policy": "persist",
+            }
+        )
+
+    def test_delete_key(self):
+        self.mock_collection.delete_one.return_value = Mock(deleted_count=1)
+        self.store_repo.delete_key("widgets", "widget_1")
+        self.mock_collection.delete_one.assert_called_once()
+        self.mock_collection.delete_one.assert_called_with(
+            {
+                "store_name": "widgets",
+                "key": "widget_1",
+                "dataset_id": None,
+            }
+        )
+
+    def test_update_ttl(self):
+        self.mock_collection.update_one.return_value = Mock(modified_count=1)
+        ttl_seconds = 60000
+        expected_expiration = KeyDocument.get_expiration(ttl_seconds)
+        self.store_repo.update_ttl("widgets", "widget_1", ttl_seconds)
+        self.mock_collection.update_one.assert_called_once()
+
+        actual_call = self.mock_collection.update_one.call_args
+        actual_expires_at = actual_call[0][1]["$set"]["expires_at"]
+        time_delta = expected_expiration - actual_expires_at
+        assert_delta_seconds_approx(time_delta, 0, epsilon=0.0001)
+
+    def test_delete_store(self):
+        self.mock_collection.delete_many.return_value = Mock(deleted_count=1)
+        self.store_repo.delete_store("widgets")
+        self.mock_collection.delete_many.assert_called_once()
+        self.mock_collection.delete_many.assert_called_with(
+            {"store_name": "widgets", "dataset_id": None}
+        )
+
+    def test_list_keys(self):
+        self.mock_collection.find.return_value = [
+            {"store_name": "widgets", "key": "widget_1", "policy": "persist"},
+            {"store_name": "widgets", "key": "widget_2", "policy": "persist"},
+        ]
+        keys = self.store_repo.list_keys("widgets")
+        assert keys == ["widget_1", "widget_2"]
+        self.mock_collection.find.assert_called_once()
+        self.mock_collection.find.assert_called_with(
+            {
+                "store_name": "widgets",
+                "key": {"$ne": "__store__"},
+                "dataset_id": None,
+            },
+            {"key": 1},
+        )
+
+
+class TestExecutionStoreIntegration(unittest.TestCase):
+    def setUp(self) -> None:
+        self.mock_collection = MagicMock()
+        self.store_repo = MongoExecutionStoreRepo(self.mock_collection)
+        self.store_service = ExecutionStoreService(self.store_repo)
+        self.store = ExecutionStore("mock_store", self.store_service)
+
+    def test_set(self):
+        key = "widget_1"
+        value = {"name": "Widget One", "value": 100}
+        ttl = 60000
+
+        self.store.set(key, value, ttl=ttl)
+
+        self.mock_collection.update_one.assert_called_once()
+        args, kwargs = self.mock_collection.update_one.call_args
+
+        # Filter
+        self.assertEqual(
+            args[0],
+            {
+                "store_name": "mock_store",
+                "key": key,
+                "dataset_id": None,
+            },
+        )
+
+        # Update
+        update = args[1]
+        self.assertIn("$set", update)
+        self.assertIn("$setOnInsert", update)
+
+        self.assertEqual(update["$set"]["value"], value)
+        self.assertIsInstance(update["$set"]["updated_at"], datetime)
+
+        insert = update["$setOnInsert"]
+        self.assertEqual(insert["store_name"], "mock_store")
+        self.assertEqual(insert["key"], key)
+        self.assertIsInstance(insert["created_at"], datetime)
+        self.assertIsInstance(insert["expires_at"], datetime)
+        self.assertIsNone(insert["dataset_id"])
+
+        # Options
+        self.assertEqual(kwargs, {"upsert": True})
+
+    def test_get(self):
+        self.mock_collection.find_one.return_value = {
+            "store_name": "mock_store",
+            "key": "widget_1",
+            "value": {"name": "Widget One", "value": 100},
+            "dataset_id": None,
+            "created_at": time.time(),
+            "updated_at": time.time(),
+            "expires_at": time.time() + 60000,
+        }
+        value = self.store.get("widget_1")
+        assert value == {"name": "Widget One", "value": 100}
+        self.mock_collection.find_one.assert_called_once()
+
+    def test_list_keys(self):
+        self.mock_collection.find.return_value = [
+            {"store_name": "mock_store", "key": "widget_1"},
+            {"store_name": "mock_store", "key": "widget_2"},
+        ]
+        keys = self.store.list_keys()
+        assert keys == ["widget_1", "widget_2"]
+        self.mock_collection.find.assert_called_once()
+
+    def test_delete(self):
+        self.mock_collection.delete_one.return_value = Mock(deleted_count=1)
+        deleted = self.store.delete("widget_1")
+        assert deleted
+        self.mock_collection.delete_one.assert_called_once()
+
+    def test_clear(self):
+        self.store.clear()
+        self.mock_collection.delete_many.assert_called_once()
+
+
+class ExecutionStoreServiceDatasetIdTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.mock_collection = MagicMock()
+        self.dataset_id = ObjectId()
+        self.store_repo = MongoExecutionStoreRepo(
+            self.mock_collection, dataset_id=self.dataset_id
+        )
+        self.store_service = ExecutionStoreService(self.store_repo)
+
+    def test_set_key_with_dataset_id(self):
+        store = "widgets"
+        key = "widget_1"
+        value = {"name": "Widget One", "value": 100}
+        ttl = 60000
+
+        self.store_service.set_key(store, key, value, ttl=ttl)
+
+        self.mock_collection.update_one.assert_called_once()
+        args, kwargs = self.mock_collection.update_one.call_args
+
+        # Filter
+        self.assertEqual(
+            args[0],
+            {
+                "store_name": store,
+                "key": key,
+                "dataset_id": self.dataset_id,
+            },
+        )
+
+        # Update
+        update = args[1]
+        self.assertIn("$set", update)
+        self.assertIn("$setOnInsert", update)
+
+        self.assertEqual(update["$set"]["value"], value)
+        self.assertIsInstance(update["$set"]["updated_at"], datetime)
+
+        insert = update["$setOnInsert"]
+        self.assertEqual(insert["store_name"], store)
+        self.assertEqual(insert["key"], key)
+        self.assertIsInstance(insert["created_at"], datetime)
+        self.assertIsInstance(insert["expires_at"], datetime)
+        self.assertEqual(insert["dataset_id"], self.dataset_id)
+        self.assertEqual(insert["policy"], "evict")
+
+        # Options
+        self.assertEqual(kwargs, {"upsert": True})
+
+    def test_get_key_with_dataset_id(self):
+        self.mock_collection.find_one.return_value = {
+            "store_name": "widgets",
+            "key": "widget_1",
+            "value": {"name": "Widget One", "value": 100},
+            "created_at": time.time(),
+            "updated_at": time.time(),
+            "expires_at": time.time() + 60000,
+            "dataset_id": self.dataset_id,
+            "policy": "evict",
+        }
+        self.store_service.get_key("widgets", "widget_1")
+        self.mock_collection.find_one.assert_called_once()
+        self.mock_collection.find_one.assert_called_with(
+            {
+                "store_name": "widgets",
+                "key": "widget_1",
+                "dataset_id": self.dataset_id,
+            }
+        )
+
+    def test_list_keys_with_dataset_id(self):
+        self.store_service.list_keys("widgets")
+        self.mock_collection.find.assert_called_once()
+        self.mock_collection.find.assert_called_with(
+            {
+                "store_name": "widgets",
+                "key": {"$ne": "__store__"},
+                "dataset_id": self.dataset_id,
+            },
+            {"key": 1},
+        )
+
+    def test_delete_key_with_dataset_id(self):
+        mock_result = MagicMock()
+        mock_result.deleted_count = 1  # Simulate a successful deletion
+        self.mock_collection.delete_one.return_value = mock_result
+
+        deleted = self.store_service.delete_key("widgets", "widget_1")
+        assert deleted
+
+        self.mock_collection.delete_one.assert_called_once()
+        self.mock_collection.delete_one.assert_called_with(
+            {
+                "store_name": "widgets",
+                "key": "widget_1",
+                "dataset_id": self.dataset_id,
+            }
+        )
+
+    def test_create_store_with_dataset_id(self):
+        self.store_service.create_store("widgets")
+        self.mock_collection.insert_one.assert_called_once()
+        self.mock_collection.insert_one.assert_called_with(
+            {
+                "store_name": "widgets",
+                "key": "__store__",
+                "value": None,
+                "dataset_id": self.dataset_id,
+                "created_at": IsDateTime(),
+                "updated_at": None,
+                "expires_at": None,
+                "policy": "persist",
+            }
+        )
+
+    def test_delete_store_with_dataset_id(self):
+        self.store_service.delete_store("widgets")
+        self.mock_collection.delete_many.assert_called_once()
+        self.mock_collection.delete_many.assert_called_with(
+            {"store_name": "widgets", "dataset_id": self.dataset_id}
+        )
+
+    def test_update_ttl_with_dataset_id(self):
+        ttl_seconds = 60000
+        expected_expiration = KeyDocument.get_expiration(ttl_seconds)
+        mock_result = MagicMock()
+        mock_result.modified_count = 1
+        self.mock_collection.update_one.return_value = mock_result
+
+        updated = self.store_service.update_ttl(
+            "widgets", "widget_1", ttl_seconds
+        )
+        assert updated
+
+        actual_call = self.mock_collection.update_one.call_args
+        actual_query, actual_update = actual_call[0]
+
+        assert actual_query == {
+            "store_name": "widgets",
+            "key": "widget_1",
+            "dataset_id": self.dataset_id,
+        }
+
+        actual_expires_at = actual_update["$set"]["expires_at"]
+        assert isinstance(actual_expires_at, datetime)
+
+        time_delta = actual_expires_at - expected_expiration
+        assert_delta_seconds_approx(
+            time_delta, 0
+        )  # Check that the time difference is within the allowed EPSILON
+
+    def test_string_dataset_id_raises_exception(self):
+        """Test that creating a MongoExecutionStoreRepo with a string dataset_id raises an exception."""
+        mock_collection = MagicMock()
+        string_dataset_id = "507f1f77bcf86cd799439011"
+
+        with self.assertRaises(ValueError) as context:
+            MongoExecutionStoreRepo(
+                mock_collection, dataset_id=string_dataset_id
+            )
+
+        self.assertIn("dataset_id must be an ObjectId", str(context.exception))
+
+
+class TestCloneExecutionStores(unittest.TestCase):
+    """Tests for cloning execution store records to a cloned dataset."""
+
+    def _clone(self, seed, src_id, dst_id, id_map=None):
+        """Runs ``clone_execution_stores`` against a mocked collection seeded
+        with ``seed`` and returns the list of inserted documents."""
+        # pylint: disable=no-name-in-module,import-error
+        from fiftyone.operators.store import clone as esc
+
+        inserted = []
+        mock_coll = MagicMock()
+
+        def _find(query):
+            ds = query["dataset_id"]
+            allow = set(query["store_name"]["$in"])
+            return [
+                dict(d)
+                for d in seed
+                if d["dataset_id"] == ds and d["store_name"] in allow
+            ]
+
+        mock_coll.find.side_effect = _find
+        mock_coll.insert_many.side_effect = lambda docs: inserted.extend(docs)
+
+        src = Mock()
+        src._doc.id = src_id
+        dst = Mock()
+        dst._doc.id = dst_id
+
+        # Decouple from plugin importability: the store names are sourced from
+        # the owning panels at runtime, but the copy/remap logic under test is
+        # independent of which panels happen to be importable here.
+        store_names = [
+            "another_panel_store",
+            "similarity_search_panel",
+            "model_evaluation_panel_builtin",
+        ]
+
+        with patch(
+            "fiftyone.operators.store.clone.foo.get_db_conn"
+        ) as mock_conn, patch(
+            "fiftyone.operators.store.clone._cloneable_store_names",
+            return_value=store_names,
+        ):
+            mock_conn.return_value = {
+                MongoExecutionStoreRepo.COLLECTION_NAME: mock_coll
+            }
+            esc.clone_execution_stores(src, dst, now=None, id_map=id_map)
+
+        return inserted, mock_coll
+
+    def test_clones_only_allowlisted_stores(self):
+        src_id = ObjectId()
+        other_id = ObjectId()
+        dst_id = ObjectId()
+        seed = [
+            {
+                "_id": ObjectId(),
+                "dataset_id": src_id,
+                "store_name": "similarity_search_panel",
+                "key": "run1",
+                "value": {"q": "dog"},
+            },
+            {
+                "_id": ObjectId(),
+                "dataset_id": src_id,
+                "store_name": "similarity_search_panel",
+                "key": "__store__",
+                "value": None,
+            },
+            {
+                "_id": ObjectId(),
+                "dataset_id": src_id,
+                "store_name": "another_panel_store",
+                "key": "al1",
+                "value": {"status": "done"},
+            },
+            {
+                "_id": ObjectId(),
+                "dataset_id": src_id,
+                "store_name": "model_evaluation_panel_builtin",
+                "key": "eval1",
+                "value": {"k": 1},
+            },
+            # Excluded: not on the allowlist
+            {
+                "_id": ObjectId(),
+                "dataset_id": src_id,
+                "store_name": "unlisted_panel_store",
+                "key": "dq1",
+                "value": "no",
+            },
+            # Excluded: belongs to a different dataset
+            {
+                "_id": ObjectId(),
+                "dataset_id": other_id,
+                "store_name": "similarity_search_panel",
+                "key": "other",
+                "value": "no",
+            },
+        ]
+
+        inserted, _ = self._clone(seed, src_id, dst_id)
+
+        names = {d["store_name"] for d in inserted}
+        self.assertEqual(
+            names,
+            {
+                "similarity_search_panel",
+                "another_panel_store",
+                "model_evaluation_panel_builtin",
+            },
+        )
+        # 3 allowlisted stores incl. the sim-search __store__ metadata record
+        self.assertEqual(len(inserted), 4)
+        # dataset_id rewritten to the clone; original _id dropped
+        self.assertTrue(all(d["dataset_id"] == dst_id for d in inserted))
+        self.assertTrue(all("_id" not in d for d in inserted))
+        # excluded stores / other datasets never copied
+        self.assertNotIn("unlisted_panel_store", names)
+        # original values preserved
+        sim = next(
+            d
+            for d in inserted
+            if d["store_name"] == "similarity_search_panel"
+            and d["key"] == "run1"
+        )
+        self.assertEqual(sim["value"], {"q": "dog"})
+
+    def test_remaps_model_evaluation_ids(self):
+        src_id = ObjectId()
+        dst_id = ObjectId()
+        old_eval_id = str(ObjectId())
+        new_eval_id = str(ObjectId())
+        id_map = {str(src_id): str(dst_id), old_eval_id: new_eval_id}
+        seed = [
+            # review status + note: eval id is a dict key inside the value
+            {
+                "_id": ObjectId(),
+                "dataset_id": src_id,
+                "store_name": "model_evaluation_panel_builtin",
+                "key": "statuses",
+                "value": {old_eval_id: "reviewed"},
+            },
+            {
+                "_id": ObjectId(),
+                "dataset_id": src_id,
+                "store_name": "model_evaluation_panel_builtin",
+                "key": "notes",
+                "value": {old_eval_id: "looks good"},
+            },
+            # pending_evaluations: keyed by the source dataset id
+            {
+                "_id": ObjectId(),
+                "dataset_id": src_id,
+                "store_name": "model_evaluation_panel_builtin",
+                "key": "pending_evaluations",
+                "value": {str(src_id): [{"eval_key": "eval"}]},
+            },
+            # cached metrics: eval id is the document key itself
+            {
+                "_id": ObjectId(),
+                "dataset_id": src_id,
+                "store_name": "model_evaluation_panel_builtin",
+                "key": old_eval_id,
+                "value": {"metrics": "..."},
+            },
+        ]
+
+        inserted, _ = self._clone(seed, src_id, dst_id, id_map=id_map)
+
+        by_key = {d["key"]: d for d in inserted}
+        # statuses/notes inner keys remapped to the new eval id
+        self.assertEqual(
+            by_key["statuses"]["value"], {new_eval_id: "reviewed"}
+        )
+        self.assertEqual(by_key["notes"]["value"], {new_eval_id: "looks good"})
+        # pending_evaluations dataset-id key remapped to the clone
+        self.assertEqual(
+            by_key["pending_evaluations"]["value"],
+            {str(dst_id): [{"eval_key": "eval"}]},
+        )
+        # cache document key itself remapped from old eval id to new
+        self.assertIn(new_eval_id, by_key)
+        self.assertNotIn(old_eval_id, by_key)
+        self.assertTrue(all(d["dataset_id"] == dst_id for d in inserted))
+
+    def test_remap_leaves_unmatched_ids_untouched(self):
+        # Records that reference only sample ids (preserved on clone) and panel
+        # uuids — none appear in the id_map, so they pass through unchanged.
+        src_id = ObjectId()
+        dst_id = ObjectId()
+        id_map = {str(src_id): str(dst_id), str(ObjectId()): str(ObjectId())}
+        seed = [
+            {
+                "_id": ObjectId(),
+                "dataset_id": src_id,
+                "store_name": "similarity_search_panel",
+                "key": "run:abc",
+                "value": {"brain_key": "sim", "result_ids": ["s1", "s2"]},
+            },
+            {
+                "_id": ObjectId(),
+                "dataset_id": src_id,
+                "store_name": "another_panel_store",
+                "key": "al-uuid",
+                "value": {"label_field": "predictions", "status": "done"},
+            },
+        ]
+
+        inserted, _ = self._clone(seed, src_id, dst_id, id_map=id_map)
+
+        by_key = {d["key"]: d for d in inserted}
+        self.assertEqual(
+            by_key["run:abc"]["value"],
+            {"brain_key": "sim", "result_ids": ["s1", "s2"]},
+        )
+        self.assertIn("al-uuid", by_key)
+        self.assertEqual(
+            by_key["al-uuid"]["value"],
+            {"label_field": "predictions", "status": "done"},
+        )
+
+    def test_no_records_no_insert(self):
+        inserted, mock_coll = self._clone([], ObjectId(), ObjectId())
+        self.assertEqual(inserted, [])
+        mock_coll.insert_many.assert_not_called()
+
+    def test_registered_as_extras_cloner(self):
+        # `import fiftyone` alone must register the cloner (via
+        # fiftyone/__init__.py). Checked in a fresh interpreter so the result
+        # can't be satisfied by other tests importing the clone module
+        # directly (which would also trigger registration).
+        import subprocess
+        import sys
+
+        code = (
+            "import fiftyone\n"
+            "import fiftyone.core.dataset as d\n"
+            "names = [getattr(c, '__name__', '') for c in d._extras_cloners]\n"
+            "assert 'clone_execution_stores' in names, names\n"
+        )
+        subprocess.run([sys.executable, "-c", code], check=True)
+
+    def test_register_cloneable_store(self):
+        # pylint: disable=no-name-in-module,import-error
+        from fiftyone.operators.store import clone as esc
+
+        name = "some_downstream_store"
+        try:
+            esc.register_cloneable_store(name)
+            self.assertIn(name, esc._cloneable_store_names())
+            # idempotent
+            esc.register_cloneable_store(name)
+            self.assertEqual(esc._cloneable_store_names().count(name), 1)
+        finally:
+            esc._registered_store_names.remove(name)

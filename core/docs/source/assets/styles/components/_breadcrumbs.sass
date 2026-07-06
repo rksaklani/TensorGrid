@@ -1,0 +1,21 @@
+.header-article__inner
+  padding: 0
+
+ul.bd-breadcrumbs
+  li.breadcrumb-item
+    a, a:hover, span, .ellipsis
+      font-weight: 500
+      text-decoration: underline
+      color: #000
+      font-size: 14px
+      padding: 0
+      margin: 0
+      text-underline-offset: 4px
+
+    &:not(.breadcrumb-home):before
+      font-size: 10px
+      color: #00000099
+
+@media (min-width: 1200px)
+  ul.bd-breadcrumbs
+    padding-left: 2rem

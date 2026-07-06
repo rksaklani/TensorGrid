@@ -1,0 +1,69 @@
+import { executeOperator } from "@tensorgrid/operators";
+import { datasetName } from "@tensorgrid/state";
+import { toSlug } from "@tensorgrid/utilities";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { savedWorkspacesAtom, Workspace } from "../../state";
+import { LIST_WORKSPACES_OPERATOR, LOAD_WORKSPACE_OPERATOR } from "./constants";
+import { operatorsInitializedAtom } from "@tensorgrid/operators/src/state";
+
+export function useWorkspaces() {
+  const [state, setState] = useRecoilState(savedWorkspacesAtom);
+  const resetState = useResetRecoilState(savedWorkspacesAtom);
+  const [listWorkspaceExecuting, setListWorkspaceExecuting] = useState(false);
+  const currentDataset = useRecoilValue(datasetName);
+  const operatorsInitialized = useRecoilValue(operatorsInitializedAtom);
+
+  const listWorkspace = useCallback(() => {
+    if (listWorkspaceExecuting || !operatorsInitialized) return;
+    setListWorkspaceExecuting(true);
+    executeOperator(
+      LIST_WORKSPACES_OPERATOR,
+      {},
+      {
+        callback: (result) => {
+          const maybeWorkspaces = (
+            result?.result as { workspaces?: Workspace[] }
+          )?.workspaces;
+          setState((state) => {
+            return {
+              ...state,
+              initialized: true,
+              workspaces: Array.isArray(maybeWorkspaces) ? maybeWorkspaces : [],
+              dataset: currentDataset,
+            };
+          });
+          setListWorkspaceExecuting(false);
+          if (result.error) {
+            console.error(result.error);
+          }
+        },
+        skipOutput: true,
+      },
+    );
+  }, [listWorkspaceExecuting, setState, currentDataset, operatorsInitialized]);
+
+  const loadWorkspace = useCallback((name: string) => {
+    executeOperator(LOAD_WORKSPACE_OPERATOR, { name }, { skipOutput: true });
+  }, []);
+
+  const existingSlugs = useMemo(() => {
+    return state.workspaces.map(({ name }) => toSlug(name));
+  }, [state.workspaces]);
+
+  useEffect(() => {
+    if (currentDataset !== state.dataset) {
+      resetState();
+    }
+  }, [currentDataset, state, resetState]);
+
+  return {
+    initialized: state.initialized,
+    workspaces: state.workspaces || [],
+    loadWorkspace,
+    listWorkspace,
+    reset: resetState,
+    existingSlugs,
+    canInitialize: operatorsInitialized,
+  };
+}

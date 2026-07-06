@@ -1,0 +1,9 @@
+name: tensorgrid_stats
+version: 0.1.0
+description: TensorGrid dataset statistics panel
+author: TensorGrid Contributors
+license: Apache-2.0
+tensorgrid:
+  version: "*"
+  operators:
+    - tensorgrid_stats

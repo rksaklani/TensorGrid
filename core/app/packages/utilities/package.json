@@ -1,0 +1,37 @@
+{
+    "name": "@tensorgrid/utilities",
+    "author": "Voxel51, Inc.",
+    "version": "0.0.0",
+    "description": "Generic JavaScript utilities for the FiftyOne monorepo",
+    "homepage": "https://github.com/voxel51/fiftyone/app/packages/utilities",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/voxel51/fiftyone/"
+    },
+    "main": "./src/index.ts",
+    "scripts": {
+        "dev": "vite",
+        "test": "vitest"
+    },
+    "files": [
+        "dist",
+        "README.md"
+    ],
+    "devDependencies": {
+        "prettier": "^3.8.4",
+        "typescript-plugin-css-modules": "^5.1.0",
+        "vite": "^7.3.2"
+    },
+    "dependencies": {
+        "@chainner/node-path": "^0.1.1",
+        "@microsoft/fetch-event-source": "^2.0.1",
+        "fetch-retry": "^5.0.3",
+        "lodash": "^4.18.1",
+        "lru-cache": "^11.0.1",
+        "mime": "^2.5.2",
+        "path-browserify": "^1.0.1"
+    },
+    "peerDependencies": {
+        "react": "*"
+    }
+}

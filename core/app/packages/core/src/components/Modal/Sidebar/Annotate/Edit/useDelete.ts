@@ -1,0 +1,158 @@
+import { DeleteAnnotationCommand, getFieldSchema } from "@tensorgrid/annotation";
+import { useCommandBus } from "@tensorgrid/command-bus";
+import { useLighter } from "@tensorgrid/lighter";
+import { isDetection3dOverlay, isPolyline3dOverlay } from "@tensorgrid/looker-3d";
+import * as fos from "@tensorgrid/state";
+import { isGeneratedView } from "@tensorgrid/state";
+
+import {
+  DelegatingUndoable,
+  KnownCommands,
+  KnownContexts,
+  useKeyBindings,
+} from "@tensorgrid/commands";
+import { useMemo } from "react";
+import { useRecoilValue } from "recoil";
+import { useLabelsContext } from "../useLabels";
+import { useAnnotationContext } from "./useAnnotationContext";
+import useExit from "./useExit";
+
+export default function useDelete() {
+  const commandBus = useCommandBus();
+  const { scene, removeOverlay } = useLighter();
+  const { selected } = useAnnotationContext();
+  const label = selected?.label;
+  const schema = useRecoilValue(
+    fos.fieldSchema({ space: fos.State.SPACE.SAMPLE }),
+  );
+  const { addLabelToSidebar, removeLabelFromSidebar } = useLabelsContext();
+
+  const exit = useExit();
+  const setNotification = fos.useNotification();
+  const isGenerated = useRecoilValue(isGeneratedView);
+
+  const undoable = useMemo(() => {
+    return new DelegatingUndoable(
+      "delete.undoable",
+      async () => {
+        if (!label) {
+          return;
+        }
+
+        if (label.isNew) {
+          if (scene && !scene.isDestroyed && scene.renderLoopActive) {
+            scene?.exitInteractiveMode();
+            removeOverlay(label?.data._id, true);
+          }
+
+          exit();
+          return;
+        }
+
+        try {
+          const fieldSchema = getFieldSchema(schema, label?.path);
+
+          if (!fieldSchema) {
+            setNotification({
+              msg: `Unable to delete label: field schema not found for path "${
+                label?.path ?? "unknown"
+              }".`,
+              variant: "error",
+            });
+            return;
+          }
+
+          await commandBus.execute(
+            new DeleteAnnotationCommand(label, fieldSchema),
+          );
+
+          removeLabelFromSidebar(label.data._id);
+          removeOverlay(label.overlay.id, false);
+          setNotification({
+            msg: `Label "${label.data.label}" successfully deleted.`,
+            variant: "success",
+          });
+
+          exit();
+        } catch (error) {
+          console.error(error);
+          setNotification({
+            msg: `Label "${
+              label.data.label ?? "Label"
+            }" not successfully deleted. Try again.`,
+            variant: "error",
+          });
+        }
+      },
+      async () => {
+        if (label) {
+          try {
+            const fieldSchema = getFieldSchema(schema, label?.path);
+            if (!fieldSchema) {
+              setNotification({
+                msg: `Error restoring deleted label. "${
+                  label?.path ?? "unknown"
+                }".`,
+                variant: "error",
+              });
+              return;
+            }
+
+            scene?.addOverlay(label.overlay);
+            addLabelToSidebar(label);
+          } catch (error) {
+            console.error(error);
+            setNotification({
+              msg: `Label "${
+                label.data.label ?? "Label"
+              }" not restored during undo. Try again.`,
+              variant: "error",
+            });
+          }
+        }
+      },
+    );
+  }, [
+    addLabelToSidebar,
+    commandBus,
+    exit,
+    label,
+    removeLabelFromSidebar,
+    removeOverlay,
+    scene,
+    schema,
+    setNotification,
+  ]);
+
+  useKeyBindings(
+    KnownContexts.ModalAnnotate,
+    [
+      {
+        commandId: KnownCommands.ModalDeleteAnnotation,
+        handler: () => {
+          return undoable;
+        },
+        enablement: () => {
+          // Disable delete for generated views (patches/clips/frames)
+          if (!label || isGenerated) {
+            return false;
+          }
+
+          const is3dLabel =
+            isPolyline3dOverlay(label.data) || isDetection3dOverlay(label.data);
+
+          if (is3dLabel) {
+            // Todo: handled in useAnnotationActions.tsx, reconcile
+            return false;
+          }
+
+          return !!label;
+        },
+        sequence: ["Delete", "Backspace"],
+        label: "Delete label",
+        description: "Delete label",
+      },
+    ],
+    [undoable, isGenerated],
+  );
+}

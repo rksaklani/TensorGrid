@@ -1,0 +1,1033 @@
+"""
+FiftyOne Server camera route unit tests.
+
+| Copyright 2017-2026, Voxel51, Inc.
+| `voxel51.com <https://voxel51.com/>`_
+|
+"""
+
+import json
+from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
+from starlette.exceptions import HTTPException
+
+import fiftyone as fo
+from fiftyone.core.camera import (
+    DEFAULT_TRANSFORM_TARGET_FRAME,
+    PinholeCameraIntrinsics,
+    StaticTransform,
+    StaticTransformRef,
+)
+import fiftyone.server.routes.camera as forc
+
+
+@pytest.fixture(name="dataset")
+def fixture_dataset():
+    """Creates a persistent dataset for testing."""
+    dataset = fo.Dataset()
+    dataset.persistent = True
+
+    sample = fo.Sample(filepath="/tmp/test_camera.jpg")
+    dataset.add_sample(sample)
+
+    try:
+        yield dataset
+    finally:
+        if fo.dataset_exists(dataset.name):
+            fo.delete_dataset(dataset.name)
+
+
+@pytest.fixture(name="dataset_id")
+def fixture_dataset_id(dataset):
+    """Returns the ID of the dataset."""
+    # pylint: disable-next=protected-access
+    return dataset._doc.id
+
+
+@pytest.fixture(name="sample_id")
+def fixture_sample_id(dataset):
+    """Returns the ID of a sample in the dataset."""
+    return str(dataset.first().id)
+
+
+@pytest.fixture(name="intrinsics_endpoint")
+def fixture_intrinsics_endpoint():
+    """Returns the CameraIntrinsics endpoint instance."""
+    return forc.CameraIntrinsics(
+        scope={"type": "http"}, receive=AsyncMock(), send=AsyncMock()
+    )
+
+
+@pytest.fixture(name="static_transforms_endpoint")
+def fixture_static_transforms_endpoint():
+    """Returns the StaticTransforms endpoint instance."""
+    return forc.StaticTransforms(
+        scope={"type": "http"}, receive=AsyncMock(), send=AsyncMock()
+    )
+
+
+@pytest.fixture(name="mock_request")
+def fixture_mock_request(dataset_id, sample_id):
+    """Helper to create a mock request object."""
+
+    def _create_request(
+        dataset_id_override=None,
+        sample_id_override=None,
+        query_params=None,
+    ):
+        mock_request = MagicMock()
+        mock_request.path_params = {
+            "dataset_id": dataset_id_override or dataset_id,
+            "sample_id": sample_id_override or sample_id,
+        }
+        mock_request.query_params = query_params or {}
+        return mock_request
+
+    return _create_request
+
+
+class TestCameraIntrinsicsRoute:
+    """Tests for CameraIntrinsics endpoint."""
+
+    @pytest.mark.asyncio
+    async def test_get_intrinsics_success(
+        self, intrinsics_endpoint, mock_request, dataset
+    ):
+        """Tests successfully retrieving camera intrinsics."""
+        intrinsics = PinholeCameraIntrinsics(
+            fx=1000.0, fy=1000.0, cx=960.0, cy=540.0
+        )
+        sample = dataset.first()
+        sample["camera_intrinsics"] = intrinsics
+        sample.save()
+
+        request = mock_request()
+        response = await intrinsics_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "intrinsics" in data
+        assert data["intrinsics"] is not None
+        assert data["intrinsics"]["fx"] == 1000.0
+        assert data["intrinsics"]["fy"] == 1000.0
+
+    @pytest.mark.asyncio
+    async def test_get_intrinsics_returns_null(
+        self, intrinsics_endpoint, mock_request, dataset
+    ):
+        """Tests that null is returned when no intrinsics exist."""
+        request = mock_request()
+        response = await intrinsics_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "intrinsics" in data
+        assert data["intrinsics"] is None
+
+    @pytest.mark.asyncio
+    async def test_dataset_not_found(self, intrinsics_endpoint, mock_request):
+        """Tests that 404 is raised for non-existent dataset."""
+        request = mock_request(dataset_id_override="non-existent-dataset")
+
+        with pytest.raises(HTTPException) as exc_info:
+            await intrinsics_endpoint.get(request)
+
+        assert exc_info.value.status_code == 404
+        assert (
+            "Dataset 'non-existent-dataset' not found" in exc_info.value.detail
+        )
+
+    @pytest.mark.asyncio
+    async def test_sample_not_found(
+        self, intrinsics_endpoint, mock_request, dataset
+    ):
+        """Tests that 404 is raised for non-existent sample."""
+        from bson import ObjectId
+
+        bad_sample_id = str(ObjectId())
+        request = mock_request(sample_id_override=bad_sample_id)
+
+        with pytest.raises(HTTPException) as exc_info:
+            await intrinsics_endpoint.get(request)
+
+        assert exc_info.value.status_code == 404
+        assert f"Sample '{bad_sample_id}' not found" in exc_info.value.detail
+
+
+class TestStaticTransformsRoute:
+    """Tests for StaticTransforms endpoint."""
+
+    @pytest.mark.asyncio
+    async def test_sample_static_transform_is_included(
+        self, static_transforms_endpoint, mock_request, dataset
+    ):
+        """Tests that a sample-attached StaticTransform is included."""
+        sample = dataset.first()
+        sample["camera_pose"] = StaticTransform(
+            translation=[1.0, 2.0, 3.0],
+            quaternion=[0.0, 0.0, 0.0, 1.0],
+            source_frame="camera",
+        )
+        sample.save()
+
+        request = mock_request()
+        response = await static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "transforms" in data
+        assert len(data["transforms"]) == 1
+        assert data["transforms"][0]["source_frame"] == "camera"
+        assert (
+            data["transforms"][0]["target_frame"]
+            == DEFAULT_TRANSFORM_TARGET_FRAME
+        )
+
+    @pytest.mark.asyncio
+    async def test_sample_static_transform_ref_is_resolved(
+        self, static_transforms_endpoint, mock_request, dataset
+    ):
+        """Tests that sample StaticTransformRef values are resolved."""
+        dataset.static_transforms = {
+            "rear::ego": StaticTransform(
+                translation=[4.0, 5.0, 6.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="rear",
+                target_frame="ego",
+            )
+        }
+
+        sample = dataset.first()
+        sample["transform_ref"] = StaticTransformRef(ref="rear::ego")
+        sample.save()
+
+        request = mock_request()
+        response = await static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert len(data["transforms"]) == 1
+        assert data["transforms"][0]["source_frame"] == "rear"
+        assert data["transforms"][0]["target_frame"] == "ego"
+
+    @pytest.mark.asyncio
+    async def test_group_sample_includes_matching_dataset_transform(
+        self,
+        static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests grouped samples include dataset transforms for matching slice."""
+        grouped_dataset.static_transforms = {
+            "left::world": StaticTransform(
+                translation=[10.0, 0.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="left",
+                target_frame="world",
+            ),
+            "right::world": StaticTransform(
+                translation=[20.0, 0.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="right",
+                target_frame="world",
+            ),
+        }
+
+        request = mock_group_request()
+        response = await static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        source_frames = {t["source_frame"] for t in data["transforms"]}
+        assert "left" in source_frames
+        assert "right" not in source_frames
+
+    @pytest.mark.asyncio
+    async def test_unrelated_dataset_transforms_are_excluded(
+        self, static_transforms_endpoint, mock_request, dataset
+    ):
+        """Tests unrelated dataset-level transforms are excluded."""
+        dataset.static_transforms = {
+            "lidar::world": StaticTransform(
+                translation=[7.0, 8.0, 9.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="lidar",
+                target_frame="world",
+            )
+        }
+
+        request = mock_request()
+        response = await static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert data["transforms"] == []
+
+    @pytest.mark.asyncio
+    async def test_resolved_transforms_are_deduped_by_source_and_target(
+        self, static_transforms_endpoint, mock_request, dataset
+    ):
+        """Tests deduping repeated transforms by source_frame::target_frame."""
+        dataset.static_transforms = {
+            "camera::world": StaticTransform(
+                translation=[100.0, 0.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="camera",
+                target_frame="world",
+            )
+        }
+
+        sample = dataset.first()
+        sample["transforms"] = [
+            StaticTransform(
+                translation=[1.0, 2.0, 3.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="camera",
+                target_frame="world",
+            ),
+            StaticTransform(
+                translation=[9.0, 9.0, 9.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="camera",
+                target_frame="world",
+            ),
+        ]
+        sample["transform_ref"] = StaticTransformRef(ref="camera::world")
+
+        sample.save()
+
+        request = mock_request()
+        response = await static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert len(data["transforms"]) == 1
+        assert data["transforms"][0]["source_frame"] == "camera"
+        assert data["transforms"][0]["target_frame"] == "world"
+        assert data["transforms"][0]["translation"] == [1.0, 2.0, 3.0]
+
+        sample.clear_field("transforms")
+        sample.clear_field("transform_ref")
+        sample.save()
+
+        # Ref-before-inline order should still prefer inline sample transforms.
+        sample["transform_ref"] = StaticTransformRef(ref="camera::world")
+        sample["transforms"] = [
+            StaticTransform(
+                translation=[1.0, 2.0, 3.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="camera",
+                target_frame="world",
+            ),
+            StaticTransform(
+                translation=[9.0, 9.0, 9.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="camera",
+                target_frame="world",
+            ),
+        ]
+        sample.save()
+
+        request = mock_request()
+        response = await static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert len(data["transforms"]) == 1
+        assert data["transforms"][0]["source_frame"] == "camera"
+        assert data["transforms"][0]["target_frame"] == "world"
+        assert data["transforms"][0]["translation"] == [1.0, 2.0, 3.0]
+
+    @pytest.mark.asyncio
+    async def test_dataset_not_found(
+        self, static_transforms_endpoint, mock_request
+    ):
+        """Tests that 404 is raised for non-existent dataset."""
+        request = mock_request(dataset_id_override="non-existent-dataset")
+
+        with pytest.raises(HTTPException) as exc_info:
+            await static_transforms_endpoint.get(request)
+
+        assert exc_info.value.status_code == 404
+        assert (
+            "Dataset 'non-existent-dataset' not found" in exc_info.value.detail
+        )
+
+    @pytest.mark.asyncio
+    async def test_sample_not_found(
+        self, static_transforms_endpoint, mock_request, dataset
+    ):
+        """Tests that 404 is raised for non-existent sample."""
+        from bson import ObjectId
+
+        bad_sample_id = str(ObjectId())
+        request = mock_request(sample_id_override=bad_sample_id)
+
+        with pytest.raises(HTTPException) as exc_info:
+            await static_transforms_endpoint.get(request)
+
+        assert exc_info.value.status_code == 404
+        assert f"Sample '{bad_sample_id}' not found" in exc_info.value.detail
+
+    @pytest.mark.asyncio
+    async def test_no_transforms_returns_empty_list(
+        self, static_transforms_endpoint, mock_request, dataset
+    ):
+        """Tests that a sample with no transforms returns an empty list."""
+        request = mock_request()
+        response = await static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert data["transforms"] == []
+
+    @pytest.mark.asyncio
+    async def test_static_transform_ref_to_missing_key_is_skipped(
+        self, static_transforms_endpoint, mock_request, dataset
+    ):
+        """Tests that a StaticTransformRef pointing to a missing key is silently skipped."""
+        sample = dataset.first()
+        sample["bad_ref"] = StaticTransformRef(ref="nonexistent::frame")
+        sample.save()
+
+        request = mock_request()
+        response = await static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert data["transforms"] == []
+
+
+@pytest.fixture(name="group_intrinsics_endpoint")
+def fixture_group_intrinsics_endpoint():
+    """Returns the GroupIntrinsics endpoint instance."""
+    return forc.GroupIntrinsics(
+        scope={"type": "http"}, receive=AsyncMock(), send=AsyncMock()
+    )
+
+
+@pytest.fixture(name="group_static_transforms_endpoint")
+def fixture_group_static_transforms_endpoint():
+    """Returns the GroupStaticTransforms endpoint instance."""
+    return forc.GroupStaticTransforms(
+        scope={"type": "http"}, receive=AsyncMock(), send=AsyncMock()
+    )
+
+
+@pytest.fixture(name="grouped_dataset")
+def fixture_grouped_dataset():
+    """Creates a grouped dataset with multiple slices for testing."""
+    dataset = fo.Dataset()
+    dataset.persistent = True
+    dataset.add_group_field("group", default="left")
+
+    # Create a group with multiple slices
+    group = fo.Group()
+    samples = [
+        fo.Sample(filepath="/tmp/test_left.jpg", group=group.element("left")),
+        fo.Sample(
+            filepath="/tmp/test_right.jpg", group=group.element("right")
+        ),
+        fo.Sample(
+            filepath="/tmp/test_lidar.pcd", group=group.element("lidar")
+        ),
+    ]
+    dataset.add_samples(samples)
+
+    # Add intrinsics and static transforms to some samples
+    left_sample = dataset.select_group_slices("left").first()
+    left_sample["camera_intrinsics"] = PinholeCameraIntrinsics(
+        fx=1000.0, fy=1000.0, cx=960.0, cy=540.0
+    )
+    left_sample["static_transform"] = StaticTransform(
+        translation=[1.0, 0.0, 0.0],
+        quaternion=[0.0, 0.0, 0.0, 1.0],
+        source_frame="left_camera",
+        target_frame=DEFAULT_TRANSFORM_TARGET_FRAME,
+    )
+    left_sample.save()
+
+    right_sample = dataset.select_group_slices("right").first()
+    right_sample["camera_intrinsics"] = PinholeCameraIntrinsics(
+        fx=800.0, fy=800.0, cx=640.0, cy=480.0
+    )
+    right_sample["static_transform"] = StaticTransform(
+        translation=[-1.0, 0.0, 0.0],
+        quaternion=[0.0, 0.0, 0.0, 1.0],
+        source_frame="right_camera",
+        target_frame=DEFAULT_TRANSFORM_TARGET_FRAME,
+    )
+    right_sample.save()
+
+    try:
+        yield dataset
+    finally:
+        if fo.dataset_exists(dataset.name):
+            fo.delete_dataset(dataset.name)
+
+
+@pytest.fixture(name="grouped_dataset_id")
+def fixture_grouped_dataset_id(grouped_dataset):
+    """Returns the ID of the grouped dataset."""
+    # pylint: disable-next=protected-access
+    return grouped_dataset._doc.id
+
+
+@pytest.fixture(name="grouped_sample_id")
+def fixture_grouped_sample_id(grouped_dataset):
+    """Returns the ID of a sample in the grouped dataset."""
+    return str(grouped_dataset.select_group_slices("left").first().id)
+
+
+@pytest.fixture(name="mock_group_request")
+def fixture_mock_group_request(grouped_dataset_id, grouped_sample_id):
+    """Helper to create a mock request for group endpoint."""
+
+    def _create_request(
+        dataset_id_override=None,
+        sample_id_override=None,
+        query_params=None,
+    ):
+        mock_request = MagicMock()
+        mock_request.path_params = {
+            "dataset_id": dataset_id_override or grouped_dataset_id,
+            "sample_id": sample_id_override or grouped_sample_id,
+        }
+        mock_request.query_params = query_params or {}
+        return mock_request
+
+    return _create_request
+
+
+class TestGroupIntrinsicsRoute:
+    """Tests for GroupIntrinsics endpoint."""
+
+    @pytest.mark.asyncio
+    async def test_get_group_intrinsics_all_slices(
+        self,
+        group_intrinsics_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests retrieving intrinsics for all slices in a group."""
+        request = mock_group_request()
+        response = await group_intrinsics_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "group_id" in data
+        assert "results" in data
+
+        # Should have results for all 3 slices
+        assert len(data["results"]) == 3
+        assert "left" in data["results"]
+        assert "right" in data["results"]
+        assert "lidar" in data["results"]
+
+        # left and right have intrinsics, lidar doesn't
+        assert "intrinsics" in data["results"]["left"]
+        assert data["results"]["left"]["intrinsics"] is not None
+        assert data["results"]["left"]["intrinsics"]["fx"] == 1000.0
+        assert "intrinsics" in data["results"]["right"]
+        assert data["results"]["right"]["intrinsics"] is not None
+        assert data["results"]["right"]["intrinsics"]["fx"] == 800.0
+        assert data["results"]["lidar"]["intrinsics"] is None
+
+    @pytest.mark.asyncio
+    async def test_get_group_intrinsics_specific_slices(
+        self,
+        group_intrinsics_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests retrieving intrinsics for specific slices only."""
+        request = mock_group_request(query_params={"slices": "left,right"})
+        response = await group_intrinsics_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "results" in data
+
+        # Should only have results for requested slices
+        assert len(data["results"]) == 2
+        assert "left" in data["results"]
+        assert "right" in data["results"]
+        assert "lidar" not in data["results"]
+
+    @pytest.mark.asyncio
+    async def test_get_group_intrinsics_slices_whitespace_handling(
+        self,
+        group_intrinsics_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests that slices param handles whitespace correctly."""
+        request = mock_group_request(
+            query_params={"slices": "  left  ,  right  "}
+        )
+        response = await group_intrinsics_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert len(data["results"]) == 2
+        assert "left" in data["results"]
+        assert "right" in data["results"]
+
+    @pytest.mark.asyncio
+    async def test_get_group_intrinsics_invalid_slice(
+        self,
+        group_intrinsics_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests that invalid slice names return error in results."""
+        request = mock_group_request(
+            query_params={"slices": "left,nonexistent_slice"}
+        )
+        response = await group_intrinsics_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "results" in data
+
+        # Valid slice should have intrinsics
+        assert "intrinsics" in data["results"]["left"]
+
+        # Invalid slice should have error
+        assert "error" in data["results"]["nonexistent_slice"]
+
+    @pytest.mark.asyncio
+    async def test_get_group_intrinsics_non_grouped_sample(
+        self, group_intrinsics_endpoint, mock_request, dataset
+    ):
+        """Tests that 400 is raised for non-grouped sample."""
+        request = mock_request()
+
+        with pytest.raises(HTTPException) as exc_info:
+            await group_intrinsics_endpoint.get(request)
+
+        assert exc_info.value.status_code == 400
+        assert "does not belong to a group" in exc_info.value.detail
+
+    @pytest.mark.asyncio
+    async def test_get_group_intrinsics_dataset_not_found(
+        self, group_intrinsics_endpoint, mock_group_request
+    ):
+        """Tests that 404 is raised for non-existent dataset."""
+        request = mock_group_request(
+            dataset_id_override="non-existent-dataset"
+        )
+
+        with pytest.raises(HTTPException) as exc_info:
+            await group_intrinsics_endpoint.get(request)
+
+        assert exc_info.value.status_code == 404
+        assert (
+            "Dataset 'non-existent-dataset' not found" in exc_info.value.detail
+        )
+
+    @pytest.mark.asyncio
+    async def test_get_group_intrinsics_sample_not_found(
+        self, group_intrinsics_endpoint, mock_group_request, grouped_dataset
+    ):
+        """Tests that 404 is raised for non-existent sample."""
+        from bson import ObjectId
+
+        bad_sample_id = str(ObjectId())
+        request = mock_group_request(sample_id_override=bad_sample_id)
+
+        with pytest.raises(HTTPException) as exc_info:
+            await group_intrinsics_endpoint.get(request)
+
+        assert exc_info.value.status_code == 404
+        assert f"Sample '{bad_sample_id}' not found" in exc_info.value.detail
+
+    @pytest.mark.asyncio
+    async def test_get_group_intrinsics_returns_group_id(
+        self,
+        group_intrinsics_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests that response includes the group_id."""
+        request = mock_group_request()
+        response = await group_intrinsics_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "group_id" in data
+        assert data["group_id"] is not None
+        # Verify it's a valid ObjectId string
+        assert len(data["group_id"]) == 24
+
+
+class TestGroupStaticTransformsRoute:
+    """Tests for GroupStaticTransformsRoute endpoint."""
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_all_slices(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests retrieving static transforms for all slices in a group."""
+        request = mock_group_request()
+        response = await group_static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "group_id" in data
+        assert "results" in data
+
+        # Should have results for all 3 slices
+        assert len(data["results"]) == 3
+        assert "left" in data["results"]
+        assert "right" in data["results"]
+        assert "lidar" in data["results"]
+
+        # left and right have staticTransform, lidar doesn't
+        assert "staticTransform" in data["results"]["left"]
+        assert "staticTransform" in data["results"]["right"]
+        assert data["results"]["lidar"]["staticTransform"] is None
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_specific_slices(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests retrieving static transforms for specific slices only."""
+        request = mock_group_request(query_params={"slices": "left,right"})
+        response = await group_static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "results" in data
+
+        # Should only have results for requested slices
+        assert len(data["results"]) == 2
+        assert "left" in data["results"]
+        assert "right" in data["results"]
+        assert "lidar" not in data["results"]
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_with_query_params(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests static transforms retrieval with source_frame and target_frame."""
+        request = mock_group_request(
+            query_params={
+                "slices": "left",
+                "source_frame": "left_camera",
+                "target_frame": DEFAULT_TRANSFORM_TARGET_FRAME,
+            }
+        )
+        response = await group_static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "results" in data
+        assert "left" in data["results"]
+        assert data["results"]["left"]["staticTransform"] is not None
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_with_chain_via(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests static transforms retrieval with chain_via parameter."""
+        request = mock_group_request(
+            query_params={
+                "slices": "left",
+                "source_frame": "left_camera",
+                "target_frame": "world",
+                "chain_via": "vehicle",
+            }
+        )
+        response = await group_static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "results" in data
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_auto_chain_to_world(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests default world resolution via unique auto-chain."""
+        grouped_dataset.static_transforms = {
+            "left::ego": StaticTransform(
+                translation=[1.0, 0.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="left",
+                target_frame="ego",
+            ),
+            "ego::world": StaticTransform(
+                translation=[0.0, 10.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="ego",
+                target_frame="world",
+            ),
+        }
+
+        request = mock_group_request(query_params={"slices": "left"})
+        response = await group_static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert data["target_frame"] == "world"
+
+        transform = data["results"]["left"]["staticTransform"]
+        assert transform is not None
+        assert transform["source_frame"] == "left"
+        assert transform["target_frame"] == "world"
+        assert transform["translation"] == [1.0, 10.0, 0.0]
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_auto_chain_two_intermediates(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests default world resolution via two-intermediate chain."""
+        grouped_dataset.static_transforms = {
+            "left::sensor": StaticTransform(
+                translation=[1.0, 0.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="left",
+                target_frame="sensor",
+            ),
+            "sensor::ego": StaticTransform(
+                translation=[0.0, 2.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="sensor",
+                target_frame="ego",
+            ),
+            "ego::world": StaticTransform(
+                translation=[0.0, 0.0, 3.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="ego",
+                target_frame="world",
+            ),
+        }
+
+        request = mock_group_request(query_params={"slices": "left"})
+        response = await group_static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert data["target_frame"] == "world"
+
+        transform = data["results"]["left"]["staticTransform"]
+        assert transform is not None
+        assert transform["source_frame"] == "left"
+        assert transform["target_frame"] == "world"
+        assert transform["translation"] == [1.0, 2.0, 3.0]
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_world_fallback_best_target(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests fallback to best non-world target when world is unresolved."""
+        grouped_dataset.static_transforms = {
+            "left::ego": StaticTransform(
+                translation=[1.0, 0.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="left",
+                target_frame="ego",
+            ),
+            "right::ego": StaticTransform(
+                translation=[-1.0, 0.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="right",
+                target_frame="ego",
+            ),
+            "left::vehicle": StaticTransform(
+                translation=[2.0, 0.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="left",
+                target_frame="vehicle",
+            ),
+            "left::sensor": StaticTransform(
+                translation=[3.0, 0.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="left",
+                target_frame="sensor",
+            ),
+            "vehicle::world": StaticTransform(
+                translation=[0.0, 10.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="vehicle",
+                target_frame="world",
+            ),
+            "sensor::world": StaticTransform(
+                translation=[0.0, 20.0, 0.0],
+                quaternion=[0.0, 0.0, 0.0, 1.0],
+                source_frame="sensor",
+                target_frame="world",
+            ),
+        }
+
+        request = mock_group_request(query_params={"slices": "left,right"})
+        response = await group_static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert data["target_frame"] == "ego"
+        assert data["results"]["left"]["staticTransform"] is not None
+        assert data["results"]["right"]["staticTransform"] is not None
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_slices_whitespace_handling(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests that slices param handles whitespace correctly."""
+        request = mock_group_request(
+            query_params={"slices": "  left  ,  right  "}
+        )
+        response = await group_static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert len(data["results"]) == 2
+        assert "left" in data["results"]
+        assert "right" in data["results"]
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_invalid_slice(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests that invalid slice names return error in results."""
+        request = mock_group_request(
+            query_params={"slices": "left,nonexistent_slice"}
+        )
+        response = await group_static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "results" in data
+
+        # Valid slice should have staticTransform
+        assert "staticTransform" in data["results"]["left"]
+
+        # Invalid slice should have error
+        assert "error" in data["results"]["nonexistent_slice"]
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_non_grouped_sample(
+        self, group_static_transforms_endpoint, mock_request, dataset
+    ):
+        """Tests that 400 is raised for non-grouped sample."""
+        request = mock_request()
+
+        with pytest.raises(HTTPException) as exc_info:
+            await group_static_transforms_endpoint.get(request)
+
+        assert exc_info.value.status_code == 400
+        assert "does not belong to a group" in exc_info.value.detail
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_dataset_not_found(
+        self, group_static_transforms_endpoint, mock_group_request
+    ):
+        """Tests that 404 is raised for non-existent dataset."""
+        request = mock_group_request(
+            dataset_id_override="non-existent-dataset"
+        )
+
+        with pytest.raises(HTTPException) as exc_info:
+            await group_static_transforms_endpoint.get(request)
+
+        assert exc_info.value.status_code == 404
+        assert (
+            "Dataset 'non-existent-dataset' not found" in exc_info.value.detail
+        )
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_sample_not_found(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests that 404 is raised for non-existent sample."""
+        from bson import ObjectId
+
+        bad_sample_id = str(ObjectId())
+        request = mock_group_request(sample_id_override=bad_sample_id)
+
+        with pytest.raises(HTTPException) as exc_info:
+            await group_static_transforms_endpoint.get(request)
+
+        assert exc_info.value.status_code == 404
+        assert f"Sample '{bad_sample_id}' not found" in exc_info.value.detail
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_value_error_handling(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests that ValueError from resolve_transformation is captured."""
+        request = mock_group_request(
+            query_params={
+                "slices": "left",
+                "chain_via": "invalid_frame",
+            }
+        )
+
+        # Mock resolve_transformation to raise ValueError
+        with patch.object(
+            fo.Dataset,
+            "resolve_transformation",
+            side_effect=ValueError("Frames don't chain properly"),
+        ):
+            response = await group_static_transforms_endpoint.get(request)
+
+            assert response.status_code == 200
+            data = json.loads(response.body)
+            assert "error" in data["results"]["left"]
+            assert (
+                "Frames don't chain properly"
+                in data["results"]["left"]["error"]
+            )
+
+    @pytest.mark.asyncio
+    async def test_get_group_static_transforms_returns_group_id(
+        self,
+        group_static_transforms_endpoint,
+        mock_group_request,
+        grouped_dataset,
+    ):
+        """Tests that response includes the group_id."""
+        request = mock_group_request()
+        response = await group_static_transforms_endpoint.get(request)
+
+        assert response.status_code == 200
+        data = json.loads(response.body)
+        assert "group_id" in data
+        assert data["group_id"] is not None
+        # Verify it's a valid ObjectId string
+        assert len(data["group_id"]) == 24

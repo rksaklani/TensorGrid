@@ -1,0 +1,137 @@
+import { useLighter } from "@tensorgrid/lighter";
+import type { Lookers } from "@tensorgrid/looker";
+import type { State } from "@tensorgrid/state";
+import * as fos from "@tensorgrid/state";
+import type { MutableRefObject } from "react";
+import { useCallback } from "react";
+import type { RecoilValueReadOnly } from "recoil";
+import { useRecoilCallback, useRecoilValue } from "recoil";
+import { toLabelMap } from "./utils";
+
+export const useClearSelectedLabels = (close) => {
+  const { scene } = useLighter();
+
+  return useRecoilCallback(
+    ({ set }) =>
+      async () => {
+        if (scene) {
+          scene.clearSelection({ ignoreSideEffects: true });
+        }
+
+        set(fos.selectedLabels, []);
+
+        close();
+      },
+    [],
+  );
+};
+
+export const useClearSampleSelection = (close) => {
+  const setSelected = fos.useSetSelected();
+
+  return useCallback(() => {
+    setSelected(new Map());
+    close();
+  }, [close, setSelected]);
+};
+
+export const useHideOthers = (
+  visibleAtom?: RecoilValueReadOnly<State.SelectedLabel[]>,
+  visible?: State.SelectedLabel[],
+) => {
+  return useRecoilCallback(({ snapshot, set }) => async () => {
+    const selected = await snapshot.getPromise(fos.selectedLabelIds);
+    const result = visibleAtom
+      ? await snapshot.getPromise(visibleAtom)
+      : (visible ?? []);
+    const hidden = await snapshot.getPromise(fos.hiddenLabels);
+    set(fos.hiddenLabels, {
+      ...hidden,
+      ...toLabelMap(result.filter(({ labelId }) => !selected.has(labelId))),
+    });
+  });
+};
+
+export const useHideSelected = () => {
+  return useRecoilCallback(({ snapshot, set, reset }) => async () => {
+    const selected = await snapshot.getPromise(fos.selectedLabelMap);
+    const hidden = await snapshot.getPromise(fos.hiddenLabels);
+    reset(fos.selectedLabels);
+    set(fos.hiddenLabels, { ...hidden, ...selected });
+  });
+};
+
+export const useSelectVisible = (
+  visibleAtom?: RecoilValueReadOnly<fos.State.SelectedLabel[]> | null,
+  visible?: fos.State.SelectedLabel[],
+) => {
+  const { scene } = useLighter();
+
+  return useRecoilCallback(({ snapshot, set }) => async () => {
+    const selected = await snapshot.getPromise(fos.selectedLabelMap);
+
+    if (scene) {
+      try {
+        const visibleSelectableOverlayIds =
+          scene.getVisibleSelectableOverlayIds();
+
+        if (visibleSelectableOverlayIds.length > 0) {
+          scene.clearSelection({ ignoreSideEffects: true });
+
+          visibleSelectableOverlayIds.forEach((overlayId) => {
+            scene.selectOverlay(overlayId, { ignoreSideEffects: true });
+          });
+        }
+      } catch (error) {
+        console.warn("Failed to select overlays in lighter scene:", error);
+      }
+    }
+
+    set(fos.selectedLabelMap, {
+      ...selected,
+      ...toLabelMap(
+        visibleAtom ? await snapshot.getPromise(visibleAtom) : visible || [],
+      ),
+    });
+  });
+};
+
+export const useVisibleSampleLabels = (
+  lookerRef: MutableRefObject<Lookers>,
+) => {
+  const isGroup = useRecoilValue(fos.isGroup);
+  const activeLabels = useRecoilValue(fos.activeLabels({}));
+
+  const currentSampleLabels = lookerRef.current
+    ? lookerRef.current.getCurrentSampleLabels()
+    : [];
+
+  if (isGroup) {
+    return activeLabels;
+  }
+
+  return currentSampleLabels;
+};
+
+export const useUnselectVisible = (
+  visibleIdsAtom?: RecoilValueReadOnly<Set<string>>,
+  visibleIds?: Set<string>,
+) => {
+  const { scene } = useLighter();
+
+  return useRecoilCallback(({ snapshot, set }) => async () => {
+    if (scene) {
+      scene.clearSelection({ ignoreSideEffects: true });
+    }
+
+    const selected = await snapshot.getPromise(fos.selectedLabelMap);
+    const result = visibleIdsAtom
+      ? await snapshot.getPromise(visibleIdsAtom)
+      : visibleIds;
+
+    const filtered = Object.entries(selected).filter(
+      ([label_id]) => !result?.has(label_id),
+    );
+    set(fos.selectedLabelMap, Object.fromEntries(filtered));
+  });
+};

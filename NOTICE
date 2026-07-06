@@ -1,0 +1,33 @@
+TensorGrid
+Copyright 2026 TensorGrid Contributors
+
+This product is derived from FiftyOne, an open source project
+Copyright 2017-2026, Voxel51, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+---
+
+Attribution
+
+This software includes code from FiftyOne (https://github.com/voxel51/fiftyone),
+licensed under the Apache License 2.0.
+
+Modified files in this distribution carry notices indicating changes
+from the original FiftyOne source.
+
+Third-party dependencies include (non-exhaustive):
+- fiftyone-brain (Apache 2.0)
+- fiftyone-db (Apache 2.0)
+- voxel51-eta (Apache 2.0)
+- @voxel51/voodo (Apache 2.0)

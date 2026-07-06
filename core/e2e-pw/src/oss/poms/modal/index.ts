@@ -1,0 +1,409 @@
+import { Locator, Page, expect } from "src/oss/fixtures";
+import { EventUtils } from "src/shared/event-utils";
+import { Duration } from "../../utils";
+import { ModalTaggerPom } from "../action-row/tagger/modal-tagger";
+import { ModalPanelPom } from "../panels/modal-panel";
+import { UrlPom } from "../url";
+import { ModalGroupActionsPom } from "./group-actions";
+import { ModalImaAsVideoControlsPom } from "./imavid-controls";
+import { Looker3DControlsPom } from "./looker-3d-controls";
+import { ModalSidebarPom } from "./modal-sidebar";
+import { SampleCanvasPom } from "./sample-canvas";
+import { ModalVideoControlsPom } from "./video-controls";
+
+const SAMPLE_LOAD_TIMEOUT = Duration.Seconds(20);
+
+export class ModalPom {
+  readonly assert: ModalAsserter;
+
+  readonly groupCarousel: Locator;
+  readonly locator: Locator;
+  readonly looker: Locator;
+  readonly modalContainer: Locator;
+
+  readonly group: ModalGroupActionsPom;
+  readonly imavid: ModalImaAsVideoControlsPom;
+  readonly looker3dControls: Looker3DControlsPom;
+  readonly panel: ModalPanelPom;
+  readonly sampleCanvas: SampleCanvasPom;
+  readonly sidebar: ModalSidebarPom;
+  readonly tagger: ModalTaggerPom;
+  readonly url: UrlPom;
+  readonly video: ModalVideoControlsPom;
+
+  constructor(
+    private readonly page: Page,
+    private readonly eventUtils: EventUtils,
+  ) {
+    this.assert = new ModalAsserter(this);
+    this.locator = page.getByTestId("modal");
+
+    this.groupCarousel = this.locator.getByTestId("group-carousel");
+    this.looker = this.locator.getByTestId("looker").last();
+    this.modalContainer = this.locator.getByTestId("modal-looker-container");
+
+    this.group = new ModalGroupActionsPom(page, this);
+    this.imavid = new ModalImaAsVideoControlsPom(page, this);
+    this.looker3dControls = new Looker3DControlsPom(page, this);
+    this.panel = new ModalPanelPom(page, this);
+    this.sampleCanvas = new SampleCanvasPom(page, eventUtils);
+    this.sidebar = new ModalSidebarPom(page);
+    this.tagger = new ModalTaggerPom(page, this);
+    this.url = new UrlPom(page, eventUtils);
+    this.video = new ModalVideoControlsPom(page, this);
+  }
+
+  get modalSamplePluginTitle() {
+    return this.locator
+      .getByTestId("panel-tab-fo-sample-modal-plugin")
+      .textContent();
+  }
+
+  get groupLooker() {
+    return this.locator
+      .getByTestId("group-sample-wrapper")
+      .getByTestId("looker");
+  }
+
+  get looker3d() {
+    return this.locator.getByTestId("looker3d");
+  }
+
+  // todo: remove this in favor of looker3dControls
+  get looker3dActionBar() {
+    return this.locator.getByTestId("looker3d-action-bar");
+  }
+
+  get carousel() {
+    return this.locator.getByTestId("group-carousel");
+  }
+
+  get toggleDisplayOptionsButton() {
+    return this.locator.getByTestId("action-display-options");
+  }
+
+  getLookerAttachedEvent() {
+    return this.eventUtils.getEventReceivedPromiseForPredicate(
+      "looker-attached",
+      () => true,
+    );
+  }
+
+  getSampleNavigation(direction: "forward" | "backward") {
+    return this.locator.getByTestId(
+      `nav-${direction === "forward" ? "right" : "left"}-button`,
+    );
+  }
+
+  async hideControls() {
+    const controls = this.locator.getByTestId("looker-controls");
+
+    // Check if controls exist (might not exist in annotate mode)
+    const controlsCount = await controls.count();
+    if (controlsCount === 0) {
+      return;
+    }
+
+    let isHidden = false;
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    // Keep pressing "c" until controls are hidden
+    while (!isHidden && attempts < maxAttempts) {
+      const currentStyle = await controls
+        .evaluate((e) => {
+          const s = getComputedStyle(e);
+          return { opacity: s.opacity, height: s.height };
+        })
+        .catch(() => ({ opacity: "1", height: "auto" }));
+
+      if (
+        parseFloat(currentStyle.opacity) === 0 ||
+        currentStyle.height === "0px"
+      ) {
+        isHidden = true;
+        break;
+      }
+
+      await this.page.keyboard.press("c");
+      // Controls take time to hide
+      // eslint-disable-next-line playwright/no-wait-for-timeout
+      await this.page.waitForTimeout(300);
+
+      attempts++;
+    }
+  }
+
+  async toggleSelection(isPcd = false) {
+    if (isPcd) {
+      await this.looker3d.hover();
+    } else {
+      await this.looker.hover();
+    }
+
+    await this.locator.getByTestId("select-sample-checkbox").click();
+  }
+
+  async navigateSample(
+    direction: "forward" | "backward",
+    allowErrorInfo = false,
+  ) {
+    const currentSampleId = await this.sidebar.getSampleId();
+
+    await this.locator
+      .getByTestId(`nav-${direction === "forward" ? "right" : "left"}-button`)
+      .click();
+
+    // wait for sample id to change
+    await this.page.waitForFunction((currentSampleId) => {
+      const sampleId = document.querySelector(
+        "[data-cy=sidebar-entry-id]",
+      )?.textContent;
+      return sampleId !== currentSampleId;
+    }, currentSampleId);
+
+    return this.waitForSampleLoadDomAttribute(allowErrorInfo);
+  }
+
+  async scrollCarousel(left: number = null) {
+    await this.groupCarousel.getByTestId("flashlight").evaluate((e, left) => {
+      e.scrollTo({ left: left ?? e.scrollWidth });
+    }, left);
+  }
+
+  async scrollCarouselTo(slice: string) {
+    await this.groupCarousel
+      .getByTestId("flashlight")
+      .evaluate(async (el, targetText) => {
+        const hasTarget = () => {
+          for (const t of el.querySelectorAll('[data-cy="thumbnail-title"]')) {
+            if (t.textContent === targetText) return true;
+          }
+          return false;
+        };
+
+        if (hasTarget()) return;
+
+        // 384ms is the debounce time for Flashlight's zooming plus two frames of margin
+        const ZOOMING_DEBOUNCE_MS = 384;
+        const step = Math.max(el.clientWidth, 200);
+        for (let pos = 0; pos <= el.scrollWidth; pos += step) {
+          el.scrollTo({ left: pos });
+          await new Promise((r) => setTimeout(r, ZOOMING_DEBOUNCE_MS));
+          if (hasTarget()) return;
+        }
+      }, slice);
+  }
+
+  async navigateCarousel(index: number, allowErrorInfo = false) {
+    const looker = this.groupCarousel.getByTestId("looker").nth(index);
+
+    await looker.click({ position: { x: 10, y: 60 } });
+
+    return this.waitForSampleLoadDomAttribute(allowErrorInfo);
+  }
+
+  async panSample(
+    direction: "left" | "right" | "up" | "down",
+    offsetPixels = 100,
+  ) {
+    const modalBoundingBox = await this.modalContainer.boundingBox();
+    await this.page.mouse.move(
+      modalBoundingBox.width / 2,
+      modalBoundingBox.height / 2,
+    );
+    await this.page.mouse.down();
+
+    let newPositionX = modalBoundingBox.width / 2;
+    let newPositionY = modalBoundingBox.height / 2;
+
+    switch (direction) {
+      case "left":
+        newPositionX -= offsetPixels;
+        break;
+      case "right":
+        newPositionX += offsetPixels;
+        break;
+      case "up":
+        newPositionY -= offsetPixels;
+        break;
+      case "down":
+        newPositionY += offsetPixels;
+        break;
+    }
+
+    await this.page.mouse.move(newPositionX, newPositionY);
+    await this.page.mouse.up();
+  }
+
+  async toggleTagSampleOrLabels() {
+    await this.locator.getByTestId("action-tag-sample-labels").click();
+  }
+
+  async waitForCarouselToLoad() {
+    await this.groupCarousel
+      .getByTestId("looker")
+      .first()
+      .waitFor({ state: "visible" });
+  }
+
+  async navigateSlice(
+    groupField: string,
+    slice: string,
+    allowErrorInfo = false,
+  ) {
+    const currentSlice = await this.sidebar.getSidebarEntryText(groupField);
+    const lookers = this.groupCarousel.getByTestId("looker");
+    const looker = lookers.filter({ hasText: slice }).first();
+
+    await looker.click({ position: { x: 10, y: 60 } });
+
+    // wait for slice to change
+    await this.page.waitForFunction(
+      ({ currentSlice, groupField }) => {
+        const slice = document.querySelector(
+          `[data-cy="sidebar-entry-${groupField}"]`,
+        )?.textContent;
+        return slice !== currentSlice;
+      },
+      { currentSlice, groupField },
+      { timeout: SAMPLE_LOAD_TIMEOUT },
+    );
+    return this.waitForSampleLoadDomAttribute(allowErrorInfo);
+  }
+
+  async close({ ignoreError } = { ignoreError: false }) {
+    // close by clicking outside of modal
+    try {
+      await this.page.click("body", { position: { x: 0, y: 0 } });
+      await this.locator.waitFor({ state: "hidden" });
+    } catch (e) {
+      if (ignoreError) {
+        return;
+      }
+      throw e;
+    }
+  }
+
+  async navigateNextSample(allowErrorInfo = false) {
+    return this.navigateSample("forward", allowErrorInfo);
+  }
+
+  async navigatePreviousSample(allowErrorInfo = false) {
+    return this.navigateSample("backward", allowErrorInfo);
+  }
+
+  async clickOnLooker3d() {
+    return this.looker3d.click();
+  }
+
+  async toggleLooker3dSlice(slice: string) {
+    await this.looker3dActionBar.getByTestId("looker3d-select-slices").click();
+
+    await this.looker3dActionBar
+      .getByTestId("looker3d-slice-checkboxes")
+      .getByTestId(`checkbox-${slice}`)
+      .click();
+
+    await this.clickOnLooker3d();
+  }
+
+  async clickOnLooker() {
+    return this.looker.click();
+  }
+
+  async waitForSampleLoadDomAttribute(allowErrorInfo = false) {
+    return this.page.waitForFunction(
+      (allowErrorInfo) => {
+        if (
+          allowErrorInfo &&
+          document.querySelector(
+            "[data-cy=modal-looker-container] [data-cy=looker-error-info]",
+          )
+        ) {
+          return true;
+        }
+
+        return (
+          document
+            .querySelector(`[data-cy=modal-looker-container] canvas`)
+            ?.getAttribute("canvas-loaded") === "true"
+        );
+      },
+      allowErrorInfo,
+      { timeout: SAMPLE_LOAD_TIMEOUT },
+    );
+  }
+
+  async waitForLighterReady() {
+    return this.page.waitForFunction(
+      () =>
+        (
+          document.querySelector(
+            `[data-cy=lighter-sample-renderer]`,
+          ) as HTMLElement | null
+        )?.style.visibility === "visible",
+      undefined,
+      { timeout: Duration.Seconds(20) },
+    );
+  }
+}
+
+class ModalAsserter {
+  constructor(private readonly modalPom: ModalPom) {}
+
+  async isClosed() {
+    await expect(this.modalPom.modalContainer).toBeHidden();
+  }
+
+  async isOpen() {
+    await expect(this.modalPom.modalContainer).toBeVisible();
+  }
+
+  async verifyModalOpenedSuccessfully() {
+    await this.modalPom.waitForSampleLoadDomAttribute();
+    await expect(this.modalPom.locator).toBeVisible();
+  }
+
+  async verifyHasNoViewerError() {
+    await expect(
+      this.modalPom.modalContainer.getByTestId("looker-error-info"),
+    ).toHaveCount(0);
+  }
+
+  async verifyPrimary2dRendererVisible() {
+    await expect(this.modalPom.groupLooker).toBeVisible();
+  }
+
+  async verify3dRendererVisible() {
+    await expect(this.modalPom.looker3d).toBeVisible();
+  }
+  async verifySelectionCount(n: number) {
+    const action = this.modalPom.locator.getByTestId("action-manage-selected");
+
+    await expect(action.first()).toHaveText(String(n));
+  }
+
+  async verifyCarouselLength(expectedCount: number) {
+    const actualLookerCount = await this.modalPom.groupCarousel
+      .getByTestId("looker")
+      .count();
+    expect(actualLookerCount).toBe(expectedCount);
+  }
+
+  async verifySampleNavigation(direction: "forward" | "backward") {
+    const navigation = this.modalPom.getSampleNavigation(direction);
+    await expect(navigation).toBeVisible();
+  }
+
+  async verifyModalSamplePluginTitle(
+    title: string,
+    { pinned }: { pinned: boolean } = { pinned: false },
+  ) {
+    await expect
+      .poll(async () => this.modalPom.modalSamplePluginTitle, {
+        timeout: 5000,
+      })
+      .toBe(pinned ? `📌 ${title}` : title);
+  }
+}

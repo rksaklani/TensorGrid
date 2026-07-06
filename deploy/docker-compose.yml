@@ -1,0 +1,42 @@
+services:
+  mongodb:
+    image: mongo:6.0
+    restart: unless-stopped
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  tensorgrid:
+    build:
+      context: ../core
+      dockerfile: Dockerfile
+      target: server
+      args:
+        BUILD_TYPE: source
+        PYTHON_VERSION: "3.11"
+    image: tensorgrid/app:latest
+    restart: unless-stopped
+    ports:
+      - "5151:5151"
+    environment:
+      FIFTYONE_DATABASE_URI: mongodb://mongodb:27017
+      FIFTYONE_DEFAULT_APP_ADDRESS: "0.0.0.0"
+      FIFTYONE_DATABASE_DIR: /tensorgrid/db
+      FIFTYONE_DEFAULT_DATASET_DIR: /tensorgrid/default
+      FIFTYONE_DATASET_ZOO_DIR: /tensorgrid/zoo/datasets
+      FIFTYONE_MODEL_ZOO_DIR: /tensorgrid/zoo/models
+    volumes:
+      - tensorgrid_data:/tensorgrid
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+volumes:
+  mongodb_data:
+  tensorgrid_data:

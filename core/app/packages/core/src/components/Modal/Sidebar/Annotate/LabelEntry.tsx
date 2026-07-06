@@ -1,0 +1,148 @@
+import { useAnnotationEventBus } from "@tensorgrid/annotation";
+import { useLighter } from "@tensorgrid/lighter";
+import { isDetection3dOverlay, isPolyline3dOverlay } from "@tensorgrid/looker-3d";
+import type { AnnotationLabel } from "@tensorgrid/state";
+import { animated } from "@react-spring/web";
+import { type PrimitiveAtom, getDefaultStore, useAtomValue } from "jotai";
+import { useMemo } from "react";
+import styled from "styled-components";
+import { Column } from "./Components";
+import { useAnnotationContext } from "./Edit/useAnnotationContext";
+import { ICONS } from "./Icons";
+import { fieldType } from "./state";
+import useColor from "./useColor";
+import { useIsLabelHovering } from "./useHover";
+
+const Container = animated(styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  border-radius: var(--radius-xs);
+  background: ${({ theme }) => theme.neutral.softBg};
+  padding: 0.5rem;
+
+  &:hover,
+  &.hovering {
+    background: ${({ theme }) => theme.background.level1};
+  }
+`);
+
+const Header = styled.div`
+  vertical-align: middle;
+  display: flex;
+  font-weight: bold;
+  width: 100%;
+  flex: 1;
+  justify-content: space-between;
+`;
+
+const Line = styled.div<{ fill: string }>`
+  position: absolute;
+  top: 0px;
+  z-index: 0;
+  border-radius: var(--radius-xs);
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  width: 5px;
+  left: 0px;
+  cursor: default;
+  background: ${({ fill }) => fill};
+`;
+
+const LabelEntry = ({ atom }: { atom: PrimitiveAtom<AnnotationLabel> }) => {
+  const label = useAtomValue(atom);
+  const type = useAtomValue(fieldType(label.path ?? ""));
+  const { select, setSavedData } = useAnnotationContext();
+  const Icon = ICONS[type] ?? (() => null);
+  const { scene } = useLighter();
+
+  const isHovering = useIsLabelHovering(label.overlay.id);
+
+  const color = useColor(label.overlay);
+
+  const annotationEventBus = useAnnotationEventBus();
+
+  const handleMouseEnter = useMemo(() => {
+    return () => {
+      annotationEventBus.dispatch("annotation:sidebarLabelHover", {
+        id: label.overlay.id,
+        tooltip: false,
+      });
+    };
+  }, [annotationEventBus, label.overlay.id]);
+
+  const handleMouseLeave = useMemo(() => {
+    return () => {
+      annotationEventBus.dispatch("annotation:sidebarLabelUnhover", {
+        id: label.overlay.id,
+      });
+    };
+  }, [annotationEventBus, label.overlay.id]);
+
+  const is3DLabel =
+    isDetection3dOverlay(label.data) || isPolyline3dOverlay(label.data);
+
+  return (
+    <Container
+      onClick={() => {
+        const store = getDefaultStore();
+        scene?.selectOverlay(store.get(atom).overlay.id);
+
+        annotationEventBus.dispatch("annotation:sidebarLabelSelected", {
+          id: label.overlay.id,
+          type: label.type,
+          data: {
+            ...label.data,
+            path: label.path,
+            id: label.overlay.id,
+          },
+        });
+
+        // For 3D labels, select3DLabelForAnnotation handles setting the
+        // editing pointer to the correct 3D-specific atom. We should not
+        // overwrite it here — just sync savedLabel so dirty tracking starts
+        // from this label's data.
+        if (!is3DLabel) {
+          select(atom);
+        } else {
+          // 3D-specific: editing pointer is set by the looker-3d hooks
+          // (useSetEditingToExisting3dLabel etc.); we only sync the
+          // savedLabel snapshot to start dirty-tracking from this label.
+          setSavedData(store.get(atom).data);
+        }
+      }}
+      className={isHovering ? "hovering" : ""}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <Line fill={color} />
+      <Header>
+        <Column>
+          <Icon fill={color} />
+          <div
+            style={{
+              ...(!label.data.label
+                ? { color, fontStyle: "italic", opacity: 0.7 }
+                : {}),
+              ...{ paddingLeft: "8px" },
+            }}
+          >
+            {label.data.label || "(no label)"}
+          </div>
+        </Column>
+
+        {/*
+        <Column>
+          <Locking on={true} />
+          <Shown on={true} />
+        </Column>
+        */}
+      </Header>
+    </Container>
+  );
+};
+
+export default LabelEntry;

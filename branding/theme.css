@@ -1,0 +1,9 @@
+/**
+ * TensorGrid theme overrides.
+ * Loaded after @voxel51/voodo/theme.css to customize brand colors.
+ */
+:root {
+  --voxel51-color-accent: #6366f1;
+  --voxel51-color-accent-hover: #4f46e5;
+  --voxel51-color-primary: #1e1b4b;
+}
