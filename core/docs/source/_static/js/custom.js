@@ -724,6 +724,60 @@ function initScrollSpyFix() {
   updateActiveSection();
 }
 
+function initEmbeddedDocs() {
+  if (window.self === window.top) return;
+
+  document.documentElement.classList.add("tg-embedded");
+
+  const setEmbedHeight = (height) => {
+    document.documentElement.style.setProperty("--tg-embed-height", `${height}px`);
+  };
+
+  const resetSidebarScroll = () => {
+    document.querySelector(".bd-sidebar-primary")?.scrollTo(0, 0);
+    document.body.scrollTo(0, 0);
+  };
+
+  window.addEventListener("message", (event) => {
+    if (event.origin !== window.location.origin) return;
+    if (event.data?.type !== "tg-embed-height") return;
+    if (typeof event.data.height !== "number") return;
+
+    setEmbedHeight(event.data.height);
+    resetSidebarScroll();
+  });
+
+  const syncLocalHeight = () => setEmbedHeight(document.documentElement.clientHeight);
+  syncLocalHeight();
+
+  const resizeObserver = new ResizeObserver(syncLocalHeight);
+  resizeObserver.observe(document.documentElement);
+
+  window.addEventListener("load", resetSidebarScroll);
+
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("a");
+    if (!link || !link.href) return;
+
+    const url = new URL(link.href, window.location.origin);
+    if (url.origin !== window.location.origin || !url.pathname.startsWith("/_sphinx/")) {
+      return;
+    }
+
+    event.preventDefault();
+
+    let docsPath = url.pathname.replace(/^\/_sphinx\//, "");
+    if (docsPath.endsWith("/index.html")) {
+      docsPath = docsPath.slice(0, -"/index.html".length);
+    } else if (docsPath === "index.html") {
+      docsPath = "";
+    }
+
+    const nextPath = docsPath ? `/docs/${docsPath}` : "/docs";
+    window.parent.location.assign(nextPath);
+  });
+}
+
 function initNavIcons() {
   document.querySelectorAll(".nav.bd-sidenav a.reference").forEach((a) => {
     if (a.textContent.trim() === "TensorGrid Labs") a.classList.add("nav-labs");
@@ -731,6 +785,7 @@ function initNavIcons() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  initEmbeddedDocs();
   initSidebarToggle();
   initSlidingNavBar();
   initDropdownDelay();

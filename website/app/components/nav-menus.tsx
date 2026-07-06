@@ -5,6 +5,7 @@ export type NavLink = {
   href: string;
   external?: boolean;
   icon?: ReactNode;
+  children?: NavLink[];
 };
 
 export type NavMegaMenu = {
@@ -79,7 +80,25 @@ const icon = {
       <path d="M12 3v4M12 17v4M3 12h4M17 12h4" />
     </svg>
   ),
+  docs: (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+    </svg>
+  ),
 };
+
+export const DOCUMENTATION_PAGES: NavLink[] = [
+  { label: "Overview", href: "/docs" },
+  { label: "Getting Started", href: "/docs/getting_started" },
+  { label: "Installation", href: "/docs/installation" },
+  { label: "User Guide", href: "/docs/user_guide" },
+  { label: "Tutorials", href: "/docs/tutorials" },
+  { label: "Integrations", href: "/docs/integrations" },
+  { label: "Plugins", href: "/docs/plugins" },
+  { label: "Dataset Zoo", href: "/docs/dataset_zoo" },
+  { label: "API Reference", href: "/docs/api/tensorgrid.html" },
+];
 
 export const NAV_ITEMS: NavItem[] = [
   {
@@ -132,11 +151,6 @@ export const NAV_ITEMS: NavItem[] = [
     href: "/customers",
   },
   {
-    id: "docs",
-    label: "Docs",
-    href: "/docs/index.html",
-  },
-  {
     id: "resources",
     label: "Resources",
     href: "/resources",
@@ -148,9 +162,6 @@ export const NAV_ITEMS: NavItem[] = [
         { label: "Releases", href: "https://github.com/rksaklani/TensorGrid/releases", external: true },
         { label: "PyPI Package", href: "https://pypi.org/project/tensorgrid-platform/", external: true },
         { label: "NOTICE & License", href: "https://github.com/rksaklani/TensorGrid/blob/main/NOTICE", external: true },
-        { label: "Documentation", href: "/docs/index.html" },
-        { label: "Quick Start", href: "/docs/getting_started/index.html" },
-        { label: "Dataset Zoo", href: "/docs/dataset_zoo/index.html" },
         { label: "Community", href: "https://github.com/rksaklani/TensorGrid/discussions", external: true },
       ],
       rightLabel: "Get Started",
@@ -168,11 +179,13 @@ export const NAV_ITEMS: NavItem[] = [
     menu: {
       leftLabel: "Build with TensorGrid",
       leftItems: [
-        { label: "Documentation", href: "/docs/index.html" },
+        {
+          label: "Documentation",
+          href: "/docs",
+          icon: icon.docs,
+          children: DOCUMENTATION_PAGES,
+        },
         { label: "Quick Start", href: "/developers#install" },
-        { label: "Integrations", href: "/docs/integrations/index.html" },
-        { label: "Tutorials", href: "/docs/tutorials/index.html" },
-        { label: "Plugins", href: "/docs/plugins/index.html" },
         { label: "Community", href: "https://github.com/rksaklani/TensorGrid/discussions", external: true },
         { label: "Release Notes", href: "https://github.com/rksaklani/TensorGrid/releases", external: true },
       ],

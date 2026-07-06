@@ -22,7 +22,7 @@ node_modules/
 core/build/
 core/docs/build/
 core/dist/
-website/public/docs
+website/public/_sphinx
 core/app/packages/*/dist/
 *.log
 

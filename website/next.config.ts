@@ -4,16 +4,18 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   async redirects() {
     return [
-      // Sphinx assets use relative paths (_static/...). The browser must be on
-      // /docs/index.html (or a nested .html path) so those resolve under /docs/.
-      { source: "/docs", destination: "/docs/index.html", permanent: false },
-      { source: "/docs/", destination: "/docs/index.html", permanent: false },
+      { source: "/docs/index.html", destination: "/docs", permanent: false },
+      {
+        source: "/docs/:section/index.html",
+        destination: "/docs/:section",
+        permanent: false,
+      },
     ];
   },
   async headers() {
     return [
       {
-        source: "/docs/:path*",
+        source: "/_sphinx/:path*",
         headers: [
           {
             key: "Cache-Control",

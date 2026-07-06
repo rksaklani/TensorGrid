@@ -218,6 +218,7 @@ html_extra_path = ["404.html", "robots.txt"]
 html_css_files = ["css/voxel51-website.css", "css/custom.css"]
 html_js_files = [
     "https://cdn.jsdelivr.net/npm/list.js@2.3.1/dist/list.min.js",
+    "js/embed-init.js",
     "js/custom.js",
     "js/tutorial-filters.js",
     "js/search.js",
@@ -254,8 +255,8 @@ html_context = {
     "docsearch_app_id": docsearch_app_id,
     "docsearch_api_key": docsearch_api_key,
     "docsearch_index_name": docsearch_index_name,
-    "link_docs_tensorgrid": "/docs/index.html",
-    "link_docs_tensorgrid": "/docs/index.html",
+    "link_docs_tensorgrid": "/docs",
+    "link_docs_fiftyone": "/docs",
     "link_events": "/resources",
     "link_voxel51_blog": "/resources",
     "link_annotation": "/product#annotation",

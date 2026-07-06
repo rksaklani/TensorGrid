@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "build:docs": "bash scripts/build-docs.sh",
-    "predev": "test -e public/docs/index.html || npm run build:docs",
+    "predev": "test -e public/_sphinx/index.html || npm run build:docs",
     "prebuild": "npm run build:docs"
   },
   "dependencies": {

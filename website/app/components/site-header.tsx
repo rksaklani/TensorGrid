@@ -2,13 +2,118 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { NAV_ITEMS, type NavItem, type NavMegaMenu } from "./nav-menus";
+import { NAV_ITEMS, type NavItem, type NavLink as NavLinkItem, type NavMegaMenu } from "./nav-menus";
 import { NavLink } from "./nav-link";
 
 function pathMatches(pathname: string, href: string) {
   const base = href.split("#")[0];
   if (base === "/") return pathname === "/";
   return pathname === base || pathname.startsWith(`${base}/`);
+}
+
+function MegaMenuLink({
+  item,
+  onNavigate,
+}: {
+  item: NavLinkItem;
+  onNavigate: () => void;
+}) {
+  if (item.children?.length) {
+    return (
+      <div className="mega-menu-submenu">
+        <NavLink
+          href={item.href}
+          className="mega-menu-link mega-menu-link-has-children"
+          external={item.external}
+          onClick={onNavigate}
+        >
+          {item.icon && (
+            <span className="mega-menu-icon" aria-hidden>
+              {item.icon}
+            </span>
+          )}
+          <span className="mega-menu-link-text">{item.label}</span>
+          <span className="mega-menu-chevron" aria-hidden>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M9 6l6 6-6 6" />
+            </svg>
+          </span>
+        </NavLink>
+        <ul className="mega-menu-flyout">
+          {item.children.map((child) => (
+            <li key={child.label}>
+              <NavLink
+                href={child.href}
+                className="mega-menu-flyout-link"
+                external={child.external}
+                onClick={onNavigate}
+              >
+                {child.label}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+
+  return (
+    <NavLink
+      href={item.href}
+      className="mega-menu-link"
+      external={item.external}
+      onClick={onNavigate}
+    >
+      {item.icon && (
+        <span className="mega-menu-icon" aria-hidden>
+          {item.icon}
+        </span>
+      )}
+      {item.label}
+    </NavLink>
+  );
+}
+
+function MobileNavLink({
+  link,
+  onNavigate,
+}: {
+  link: NavLinkItem;
+  onNavigate: () => void;
+}) {
+  if (link.children?.length) {
+    return (
+      <details className="mobile-nav-nested">
+        <summary className="mobile-nav-sublink mobile-nav-sublink-parent">
+          {link.label}
+        </summary>
+        <div className="mobile-nav-nested-items">
+          {link.children.map((child) => (
+            <NavLink
+              key={child.label}
+              href={child.href}
+              className="mobile-nav-sublink mobile-nav-sublink-nested"
+              external={child.external}
+              onClick={onNavigate}
+            >
+              {child.label}
+            </NavLink>
+          ))}
+        </div>
+      </details>
+    );
+  }
+
+  return (
+    <NavLink
+      href={link.href}
+      className="mobile-nav-sublink"
+      external={link.external}
+      onClick={onNavigate}
+    >
+      {link.label}
+    </NavLink>
+  );
 }
 
 function MegaMenuPanel({
@@ -25,19 +130,7 @@ function MegaMenuPanel({
         <ul className="mega-menu-list">
           {menu.leftItems.map((item) => (
             <li key={item.label}>
-              <NavLink
-                href={item.href}
-                className="mega-menu-link"
-                external={item.external}
-                onClick={onNavigate}
-              >
-                {item.icon && (
-                  <span className="mega-menu-icon" aria-hidden>
-                    {item.icon}
-                  </span>
-                )}
-                {item.label}
-              </NavLink>
+              <MegaMenuLink item={item} onNavigate={onNavigate} />
             </li>
           ))}
         </ul>
@@ -127,15 +220,7 @@ function MobileSubmenu({ item, onNavigate }: { item: NavItem; onNavigate: () => 
       <div className="mobile-nav-submenu">
         <p className="mega-menu-label">{item.menu.leftLabel}</p>
         {item.menu.leftItems.map((link) => (
-          <NavLink
-            key={link.label}
-            href={link.href}
-            className="mobile-nav-sublink"
-            external={link.external}
-            onClick={onNavigate}
-          >
-            {link.label}
-          </NavLink>
+          <MobileNavLink key={link.label} link={link} onNavigate={onNavigate} />
         ))}
         {item.menu.rightItems?.map((link) => (
           <NavLink
