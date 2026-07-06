@@ -2,8 +2,6 @@
 
 **Multimodal data platform for building high-quality datasets and computer vision models.**
 
-Derived from [FiftyOne](https://github.com/voxel51/fiftyone) (Apache 2.0). See [NOTICE](https://github.com/rksaklani/TensorGrid/blob/main/NOTICE) for attribution.
-
 [![PyPI version](https://badge.fury.io/py/tensorgrid-platform.svg)](https://pypi.org/project/tensorgrid-platform/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/rksaklani/TensorGrid/blob/main/core/LICENSE)
 [![Python](https://img.shields.io/pypi/pyversions/tensorgrid-platform)](https://pypi.org/project/tensorgrid-platform/)
@@ -18,7 +16,7 @@ Derived from [FiftyOne](https://github.com/voxel51/fiftyone) (Apache 2.0). See [
 pip install tensorgrid-platform
 ```
 
-`fiftyone-db` and `fiftyone-brain` are installed automatically as dependencies.
+Requires Python 3.10+.
 
 ## Quick start
 
@@ -40,13 +38,6 @@ tg app launch quickstart
 tensorgrid app launch quickstart
 ```
 
-## Python API
-
-```python
-import tensorgrid as tg          # recommended
-import fiftyone as fo            # compatibility alias
-```
-
 ## Development install
 
 Clone the [GitHub repository](https://github.com/rksaklani/TensorGrid), build the web app, then:
@@ -58,4 +49,4 @@ pip install -e core/
 
 ## License
 
-Apache 2.0. TensorGrid modifications © TensorGrid Contributors. Original FiftyOne © Voxel51, Inc.
+Apache 2.0. See [NOTICE](https://github.com/rksaklani/TensorGrid/blob/main/NOTICE) for attribution.
