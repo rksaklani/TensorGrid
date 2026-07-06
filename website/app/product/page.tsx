@@ -4,7 +4,7 @@ import { PageHero } from "../components/page-hero";
 import { PlatformSection, MultimodalSection } from "../components/sections";
 
 export const metadata: Metadata = {
-  title: "Product — TensorGrid",
+  title: "Product",
   description:
     "Data curation, annotation, generation, and evaluation for multimodal AI datasets.",
 };

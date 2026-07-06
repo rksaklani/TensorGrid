@@ -4,7 +4,7 @@ import { PageHero } from "../components/page-hero";
 import { ResourcesSection } from "../components/sections";
 
 export const metadata: Metadata = {
-  title: "Resources — TensorGrid",
+  title: "Resources",
   description:
     "GitHub, PyPI, releases, and community resources for TensorGrid developers.",
 };

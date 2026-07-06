@@ -4,7 +4,7 @@ import { PageHero } from "../components/page-hero";
 import { EnterpriseSection, StatsBand } from "../components/sections";
 
 export const metadata: Metadata = {
-  title: "Enterprise — TensorGrid",
+  title: "Enterprise",
   description:
     "Scale, security, and deployment options for enterprise multimodal AI teams.",
 };

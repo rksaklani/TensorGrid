@@ -4,7 +4,7 @@ import { PageHero } from "../components/page-hero";
 import { DeveloperSection } from "../components/sections";
 
 export const metadata: Metadata = {
-  title: "Developers — TensorGrid",
+  title: "Developers",
   description:
     "Install TensorGrid from PyPI, launch the app, and start building with the Python SDK.",
 };

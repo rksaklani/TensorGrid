@@ -4,7 +4,7 @@ import { PageHero } from "../components/page-hero";
 import { CustomersSection, StatsBand } from "../components/sections";
 
 export const metadata: Metadata = {
-  title: "Customers — TensorGrid",
+  title: "Customers",
   description:
     "How teams in computer vision, robotics, healthcare, and more use TensorGrid.",
 };

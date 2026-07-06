@@ -3,7 +3,7 @@ import { SiteHeader } from "../../components/site-header";
 import { DocsViewer } from "../../components/docs-viewer";
 
 export const metadata: Metadata = {
-  title: "Documentation — TensorGrid",
+  title: "Documentation",
   description: "TensorGrid documentation — installation, tutorials, API reference, and more.",
 };
 

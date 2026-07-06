@@ -4,7 +4,7 @@ import { PageHero } from "../components/page-hero";
 import { PricingSection, BottomCtaSection } from "../components/sections";
 
 export const metadata: Metadata = {
-  title: "Pricing — TensorGrid",
+  title: "Pricing",
   description: "TensorGrid Platform is open source and free to use under Apache 2.0.",
 };
 

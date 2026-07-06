@@ -177,9 +177,9 @@ pages on this site apply to Enterprise deployments as well.
     :maxdepth: 1
     :hidden:
 
-    Overview <overview>
-    Installation <installation>
-    Getting Started <getting_started>
+    Enterprise Overview <overview>
+    Enterprise Installation <installation>
+    Enterprise Getting Started <getting_started>
     API connection <api_connection>
     Cloud-backed media <cloud_media>
     Roles and permissions <roles_and_permissions>
@@ -190,7 +190,7 @@ pages on this site apply to Enterprise deployments as well.
     Data Quality <data_quality>
     Query Performance <query_performance>
     TensorGrid Agent __SUB_NEW__ <agent>
-    Plugins <plugins>
+    Enterprise Plugins <plugins>
     Secrets <secrets>
     Management SDK <management_sdk>
     Migrations <migrations>

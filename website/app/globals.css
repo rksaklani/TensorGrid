@@ -172,9 +172,10 @@ img {
   display: flex;
   align-items: baseline;
   letter-spacing: 0.06em;
+  color: var(--header-text);
 }
 
-.logo-accent {
+.logo-text .logo-accent {
   color: var(--accent);
 }
 

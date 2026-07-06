@@ -511,7 +511,6 @@ _________
    :maxdepth: 1
    :hidden:
 
-   Overview <self>
    TensorGrid Enterprise 🚀 <enterprise/index>
    Installation <installation/index>
    Getting Started <getting_started/index>
