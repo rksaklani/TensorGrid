@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable Corepack and Yarn 4
+        run: |
+          corepack enable
+          corepack prepare yarn@4.9.1 --activate
+
+      - name: Cache Yarn dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            core/app/node_modules
+            core/app/.yarn/cache
+          key: yarn-${{ runner.os }}-${{ hashFiles('core/app/yarn.lock') }}
+
+      - name: Build TensorGrid App
+        working-directory: core/app
+        run: yarn install && yarn build
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build Python package
+        working-directory: core
+        run: |
+          python -m pip install --upgrade pip build
+          python -m build
+
+      - name: Smoke test wheel
+        run: |
+          python -m pip install core/dist/tensorgrid_platform-*.whl
+          python -c "import tensorgrid as tg; print('tensorgrid', tg.__version__)"
+          tg --version
