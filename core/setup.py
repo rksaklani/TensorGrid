@@ -38,7 +38,7 @@ setup(
     ),
     author="TensorGrid Contributors",
     author_email="",
-    url="https://github.com/tensorgrid/tensorgrid",
+    url="https://github.com/rksaklani/TensorGrid",
     license="Apache",
     long_description=long_description,
     long_description_content_type="text/markdown",
