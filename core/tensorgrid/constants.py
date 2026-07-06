@@ -44,17 +44,20 @@ RESOURCES_DIR = os.path.join(FIFTYONE_DIR, "resources")
 #
 COMPATIBLE_VERSIONS = ">=0.19,<2"
 
-# Package metadata
+# Package metadata (PyPI distribution: tensorgrid-platform, import: tensorgrid)
 try:
-    _META = metadata("tensorgrid")
+    _META = metadata("tensorgrid-platform")
 except Exception:
-    _META = metadata("fiftyone")
+    try:
+        _META = metadata("tensorgrid")
+    except Exception:
+        _META = metadata("fiftyone")
 NAME = "tensorgrid"
 VERSION = _META["version"]
 DESCRIPTION = _META.get("summary", "TensorGrid data platform")
 AUTHOR = _META.get("author", "TensorGrid Contributors")
 AUTHOR_EMAIL = _META.get("author-email", "")
-URL = _META.get("home-page", "https://github.com/tensorgrid/tensorgrid")
+URL = _META.get("home-page", "https://github.com/rksaklani/TensorGrid")
 LICENSE = _META.get("license", "Apache")
 VERSION_LONG = "TensorGrid v%s, %s" % (VERSION, AUTHOR)
 COPYRIGHT = "2017-%d, %s" % (datetime.now().year, AUTHOR)

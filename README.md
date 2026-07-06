@@ -21,7 +21,7 @@ voxel_clone/
 python3.12 -m venv .venv
 source .venv/bin/activate
 pip install fiftyone-db fiftyone-brain
-pip install -e core/
+pip install tensorgrid-platform
 
 cd core/app && corepack yarn install && corepack yarn build && cd ../..
 
