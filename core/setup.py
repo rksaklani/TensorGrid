@@ -100,6 +100,12 @@ setup(
         "voxel51-eta>=0.16.0,<0.17",
     ],
     include_package_data=True,
+    package_data={
+        "tensorgrid": [
+            "resources/*.xml",
+            "resources/branding/*.png",
+        ],
+    },
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Developers",

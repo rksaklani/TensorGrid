@@ -39,7 +39,7 @@ TensorGrid
       Join the community
     </a>
     <a href="/enterprise" class="nav-pill nav-pill-filled">
-      <img alt="TensorGrid" src="_static/images/tensorgrid-logo.svg" width="18" height="18">
+      <img alt="TensorGrid" src="_static/images/tensorgrid-logo-icon.png" width="18" height="18">
       TensorGrid Enterprise
     </a>
   </div>

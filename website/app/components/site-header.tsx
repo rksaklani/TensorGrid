@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { NAV_ITEMS, type NavItem, type NavLink as NavLinkItem, type NavMegaMenu } from "./nav-menus";
 import { NavLink } from "./nav-link";
+import { BrandLogo } from "./brand-logo";
 
 function pathMatches(pathname: string, href: string) {
   const base = href.split("#")[0];
@@ -300,14 +301,7 @@ export function SiteHeader() {
     >
       <div className="container header-inner">
         <NavLink href="/" className="logo" onClick={closeAll}>
-          <span className="logo-mark" aria-hidden>
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-              <rect x="3" y="3" width="7" height="7" rx="1" />
-              <rect x="14" y="3" width="7" height="7" rx="1" />
-              <rect x="3" y="14" width="7" height="7" rx="1" />
-              <rect x="14" y="14" width="7" height="7" rx="1" />
-            </svg>
-          </span>
+          <BrandLogo variant="icon" className="brand-logo-icon" priority />
           <span className="logo-text">
             Tensor<span className="logo-accent">Grid</span>
           </span>
@@ -342,7 +336,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="header-actions">
-          <NavLink href="/developers#install" className="btn-header-cta" onClick={closeAll}>
+          <NavLink href="/developers/quick-start" className="btn-header-cta" onClick={closeAll}>
             Install OSS
             <span className="btn-header-cta-icon" aria-hidden>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
@@ -387,7 +381,7 @@ export function SiteHeader() {
             {NAV_ITEMS.map((item) => (
               <MobileSubmenu key={item.id} item={item} onNavigate={closeAll} />
             ))}
-            <NavLink href="/developers#install" className="btn-header-cta mobile-nav-cta" onClick={closeAll}>
+            <NavLink href="/developers/quick-start" className="btn-header-cta mobile-nav-cta" onClick={closeAll}>
               Install OSS
               <span className="btn-header-cta-icon" aria-hidden>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">

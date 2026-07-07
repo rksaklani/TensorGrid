@@ -1,8 +1,13 @@
+import { BrandLogo } from "./brand-logo";
+
 export function Hero() {
   return (
     <section className="hero">
       <div className="container hero-grid">
         <div className="hero-content">
+          <div className="hero-brand">
+            <BrandLogo variant="full" className="brand-logo-hero" priority />
+          </div>
           <p className="hero-eyebrow">
             <span aria-hidden />
             Open-source multimodal data platform
@@ -17,7 +22,7 @@ export function Hero() {
             sensor data.
           </p>
           <div className="hero-actions">
-            <a href="/developers#install" className="btn btn-primary btn-lg">
+            <a href="/developers/quick-start" className="btn btn-primary btn-lg">
               Install OSS
             </a>
             <a href="http://localhost:5151" className="btn btn-ghost btn-lg">

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const PLATFORM = [
   {
     id: "curation",
@@ -102,11 +104,12 @@ export function PlatformSection({ embedded = false }: { embedded?: boolean }) {
         )}
         <div className="platform-grid">
           {PLATFORM.map((item) => (
-            <article key={item.title} id={item.id} className="platform-card">
+            <Link key={item.title} href={`/product/${item.id}`} className="platform-card">
               <div className="platform-icon">{item.icon}</div>
               <h3>{item.title}</h3>
               <p>{item.desc}</p>
-            </article>
+              <span className="card-link">Learn more →</span>
+            </Link>
           ))}
         </div>
       </div>
@@ -177,11 +180,14 @@ export function EnterpriseSection({ embedded = false }: { embedded?: boolean }) 
           </>
         )}
         <div className="enterprise-grid">
-          {ENTERPRISE.map((item) => (
-            <article key={item.title} id={item.id} className="enterprise-card">
+          {ENTERPRISE.filter((item) =>
+            ["why-enterprise", "workflows", "security", "deployment"].includes(item.id),
+          ).map((item) => (
+            <Link key={item.title} href={`/enterprise/${item.id}`} className="enterprise-card">
               <h3>{item.title}</h3>
               <p>{item.desc}</p>
-            </article>
+              <span className="card-link">Learn more →</span>
+            </Link>
           ))}
         </div>
       </div>
@@ -204,34 +210,9 @@ export function DeveloperSection({ embedded = false }: { embedded?: boolean }) {
               </p>
             </>
           )}
-          <div id="install" className="code-block">
-            <div className="code-header">
-              <span>Terminal</span>
-              <span>pip</span>
-            </div>
-            <pre className="code-body">
-              <code>
-                <span className="comment"># Install TensorGrid</span>
-                {"\n"}
-                pip install tensorgrid-platform
-                {"\n\n"}
-                <span className="comment"># Quick start</span>
-                {"\n"}
-                <span className="keyword">import</span> tensorgrid{" "}
-                <span className="keyword">as</span> tg
-                {"\n"}
-                <span className="keyword">import</span> tensorgrid.zoo{" "}
-                <span className="keyword">as</span> tgz
-                {"\n\n"}
-                dataset = tgz.load_zoo_dataset(
-                <span className="string">&quot;quickstart&quot;</span>)
-                {"\n"}
-                session = tg.launch_app(dataset)
-                {"\n"}
-                session.wait(-1)
-              </code>
-            </pre>
-          </div>
+          <Link href="/developers/quick-start" className="btn btn-primary">
+            View quick start guide →
+          </Link>
         </div>
 
         <div>
@@ -290,14 +271,13 @@ export function DeveloperSection({ embedded = false }: { embedded?: boolean }) {
 
 export function CustomersSection({ embedded = false }: { embedded?: boolean }) {
   const INDUSTRIES = [
-    "Computer Vision",
-    "Autonomous Systems",
-    "Robotics",
-    "Healthcare Imaging",
-    "Manufacturing QA",
-    "Agriculture",
-    "Retail Analytics",
-    "Defense & Security",
+    { label: "Manufacturing", href: "/customers/manufacturing" },
+    { label: "Autonomous Vehicles", href: "/customers/autonomous-vehicles" },
+    { label: "Robotics", href: "/customers/robotics" },
+    { label: "Healthcare", href: "/customers/healthcare" },
+    { label: "Agriculture", href: "/customers/agriculture" },
+    { label: "Defense", href: "/customers/defense" },
+    { label: "Security", href: "/customers/security" },
   ];
 
   return (
@@ -314,10 +294,10 @@ export function CustomersSection({ embedded = false }: { embedded?: boolean }) {
           </>
         )}
         <div className="customers-grid">
-          {INDUSTRIES.map((name) => (
-            <div key={name} className="customer-chip">
-              {name}
-            </div>
+          {INDUSTRIES.map((item) => (
+            <Link key={item.label} href={item.href} className="customer-chip">
+              {item.label}
+            </Link>
           ))}
         </div>
       </div>
@@ -348,7 +328,7 @@ export function ResourcesSection({ embedded = false }: { embedded?: boolean }) {
     {
       title: "Quick Start",
       desc: "Load a sample dataset and launch the app.",
-      href: "/developers#install",
+      href: "/developers/quick-start",
       external: false,
     },
     {
@@ -426,7 +406,7 @@ export function PricingSection({ embedded = false }: { embedded?: boolean }) {
               <li>Plugin system</li>
               <li>Apache 2.0 license</li>
             </ul>
-            <a href="/developers#install" className="btn btn-primary btn-lg">
+            <a href="/developers/quick-start" className="btn btn-primary btn-lg">
               pip install tensorgrid-platform
             </a>
           </article>
@@ -468,7 +448,7 @@ export function BottomCtaSection() {
             multimodal data today.
           </p>
           <div className="cta-actions">
-            <a href="/developers#install" className="btn btn-primary btn-lg">
+            <a href="/developers/quick-start" className="btn btn-primary btn-lg">
               pip install tensorgrid-platform
             </a>
             <a

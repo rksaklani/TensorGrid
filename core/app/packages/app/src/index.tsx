@@ -16,6 +16,7 @@ import { RecoilRoot } from "recoil";
 import Network from "./Network";
 import "./index.css";
 import "@voxel51/voodo/theme.css";
+import "./tensorgrid-theme.css";
 import { useRouter } from "./routing";
 
 if (

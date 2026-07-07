@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "./brand-logo";
 
 export function SiteFooter() {
   return (
@@ -7,17 +8,7 @@ export function SiteFooter() {
         <div className="footer-grid">
           <div className="footer-brand">
             <Link href="/" className="logo">
-              <span className="logo-mark" aria-hidden>
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
-                  <rect x="3" y="3" width="7" height="7" rx="1" />
-                  <rect x="14" y="3" width="7" height="7" rx="1" />
-                  <rect x="3" y="14" width="7" height="7" rx="1" />
-                  <rect x="14" y="14" width="7" height="7" rx="1" />
-                </svg>
-              </span>
-              <span className="logo-text">
-                Tensor<span className="logo-accent">Grid</span>
-              </span>
+              <BrandLogo variant="full" className="brand-logo-footer" />
             </Link>
             <p>
               Multimodal data platform for building high-quality datasets and
@@ -29,13 +20,13 @@ export function SiteFooter() {
             <h4>Product</h4>
             <ul>
               <li>
-                <Link href="/product#curation">Data Curation</Link>
+                <Link href="/product/curation">Data Curation</Link>
               </li>
               <li>
-                <Link href="/product#annotation">Annotation</Link>
+                <Link href="/product/annotation">Annotation</Link>
               </li>
               <li>
-                <Link href="/product#evaluation">Model Evaluation</Link>
+                <Link href="/product/evaluation">Model Evaluation</Link>
               </li>
               <li>
                 <a href="http://localhost:5151">Launch App</a>
@@ -47,7 +38,7 @@ export function SiteFooter() {
             <h4>Developers</h4>
             <ul>
               <li>
-                <Link href="/developers#install">Install</Link>
+                <Link href="/developers/quick-start">Install</Link>
               </li>
               <li>
                 <a

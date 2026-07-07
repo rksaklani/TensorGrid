@@ -181,7 +181,7 @@ intersphinx_mapping = {
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_logo = "_static/images/tensorgrid-logo.svg"
+html_logo = "_static/images/tensorgrid-logo.png"
 
 html_theme = "pydata_sphinx_theme"
 html_theme_options = {
@@ -256,7 +256,7 @@ html_context = {
     "docsearch_api_key": docsearch_api_key,
     "docsearch_index_name": docsearch_index_name,
     "link_docs_tensorgrid": "/docs",
-    "link_docs_fiftyone": "/docs",
+    "link_docs_tensorgrid": "/docs",
     "link_events": "/resources",
     "link_voxel51_blog": "/resources",
     "link_annotation": "/product#annotation",

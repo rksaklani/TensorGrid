@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="branding/logo-2.png" alt="TensorGrid" width="320" />
+</p>
+
 # TensorGrid
 
 A branded fork of [FiftyOne](https://github.com/voxel51/fiftyone) (Apache 2.0).

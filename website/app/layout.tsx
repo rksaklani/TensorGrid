@@ -16,8 +16,8 @@ export const metadata: Metadata = {
     "Explore, curate, annotate, and evaluate multimodal datasets. Open-source platform for computer vision and physical AI.",
   applicationName: "TensorGrid",
   icons: {
-    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
-    apple: [{ url: "/apple-icon.svg", type: "image/svg+xml" }],
+    icon: [{ url: "/brand/logo-icon.png", type: "image/png" }],
+    apple: [{ url: "/brand/logo-icon.png", type: "image/png" }],
   },
   openGraph: {
     title: "TensorGrid",
@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     description:
       "Build and iterate faster with TensorGrid. Surface the right data insights to maximize AI performance.",
     type: "website",
+    images: [{ url: "/brand/logo.png", width: 1200, height: 630, alt: "TensorGrid" }],
   },
 };
 

@@ -16,5 +16,4 @@ global-exclude .*
 
 recursive-exclude fiftyone *.md
 
-recursive-exclude docs *
-recursive-include docs *.py
+recursive-include tensorgrid/resources/branding *.png

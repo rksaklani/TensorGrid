@@ -18,6 +18,10 @@ html.tg-embedded {
   --pst-header-height: 0px !important;
   scroll-padding-top: 0 !important;
   height: 100%;
+  --color-background: #ffffff;
+  --pst-color-surface: rgba(255, 255, 255, 0.78);
+  --pst-color-primary: #ff6b00;
+  --pst-color-accent: #ff6b00;
 }
 
 html.tg-embedded body {
