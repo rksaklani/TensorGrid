@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="tensorgrid/resources/branding/logo.png" alt="TensorGrid" width="320" />
+  <img src="https://raw.githubusercontent.com/rksaklani/TensorGrid/main/core/tensorgrid/resources/branding/logo.png" alt="TensorGrid" width="320" />
 </p>
 
 # TensorGrid Platform

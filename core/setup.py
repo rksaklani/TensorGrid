@@ -28,6 +28,16 @@ def get_version():
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
+# PyPI renders README markdown but does not host package files, so relative
+# image paths must be rewritten to absolute URLs at build time.
+_GITHUB_RAW_BASE = (
+    "https://raw.githubusercontent.com/rksaklani/TensorGrid/main/core"
+)
+long_description = long_description.replace(
+    'src="tensorgrid/resources/branding/',
+    f'src="{_GITHUB_RAW_BASE}/tensorgrid/resources/branding/',
+)
+
 
 setup(
     name="tensorgrid-platform",
