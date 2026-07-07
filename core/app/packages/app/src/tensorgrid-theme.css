@@ -1,11 +1,37 @@
 /**
- * TensorGrid theme overrides.
- * Loaded after @voxel51/voodo/theme.css to customize brand colors.
+ * TensorGrid brand theme — matches website orange glass aesthetic.
+ * Loaded after @voxel51/voodo/theme.css.
  */
 :root {
-  --voxel51-color-accent: #ff6b00;
-  --voxel51-color-accent-hover: #e85a00;
+  --tg-accent: #ff6b00;
+  --tg-accent-hover: #e85a00;
+  --tg-accent-light: #ff9f40;
+  --tg-accent-pale: #fff4e6;
+  --tg-accent-gradient: linear-gradient(
+    135deg,
+    #ff4500 0%,
+    #ff8c00 50%,
+    #ffd700 100%
+  );
+  --tg-glass-border: rgba(255, 107, 0, 0.14);
+  --tg-glass-shadow: 0 4px 24px rgba(255, 107, 0, 0.08);
+
+  --voxel51-color-accent: var(--tg-accent);
+  --voxel51-color-accent-hover: var(--tg-accent-hover);
   --voxel51-color-primary: #1a1a2e;
-  --voxel51-color-accent-light: #ff9f40;
-  --voxel51-color-accent-pale: #fff4e6;
+  --voxel51-color-accent-light: var(--tg-accent-light);
+  --voxel51-color-accent-pale: var(--tg-accent-pale);
+
+  /* Warm white surfaces (light mode) */
+  --fo-palette-background-body: #ffffff;
+  --fo-palette-background-level1: #fffaf5;
+  --fo-palette-background-level2: #ffffff;
+  --fo-palette-background-level3: #fff8f2;
+  --fo-palette-background-header: rgba(255, 255, 255, 0.88);
+  --fo-palette-background-sidebar: rgba(255, 255, 255, 0.92);
+  --fo-palette-background-looker: #fffaf5;
+  --fo-palette-primary-plainColor: var(--tg-accent);
+  --fo-palette-primary-main: #ff6b00;
+  --fo-palette-custom-lightning: #ff6b00;
+  --fo-palette-custom-primarySoft: #ff8c00;
 }

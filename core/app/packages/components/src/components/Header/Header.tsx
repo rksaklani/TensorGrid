@@ -28,8 +28,17 @@ const Header: React.FC<
             onRefresh && onRefresh();
           }}
         >
-          <animated.img className={style.logo} style={logoProps} src={logo} />
-          <div className={style.fiftyone}>{title}</div>
+          <animated.img className={style.logo} style={logoProps} src={logo} alt="TensorGrid" />
+          <div className={style.brandTitle}>
+            {title === "TensorGrid" ? (
+              <>
+                <span className={style.brandTitleBase}>Tensor</span>
+                <span className={style.brandTitleAccent}>Grid</span>
+              </>
+            ) : (
+              <span className={style.brandTitleBase}>{title}</span>
+            )}
+          </div>
         </div>
         {navChildren}
       </div>

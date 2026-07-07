@@ -48,7 +48,7 @@ export const CONTENT_BY_MODE = {
     codeTitle: "Select a dataset with code",
     codeSubtitle:
       "Use Python or command line tools to set dataset for the current session",
-    learnMoreLink: "https://docs.voxel51.com/user_guide/app.html",
+    learnMoreLink: "https://github.com/rksaklani/TensorGrid/tree/main/core/docs",
     learnMoreLabel: "about using the TensorGrid App",
   },
   ADD_SAMPLE: {
@@ -59,7 +59,7 @@ export const CONTENT_BY_MODE = {
     codeSubtitle:
       "Use Python or command line tools to add sample to this dataset",
     learnMoreLink:
-      "https://docs.voxel51.com/user_guide/dataset_creation/index.html#custom-formats",
+      "https://github.com/rksaklani/TensorGrid/tree/main/core/docs",
     learnMoreLabel: "about loading data into TensorGrid",
   },
   ADD_DATASET: {
@@ -69,7 +69,7 @@ export const CONTENT_BY_MODE = {
     codeTitle: "Create dataset with code",
     codeSubtitle: "Use Python or command line tools to add dataset to TensorGrid",
     learnMoreLink:
-      "https://docs.voxel51.com/user_guide/dataset_creation/index.html",
+      "https://github.com/rksaklani/TensorGrid/tree/main/core/docs",
     learnMoreLabel: "about loading data into TensorGrid",
   },
 };

@@ -1,5 +1,9 @@
 .header {
-  background-color: var(--fo-palette-background-header);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 107, 0, 0.14);
+  box-shadow: 0 4px 24px rgba(255, 107, 0, 0.06);
   display: flex;
   flex-shrink: 0;
   justify-content: space-between;
@@ -14,28 +18,53 @@
   cursor: pointer;
   height: 40px;
   display: flex;
+  align-items: center;
 }
 
 .logo {
   height: 40px;
   width: 40px;
   cursor: pointer;
-  margin-right: 1rem;
+  margin-right: 0.75rem;
   will-change: transform;
+  object-fit: contain;
 }
 
 .left {
   display: flex;
   padding: 1rem;
+  align-items: center;
 }
 
-.fiftyone {
-  color: var(--fo-palette-text-primary);
-  font-weight: bold;
-  font-size: 1.8rem;
+.brandTitle {
+  font-weight: 700;
+  font-size: 1.65rem;
+  letter-spacing: -0.02em;
   align-items: center;
   display: flex;
   white-space: nowrap;
+  line-height: 1;
+}
+
+.brandTitleBase {
+  color: var(--fo-palette-text-primary);
+}
+
+.brandTitleAccent {
+  background: linear-gradient(135deg, #ff4500 0%, #ff8c00 50%, #ffd700 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.fiftyone {
+  font-weight: 700;
+  font-size: 1.65rem;
+  letter-spacing: -0.02em;
+  align-items: center;
+  display: flex;
+  white-space: nowrap;
+  line-height: 1;
 }
 
 .dataset {

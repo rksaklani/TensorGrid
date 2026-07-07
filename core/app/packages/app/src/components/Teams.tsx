@@ -22,7 +22,7 @@ const DARK_BG_COLOR = "#333333";
 const LIGHT_BG_COLOR = "#FFFFFF";
 
 const GRADIENT_START_COLOR = "#FF6D04";
-const GRADIENT_END_COLOR = "#B681FF";
+const GRADIENT_END_COLOR = "#FFD700";
 
 // subtle pulse animation for the sparkles icon
 const pulse = keyframes`

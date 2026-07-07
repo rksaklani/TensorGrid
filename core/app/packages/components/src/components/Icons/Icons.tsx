@@ -10,7 +10,7 @@ export const iconContainer = styles.iconContainer;
 export const DiscordLink = () => (
   <ExternalLink
     className={styles.iconLink}
-    href={"https://community.voxel51.com/"}
+    href={"https://github.com/rksaklani/TensorGrid/discussions"}
     title={"Discord"}
   >
     <SvgIcon
@@ -29,7 +29,7 @@ export const GitHubLink = () => {
     <ExternalLink
       className={styles.iconLink}
       title="GitHub"
-      href="https://github.com/voxel51/fiftyone"
+      href="https://github.com/rksaklani/TensorGrid"
     >
       <SvgIcon
         sx={{
@@ -47,7 +47,7 @@ export const DocsLink = () => {
     <ExternalLink
       className={styles.iconLink}
       title="Documentation"
-      href="https://docs.voxel51.com/user_guide/app.html"
+      href="https://github.com/rksaklani/TensorGrid/tree/main/core/docs"
     >
       <SvgIcon
         sx={{
