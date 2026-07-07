@@ -34,6 +34,10 @@ _GITHUB_RAW_BASE = (
     "https://raw.githubusercontent.com/rksaklani/TensorGrid/main/core"
 )
 long_description = long_description.replace(
+    "](tensorgrid/resources/branding/",
+    f"]({_GITHUB_RAW_BASE}/tensorgrid/resources/branding/",
+)
+long_description = long_description.replace(
     'src="tensorgrid/resources/branding/',
     f'src="{_GITHUB_RAW_BASE}/tensorgrid/resources/branding/',
 )
