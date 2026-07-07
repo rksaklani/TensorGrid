@@ -10,7 +10,7 @@ Installs TensorGrid (fork of FiftyOne).
 import os
 from setuptools import setup, find_packages
 
-VERSION = "1.19.8"
+VERSION = "1.19.9"
 
 
 def get_version():
@@ -155,5 +155,21 @@ setup(
             "open3d>=0.19.0; python_version<'3.13'",
         ],
         "3d": ["tensorgrid-platform[open3d]"],
+        # Deep-learning backends for the Model Zoo. Individual zoo models also
+        # auto-install their own requirements on demand; these extras let you
+        # pre-install the common frameworks.
+        "torch": [
+            "torch",
+            "torchvision",
+        ],
+        "tensorflow": [
+            "tensorflow",
+        ],
+        "ultralytics": [
+            "ultralytics",
+        ],
+        "transformers": [
+            "transformers",
+        ],
     },
 )

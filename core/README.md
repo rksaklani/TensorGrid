@@ -47,6 +47,27 @@ tg zoo datasets load kitti-multiview
 
 > Open3D does not support Python 3.13. Use Python 3.12 or earlier for 3D datasets.
 
+### Model Zoo backends
+
+The Model Zoo (ResNet, YOLO, DETR, Mask R-CNN, SAM, CLIP, and more) auto-installs
+each model's requirements on demand. You can also pre-install a backend:
+
+```bash
+pip install "tensorgrid-platform[torch]"          # PyTorch + torchvision models
+pip install "tensorgrid-platform[tensorflow]"     # TensorFlow models
+pip install "tensorgrid-platform[ultralytics]"    # YOLO models
+pip install "tensorgrid-platform[transformers]"   # Hugging Face models
+```
+
+Inspect or install a specific model's requirements:
+
+```bash
+tg zoo models list                          # browse available models
+tg zoo models requirements <name> --print   # show a model's dependencies
+tg zoo models requirements <name> --install # install them
+tg zoo models apply <name> <dataset> <field># run a model on a dataset
+```
+
 ---
 
 ## Quick start
