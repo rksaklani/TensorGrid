@@ -33,9 +33,19 @@ pip install tensorgrid-platform
 
 | Requirement | Details |
 | :--- | :--- |
-| Python | 3.10, 3.11, or 3.12 |
+| Python | 3.10, 3.11, or 3.12 (3.13 is not supported yet) |
 | Database | MongoDB (auto-started on first launch) |
 | Optional | `pip install "tensorgrid-platform[multimodal]"` for MCAP codecs |
+| 3D / LiDAR | `pip install "tensorgrid-platform[3d]"` for point-cloud zoo datasets |
+
+**3D zoo datasets** (e.g. `kitti-multiview`, `quickstart-3d`) require Open3D:
+
+```bash
+pip install "tensorgrid-platform[3d]"
+tg zoo datasets load kitti-multiview
+```
+
+> Open3D does not support Python 3.13. Use Python 3.12 or earlier for 3D datasets.
 
 ---
 

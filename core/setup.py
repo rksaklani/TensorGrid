@@ -10,7 +10,7 @@ Installs TensorGrid (fork of FiftyOne).
 import os
 from setuptools import setup, find_packages
 
-VERSION = "1.19.7"
+VERSION = "1.19.8"
 
 
 def get_version():
@@ -151,5 +151,9 @@ setup(
             "protobuf==6.33.6",
         ],
         "multimodal": ["tensorgrid-platform[multimodal-mcap]"],
+        "open3d": [
+            "open3d>=0.19.0; python_version<'3.13'",
+        ],
+        "3d": ["tensorgrid-platform[open3d]"],
     },
 )
