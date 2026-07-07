@@ -47,7 +47,8 @@ jobs:
           # setup.py strips the leading "v" from RELEASE_VERSION
           export RELEASE_VERSION="${RELEASE_VERSION#v}"
           python -m pip install --upgrade pip build
-          python -m build
+          # Wheel only — sdist was >1GB (docs tree); pip install uses the wheel.
+          python -m build --wheel
 
       - name: Upload dist artifacts
         uses: actions/upload-artifact@v4
@@ -75,6 +76,7 @@ jobs:
         with:
           packages-dir: dist
           password: ${{ secrets.PYPI_API_TOKEN }}
+          skip-existing: true
 
   github-release:
     runs-on: ubuntu-latest
