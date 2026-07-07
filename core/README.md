@@ -1,26 +1,15 @@
-![TensorGrid](https://raw.githubusercontent.com/rksaklani/TensorGrid/main/core/tensorgrid/resources/branding/logo.png)
+![TensorGrid logo](https://raw.githubusercontent.com/rksaklani/TensorGrid/main/core/tensorgrid/resources/branding/logo.png)
 
 > **Building intelligence. Powering tomorrow.**
 
----
-
 TensorGrid is the open-source **multimodal data platform** for teams building computer vision and physical AI. Explore datasets visually, curate the samples that matter, annotate in the browser, and evaluate models — all from one interactive workspace and a powerful Python SDK.
-
-<p align="center">
 
 [![PyPI](https://img.shields.io/pypi/v/tensorgrid-platform?style=flat-square&color=FF6B00&logo=pypi&logoColor=white)](https://pypi.org/project/tensorgrid-platform/)
 [![Python](https://img.shields.io/pypi/pyversions/tensorgrid-platform?style=flat-square&color=FF6B00)](https://pypi.org/project/tensorgrid-platform/)
 [![License](https://img.shields.io/badge/License-Apache%202.0-FF6B00?style=flat-square)](https://github.com/rksaklani/TensorGrid/blob/main/core/LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/rksaklani/TensorGrid?style=flat-square&color=FF6B00&logo=github)](https://github.com/rksaklani/TensorGrid)
 
-</p>
-
-<p align="center">
-  <a href="https://pypi.org/project/tensorgrid-platform/"><strong>Install</strong></a> ·
-  <a href="https://github.com/rksaklani/TensorGrid/tree/main/core/docs"><strong>Docs</strong></a> ·
-  <a href="https://github.com/rksaklani/TensorGrid"><strong>GitHub</strong></a> ·
-  <a href="https://github.com/rksaklani/TensorGrid/releases"><strong>Releases</strong></a>
-</p>
+**[Install](https://pypi.org/project/tensorgrid-platform/)** · **[Docs](https://github.com/rksaklani/TensorGrid/tree/main/core/docs)** · **[GitHub](https://github.com/rksaklani/TensorGrid)** · **[Releases](https://github.com/rksaklani/TensorGrid/releases)**
 
 ---
 
@@ -52,14 +41,14 @@ pip install tensorgrid-platform
 
 ## Quick start
 
-**1. Install and launch a sample dataset**
+**Launch from the CLI**
 
 ```bash
 pip install tensorgrid-platform
 tg app launch quickstart
 ```
 
-**2. Or use the Python SDK**
+**Or use the Python SDK**
 
 ```python
 import tensorgrid as tg
@@ -70,7 +59,7 @@ session = tg.launch_app(dataset)
 session.wait(-1)  # open http://localhost:5151
 ```
 
-**3. Filter a subset and explore**
+**Filter a subset and explore**
 
 ```python
 view = dataset.match_tags("train").limit(100)
@@ -115,8 +104,6 @@ tg --help                         # full CLI reference
 
 ## Development
 
-Clone the repository and run from source:
-
 ```bash
 git clone https://github.com/rksaklani/TensorGrid.git
 cd TensorGrid
@@ -135,9 +122,3 @@ cd core/app && corepack yarn install && corepack yarn build && cd ../..
 **Apache 2.0** — free for commercial and research use.
 
 See [NOTICE](https://github.com/rksaklani/TensorGrid/blob/main/NOTICE) for third-party attributions.
-
----
-
-<p align="center">
-  <sub>Made with care by TensorGrid Contributors</sub>
-</p>

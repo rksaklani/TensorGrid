@@ -10,15 +10,15 @@ Installs TensorGrid (fork of FiftyOne).
 import os
 from setuptools import setup, find_packages
 
-VERSION = "1.19.4"
+VERSION = "1.19.5"
 
 
 def get_version():
     if "RELEASE_VERSION" in os.environ:
         version = os.environ["RELEASE_VERSION"]
-        if not version.startswith(VERSION):
+        if version != VERSION:
             raise ValueError(
-                "Release version does not match version: %s and %s"
+                "Release version does not match setup.py VERSION: %r != %r"
                 % (version, VERSION)
             )
         return version
