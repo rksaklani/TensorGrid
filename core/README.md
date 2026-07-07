@@ -45,7 +45,7 @@ pip install tensorgrid-platform
 
 ```bash
 pip install tensorgrid-platform
-tg app launch quickstart
+tg quickstart                       # downloads the demo dataset and launches the app
 ```
 
 **Or use the Python SDK**
@@ -84,10 +84,15 @@ session = tg.launch_app(view)
 ## Command line
 
 ```bash
-tg app launch quickstart          # launch app with a zoo dataset
-tensorgrid app launch quickstart  # alias
-tg --help                         # full CLI reference
+tg zoo datasets list                # browse available zoo datasets
+tg zoo datasets load quickstart     # download a dataset by name
+tg app launch quickstart            # launch the app with a loaded dataset
+tg --help                           # full CLI reference
 ```
+
+> Tip: `tg app launch <name>` opens a dataset that is already downloaded.
+> Run `tg zoo datasets load <name>` first (or use `tg quickstart`, which
+> downloads and launches the demo dataset in one step).
 
 ---
 

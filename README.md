@@ -27,7 +27,7 @@ TensorGrid is an open-source **multimodal data platform** for exploring, curatin
 ```bash
 python3 -m venv .venv && source .venv/bin/activate
 pip install tensorgrid-platform
-tg app launch quickstart
+tg quickstart
 ```
 
 Open **http://localhost:5151** in your browser.
@@ -70,8 +70,8 @@ session.wait(-1)
 ## CLI
 
 ```bash
-tg app launch quickstart
-tensorgrid app launch quickstart
+tg quickstart
+tensorgrid quickstart
 ```
 
 ---
