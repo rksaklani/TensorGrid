@@ -1,16 +1,19 @@
 .header {
-  background: rgba(255, 255, 255, 0.88);
+  background: var(--fo-palette-background-header);
   backdrop-filter: blur(18px) saturate(180%);
   -webkit-backdrop-filter: blur(18px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 107, 0, 0.14);
-  box-shadow: 0 4px 24px rgba(255, 107, 0, 0.06);
+  border-bottom: 1px solid var(--tg-glass-border, rgba(255, 107, 0, 0.14));
+  box-shadow: var(--tg-glass-shadow, 0 4px 24px rgba(255, 107, 0, 0.06));
   display: flex;
   flex-shrink: 0;
-  justify-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
-  height: 74px;
-  justify-content: left;
+  min-height: var(--tg-header-height, 72px);
+  height: auto;
   align-items: center;
+  gap: 0.25rem;
+  padding: 0.35rem 0;
+  z-index: 100;
 }
 
 .title {
@@ -28,22 +31,25 @@
   margin-right: 0.75rem;
   will-change: transform;
   object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(255, 107, 0, 0.25));
 }
 
 .left {
   display: flex;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .brandTitle {
   font-weight: 700;
-  font-size: 1.65rem;
+  font-size: 1.5rem;
   letter-spacing: -0.02em;
   align-items: center;
   display: flex;
   white-space: nowrap;
   line-height: 1;
+  font-family: var(--tg-font-display, "Palanquin", sans-serif);
 }
 
 .brandTitleBase {
@@ -59,7 +65,7 @@
 
 .fiftyone {
   font-weight: 700;
-  font-size: 1.65rem;
+  font-size: 1.5rem;
   letter-spacing: -0.02em;
   align-items: center;
   display: flex;
@@ -68,13 +74,39 @@
 }
 
 .dataset {
-  font-weight: bold;
+  font-weight: 600;
   padding-left: 1rem;
   border-left-width: 1px;
   border-color: var(--fo-palette-primary-plainBorder);
   border-left-style: solid;
+  font-size: 0.95rem;
 }
 
 .input:focus {
   min-width: 108px;
+}
+
+.right {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding-right: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .brandTitle {
+    font-size: 1.25rem;
+  }
+
+  .logo {
+    height: 32px;
+    width: 32px;
+  }
+
+  .left {
+    padding: 0.5rem 0.75rem;
+  }
 }

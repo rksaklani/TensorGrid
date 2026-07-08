@@ -17,6 +17,7 @@ const SidebarContainer = ({
 
   return (
     <Resizable
+      className="tg-sidebar-shell"
       data-cy="sidebar"
       size={{ height: "100%", width }}
       minWidth={260}

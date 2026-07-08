@@ -1,0 +1,218 @@
+/**
+ * TensorGrid app shell — layout, responsive behavior, component chrome.
+ * UI-only overrides; no logic changes.
+ */
+
+:root {
+  --tg-header-height: 72px;
+  --tg-sidebar-min: 280px;
+  --tg-sidebar-max: 420px;
+  --tg-radius-sm: 8px;
+  --tg-radius-md: 12px;
+  --tg-radius-lg: 16px;
+  --tg-radius-pill: 999px;
+  --tg-space-1: 0.25rem;
+  --tg-space-2: 0.5rem;
+  --tg-space-3: 0.75rem;
+  --tg-space-4: 1rem;
+  --tg-space-5: 1.25rem;
+  --tg-shadow-sm: 0 2px 8px rgba(255, 107, 0, 0.06);
+  --tg-shadow-md: 0 8px 24px rgba(255, 107, 0, 0.1);
+  --tg-font-display: "Palanquin", system-ui, -apple-system, sans-serif;
+  --tg-font-mono: "Roboto Mono", ui-monospace, monospace;
+}
+
+/* ── Page shell ── */
+.tg-app-page {
+  position: relative;
+  width: 100%;
+  height: calc(100% - var(--tg-header-height));
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* ── Header action cluster ── */
+.tg-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--tg-space-2);
+  flex-shrink: 0;
+  padding-right: var(--tg-space-2);
+}
+
+.tg-header-viewbar {
+  flex: 1;
+  min-width: 0;
+  padding: 0 var(--tg-space-3);
+  display: flex;
+  align-items: center;
+}
+
+.tg-header-spacer {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Sidebar panel ── */
+.tg-sidebar-shell {
+  background: var(--fo-palette-background-sidebar) !important;
+  border-right: 1px solid var(--tg-glass-border, rgba(255, 107, 0, 0.12));
+  box-shadow: var(--tg-shadow-sm);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+}
+
+.tg-sidebar-shell [data-cy="sidebar"] {
+  border-top-right-radius: var(--tg-radius-md);
+  border-bottom-right-radius: var(--tg-radius-md);
+}
+
+/* ── Main workspace ── */
+.tg-main-space {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  background: var(--fo-palette-background-looker);
+}
+
+/* ── Grid samples toolbar ── */
+.tg-samples-toolbar {
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border-bottom: 1px solid var(--tg-glass-border, rgba(255, 107, 0, 0.1));
+}
+
+/* ── Branded icon buttons (header + toolbar) ── */
+.tg-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--tg-radius-sm);
+  border: 1px solid transparent;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.tg-icon-btn:hover,
+.tg-icon-btn:focus-visible {
+  background: var(--tg-accent-pale, rgba(255, 244, 230, 0.9));
+  border-color: var(--tg-glass-border, rgba(255, 107, 0, 0.2));
+  color: var(--tg-accent, #ff6b00);
+}
+
+.tg-icon-btn:focus-visible {
+  outline: 2px solid var(--tg-accent-light, #ff9f40);
+  outline-offset: 2px;
+}
+
+/* ── MUI icon accent on interactive controls ── */
+.MuiIconButton-root:hover .MuiSvgIcon-root,
+.MuiIconButton-root:focus-visible .MuiSvgIcon-root {
+  color: var(--tg-accent, #ff6b00);
+}
+
+.MuiButton-containedPrimary,
+.MuiButton-root.MuiButton-containedPrimary {
+  background: var(--tg-accent-gradient, linear-gradient(135deg, #ff4500, #ff8c00));
+  box-shadow: var(--tg-shadow-sm);
+}
+
+.MuiButton-containedPrimary:hover {
+  background: var(--tg-accent-hover, #e85a00);
+}
+
+/* ── View bar pill ── */
+.tg-viewbar-shell {
+  border-radius: var(--tg-radius-pill) !important;
+  border: 1px solid var(--tg-glass-border, rgba(255, 107, 0, 0.16)) !important;
+  box-shadow: var(--tg-shadow-sm);
+  background: var(--fo-palette-background-level2) !important;
+}
+
+/* ── Sidebar section labels ── */
+[data-cy="sidebar-mode-status"] {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem !important;
+  color: var(--tg-accent, #ff6b00) !important;
+}
+
+/* ── Scrollbars ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 107, 0, 0.35) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 107, 0, 0.35);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 107, 0, 0.55);
+}
+
+/* ── Responsive: tablet ── */
+@media (max-width: 1024px) {
+  :root {
+    --tg-header-height: 64px;
+  }
+
+  .tg-header-viewbar {
+    padding: 0 var(--tg-space-2);
+  }
+}
+
+/* ── Responsive: mobile ── */
+@media (max-width: 768px) {
+  html,
+  body,
+  #root {
+    min-width: 320px;
+  }
+
+  :root {
+    --tg-header-height: 56px;
+    --tg-sidebar-min: 240px;
+  }
+
+  .tg-header-actions .tg-header-teams {
+    display: none;
+  }
+
+  .tg-sidebar-shell {
+    max-width: min(100vw - 48px, var(--tg-sidebar-max)) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .tg-header-viewbar {
+    display: none;
+  }
+}
+
+/* ── Dark mode surface tuning ── */
+html.dark,
+html[data-fo-palette-themeMode="dark"] {
+  --tg-glass-border: rgba(255, 140, 0, 0.18);
+  --tg-accent-pale: rgba(255, 107, 0, 0.12);
+  --tg-shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.35);
+  --tg-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+html.dark .tg-icon-btn:hover,
+html[data-fo-palette-themeMode="dark"] .tg-icon-btn:hover {
+  background: rgba(255, 107, 0, 0.15);
+}

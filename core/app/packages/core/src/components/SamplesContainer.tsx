@@ -25,12 +25,13 @@ const Container = styled.div`
 `;
 
 const TopContainer = styled.div`
-  padding: 1rem 1rem 0.5rem 1rem;
-  background: ${({ theme }) => theme.background.mediaSpace};
+  padding: 1rem 1rem 0.75rem 1rem;
+  background: ${({ theme }) => theme.background.sidebar};
   display: flex;
   flex-direction: column;
-  row-gap: 0.5rem;
-  border-radius: 0 6px 0 0;
+  row-gap: 0.625rem;
+  border-radius: 0 var(--tg-radius-md, 12px) 0 0;
+  border-bottom: 1px solid rgba(255, 107, 0, 0.08);
 `;
 
 const Sidebar = () => {

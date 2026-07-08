@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Palanquin&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto%20Mono&display=swap");
 
+@import "./tensorgrid-layout.css";
+
 :root {
   color-scheme: var(--fo-palette-themeMode);
 }
@@ -10,16 +12,17 @@ body,
 #root {
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg, #ffffff 0%, #fffaf5 45%, #ffffff 100%);
+  background: var(--fo-palette-background-body);
   margin: 0;
   padding: 0;
-  font-family: var(--fo-fontFamily-body);
+  font-family: var(--fo-fontFamily-body, var(--tg-font-display));
   font-size: 14px;
-
+  line-height: 1.5;
   color: var(--fo-palette-text-primary);
   display: flex;
   flex-direction: column;
-  min-width: 660px;
+  min-width: 320px;
+  -webkit-font-smoothing: antialiased;
 }
 
 #modal {

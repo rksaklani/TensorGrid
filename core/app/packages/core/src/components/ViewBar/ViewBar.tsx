@@ -18,15 +18,16 @@ import * as fos from "@tensorgrid/state";
 const ViewBarDiv = styled.div`
   position: relative;
   background-color: ${({ theme }) => theme.background.level2};
-  border-radius: 3px;
-  border: 1px solid ${({ theme }) => theme.primary.plainBorder};
+  border-radius: 999px;
+  border: 1px solid rgba(255, 107, 0, 0.16);
   box-sizing: border-box;
-  height: 52px;
+  height: 48px;
   width: 100%;
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
   scrollbar-width: none;
   min-width: 200px;
+  box-shadow: 0 2px 12px rgba(255, 107, 0, 0.06);
 
   &::-webkit-scrollbar {
     width: 0px;

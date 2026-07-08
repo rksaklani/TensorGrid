@@ -1,7 +1,3 @@
-/**
- * Copyright 2017-2026, Voxel51, Inc.
- */
-
 import { useTrackEvent } from "@tensorgrid/analytics";
 import {
   DiscordLink,
@@ -97,16 +93,19 @@ const Nav: React.FC<
         navChildren={<DatasetSelector useSearch={useSearch} />}
       >
         {hasDataset && (
-          <Suspense fallback={<div style={{ flex: 1 }} />}>
-            <ViewBar />
-          </Suspense>
+          <div className="tg-header-viewbar">
+            <Suspense fallback={<div className="tg-header-spacer" />}>
+              <ViewBar />
+            </Suspense>
+          </div>
         )}
-        {!hasDataset && <div style={{ flex: 1 }} />}
-        <div style={{ padding: "0.5rem" }}>
+        {!hasDataset && <div className="tg-header-spacer" />}
+        <div className="tg-header-teams">
           <Teams />
         </div>
-        <div className={iconContainer}>
+        <div className={`${iconContainer} tg-header-actions`}>
           <IconButton
+            className="tg-icon-btn"
             title={mode === "dark" ? "Light mode" : "Dark mode"}
             onClick={() => {
               const nextMode = mode === "dark" ? "light" : "dark";

@@ -15,6 +15,8 @@
   );
   --tg-glass-border: rgba(255, 107, 0, 0.14);
   --tg-glass-shadow: 0 4px 24px rgba(255, 107, 0, 0.08);
+  --tg-text: #1a1a2e;
+  --tg-text-muted: #5b6178;
 
   --voxel51-color-accent: var(--tg-accent);
   --voxel51-color-accent-hover: var(--tg-accent-hover);
@@ -22,16 +24,57 @@
   --voxel51-color-accent-light: var(--tg-accent-light);
   --voxel51-color-accent-pale: var(--tg-accent-pale);
 
-  /* Warm white surfaces (light mode) */
+  /* Light mode — warm white surfaces */
   --fo-palette-background-body: #ffffff;
   --fo-palette-background-level1: #fffaf5;
   --fo-palette-background-level2: #ffffff;
   --fo-palette-background-level3: #fff8f2;
-  --fo-palette-background-header: rgba(255, 255, 255, 0.88);
-  --fo-palette-background-sidebar: rgba(255, 255, 255, 0.92);
+  --fo-palette-background-header: rgba(255, 255, 255, 0.92);
+  --fo-palette-background-sidebar: rgba(255, 255, 255, 0.94);
   --fo-palette-background-looker: #fffaf5;
+  --fo-palette-background-mediaSpace: rgba(255, 250, 245, 0.85);
+  --fo-palette-background-viewBarButtons: rgba(255, 255, 255, 0.95);
+  --fo-palette-background-input: #ffffff;
+  --fo-palette-background-popup: #ffffff;
+  --fo-palette-background-tooltip: #1a1a2e;
+  --fo-palette-text-primary: var(--tg-text);
+  --fo-palette-text-secondary: var(--tg-text-muted);
+  --fo-palette-text-tertiary: #8b92a8;
   --fo-palette-primary-plainColor: var(--tg-accent);
   --fo-palette-primary-main: #ff6b00;
+  --fo-palette-primary-plainBorder: rgba(255, 107, 0, 0.16);
+  --fo-palette-primary-softBg: rgba(255, 107, 0, 0.08);
+  --fo-palette-primary-softBorder: rgba(255, 107, 0, 0.2);
+  --fo-palette-neutral-plainColor: var(--tg-accent);
   --fo-palette-custom-lightning: #ff6b00;
   --fo-palette-custom-primarySoft: #ff8c00;
+  --fo-palette-divider: rgba(255, 107, 0, 0.1);
+  --fo-fontFamily-body: "Palanquin", system-ui, -apple-system, sans-serif;
+}
+
+/* Dark mode — refined charcoal + orange accents */
+html.dark,
+html[data-fo-palette-themeMode="dark"] {
+  --tg-accent-pale: rgba(255, 107, 0, 0.12);
+  --tg-glass-border: rgba(255, 140, 0, 0.2);
+  --tg-text: #f5f5f7;
+  --tg-text-muted: #a0a4b8;
+
+  --fo-palette-background-body: #12121a;
+  --fo-palette-background-level1: #161622;
+  --fo-palette-background-level2: #1a1a28;
+  --fo-palette-background-level3: #1e1e2e;
+  --fo-palette-background-header: rgba(22, 22, 34, 0.94);
+  --fo-palette-background-sidebar: rgba(26, 26, 40, 0.96);
+  --fo-palette-background-looker: #14141f;
+  --fo-palette-background-mediaSpace: rgba(20, 20, 31, 0.92);
+  --fo-palette-background-viewBarButtons: rgba(30, 30, 46, 0.95);
+  --fo-palette-background-input: #1e1e2e;
+  --fo-palette-background-popup: #1e1e2e;
+  --fo-palette-text-primary: var(--tg-text);
+  --fo-palette-text-secondary: var(--tg-text-muted);
+  --fo-palette-text-tertiary: #6b7084;
+  --fo-palette-primary-plainBorder: rgba(255, 140, 0, 0.22);
+  --fo-palette-primary-softBg: rgba(255, 107, 0, 0.14);
+  --fo-palette-divider: rgba(255, 140, 0, 0.12);
 }

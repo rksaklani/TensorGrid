@@ -5,16 +5,22 @@ export const SamplesHeader = styled.div`
   position: absolute;
   top: 0;
   display: flex;
-  padding: 0.5rem;
+  padding: 0.625rem 0.75rem;
   justify-content: space-between;
+  align-items: center;
   overflow: visible;
   width: 100%;
+  z-index: 2;
   background-image: linear-gradient(
-    to top,
+    to bottom,
+    ${({ theme }) => theme.background.mediaSpace} 0%,
+    ${({ theme }) => Color(theme.background.mediaSpace).alpha(0.85).toString()}
+      70%,
     ${({ theme }) => Color(theme.background.mediaSpace).alpha(0.0).toString()}
-      0%,
-    ${({ theme }) => theme.background.mediaSpace} 100%
+      100%
   );
+  backdrop-filter: blur(10px) saturate(140%);
+  border-bottom: 1px solid rgba(255, 107, 0, 0.1);
   gap: 8px;
 `;
 

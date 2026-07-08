@@ -42,7 +42,7 @@ const Header: React.FC<
         </div>
         {navChildren}
       </div>
-      {children}
+      <div className={style.right}>{children}</div>
     </div>
   );
 };
