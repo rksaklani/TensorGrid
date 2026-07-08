@@ -74,7 +74,7 @@ export default function EmptySamples() {
       {!!showEmptyDataset && (
         <BaseContainer style={{ padding: "1rem 0 2rem 0" }}>
           <ExternalLink
-            href="https://docs.voxel51.com/user_guide/dataset_creation/index.html"
+            href="https://github.com/rksaklani/TensorGrid/tree/main/core/docs"
             style={{ display: "flex", color: theme.text.secondary }}
           >
             <Typography

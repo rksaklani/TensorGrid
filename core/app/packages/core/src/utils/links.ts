@@ -1,40 +1,30 @@
-export const CLIPS_VIEWS =
-  "https://docs.voxel51.com/user_guide/app.html#app-video-clips";
+const DOCS_BASE =
+  "https://github.com/rksaklani/TensorGrid/tree/main/core/docs";
 
-export const COLOR_SCHEME =
-  "https://docs.voxel51.com/user_guide/app.html#app-color-schemes";
+export const CLIPS_VIEWS = DOCS_BASE;
 
-export const EVALUATION_PATCHES =
-  "https://docs.voxel51.com/user_guide/app.html#app-evaluation-patches";
+export const COLOR_SCHEME = DOCS_BASE;
 
-export const FIELD_METADATA =
-  "https://docs.voxel51.com/user_guide/using_datasets.html#storing-field-metadata";
+export const EVALUATION_PATCHES = DOCS_BASE;
 
-export const FRAME_FILTERING_DISABLED =
-  "https://docs.voxel51.com/user_guide/using_datasets.html#disable-frame-filtering";
+export const FIELD_METADATA = DOCS_BASE;
 
-export const MANAGING_GRID_MEMORY =
-  "https://docs.voxel51.com/user_guide/app.html#app-managing-grid-memory";
+export const FRAME_FILTERING_DISABLED = DOCS_BASE;
 
-export const OBJECT_PATCHES =
-  "https://docs.voxel51.com/user_guide/app.html#app-object-patches";
+export const MANAGING_GRID_MEMORY = DOCS_BASE;
+
+export const OBJECT_PATCHES = DOCS_BASE;
 
 export const NAME_COLORSCALE = "https://plotly.com/python/colorscales/";
 
-export const OPTIMIZING_QUERY_PERFORMANCE =
-  "https://docs.voxel51.com/user_guide/app.html#app-optimizing-query-performance";
+export const OPTIMIZING_QUERY_PERFORMANCE = DOCS_BASE;
 
-export const QUERY_PERFORMANCE_RESULTS =
-  "https://docs.voxel51.com/user_guide/app.html#app-unindexed-sidebar-results";
+export const QUERY_PERFORMANCE_RESULTS = DOCS_BASE;
 
-export const SIDEBAR_MODE =
-  "https://docs.voxel51.com/user_guide/app.html#sidebar-mode";
+export const SIDEBAR_MODE = DOCS_BASE;
 
-export const SORT_BY_INDEXED_FIELDS =
-  "https://docs.voxel51.com/user_guide/app.html#sorting-in-the-grid";
+export const SORT_BY_INDEXED_FIELDS = DOCS_BASE;
 
-export const SORT_BY_SIMILARITY =
-  "https://docs.voxel51.com/user_guide/app.html#app-similarity";
+export const SORT_BY_SIMILARITY = DOCS_BASE;
 
-export const SUMMARY_FIELDS =
-  "https://docs.voxel51.com/user_guide/using_datasets.html#summary-fields";
+export const SUMMARY_FIELDS = DOCS_BASE;

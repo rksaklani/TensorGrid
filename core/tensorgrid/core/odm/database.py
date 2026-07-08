@@ -356,7 +356,7 @@ def _validate_db_version(config, client):
             "Found `mongod` version %s, but only %s and higher are "
             "compatible. You can suppress this exception by setting your "
             "`database_validation` config parameter to `False`. See "
-            "https://docs.voxel51.com/user_guide/config.html#configuring-a-mongodb-connection "
+            "https://github.com/rksaklani/TensorGrid/tree/main/core/docs/source/user_guide/config.rst#configuring-a-mongodb-connection "
             "for more information" % (version, foc.MONGODB_MIN_VERSION)
         )
 
@@ -2293,7 +2293,7 @@ def _is_fcv_upgradeable(fc_version: Version, server_version: Version) -> bool:
             "Please manually update your database's feature compatibility "
             "version. You can suppress this exception by setting your "
             "`database_validation` config parameter to `False`. See "
-            "https://docs.voxel51.com/user_guide/config.html#configuring-a-mongodb-connection "
+            "https://github.com/rksaklani/TensorGrid/tree/main/core/docs/source/user_guide/config.rst#configuring-a-mongodb-connection "
             "for more information"
         )
         return False
@@ -2308,7 +2308,7 @@ def _is_fcv_upgradeable(fc_version: Version, server_version: Version) -> bool:
             "Please manually update your database's feature "
             "compatibility version. You can suppress this exception by setting your "
             "`database_validation` config parameter to `False`. See "
-            "https://docs.voxel51.com/user_guide/config.html#configuring-a-mongodb-connection "
+            "https://github.com/rksaklani/TensorGrid/tree/main/core/docs/source/user_guide/config.rst#configuring-a-mongodb-connection "
             "for more information" % str(foc.MONGODB_MAX_ALLOWABLE_FCV_DELTA)
         )
         return False
@@ -2318,10 +2318,10 @@ def _is_fcv_upgradeable(fc_version: Version, server_version: Version) -> bool:
     ):
         logger.warning(
             "You are running the oldest supported major version of MongoDB. "
-            "Please refer to https://deprecation.voxel51.com "
+            "Please refer to https://github.com/rksaklani/TensorGrid/releases "
             "for deprecation notices. You can suppress this exception by setting your "
             "`database_validation` config parameter to `False`. See "
-            "https://docs.voxel51.com/user_guide/config.html#configuring-a-mongodb-connection "
+            "https://github.com/rksaklani/TensorGrid/tree/main/core/docs/source/user_guide/config.rst#configuring-a-mongodb-connection "
             "for more information"
         )
         return server_version.major > fc_version.major
@@ -2370,7 +2370,7 @@ def _update_fc_version(client: pymongo.MongoClient):
                 "Upgrading the feature compatibility version now. "
                 "You can suppress this exception by setting your "
                 "`database_validation` config parameter to `False`. See "
-                "https://docs.voxel51.com/user_guide/config.html#configuring-a-mongodb-connection "
+                "https://github.com/rksaklani/TensorGrid/tree/main/core/docs/source/user_guide/config.rst#configuring-a-mongodb-connection "
                 "for more information"
             )
             client.admin.command(cmd)
@@ -2382,7 +2382,7 @@ def _update_fc_version(client: pymongo.MongoClient):
                 "Please manually set it to %s. "
                 "You can suppress this exception by setting your "
                 "`database_validation` config parameter to `False`. See "
-                "https://docs.voxel51.com/user_guide/config.html#configuring-a-mongodb-connection "
+                "https://github.com/rksaklani/TensorGrid/tree/main/core/docs/source/user_guide/config.rst#configuring-a-mongodb-connection "
                 "for more information" % (str(e), bumped)
             )
 
@@ -2393,7 +2393,7 @@ def _update_fc_version(client: pymongo.MongoClient):
                 "Please manually set it to %s. "
                 "You can suppress this exception by setting your "
                 "`database_validation` config parameter to `False`. See "
-                "https://docs.voxel51.com/user_guide/config.html#configuring-a-mongodb-connection "
+                "https://github.com/rksaklani/TensorGrid/tree/main/core/docs/source/user_guide/config.rst#configuring-a-mongodb-connection "
                 "for more information" % (str(e), bumped)
             )
 

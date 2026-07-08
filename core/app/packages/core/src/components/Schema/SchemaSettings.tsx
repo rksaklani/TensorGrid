@@ -41,8 +41,10 @@ const Container = styled.div`
   background: white;
 `;
 
-const FIELD_VISIBILITY_DOCUMENTATION_LINK =
-  "https://docs.voxel51.com/user_guide/app.html#app-field-visibility";
+const DOCS_BASE =
+  "https://github.com/rksaklani/TensorGrid/tree/main/core/docs";
+
+const FIELD_VISIBILITY_DOCUMENTATION_LINK = DOCS_BASE;
 const EXCLUDE_FIELDS_STAGE = "fiftyone.core.stages.ExcludeFields";
 
 const SchemaSettings = () => {

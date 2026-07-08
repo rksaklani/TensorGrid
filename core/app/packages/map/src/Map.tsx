@@ -254,7 +254,7 @@ const Panel: React.FC<{}> = () => {
         No Mapbox token provided.&nbsp;
         <ExternalLink
           style={{ color: theme.text.primary }}
-          href={"https://docs.voxel51.com/user_guide/app.html#map-panel"}
+          href={"https://github.com/rksaklani/TensorGrid/tree/main/core/docs"}
         >
           Learn more
         </ExternalLink>
@@ -277,7 +277,7 @@ const Panel: React.FC<{}> = () => {
           Something went wrong... is your&nbsp;
           <ExternalLink
             style={{ color: theme.text.primary }}
-            href={"https://docs.voxel51.com/user_guide/app.html#map-panel"}
+            href={"https://github.com/rksaklani/TensorGrid/tree/main/core/docs"}
           >
             Mapbox token
           </ExternalLink>

@@ -30,8 +30,10 @@ import SidebarList from "./SidebarList";
 import { activeColorEntry } from "./state";
 import { ACTIVE_FIELD } from "./utils";
 
-const CUSTOM_COLOR_DOCUMENTATION_LINK =
-  "https://docs.voxel51.com/user_guide/app.html#app-color-schemes";
+const DOCS_BASE =
+  "https://github.com/rksaklani/TensorGrid/tree/main/core/docs";
+
+const CUSTOM_COLOR_DOCUMENTATION_LINK = DOCS_BASE;
 
 const ColorModal = () => {
   const theme = useTheme();

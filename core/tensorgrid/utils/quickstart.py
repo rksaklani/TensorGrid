@@ -1,18 +1,18 @@
 """
-FiftyOne quickstart.
+TensorGrid quickstart.
 
-| Copyright 2017-2026, Voxel51, Inc.
-| `voxel51.com <https://voxel51.com/>`_
+| Copyright 2017-2026, TensorGrid Contributors
 |
 """
 import tensorgrid as fo
 import tensorgrid.core.context as focx
 import tensorgrid.core.session as fos
 import tensorgrid.zoo.datasets as fozd
+from tensorgrid.constants import DOCS_BASE_URL, PRODUCT_NAME, PYPI_PACKAGE
 
 
 def quickstart(video=False, port=None, address=None, remote=False):
-    """Runs the FiftyOne quickstart.
+    """Runs the TensorGrid quickstart.
 
     This method loads an interesting dataset from the Dataset Zoo, launches the
     App, and prints some suggestions for exploring the dataset.
@@ -20,17 +20,17 @@ def quickstart(video=False, port=None, address=None, remote=False):
     Args:
         video (False): whether to launch a video dataset
         port (None): the port number to serve the App. If None,
-            ``fiftyone.config.default_app_port`` is used
+            ``tensorgrid.config.default_app_port`` is used
         address (None): the address to serve the App. If None,
-            ``fiftyone.config.default_app_address`` is used
+            ``tensorgrid.config.default_app_address`` is used
         remote (False): whether this is a remote session, and opening the App
             should not be attempted
 
     Returns:
         a tuple containing
 
-        -   dataset: the :class:`fiftyone.core.dataset.Dataset` that was loaded
-        -   session: the :class:`fiftyone.core.session.Session` instance for
+        -   dataset: the :class:`tensorgrid.core.dataset.Dataset` that was loaded
+        -   session: the :class:`tensorgrid.core.session.Session` instance for
             the App that was launched
     """
     if video:
@@ -62,8 +62,8 @@ def _launch_app(dataset, port, address, remote):
     return dataset, session
 
 
-_QUICKSTART_GUIDE = """
-Welcome to FiftyOne!
+_QUICKSTART_GUIDE = f"""
+Welcome to {PRODUCT_NAME}!
 
 This quickstart downloaded a dataset from the Dataset Zoo and created a
 session, which is a connection to an instance of the App.
@@ -90,7 +90,7 @@ Here are some things you can do to explore the dataset:
 
 (c) Filter predictions by confidence
 
-    The predictions field is noisy, but you can use FiftyOne to filter them!
+    The predictions field is noisy, but you can use {PRODUCT_NAME} to filter them!
 
     In the filters menu on the left, click on the `v` caret to the
     right of the `predictions` field to open a label filter. Drag the
@@ -99,9 +99,9 @@ Here are some things you can do to explore the dataset:
     You can also filter the detections from Python. Assuming you ran the
     quickstart like this::
 
-        import tensorgrid as fo
+        import tensorgrid as tg
 
-        dataset, session = fo.quickstart()
+        dataset, session = tg.quickstart()
 
     Then you can filter the predictions by creating a view:
 
@@ -116,14 +116,14 @@ Here are some things you can do to explore the dataset:
 
 Resources:
 
--   Using the App: https://docs.voxel51.com/user_guide/app.html
--   Dataset Zoo:   https://docs.voxel51.com/user_guide/dataset_zoo/index.html
+-   Documentation: {DOCS_BASE_URL}
+-   Install: pip install {PYPI_PACKAGE}
 
 """
 
 
-_VIDEO_QUICKSTART_GUIDE = """
-Welcome to FiftyOne!
+_VIDEO_QUICKSTART_GUIDE = f"""
+Welcome to {PRODUCT_NAME}!
 
 This quickstart downloaded a dataset from the Dataset Zoo and created a
 session, which is a connection to an instance of the App.
@@ -144,7 +144,7 @@ Here are some things you can do to explore the dataset:
 
 Resources:
 
--   Using the App: https://docs.voxel51.com/user_guide/app.html
--   Dataset Zoo:   https://docs.voxel51.com/user_guide/dataset_zoo/index.html
+-   Documentation: {DOCS_BASE_URL}
+-   Install: pip install {PYPI_PACKAGE}
 
 """

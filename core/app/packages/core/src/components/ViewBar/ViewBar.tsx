@@ -189,7 +189,7 @@ const ViewBar = React.memo(() => {
           }}
         />
         <ExternalLink
-          href="https://docs.voxel51.com/user_guide/app.html#using-the-view-bar"
+          href="https://github.com/rksaklani/TensorGrid/tree/main/core/docs"
           style={{ display: "flex" }}
         >
           <Help style={{ color: theme.text.secondary }} />

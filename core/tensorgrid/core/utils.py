@@ -86,8 +86,8 @@ logger = logging.getLogger(__name__)
 
 _REQUIREMENT_ERROR_SUFFIX = (
     "If you think this error is inaccurate, you can set "
-    "`fiftyone.config.requirement_error_level` to 1 (warning) or 2 (ignore).\n"
-    "See https://docs.voxel51.com/user_guide/config.html for details."
+    "`tensorgrid.config.requirement_error_level` to 1 (warning) or 2 (ignore).\n"
+    "See https://github.com/rksaklani/TensorGrid/tree/main/core/docs/source/user_guide/config.rst for details."
 )
 
 

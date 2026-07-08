@@ -2,7 +2,9 @@ import { PanelCTA, PanelCTAProps } from "@tensorgrid/components";
 import ComputeVisualizationButton from "./ComputeVisualizationButton";
 import useComputeVisualization from "./useComputeVisualization";
 
-const TRY_LINK = "http://voxel51.com/try-embeddings";
+const DOCS_LINK =
+  "https://github.com/rksaklani/TensorGrid/tree/main/core/docs";
+const TRY_LINK = "https://github.com/rksaklani/TensorGrid";
 
 export function Actions(props: ActionsProps) {
   const computeViz = useComputeVisualization();
@@ -18,7 +20,7 @@ export default function EmbeddingsCTA(props: EmbeddingsCTAProps) {
       label="Embeddings help you explore and understand your dataset"
       demoLabel="Upgrade to TensorGrid Enterprise to Create Embeddings"
       description="You can compute and visualize embeddings for your dataset using a selection of pre-trained models or your own embeddings"
-      docLink="https://docs.voxel51.com/user_guide/app.html#embeddings-panel"
+      docLink={DOCS_LINK}
       docCaption="Learn how to create embeddings visualizations via code."
       demoDocCaption="Not ready to upgrade yet? Learn how to create embeddings visualizations via code."
       icon="workspaces"

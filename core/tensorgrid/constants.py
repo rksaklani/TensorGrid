@@ -65,6 +65,15 @@ LICENSE = _META.get("license", "Apache")
 VERSION_LONG = "TensorGrid v%s, %s" % (VERSION, AUTHOR)
 COPYRIGHT = "2017-%d, %s" % (datetime.now().year, AUTHOR)
 
+# Public branding / documentation (user-facing)
+PRODUCT_NAME = "TensorGrid"
+PYPI_PACKAGE = "tensorgrid-platform"
+GITHUB_URL = "https://github.com/rksaklani/TensorGrid"
+DOCS_BASE_URL = "https://github.com/rksaklani/TensorGrid/tree/main/core/docs"
+DOCS_CONFIG_URL = (
+    "https://github.com/rksaklani/TensorGrid/tree/main/core/docs/source/user_guide/config.rst"
+)
+
 DEV_INSTALL = os.path.isdir(
     os.path.normpath(
         os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".git")

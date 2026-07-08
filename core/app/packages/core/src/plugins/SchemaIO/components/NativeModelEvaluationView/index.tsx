@@ -10,7 +10,9 @@ import Evaluation from "./Evaluation";
 import Overview from "./Overview";
 import { openModelEvalDialog, selectedModelEvaluation } from "./utils";
 
-const TRY_LINK = "http://voxel51.com/try-evaluation";
+const DOCS_LINK =
+  "https://github.com/rksaklani/TensorGrid/tree/main/core/docs";
+const TRY_LINK = "https://github.com/rksaklani/TensorGrid";
 
 export default function NativeModelEvaluationView(props) {
   const { data = {}, schema, onChange } = props;
@@ -191,7 +193,7 @@ export default function NativeModelEvaluationView(props) {
             label="Create your first model evaluation"
             demoLabel="Upgrade to TensorGrid Enterprise to Evaluate Models"
             description="Analyze and improve models collaboratively with your team"
-            docLink="https://docs.voxel51.com/user_guide/evaluation.html"
+            docLink={DOCS_LINK}
             docCaption="Learn how to evaluate models via code."
             demoDocCaption="Not ready to upgrade yet? Learn how to evaluate models via code."
             icon="ssid_chart"

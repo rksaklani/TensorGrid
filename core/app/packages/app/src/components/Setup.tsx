@@ -99,7 +99,7 @@ tg app connect --destination [<username>@]<hostname> \\
         session and connecting to it from your local machine. See{" "}
         <a
           target="_blank"
-          href="https://docs.voxel51.com/user_guide/app.html#remote-sessions"
+          href="https://github.com/rksaklani/TensorGrid/tree/main/core/docs"
           rel="noreferrer"
         >
           this page

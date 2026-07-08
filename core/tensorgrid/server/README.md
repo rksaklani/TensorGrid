@@ -1,4 +1,9 @@
-# FiftyOne App Server
+# TensorGrid App Server
 
-Backend [tornado](https://www.tornadoweb.org/en/stable/) server for the
-[FiftyOne App](../../app).
+GraphQL/REST backend for the [TensorGrid App](../../app).
+
+Install the platform with:
+
+```bash
+pip install tensorgrid-platform
+```

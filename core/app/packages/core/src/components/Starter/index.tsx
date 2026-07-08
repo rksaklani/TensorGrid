@@ -22,9 +22,9 @@ import { CONTENT_BY_MODE } from "./content";
 const CREATE_DATASET_OPERATOR = "@voxel51/utils/create_dataset";
 const IMPORT_SAMPLES_OPERATOR = "@voxel51/io/import_samples";
 const INSTALL_UTILS_PLUGIN_LINK =
-  "https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/utils";
+  "https://github.com/rksaklani/TensorGrid/tree/main/core/plugins";
 const INSTALL_IO_PLUGIN_LINK =
-  "https://github.com/voxel51/fiftyone-plugins/tree/main/plugins/io";
+  "https://github.com/rksaklani/TensorGrid/tree/main/core/plugins";
 const INSTALL_UTILS_PLUGIN_LABEL = "@voxel51/utils";
 const INSTALL_IO_PLUGIN_LABEL = "@voxel51/io";
 

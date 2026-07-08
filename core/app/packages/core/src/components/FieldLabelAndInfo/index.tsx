@@ -597,17 +597,17 @@ function convertTypeToDocLink(type) {
     }
   }
   const fullPath = [...modulePath, className].join(".");
-
-  const BASE = "https://docs.voxel51.com/api/";
+  const docsBase =
+    "https://github.com/rksaklani/TensorGrid/tree/main/core/docs";
 
   if (className) {
     return {
-      href: `${BASE}${modulePath.join(".")}.html#${fullPath}`,
+      href: docsBase,
       label: className,
     };
   }
   return {
-    href: `${BASE}${modulePath.join(".")}.html`,
+    href: docsBase,
     label: modulePath.join("."),
   };
 }

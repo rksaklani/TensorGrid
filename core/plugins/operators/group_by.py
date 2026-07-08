@@ -122,7 +122,7 @@ def _create(ctx, obj):
             description=(
                 "An optional fixed ``order_by`` value representing the first "
                 "sample in a group. Required for "
-                "[optimized performance](https://docs.voxel51.com/user_guide/app.html#app-query-performant-stages)"
+                "[optimized performance](https://github.com/rksaklani/TensorGrid/tree/main/core/docs)"
             ),
         )
 

@@ -1,8 +1,7 @@
 """
-Definition of the `fiftyone` command-line interface (CLI).
+Definition of the `tg` command-line interface (CLI).
 
-| Copyright 2017-2026, Voxel51, Inc.
-| `voxel51.com <https://voxel51.com/>`_
+| Copyright 2017-2026, TensorGrid Contributors
 |
 """
 
@@ -112,18 +111,18 @@ class TensorGridCommand(Command):
 
 
 class QuickstartCommand(Command):
-    """Launch a FiftyOne quickstart.
+    """Launch a TensorGrid quickstart.
 
     Examples::
 
         # Launch the quickstart
-        fiftyone quickstart
+        tg quickstart
 
         # Launch the quickstart with a video dataset
-        fiftyone quickstart --video
+        tg quickstart --video
 
         # Launch the quickstart as a remote session
-        fiftyone quickstart --remote
+        tg quickstart --remote
     """
 
     @staticmethod
@@ -182,18 +181,18 @@ class QuickstartCommand(Command):
 
 
 class ConfigCommand(Command):
-    """Tools for working with your FiftyOne config.
+    """Tools for working with your TensorGrid config.
 
     Examples::
 
         # Print your entire config
-        fiftyone config
+        tg config
 
         # Print a specific config field
-        fiftyone config <field>
+        tg config <field>
 
         # Print the location of your config on disk (if one exists)
-        fiftyone config --locate
+        tg config --locate
     """
 
     @staticmethod
@@ -231,10 +230,10 @@ class ConstantsCommand(Command):
     Examples::
 
         # Print all constants
-        fiftyone constants
+        tg constants
 
         # Print a specific constant
-        fiftyone constants <CONSTANT>
+        tg constants <CONSTANT>
     """
 
     @staticmethod
@@ -290,21 +289,21 @@ class ConvertCommand(Command):
     Examples::
 
         # Convert an image classification directory tree to TFRecords format
-        fiftyone convert \\
+        tg convert \\
             --input-dir /path/to/image-classification-directory-tree \\
             --input-type fiftyone.types.ImageClassificationDirectoryTree \\
             --output-dir /path/for/tf-image-classification-dataset \\
             --output-type fiftyone.types.TFImageClassificationDataset
 
         # Convert a COCO detection dataset to CVAT image format
-        fiftyone convert \\
+        tg convert \\
             --input-dir /path/to/coco-detection-dataset \\
             --input-type fiftyone.types.COCODetectionDataset \\
             --output-dir /path/for/cvat-image-dataset \\
             --output-type fiftyone.types.CVATImageDataset
 
         # Perform a customized conversion via optional kwargs
-        fiftyone convert \\
+        tg convert \\
             --input-dir /path/to/coco-detection-dataset \\
             --input-type fiftyone.types.COCODetectionDataset \\
             --input-kwargs max_samples=100 shuffle=True \\
@@ -381,7 +380,7 @@ class ConvertCommand(Command):
 
 
 class DatasetsCommand(Command):
-    """Tools for working with FiftyOne datasets."""
+    """Tools for working with TensorGrid datasets."""
 
     @staticmethod
     def setup(parser):
@@ -404,18 +403,18 @@ class DatasetsCommand(Command):
 
 
 class DatasetsListCommand(Command):
-    """List FiftyOne datasets.
+    """List TensorGrid datasets.
 
     Examples::
 
         # List available datasets
-        fiftyone datasets list
+        tg datasets list
 
         # List datasets matching a given pattern
-        fiftyone datasets list --glob-patt 'quickstart-*'
+        tg datasets list --glob-patt 'quickstart-*'
 
         # List datasets with the given tag(s)
-        fiftyone datasets list --tags automotive healthcare
+        tg datasets list --tags automotive healthcare
     """
 
     @staticmethod
@@ -446,19 +445,19 @@ class DatasetsListCommand(Command):
 
 
 class DatasetsInfoCommand(Command):
-    """Print information about FiftyOne datasets.
+    """Print information about TensorGrid datasets.
 
     Examples::
 
         # Print basic information about multiple datasets
-        fiftyone datasets info
-        fiftyone datasets info --glob-patt 'quickstart-*'
-        fiftyone datasets info --tags automotive healthcare
-        fiftyone datasets info --sort-by created_at
-        fiftyone datasets info --sort-by name --reverse
+        tg datasets info
+        tg datasets info --glob-patt 'quickstart-*'
+        tg datasets info --tags automotive healthcare
+        tg datasets info --sort-by created_at
+        tg datasets info --sort-by name --reverse
 
         # Print information about a specific dataset
-        fiftyone datasets info <name>
+        tg datasets info <name>
     """
 
     @staticmethod
@@ -564,12 +563,12 @@ def _format_cell(cell):
 
 
 class DatasetsStatsCommand(Command):
-    """Print stats about FiftyOne datasets on disk.
+    """Print stats about TensorGrid datasets on disk.
 
     Examples::
 
         # Print stats about the given dataset on disk
-        fiftyone datasets stats <name>
+        tg datasets stats <name>
     """
 
     @staticmethod
@@ -608,21 +607,21 @@ class DatasetsStatsCommand(Command):
 
 
 class DatasetsCreateCommand(Command):
-    """Tools for creating FiftyOne datasets.
+    """Tools for creating TensorGrid datasets.
 
     Examples::
 
         # Create a dataset from the given data on disk
-        fiftyone datasets create \\
+        tg datasets create \\
             --name <name> --dataset-dir <dataset-dir> --type <type>
 
         # Create a dataset from a random subset of the data on disk
-        fiftyone datasets create \\
+        tg datasets create \\
             --name <name> --dataset-dir <dataset-dir> --type <type> \\
             --kwargs max_samples=50 shuffle=True
 
         # Create a dataset from the given samples JSON file
-        fiftyone datasets create --json-path <json-path>
+        tg datasets create --json-path <json-path>
     """
 
     @staticmethod
@@ -687,15 +686,15 @@ class DatasetsCreateCommand(Command):
 
 
 class DatasetsHeadCommand(Command):
-    """Prints the first few samples in a FiftyOne dataset.
+    """Prints the first few samples in a TensorGrid dataset.
 
     Examples::
 
         # Print the first few samples in a dataset
-        fiftyone datasets head <name>
+        tg datasets head <name>
 
         # Print the given number of samples from the head of a dataset
-        fiftyone datasets head <name> --num-samples <num-samples>
+        tg datasets head <name> --num-samples <num-samples>
     """
 
     @staticmethod
@@ -723,15 +722,15 @@ class DatasetsHeadCommand(Command):
 
 
 class DatasetsTailCommand(Command):
-    """Prints the last few samples in a FiftyOne dataset.
+    """Prints the last few samples in a TensorGrid dataset.
 
     Examples::
 
         # Print the last few samples in a dataset
-        fiftyone datasets tail <name>
+        tg datasets tail <name>
 
         # Print the given number of samples from the tail of a dataset
-        fiftyone datasets tail <name> --num-samples <num-samples>
+        tg datasets tail <name> --num-samples <num-samples>
     """
 
     @staticmethod
@@ -759,12 +758,12 @@ class DatasetsTailCommand(Command):
 
 
 class DatasetsStreamCommand(Command):
-    """Stream samples in a FiftyOne dataset to the terminal.
+    """Stream samples in a TensorGrid dataset to the terminal.
 
     Examples::
 
         # Stream the samples of the dataset to the terminal
-        fiftyone datasets stream <name>
+        tg datasets stream <name>
     """
 
     @staticmethod
@@ -780,24 +779,24 @@ class DatasetsStreamCommand(Command):
 
 
 class DatasetsExportCommand(Command):
-    """Export FiftyOne datasets to disk in supported formats.
+    """Export TensorGrid datasets to disk in supported formats.
 
     Examples::
 
         # Export the dataset to disk in the specified format
-        fiftyone datasets export <name> \\
+        tg datasets export <name> \\
             --export-dir <export-dir> --type <type> --label-field <label-field>
 
         # Export the dataset to disk in JSON format
-        fiftyone datasets export <name> --json-path <json-path>
+        tg datasets export <name> --json-path <json-path>
 
         # Only export cats and dogs from the validation split
-        fiftyone datasets export <name> \\
+        tg datasets export <name> \\
             --filters tags=validation ground_truth=cat,dog \\
             --export-dir <export-dir> --type <type> --label-field ground_truth
 
         # Perform a customized export of a dataset
-        fiftyone datasets export <name> \\
+        tg datasets export <name> \\
             --type <type> \\
             --kwargs labels_path=/path/for/labels.json
     """
@@ -896,13 +895,13 @@ class DatasetsExportCommand(Command):
 
 
 class DatasetsDrawCommand(Command):
-    """Renders annotated versions of samples in FiftyOne datasets to disk.
+    """Renders annotated versions of samples in TensorGrid datasets to disk.
 
     Examples::
 
         # Write annotated versions of the media in the dataset with the
         # specified label field(s) overlaid to disk
-        fiftyone datasets draw <name> \\
+        tg datasets draw <name> \\
             --output-dir <output-dir> --label-fields <list>,<of>,<fields>
     """
 
@@ -942,12 +941,12 @@ class DatasetsDrawCommand(Command):
 
 
 class DatasetsRenameCommand(Command):
-    """Rename FiftyOne datasets.
+    """Rename TensorGrid datasets.
 
     Examples::
 
         # Rename the dataset
-        fiftyone datasets rename <old-name> <new-name>
+        tg datasets rename <old-name> <new-name>
     """
 
     @staticmethod
@@ -974,18 +973,18 @@ class DatasetsRenameCommand(Command):
 
 
 class DatasetsDeleteCommand(Command):
-    """Delete FiftyOne datasets.
+    """Delete TensorGrid datasets.
 
     Examples::
 
         # Delete the datasets with the given name(s)
-        fiftyone datasets delete <name1> <name2> ...
+        tg datasets delete <name1> <name2> ...
 
         # Delete the datasets whose names match the given glob pattern
-        fiftyone datasets delete --glob-patt <glob-patt>
+        tg datasets delete --glob-patt <glob-patt>
 
         # Delete all non-persistent datasets
-        fiftyone datasets delete --non-persistent
+        tg datasets delete --non-persistent
     """
 
     @staticmethod
@@ -1081,7 +1080,7 @@ class AnnotationConfigCommand(Command):
 
 
 class AppCommand(Command):
-    """Tools for working with the FiftyOne App."""
+    """Tools for working with the TensorGrid App."""
 
     @staticmethod
     def setup(parser):
@@ -1098,7 +1097,7 @@ class AppCommand(Command):
 
 
 class AppConfigCommand(Command):
-    """Tools for working with your FiftyOne App config.
+    """Tools for working with your TensorGrid App config.
 
     Examples::
 
@@ -1145,21 +1144,21 @@ class AppConfigCommand(Command):
 
 
 class AppLaunchCommand(Command):
-    """Launch the FiftyOne App.
+    """Launch the TensorGrid App.
 
     Examples::
 
         # Launch the App
-        fiftyone app launch
+        tg app launch
 
         # Launch the App with the given dataset loaded
-        fiftyone app launch <name>
+        tg app launch <name>
 
         # Launch a remote App session
-        fiftyone app launch ... --remote
+        tg app launch ... --remote
 
         # Launch the App in the non-default browser
-        fiftyone app launch ... --browser firefox
+        tg app launch ... --browser firefox
     """
 
     @staticmethod
@@ -1254,7 +1253,7 @@ def _wait():
 
 
 class AppDebugCommand(Command):
-    """Launch the FiftyOne App in debug mode.
+    """Launch the TensorGrid App in debug mode.
 
     Examples::
 
@@ -1510,7 +1509,7 @@ class AppViewCommand(Command):
 
 
 class AppConnectCommand(Command):
-    """Connect to a remote FiftyOne App in your web browser.
+    """Connect to a remote TensorGrid App in your web browser.
 
     Examples::
 
@@ -1779,22 +1778,22 @@ class DatasetZooListCommand(Command):
     Examples::
 
         # List available datasets
-        fiftyone zoo datasets list
+        tg zoo datasets list
 
         # List available dataset names
-        fiftyone zoo datasets list --names-only
+        tg zoo datasets list --names-only
 
         # List downloaded datasets
-        fiftyone zoo datasets list --downloaded-only
+        tg zoo datasets list --downloaded-only
 
         # List available datasets from the given source
-        fiftyone zoo datasets list --source <source>
+        tg zoo datasets list --source <source>
 
         # List available datasets with the given tag
-        fiftyone zoo datasets list --tags <tag>
+        tg zoo datasets list --tags <tag>
 
         # List available datasets with the given license
-        fiftyone zoo datasets list --license <license>
+        tg zoo datasets list --license <license>
     """
 
     @staticmethod
@@ -1990,14 +1989,14 @@ class DatasetZooFindCommand(Command):
     Examples::
 
         # Print the location of a downloaded zoo dataset on disk
-        fiftyone zoo datasets find <name>
+        tg zoo datasets find <name>
 
         # Print the location of a remotely-sourced zoo dataset on disk
-        fiftyone zoo datasets find https://github.com/<user>/<repo>
-        fiftyone zoo datasets find <url>
+        tg zoo datasets find https://github.com/<user>/<repo>
+        tg zoo datasets find <url>
 
         # Print the location of a specific split of a dataset
-        fiftyone zoo datasets find <name> --split <split>
+        tg zoo datasets find <name> --split <split>
     """
 
     @staticmethod
@@ -2029,11 +2028,11 @@ class DatasetZooInfoCommand(Command):
     Examples::
 
         # Print information about a zoo dataset
-        fiftyone zoo datasets info <name>
+        tg zoo datasets info <name>
 
         # Print information about a remote zoo dataset
-        fiftyone zoo datasets info https://github.com/<user>/<repo>
-        fiftyone zoo datasets info <url>
+        tg zoo datasets info https://github.com/<user>/<repo>
+        tg zoo datasets info <url>
     """
 
     @staticmethod
@@ -2103,17 +2102,17 @@ class DatasetZooDownloadCommand(Command):
     Examples::
 
         # Download a zoo dataset
-        fiftyone zoo datasets download <name>
+        tg zoo datasets download <name>
 
         # Download a remotely-sourced zoo dataset
-        fiftyone zoo datasets download https://github.com/<user>/<repo>
-        fiftyone zoo datasets download <url>
+        tg zoo datasets download https://github.com/<user>/<repo>
+        tg zoo datasets download <url>
 
         # Download the specified split(s) of a zoo dataset
-        fiftyone zoo datasets download <name> --splits <split1> ...
+        tg zoo datasets download <name> --splits <split1> ...
 
         # Download a zoo dataset that requires extra keyword arguments
-        fiftyone zoo datasets download <name> \\
+        tg zoo datasets download <name> \\
             --kwargs source_dir=/path/to/source/files
     """
 
@@ -2153,7 +2152,7 @@ class DatasetZooDownloadCommand(Command):
 
 
 class DatasetZooLoadCommand(Command):
-    """Load zoo datasets as persistent FiftyOne datasets.
+    """Load zoo datasets as persistent TensorGrid datasets.
 
     When loading remotely-sourced zoo datasets, you can provide any of the
     following formats:
@@ -2173,24 +2172,24 @@ class DatasetZooLoadCommand(Command):
     Examples::
 
         # Load the zoo dataset with the given name
-        fiftyone zoo datasets load <name>
+        tg zoo datasets load <name>
 
         # Load a remotely-sourced zoo dataset
-        fiftyone zoo datasets load https://github.com/<user>/<repo>
-        fiftyone zoo datasets load <url>
+        tg zoo datasets load https://github.com/<user>/<repo>
+        tg zoo datasets load <url>
 
         # Load the specified split(s) of a zoo dataset
-        fiftyone zoo datasets load <name> --splits <split1> ...
+        tg zoo datasets load <name> --splits <split1> ...
 
         # Load a zoo dataset with a custom name
-        fiftyone zoo datasets load <name> --dataset-name <dataset-name>
+        tg zoo datasets load <name> --dataset-name <dataset-name>
 
         # Load a zoo dataset that requires custom keyword arguments
-        fiftyone zoo datasets load <name> \\
+        tg zoo datasets load <name> \\
             --kwargs source_dir=/path/to/source_files
 
         # Load a random subset of a zoo dataset
-        fiftyone zoo datasets load <name> \\
+        tg zoo datasets load <name> \\
             --kwargs max_samples=50 shuffle=True
     """
 
@@ -2212,7 +2211,7 @@ class DatasetZooLoadCommand(Command):
             "-n",
             "--dataset-name",
             metavar="DATASET_NAME",
-            help="a custom name to give the FiftyOne dataset",
+            help="a custom name to give the TensorGrid dataset",
         )
         parser.add_argument(
             "-k",
@@ -2248,14 +2247,14 @@ class DatasetZooDeleteCommand(Command):
     Examples::
 
         # Delete a zoo dataset from disk
-        fiftyone zoo datasets delete <name>
+        tg zoo datasets delete <name>
 
         # Delete a remotely-sourced zoo dataset from disk
-        fiftyone zoo datasets delete https://github.com/<user>/<repo>
-        fiftyone zoo datasets delete <url>
+        tg zoo datasets delete https://github.com/<user>/<repo>
+        tg zoo datasets delete <url>
 
         # Delete a specific split of a zoo dataset from disk
-        fiftyone zoo datasets delete <name> --split <split>
+        tg zoo datasets delete <name> --split <split>
     """
 
     @staticmethod
@@ -2316,22 +2315,22 @@ class ModelZooListCommand(Command):
     Examples::
 
         # List available models
-        fiftyone zoo models list
+        tg zoo models list
 
         # List available models (names only)
-        fiftyone zoo models list --names-only
+        tg zoo models list --names-only
 
         # List downloaded models
-        fiftyone zoo models list --downloaded-only
+        tg zoo models list --downloaded-only
 
         # List available models with the given tag
-        fiftyone zoo models list --tags <tag>
+        tg zoo models list --tags <tag>
 
         # List available models from the given remote source
-        fiftyone zoo models list --source <source>
+        tg zoo models list --source <source>
 
         # List available models with the given license
-        fiftyone zoo models list --license <license>
+        tg zoo models list --license <license>
     """
 
     @staticmethod
@@ -2445,7 +2444,7 @@ class ModelZooFindCommand(Command):
     Examples::
 
         # Print the location of the downloaded zoo model on disk
-        fiftyone zoo models find <name>
+        tg zoo models find <name>
     """
 
     @staticmethod
@@ -2472,7 +2471,7 @@ class ModelZooInfoCommand(Command):
     Examples::
 
         # Print information about a zoo model
-        fiftyone zoo models info <name>
+        tg zoo models info <name>
     """
 
     @staticmethod
@@ -2506,13 +2505,13 @@ class ModelZooRequirementsCommand(Command):
     Examples::
 
         # Print requirements for a zoo model
-        fiftyone zoo models requirements <name> --print
+        tg zoo models requirements <name> --print
 
         # Install any requirements for the zoo model
-        fiftyone zoo models requirements <name> --install
+        tg zoo models requirements <name> --install
 
         # Ensures that the requirements for the zoo model are satisfied
-        fiftyone zoo models requirements <name> --ensure
+        tg zoo models requirements <name> --ensure
     """
 
     @staticmethod
@@ -2604,12 +2603,12 @@ class ModelZooDownloadCommand(Command):
     Examples::
 
         # Download a zoo model
-        fiftyone zoo models download <name>
+        tg zoo models download <name>
 
         # Download a remotely-sourced zoo model
-        fiftyone zoo models download https://github.com/<user>/<repo> \\
+        tg zoo models download https://github.com/<user>/<repo> \\
             --model-name <name>
-        fiftyone zoo models download <url> --model-name <name>
+        tg zoo models download <url> --model-name <name>
     """
 
     @staticmethod
@@ -2666,16 +2665,16 @@ class ModelZooApplyCommand(Command):
     Examples::
 
         # Apply a zoo model to a dataset
-        fiftyone zoo models apply <model-name> <dataset-name> <label-field>
+        tg zoo models apply <model-name> <dataset-name> <label-field>
 
         # Apply a remotely-sourced zoo model to a dataset
-        fiftyone zoo models apply https://github.com/<user>/<repo> \\
+        tg zoo models apply https://github.com/<user>/<repo> \\
             <dataset-name> <label-field> --model-name <model-name>
-        fiftyone zoo models apply <url> \\
+        tg zoo models apply <url> \\
             <dataset-name> <label-field> --model-name <model-name>
 
         # Apply a zoo model with some customized parameters
-        fiftyone zoo models apply \\
+        tg zoo models apply \\
             <model-name> <dataset-name> <label-field> \\
             --confidence-thresh 0.7 \\
             --store-logits \\
@@ -2692,7 +2691,7 @@ class ModelZooApplyCommand(Command):
         parser.add_argument(
             "dataset_name",
             metavar="DATASET_NAME",
-            help="the name of the FiftyOne dataset to process",
+            help="the name of the TensorGrid dataset to process",
         )
         parser.add_argument(
             "label_field",
@@ -2791,12 +2790,12 @@ class ModelZooEmbedCommand(Command):
     Examples::
 
         # Generate embeddings for a dataset with a zoo model
-        fiftyone zoo models embed <model-name> <dataset-name> <embeddings-field>
+        tg zoo models embed <model-name> <dataset-name> <embeddings-field>
 
         # Generate embeddings for a dataset with a remotely-sourced zoo model
-        fiftyone zoo models embed https://github.com/<user>/<repo> \\
+        tg zoo models embed https://github.com/<user>/<repo> \\
             <dataset-name> <embeddings-field> --model-name <model-name>
-        fiftyone zoo models embed <url> \\
+        tg zoo models embed <url> \\
             <dataset-name> <embeddings-field> --model-name <model-name>
     """
 
@@ -2810,7 +2809,7 @@ class ModelZooEmbedCommand(Command):
         parser.add_argument(
             "dataset_name",
             metavar="DATASET_NAME",
-            help="the name of the FiftyOne dataset to process",
+            help="the name of the TensorGrid dataset to process",
         )
         parser.add_argument(
             "embeddings_field",
@@ -2873,7 +2872,7 @@ class ModelZooDeleteCommand(Command):
     Examples::
 
         # Delete the zoo model from disk
-        fiftyone zoo models delete <name>
+        tg zoo models delete <name>
     """
 
     @staticmethod
@@ -2894,7 +2893,7 @@ class ModelZooListSourcesCommand(Command):
     Examples::
 
         # Lists the registered remote zoo model sources
-        fiftyone zoo models list-sources
+        tg zoo models list-sources
     """
 
     @staticmethod
@@ -2946,8 +2945,8 @@ class ModelZooRegisterSourceCommand(Command):
     Examples::
 
         # Register a remote zoo model source
-        fiftyone zoo models register-source https://github.com/<user>/<repo>
-        fiftyone zoo models register-source <url>
+        tg zoo models register-source https://github.com/<user>/<repo>
+        tg zoo models register-source <url>
     """
 
     @staticmethod
@@ -2985,8 +2984,8 @@ class ModelZooDeleteSourceCommand(Command):
     Examples::
 
         # Delete a remote zoo model source
-        fiftyone zoo models delete-source https://github.com/<user>/<repo>
-        fiftyone zoo models delete-source <url>
+        tg zoo models delete-source https://github.com/<user>/<repo>
+        tg zoo models delete-source <url>
     """
 
     @staticmethod
@@ -3003,7 +3002,7 @@ class ModelZooDeleteSourceCommand(Command):
 
 
 class OperatorsCommand(Command):
-    """Tools for working with FiftyOne operators and panels."""
+    """Tools for working with TensorGrid operators and panels."""
 
     @staticmethod
     def setup(parser):
@@ -3022,22 +3021,22 @@ class OperatorsListCommand(Command):
     Examples::
 
         # List all available operators and panels
-        fiftyone operators list
+        tg operators list
 
         # List operators and panels whose URI matches the given glob pattern
-        fiftyone operators list --glob-patt '*/compute_*'
+        tg operators list --glob-patt '*/compute_*'
 
         # List enabled operators and panels
-        fiftyone operators list --enabled
+        tg operators list --enabled
 
         # List disabled operators and panels
-        fiftyone operators list --disabled
+        tg operators list --disabled
 
         # List non-builtin operators and panels
-        fiftyone operators list --no-builtins
+        tg operators list --no-builtins
 
         # List panels
-        fiftyone operators list --panels-only
+        tg operators list --panels-only
     """
 
     @staticmethod
@@ -3204,7 +3203,7 @@ class OperatorsInfoCommand(Command):
     Examples::
 
         # Prints information about an operator or panel
-        fiftyone operators info <uri>
+        tg operators info <uri>
     """
 
     @staticmethod
@@ -3226,7 +3225,7 @@ def _print_operator_info(operator_uri):
 
 
 class DelegatedCommand(Command):
-    """Tools for working with FiftyOne delegated operations."""
+    """Tools for working with TensorGrid delegated operations."""
 
     @staticmethod
     def setup(parser):
@@ -3252,7 +3251,7 @@ class DelegatedRerunCommand(Command):
     Examples::
 
         # Rerun the given operation id
-        fiftyone delegated rerun <operation-id>
+        tg delegated rerun <operation-id>
     """
 
     @staticmethod
@@ -3272,7 +3271,7 @@ class DelegatedLaunchCommand(Command):
     Examples::
 
         # Launch a local service
-        fiftyone delegated launch
+        tg delegated launch
     """
 
     @staticmethod
@@ -3344,10 +3343,10 @@ class DelegatedListCommand(Command):
     Examples::
 
         # List all delegated operations
-        fiftyone delegated list
+        tg delegated list
 
         # List some specific delegated operations
-        fiftyone delegated list \\
+        tg delegated list \\
             --dataset quickstart \\
             --operator @voxel51/io/export_samples \\
             --state COMPLETED \\
@@ -3528,7 +3527,7 @@ class DelegatedInfoCommand(Command):
     Examples::
 
         # Print information about a delegated operation
-        fiftyone delegated info <id>
+        tg delegated info <id>
     """
 
     @staticmethod
@@ -3548,7 +3547,7 @@ class DelegatedOutputCommand(Command):
     Examples::
 
         # Print the output for a delegated operation
-        fiftyone delegated output <id>
+        tg delegated output <id>
     """
 
     @staticmethod
@@ -3578,7 +3577,7 @@ class DelegatedFailCommand(Command):
     Examples::
 
         # Manually mark the specified operation(s) as FAILED
-        fiftyone delegated fail <id1> <id2> ...
+        tg delegated fail <id1> <id2> ...
     """
 
     @staticmethod
@@ -3621,7 +3620,7 @@ class DelegatedDeleteCommand(Command):
     Examples::
 
         # Delete the specified operation(s)
-        fiftyone delegated delete <id1> <id2> ...
+        tg delegated delete <id1> <id2> ...
     """
 
     @staticmethod
@@ -3658,10 +3657,10 @@ class DelegatedArchiveCommand(Command):
     Examples::
 
         # Archive the specified operation(s)
-        fiftyone delegated archive <id1> <id2> ...
+        tg delegated archive <id1> <id2> ...
 
         # Unarchive the specified operation(s)
-        fiftyone delegated archive <id1> <id2> ... --unarchive
+        tg delegated archive <id1> <id2> ... --unarchive
     """
 
     @staticmethod
@@ -3717,13 +3716,13 @@ class DelegatedCleanupCommand(Command):
     Examples::
 
         # Delete all failed operations associated with a given dataset
-        fiftyone delegated cleanup --dataset quickstart --state FAILED
+        tg delegated cleanup --dataset quickstart --state FAILED
 
         # Delete all delegated operations associated with non-existent datasets
-        fiftyone delegated cleanup --orphan
+        tg delegated cleanup --orphan
 
         # Print information about operations rather than actually deleting them
-        fiftyone delegated cleanup --orphan --dry-run
+        tg delegated cleanup --orphan --dry-run
     """
 
     @staticmethod
@@ -3837,7 +3836,7 @@ def _cleanup_delegated(operator=None, dataset=None, state=None, dry_run=False):
 
 
 class PluginsCommand(Command):
-    """Tools for working with FiftyOne plugins."""
+    """Tools for working with TensorGrid plugins."""
 
     @staticmethod
     def setup(parser):
@@ -3865,22 +3864,22 @@ class PluginsListCommand(Command):
     Examples::
 
         # List all available plugins
-        fiftyone plugins list
+        tg plugins list
 
         # List plugins whose name matches the given glob pattern
-        fiftyone plugins list --glob-patt '@voxel51/*'
+        tg plugins list --glob-patt '@voxel51/*'
 
         # List plugins with the given tag
-        fiftyone plugins list --tags <tag>
+        tg plugins list --tags <tag>
 
         # List enabled plugins
-        fiftyone plugins list --enabled
+        tg plugins list --enabled
 
         # List disabled plugins
-        fiftyone plugins list --disabled
+        tg plugins list --disabled
 
         # List non-builtin plugins
-        fiftyone plugins list --no-builtins
+        tg plugins list --no-builtins
     """
 
     @staticmethod
@@ -4031,10 +4030,10 @@ class PluginsInfoCommand(Command):
     Examples::
 
         # Prints information about a plugin
-        fiftyone plugins info <name>
+        tg plugins info <name>
 
         # Prints information about a plugin in a given directory
-        fiftyone plugins info <dir>
+        tg plugins info <dir>
     """
 
     @staticmethod
@@ -4084,13 +4083,13 @@ class PluginsDownloadCommand(Command):
     Examples::
 
         # Download plugins from a GitHub repository URL
-        fiftyone plugins download <github-repo-url>
+        tg plugins download <github-repo-url>
 
         # Download plugins by specifying the GitHub repository details
-        fiftyone plugins download <user>/<repo>[/<ref>]
+        tg plugins download <user>/<repo>[/<ref>]
 
         # Download specific plugins from a URL
-        fiftyone plugins download <url> --plugin-names <name1> <name2> <name3>
+        tg plugins download <url> --plugin-names <name1> <name2> <name3>
     """
 
     @staticmethod
@@ -4144,14 +4143,14 @@ class PluginsSearchCommand(Command):
     Examples::
 
         # Search for plugins by specifying a GitHub repository URL
-        fiftyone plugins search <github-repo-url>
+        tg plugins search <github-repo-url>
 
         # Search for plugins by specifying the GitHub repository details
-        fiftyone plugins search <user>/<repo>[/<ref>]
+        tg plugins search <user>/<repo>[/<ref>]
 
         # Search for plugins by specifying a path inside the repository
-        fiftyone plugins search <github-repo-url> --path path/to/dir
-        fiftyone plugins search <user>/<repo>[/<ref>] --path path/to/dir
+        tg plugins search <github-repo-url> --path path/to/dir
+        tg plugins search <user>/<repo>[/<ref>] --path path/to/dir
     """
 
     @staticmethod
@@ -4189,13 +4188,13 @@ class PluginsRequirementsCommand(Command):
     Examples::
 
         # Print requirements for a plugin
-        fiftyone plugins requirements <name> --print
+        tg plugins requirements <name> --print
 
         # Install any requirements for the plugin
-        fiftyone plugins requirements <name> --install
+        tg plugins requirements <name> --install
 
         # Ensures that the requirements for the plugin are satisfied
-        fiftyone plugins requirements <name> --ensure
+        tg plugins requirements <name> --ensure
     """
 
     @staticmethod
@@ -4270,10 +4269,10 @@ class PluginsCreateCommand(Command):
     Examples::
 
         # Initialize a new plugin
-        fiftyone plugins create <name>
+        tg plugins create <name>
 
         # Create a plugin from existing files
-        fiftyone plugins create \\
+        tg plugins create \\
             <name> \\
             --from-files /path/to/dir \\
             --description <description>
@@ -4349,13 +4348,13 @@ class PluginsEnableCommand(Command):
     Examples::
 
         # Enable a plugin
-        fiftyone plugins enable <name>
+        tg plugins enable <name>
 
         # Enable multiple plugins
-        fiftyone plugins enable <name1> <name2> ...
+        tg plugins enable <name1> <name2> ...
 
         # Enable all plugins
-        fiftyone plugins enable --all
+        tg plugins enable --all
     """
 
     @staticmethod
@@ -4390,13 +4389,13 @@ class PluginsDisableCommand(Command):
     Examples::
 
         # Disable a plugin
-        fiftyone plugins disable <name>
+        tg plugins disable <name>
 
         # Disable multiple plugins
-        fiftyone plugins disable <name1> <name2> ...
+        tg plugins disable <name1> <name2> ...
 
         # Disable all plugins
-        fiftyone plugins disable --all
+        tg plugins disable --all
     """
 
     @staticmethod
@@ -4431,13 +4430,13 @@ class PluginsDeleteCommand(Command):
     Examples::
 
         # Delete a plugin from local disk
-        fiftyone plugins delete <name>
+        tg plugins delete <name>
 
         # Delete multiple plugins from local disk
-        fiftyone plugins delete <name1> <name2> ...
+        tg plugins delete <name1> <name2> ...
 
         # Delete all plugins from local disk
-        fiftyone plugins delete --all
+        tg plugins delete --all
     """
 
     @staticmethod
@@ -4467,7 +4466,7 @@ class PluginsDeleteCommand(Command):
 
 
 class SkillsCommand(Command):
-    """Tools for working with FiftyOne skills."""
+    """Tools for working with TensorGrid skills."""
 
     @staticmethod
     def setup(parser):
@@ -4485,19 +4484,19 @@ class SkillsListCommand(Command):
     Examples::
 
         # List all available skills
-        fiftyone skills list
+        tg skills list
 
         # List skills from a specific plugin
-        fiftyone skills list --plugin @voxel51/my-plugin
+        tg skills list --plugin @voxel51/my-plugin
 
         # List skills in a specific category
-        fiftyone skills list --category data-ingestion
+        tg skills list --category data-ingestion
 
         # List enabled skills
-        fiftyone skills list --enabled
+        tg skills list --enabled
 
         # List skill names only
-        fiftyone skills list --names-only
+        tg skills list --names-only
     """
 
     @staticmethod
@@ -4589,7 +4588,7 @@ def _print_skills_list(
 
 
 class LabsCommand(Command):
-    """Tools for working with FiftyOne Labs."""
+    """Tools for working with TensorGrid Labs."""
 
     @staticmethod
     def setup(parser):
@@ -4610,10 +4609,10 @@ class LabsInstallCommand(Command):
     Examples::
 
         # Install specific FiftyOne labs feature(s)
-        fiftyone labs install <name1> <name2> ...
+        tg labs install <name1> <name2> ...
 
         # Install all FiftyOne Labs features
-        fiftyone labs install --all
+        tg labs install --all
     """
 
     @staticmethod
@@ -4670,10 +4669,10 @@ class LabsUninstallCommand(Command):
     Examples::
 
         # Uninstall specific Labs feature(s)
-        fiftyone labs uninstall <name1> <name2> ...
+        tg labs uninstall <name1> <name2> ...
 
         # Uninstall all Labs features
-        fiftyone labs uninstall --all
+        tg labs uninstall --all
     """
 
     @staticmethod
@@ -4708,7 +4707,7 @@ class LabsUninstallCommand(Command):
             elif not args.all:
                 print(
                     f"Skipping non-Labs feature '{name}'. "
-                    "Use `fiftyone plugins delete` to uninstall this plugin"
+                    "Use `tg plugins delete` to uninstall this plugin"
                 )
 
 
@@ -4718,7 +4717,7 @@ class LabsListCommand(Command):
     Examples::
 
         # List installed Labs features
-        fiftyone labs list
+        tg labs list
     """
 
     @staticmethod
@@ -4746,13 +4745,13 @@ class LabsSearchCommand(Command):
     Examples::
 
         # List available Labs features
-        fiftyone labs search
+        tg labs search
 
         # List available Labs features in a specific Labs repository branch
-        fiftyone labs search --branch <branch_name>
+        tg labs search --branch <branch_name>
 
         # List available Labs features in a specific Labs repository directory
-        fiftyone labs search --path path/to/dir
+        tg labs search --path path/to/dir
     """
 
     @staticmethod
@@ -4817,19 +4816,19 @@ class MigrateCommand(Command):
     Examples::
 
         # Print information about the current revisions of all datasets
-        fiftyone migrate --info
+        tg migrate --info
 
         # Migrate the database and all datasets to the current client version
-        fiftyone migrate --all
+        tg migrate --all
 
         # Migrate to a specific revision
-        fiftyone migrate --all --version <VERSION>
+        tg migrate --all --version <VERSION>
 
         # Migrate a specific dataset
-        fiftyone migrate ... --dataset-name <DATASET_NAME>
+        tg migrate ... --dataset-name <DATASET_NAME>
 
         # Update the database version without migrating any existing datasets
-        fiftyone migrate
+        tg migrate
     """
 
     @staticmethod
@@ -4955,10 +4954,10 @@ class ComputeMetadataCommand(Command):
     Examples::
 
         # Populate all missing `metadata` sample fields
-        fiftyone utils compute-metadata <dataset-name>
+        tg utils compute-metadata <dataset-name>
 
         # (Re)-populate the `metadata` field for all samples
-        fiftyone utils compute-metadata <dataset-name> --overwrite
+        tg utils compute-metadata <dataset-name> --overwrite
     """
 
     @staticmethod
@@ -5005,10 +5004,10 @@ class TransformImagesCommand(Command):
     Examples::
 
         # Convert the images in the dataset to PNGs
-        fiftyone utils transform-images <dataset-name> --ext .png --delete-originals
+        tg utils transform-images <dataset-name> --ext .png --delete-originals
 
         # Ensure that no images in the dataset exceed 1920 x 1080
-        fiftyone utils transform-images <dataset-name> --max-size 1920,1080
+        tg utils transform-images <dataset-name> --max-size 1920,1080
     """
 
     @staticmethod
@@ -5159,10 +5158,10 @@ class TransformVideosCommand(Command):
     Examples::
 
         # Re-encode the videos in the dataset as H.264 MP4s
-        fiftyone utils transform-videos <dataset-name> --reencode
+        tg utils transform-videos <dataset-name> --reencode
 
         # Ensure that no videos in the dataset exceed 1920 x 1080 and 30fps
-        fiftyone utils transform-videos <dataset-name> \\
+        tg utils transform-videos <dataset-name> \\
             --max-size 1920,1080 --max-fps 30.0
     """
 
