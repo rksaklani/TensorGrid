@@ -8,6 +8,7 @@ FiftyOne Zoo Datasets provided natively by the library.
 import logging
 import os
 import shutil
+import zipfile
 
 import eta.core.serial as etas
 import eta.core.utils as etau
@@ -3434,14 +3435,45 @@ def _download_and_extract_archive(
     fid, archive_name, dir_in_archive, dataset_dir, scratch_dir
 ):
     archive_path = os.path.join(scratch_dir, archive_name)
+    etau.ensure_dir(scratch_dir)
+
+    if os.path.isfile(archive_path) and not zipfile.is_zipfile(archive_path):
+        logger.warning(
+            "Existing archive '%s' is corrupt or incomplete; re-downloading",
+            archive_path,
+        )
+        os.remove(archive_path)
+
     if not os.path.isfile(archive_path):
         logger.info("Downloading dataset...")
         etaw.download_google_drive_file(fid, path=archive_path)
     else:
         logger.info("Using existing archive '%s'", archive_path)
 
+    if not zipfile.is_zipfile(archive_path):
+        if os.path.isfile(archive_path):
+            os.remove(archive_path)
+
+        raise ValueError(
+            "Downloaded file '%s' is not a valid zip archive. This usually "
+            "means the download failed or Google Drive returned an error page. "
+            "Please retry. If the problem persists, delete '%s' and run the "
+            "command again."
+            % (archive_path, scratch_dir)
+        )
+
     logger.info("Extracting dataset...")
-    etau.extract_archive(archive_path)
+    try:
+        etau.extract_archive(archive_path)
+    except zipfile.BadZipFile as e:
+        if os.path.isfile(archive_path):
+            os.remove(archive_path)
+
+        raise zipfile.BadZipFile(
+            "Failed to extract '%s': the archive is corrupt. Delete '%s' "
+            "and retry the download." % (archive_path, scratch_dir)
+        ) from e
+
     _move_dir(os.path.join(scratch_dir, dir_in_archive), dataset_dir)
 
 

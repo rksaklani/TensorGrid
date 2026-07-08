@@ -125,6 +125,14 @@ tg --help                           # full CLI reference
 > Run `tg zoo datasets load <name>` first (or use `tg quickstart`, which
 > downloads and launches the demo dataset in one step).
 
+If a dataset load fails with **"File is not a zip file"**, delete the cached
+download and retry:
+
+```bash
+rm -rf ~/fiftyone/<dataset-name>/tmp-download
+tg zoo datasets load <dataset-name>
+```
+
 ---
 
 ## Resources
